@@ -11,7 +11,7 @@ VignetteBuilder: knitr
 Imports: fda, gdata, RCurl, XML, tis, jpeg, MASS, TeachingDemos,
         stringi, methods, xml2
 Description: Functions to update data sets in Ecdat and to create,
-          manipulate, plot and analyze those and similar data sets.
+          manipulate, plot, and analyze those and similar data sets.
 LazyData: true
 License: GPL (>=2)
 URL: https://www.r-project.org
