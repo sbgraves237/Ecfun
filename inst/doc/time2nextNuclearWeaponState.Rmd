@@ -1,0 +1,234 @@
+---
+title: "Time to next new nuclear-weapon state"
+author: "Spencer Graves"
+date: "4/23/2019"
+output: html_document 
+#output: pdf_document:
+#    citation_package: biblatex
+# bibtex is default;  
+# biblatex allows better control 
+#    but only works with pdf_document
+bibliography: nuc-references.bib
+
+vignette: >
+  %\VignetteIndexEntry{Time to next new nuclear-weapon state}
+  %\VignetteKeyword{nuclear Armageddon}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\SweaveUTF8
+  \usepackage[utf8](inputenc)
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Abstract
+
+This article models the time between "first test" of a nuclear weapon by one nation and the next and uses this to obtain confidence bounds on number of nuclear weapon states decades into the future.  A plot of the times between "first tests" of the 9 nuclear powers as of 2019-05-14 suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory).  For this we use the [bssm package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) to model a series of daily Poisson observations of the number of states conducting a ''first test'' of a nuclear weapon on each day, where the log(Poisson mean) follows a Wiener process / normal random walk in one dimension.  
+
+# Introduction 
+
+The plot of times between "first tests" by the world's nuclear-weapon states as of 2019-05-14 suggests that the process of nuclear proliferation has slowed over time.  
+
+```{r plot}
+library(Ecdat)
+data(nuclearWeaponStates)
+plot(yearsSinceLastFirstTest~firstTest, 
+     nuclearWeaponStates, type='h', 
+     xlab='', ylab='', las=1, 
+     bty='n')
+title(
+  'Figure 1. Time between\nnew nuclear nations')
+mtext('Note: The US is not on this plot,\nbecause it had no predecessors.', 1, 3)
+mtext('years from the\nprevious "first test"',
+      2, 2)
+with(nuclearWeaponStates, 
+  text(firstTest, yearsSinceLastFirstTest,
+       ctry, xpd=TRUE))
+```
+
+However, there were only 5 such states when the [Treaty on the Non-Proliferation of Nuclear Weapons (NPT, Non-proliferation treaty)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) entered into force in 1970.  Now there are 9, and another 32 had sufficient fissile material in 2003 to make nuclear weapons if they wished.^[@Toon:2007]  
+
+Moreover, Saudi Arabia was *not* one of the 32 and has announced a desire to develop nuclear weapons "if Iran does".^[@Wikip:SaudiNuc]  This is particularly disturbing, because of the substantial evidence that Saudi Arabia may have been and may still be the primary recruiter and funder of Islamic terrorism.^[@Benjamin:2016; @Wikiv:WinTerror]   
+
+It therefore seems naive and even foolish to believe that the number of nuclear weapon states will ''not'' continue to grow until either (i) a nuclear war destroys the ability of anyone to make more nuclear weapons, or (ii) the fundamental structure of international relations changes to the point that any nation that perceives an external threat can confidently rely on international law for protection, without a military that might threaten other countries.  
+
+This vignette first reviews the data and history on this issue including brief discussions of some perspectives that might have motivated different nations to pursue nuclear weapons.  We then consider modeling these data as a series of daily Poisson observations of the number of states conducting a first test of a nuclear weapon on each day, where the log(Poisson mean) follows a Wiener process / random walk in one dimension.  We model these data using the  [ngssm](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ngssm) function in the [bssm package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7).  This model is estimated using the [run_mcmc](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/run_mcmc), which is further used to extend the 75 years of history into predicting another 75 years into the future with [predict.mcmc_output](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/predict.mcmc_output).  
+
+To simplify the discussion of the predictive distributions, we fit [negative binomial distributions](https://en.wikipedia.org/wiki/Negative_binomial_distribution) to the simulations of the number of nuclear weapon states at different times in the future.  If the assumed Poisson rates for the predictive distributions were known, the predictive distributions would be Poisson.  However, since they are not known, the predictive distributions will all be mixtures of Poissons, and perhaps the simplest model of Poisson mixtures is a negative binomial, being a [gamma-Poisson](https://en.wikipedia.org/wiki/Negative_binomial_distribution#Gamma%E2%80%93Poisson_mixture).  
+
+In this work, we assume [log-normal](https://en.wikipedia.org/wiki/Log-normal_distribution) mixtures of Poissons, not gamma mixtures.  However, the log-normal is an assumption that we do not test for multiple reasons:  (i) It would require substantial software development to be able to do so. (ii) The paucity of available data suggests we would likely not find a substantive difference between log-normal and gamma mixtures.  And (iii) the practical implications of any difference are not large enough to justify the effort.  
+
+# What motivated the existing nuclear-weapon states to develop this capability?
+
+@Ellsberg:2017 noted that every US president since [Truman (1956-1953)](https://pl.wikipedia.org/wiki/Harry_Truman) considered the use of nuclear weapons and [all threatened to use them, sometimes publicly, sometimes in secret.](https://en.wikipedia.org/wiki/Daniel_Ellsberg#The_Doomsday_Machine)  Countries so threatened since World War II include the Soviet Union, the People's Republic of China, Iraq, Iran, Libya, India, and North Korea.  
+
+One might understand the motivation of North Korea to accelerate their nuclear program in the early 2000s after hearing themselves along with Iran and Iraq described as the ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) by US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) and after then seeing Iran repeatedly threatened and Iraq invaded with [estimated deaths ranging from over 100,000 to over a million](https://en.wikipedia.org/wiki/Iraq_War) out of a population in 2016 of roughly 37 million.  Indeed, any reasonable person might understand the eagerness of North Korean leaders for something that could protect them from similar threats.  
+
+Similar logic might explain why Soviet leaders might feel a need to defend themselves from nuclear coercion after having been invaded by the US and other countries trying to put the Tsar back in power after World War I.  The United Kingdom and France likely felt nuclear threats from the Soviet Union.  
+
+China faced nuclear threats from the US regarding Korea and the Taiwan Strait.  India faced major threats from China, Pakistan from India, and Israel from its neighbors. 
+Beyond this, the inspector general of the US Department of Energy concluded in 2009 (in its most recent public accounting) that enough highly enriched uranium was missing from US inventories to make at least five nuclear bombs comparable to those that obliterated Hiroshima and Nagasaki; authorities in other countries, especially Russia, may be missing substantially more weapons-grade materials.^[@Malone:2018] 
+
+The knowledge and other materials required to make such weapons is sufficiently available that any nation posessing sufficient fissile material could do so in a relatively short order.  
+
+To understand why the four newest nuclear-weapon states might have perceived a need for such weapons, consider the following: 
+
+- [India had military conflicts with China in 1962 and 1967](https://en.wikipedia.org/wiki/China%E2%80%93India_relations), before India's first nuclear weapon's test 1974-05-18.  India and China have continued to have conflicts, including, e.g., [the Doklam standoff in 2017](https://en.wikipedia.org/wiki/2017_China%E2%80%93India_border_standoff).  
+- [Israel faced many threats from its Arab neighbors before it became an independent nation in 1949](https://en.wikipedia.org/wiki/Arab%E2%80%93Israeli_conflict). These have continued, including the [Gaza border protests](https://en.wikipedia.org/wiki/2018_Gaza_border_protests) that have continued at least to early 2019.  One might therefore reasonably understand why Israel might feel a need for nuclear weapons and why others might believe that the 1979-09-22 [Vela incident](https://en.wikipedia.org/wiki/Vela_Incident) was an Israeli nuclear test. 
+- [India–Pakistan relations](https://en.wikipedia.org/wiki/India%E2%80%93Pakistan_relations) have been marked by frequent conflict since the two nations were born with the dissolution of the British Raj.  This history might help people understand the need that Pakistani leaders may have felt for nuclear parity with India. - In 2002, US President George W. Bush said that [North Korea, Iran and Iraq formed an "axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil).  Since then the US has occupied Iraq, and repeatedly threatened Iran and North Korea.  It should therefore suprise no one if North Korean leaders feel a need for nuclear weapons to protect themselves from an aggressive US foreign and military policy.  
+
+More generally the history of US belicosity includes the [First Barbary War of 1801](https://en.wikipedia.org/wiki/First_Barbary_War), the [invasion of Canada in 1812](https://www.history.com/news/how-u-s-forces-failed-to-conquer-canada-200-years-ago)^[@Berton:1980] and [numerous other foreign interventions](https://en.wikipedia.org/wiki/Foreign_interventions_by_the_United_States) including invading [Afghanistan in 2001](https://en.wikipedia.org/wiki/War_in_Afghanistan_(2001%E2%80%93present)), and [Iraq in 2003](https://en.wikipedia.org/wiki/Iraq_conflict_(2003%E2%80%93present)), plus continued threats against Iran, North Korea, and now Venezuela.  This history might help people understand how leaders in many countries may be concerned about their own security if they fail to do what the US demands of them.  The [extra-judicial execution of Osama bin Laden and four others in his household by SEAL Team 6](https://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden) on 2011-05-02 has reportedly increased the risks that a Pakistani nuclear weapon might be stolen by Islamic terrorists intent on retaliating against the US for its interventions in Pakistan and neighboring countries.^[@Cohen:2009;  see also @Borger:2010] 
+
+<center>
+***The September 11th attacks***
+
+***might have been a mushroom cloud.***  
+</center>
+
+In this context, declassified US government documents establish that in the 1980s when the US was clandestinely supporting the Contra war against Nicaragua in violation of US law, it was also [secretly helping the Pakistani nuclear program in violation of US law.  This was done to secure Pakistani cooperation with US support for anti-Soviet resistance in Afghanistan](https://www.wilsoncenter.org/publication/new-documents-spotlight-reagan-era-tensions-over-pakistani-nuclear-program).^[@Burr:2012, @Burr:2013] 
+
+Without this, "the nuclear weapons programmes of Iran, Libya and North Korea - which British and American intelligence now acknowledge were all secretly enabled by Pakistan - would never have got off the ground," according to [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci), special adviser on WMD to President Clinton.^[The quote is from @Levy:2007.   That article claims he was a special adviser on WDMs to both Clinton and G. W. Bush.  However, the Wikipedia article and @Gallucci:2001 both indicate he left government service in January 2001.]  
+
+Similar comments have been made by [Richard Barlow](https://en.wikipedia.org/wiki/Richard_Barlow_(Intelligence_analyst)#cite_note-wp-1), a CIA analyst who reported these questionable activities to a committee of the US House.^[@Levy:2007]
+
+And now the US is helping Saudi Arabia obtain nuclear power, in spite of the evidence that [the Saudi government including members of the Saudi royal family were  involved in preparations for 9-11 at least as early as 1999](https://en.wikipedia.org/wiki/The_28_pages) and their [on-going support for Al Qaeda in Yemen, reported as recently as 2017](https://en.wikipedia.org/wiki/Saudi_Arabian-led_intervention_in_Yemen). 
+
+Unless there is some fundamental change in the structure of international relations, it seems unwise to assume that there will not be more nuclear nations in the future, with the time to the next "first test" of a nuclear weapon following some distribution that can be used to estimate the probability of a new nuclear-weapon state appearing in any given number of years. 
+
+# A Wiener log hazard 
+
+Figure 1 suggests that the time between 
+'first tests' of succeeding nuclear-weapon states is increasing.  Let's redo that plot with a log scale on the y axis:  
+
+```{r ploty}
+library(Ecdat)
+plot(yearsSinceLastFirstTest~firstTest, 
+     nuclearWeaponStates, type='n', 
+     xlab='', ylab='', las=1, log='y',
+     bty='n')
+title(
+  'Figure 2. Time between\nnew nuclear nations')
+mtext('Note: The US is not on this plot,\nbecause it had no predecessors.', 1, 3)
+mtext('years from the\nprevious "first test"', 2, 2)
+
+with(nuclearWeaponStates, 
+  text(firstTest, yearsSinceLastFirstTest,
+       ctry, xpd=TRUE))
+```
+
+Figures  1 and 2 seem consistent with the following:
+
+- Time between events that might be exponentially distributed but with a hazard rate that varies over time.  This is consistent with the apparent increase in the time to the next "first test" by a new nuclear-weapon state but that could be reversed if more states began to perceive greater threats from other nations.  
+- Log hazard that behaves like a ["Wiener process" (also called a "Brownian motion")](https://en.wikipedia.org/wiki/Wiener_process), which means that the variance of the increments in log(hazard) between "first tests" is proportional to the elapsed time.  
+- The likelihood for the observed times between "first tests" is an exponential density with an exponential survival function for the censored observation from the last "first test" to the present.   
+
+The [bssm package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this.  
+
+We start by using its [ngssm](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ngssm) function to create an appropriate model object.  
+
+```{r ngssm}
+daysSinceFirstTest <- difftime(Sys.Date(), 
+        nuclearWeaponStates$firstTest[1], 
+        units='days')
+y_firstTests <- rep(0, daysSinceFirstTest)
+
+
+```
+
+
+
+in the [bssm package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7).  This model is estimated using the [run_mcmc](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/run_mcmc), which is further used to extend the 75 years of history into predicting another 75 years into the future with [predict.mcmc_output](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/predict.mcmc_output).  
+
+
+
+To support this, we modify bssm functions as follows:
+- ngssm_exp = bssm::ngssm modified to allow exponential observations ...
+
+
+
+- run_mcmc_exp = bssm::run_mcmc allowing distribution = "exponentialLastCensored"
+
+
+
+#```{r bssm}
+library(bssm)
+time2nextMdl <- lgg_ssm(
+  yearsSinceLastFirstTest, 
+  nuclearWeaponStates[-1, ],
+  distribution='gamma')
+```
+
+# Parameter estimation 
+
+-- bivariate est
+
+-- test lh1 = 0, i.e., constant (exponential) hazard 
+
+-- confidence interval / region 
+
+# 80% tolerance interval on the time to the next new nuclear nation  
+
+# Conclusions 
+
+This article has modeled the production of nuclear-weapon states as a renewal process with non-identially distributed times between events.  People like [Robert McNamara](https://en.wikipedia.org/wiki/Robert_McNamara), [Daniel Ellsberg](https://en.wikipedia.org/wiki/Daniel_Ellsberg), [Henry Kissinger](https://en.wikipedia.org/wiki/Henry_Kissinger), [William Perry](https://en.wikipedia.org/wiki/William_Perry), [Sam Nunn](https://en.wikipedia.org/wiki/Sam_Nunn), [George Schultz](https://en.wikipedia.org/wiki/George_Shultz), and others with the [Nuclear Threat Initiative](https://en.wikipedia.org/wiki/Nuclear_Threat_Initiative) have said that as long as the world maintains large nuclear arsenals, it's only a matter of time before a nuclear war occurs.  The present work only makes those calls more urgent: As long as the nations of the world fail to provide effective judicial recourse to perceived threats, non-nuclear nations and terrorist groups will feel a need to obtain nuclear weapons, which become more available with the passage of time.  This article has estimated tolerance intervals for the time to the next new nuclear nation using a renewal process with log hazard for the increments being linear in the time since the first successful [Trinity test](https://en.wikipedia.org/wiki/Trinity_(nuclear_test)), 1945-07-16. 
+
+# Appendix.  Plotting to a file 
+
+Plotting the time between first tests to a file was surprisingly difficult, because font sizes in the files were smaller than the standard display, and getting larger fonts was surprisingly difficult.  Consider the following:
+
+````{r png}
+if(FALSE){
+  png('nuclearProliferation.png', 1440, 1200)
+  par(mar=c(15, 12, 4, 2)+.1)
+  plot(yearsSinceLastFirstTest~firstTest, 
+     nuclearWeaponStates, type='h', 
+     xlab='', ylab='', las=1, cex.axis=4, 
+     bty='n', axes=FALSE, lwd=2)
+  xyr <- seq(1950, 2000, 10)
+  xt. <- paste0(xyr, '-01-01')
+  xticks <- as.Date(xt.)
+  axis(1, xticks, labels=FALSE, lwd=2)
+  axis(1, xticks, xyr, cex.axis=4, lwd=0, line=2)
+#axis(1, seq(1950, 2000, by=10), cex.axis=4, lwd=0, line=1)
+  axis(2, cex.axis=4, las=1, lwd=2)
+  title('Time between new nuclear nations', 
+      cex.main=4)
+  mtext(paste0(
+    'Note: The US is not on this plot,', 
+    '\nbecause it had no predecessors.'), 
+        1, 12, cex=4)
+  mtext('years from the\nprevious "first test"',
+      2, 5, cex=4)
+  with(nuclearWeaponStates, 
+    text(firstTest, yearsSinceLastFirstTest,
+       ctry, xpd=TRUE, cex=4))
+  dev.off()
+}
+```
+
+```{r svg}
+if(FALSE){
+  svg('nuclearProliferation.svg', 14, 11)
+  par(mar=c(9, 8, 4, 2)+.1)
+  plot(yearsSinceLastFirstTest~firstTest, 
+     nuclearWeaponStates, type='h', 
+     xlab='', ylab='', las=1, cex.axis=2, 
+     bty='n')
+  title('Time between new nuclear nations', 
+      cex.main=2)
+  mtext(paste0(
+    'Note: The US is not on this plot,', 
+    '\nbecause it had no predecessors.'), 
+        1, 6, cex=2)
+  mtext('years from the\nprevious "first test"',
+      2, 4, cex=2)
+  with(nuclearWeaponStates, 
+  text(firstTest, yearsSinceLastFirstTest,
+       ctry, xpd=TRUE, cex=2))
+  dev.off()
+}
+```
+
+# References
