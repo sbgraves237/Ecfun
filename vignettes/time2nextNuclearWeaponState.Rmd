@@ -217,22 +217,33 @@ Plot to an svg file, killing the labels for Wikimedia Commons:
 
 ```{r svg}
 if(FALSE){
-  Label. <- FALSE
   svg('nuclearProliferation.svg', 14, 11)
+  Label. <- FALSE
   par(mar=c(9, 8, 4, 2)+.1)
+  cex. <- 4
   plot(yearsSinceLastFirstTest~firstTest, 
      nuclearWeaponStates, type='h', 
-     xlab='', ylab='', las=1, cex.axis=2, 
+     xlab='', ylab='', axes=FALSE, 
      bty='n')
-#  title('Time between new nuclear nations', cex.main=2)
-  noUS <- paste0('Note: The US is not on this plot,', 
+#  axis(1, cex.axis=cex., line=1)
+  axis(1, labels=FALSE)
+  axis.Date(1,
+    nuclearWeaponStates$firstTest, 
+    tick=FALSE, cex.axis=cex., line=2)
+  axis(2, cex.axis=cex., las=1)
+  if(Label.)title(
+    'Time between new nuclear nations',
+                  cex.main=2)
+  noUS <- paste0(
+    'Note: The US is not on this plot,', 
     '\nbecause it had no predecessors.')
-  if(Label.)mtext(noUS, 1, 6, cex=2)
-  ylab. <- 'years from the\nprevious "first test"'
-  if(Label.)mtext(ylab., 2, 4, cex=2)
+  if(Label.)mtext(noUS, 1, 6, cex=cex.)
+  ylab. <- paste()
+    'years from the\nprevious "first test"'
+  if(Label.)mtext(ylab., 2, 4, cex=cex.)
   with(nuclearWeaponStates, 
     text(firstTest, yearsSinceLastFirstTest,
-       ctry, xpd=TRUE, cex=2))
+       ctry, xpd=TRUE, cex=cex.))
   dev.off()
 }
 ```
