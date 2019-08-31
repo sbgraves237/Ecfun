@@ -1,7 +1,7 @@
 ---
 title: "Time to next new nuclear-weapon state"
 author: "Spencer Graves"
-date: "8/18/2019"
+date: "8/29/2019"
 output: html_document 
 #output: pdf_document:
 #    citation_package: biblatex
@@ -326,8 +326,8 @@ if(FALSE){
     'Note: The US is not on this plot,', 
     '\nbecause it had no predecessors.')
   if(Label.)mtext(noUS, 1, 6, cex=cex.)
-  ylab. <- paste()
-    'years from the\nprevious "first test"'
+  ylab. <- paste(
+    'years from the\nprevious "first test"')
   if(Label.)mtext(ylab., 2, 4, cex=cex.)
   with(nuclearWeaponStates, 
     text(firstTest, yearsSinceLastFirstTest,
