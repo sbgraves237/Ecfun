@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Abstract
 
-This article models the time between "first test" of a nuclear weapon by one nation and the next and uses this to obtain confidence bounds on number of nuclear weapon states decades into the future.  A plot of the times between "first tests" of the 9 nuclear powers as of 2019-05-14 suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory).  For this we use the [bssm package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) to model a series of annual Poisson observations of the number of states conducting a ''first test'' of a nuclear weapon each year, where the log(Poisson mean) follows a Wiener process / normal random walk in one dimension.  
+This article models the time between "first test" of a nuclear weapon by one nation and the next and uses this to obtain confidence bounds on number of nuclear weapon states decades into the future.  A plot of the times between "first tests" of the 9 nuclear powers as of 2019-05-14 suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory).  For this we use the [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) to model a series of annual Poisson observations of the number of states conducting a ''first test'' of a nuclear weapon each year, where the log(Poisson mean) follows a Wiener process / normal random walk in one dimension.  
 
 # Introduction 
 
@@ -60,7 +60,7 @@ Moreover, Saudi Arabia was *not* one of the 32 and has announced a desire to dev
 
 It therefore seems naive and even foolish to believe that the number of nuclear weapon states will _not_ continue to grow until either (i) a nuclear war destroys the ability of anyone to make more nuclear weapons, or (ii) the fundamental structure of international relations changes to the point that any nation that perceives an external threat can confidently rely on international law for protection, without a military that might threaten other countries.  
 
-This vignette first reviews the data and history on this issue including brief discussions of some perspectives that might have motivated different nations to pursue nuclear weapons.  We then consider modeling these data as a series of annual Poisson observations of the number of states conducting a first test of a nuclear weapon each year, where the log(Poisson mean) follows a Wiener process / random walk in one dimension.  We model these data using the  [ngssm](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ngssm) function in the [bssm package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7).  This model is estimated using the [run_mcmc](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/run_mcmc) function, which is further used to extend the 74 years of history of nuclear proliferation available as this is being written in 2019 into predicting another 74 years into the future with [predict.mcmc_output](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/predict.mcmc_output).  
+This vignette first reviews the data and history on this issue including brief discussions of some perspectives that might have motivated different nations to pursue nuclear weapons.  We then consider modeling these data as a series of annual Poisson observations of the number of states conducting a first test of a nuclear weapon each year, where the log(Poisson mean) follows a Wiener process / random walk in one dimension.  We model these data using the  [`ngssm`](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ngssm) function in the [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7).  This model is estimated using the [`run_mcmc`](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/run_mcmc) function, which is further used to extend the 74 years of history of nuclear proliferation available as this is being written in 2019 into predicting another 74 years into the future with [`predict.mcmc_output`](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/predict.mcmc_output).  
 
 To simplify the discussion of the predictive distributions, we fit [negative binomial distributions](https://en.wikipedia.org/wiki/Negative_binomial_distribution) to the simulations of the number of nuclear weapon states at different times in the future.  If the assumed Poisson rates for the predictive distributions were known, the predictive distributions would be Poisson.  However, since they are not known, the predictive distributions will all be mixtures of Poissons, and perhaps the simplest model of Poisson mixtures is a negative binomial, being a [gamma-Poisson](https://en.wikipedia.org/wiki/Negative_binomial_distribution#Gamma%E2%80%93Poisson_mixture).  
 
@@ -83,7 +83,7 @@ The knowledge and other materials required to make such weapons is sufficiently 
 To understand why the four newest nuclear-weapon states might have perceived a need for such weapons, consider the following: 
 
 - [India had military conflicts with China in 1962 and 1967](https://en.wikipedia.org/wiki/China%E2%80%93India_relations), before India's first nuclear weapon's test 1974-05-18.  India and China have continued to have conflicts, including, e.g., [the Doklam standoff in 2017](https://en.wikipedia.org/wiki/2017_China%E2%80%93India_border_standoff).  
-- [Israel faced many threats from its Arab neighbors before it became an independent nation in 1949](https://en.wikipedia.org/wiki/Arab%E2%80%93Israeli_conflict). These have continued, including the [Gaza border protests](https://en.wikipedia.org/wiki/2018_Gaza_border_protests) that have continued at least to early 2019.  One might therefore reasonably understand why Israel might feel a need for nuclear weapons and why others might believe that the 1979-09-22 [Vela incident](https://en.wikipedia.org/wiki/Vela_Incident) was an Israeli nuclear test. 
+- [Israel faced many threats from its Arab neighbors before it became an independent nation in 1949](https://en.wikipedia.org/wiki/Arab%E2%80%93Israeli_conflict). These have continued, including the [Gaza border protests](https://en.wikipedia.org/wiki/2018_Gaza_border_protests) that have continued at least to mid 2019.  One might therefore reasonably understand why Israel might feel a need for nuclear weapons and why others might believe that the 1979-09-22 [Vela incident](https://en.wikipedia.org/wiki/Vela_Incident) was an Israeli nuclear test. 
 - [India–Pakistan relations](https://en.wikipedia.org/wiki/India%E2%80%93Pakistan_relations) have been marked by frequent conflict since the two nations were born with the dissolution of the British Raj.  This history might help people understand the need that Pakistani leaders may have felt for nuclear parity with India. 
 - In 2002, US President George W. Bush said that [North Korea, Iran and Iraq formed an "axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil).  Since then the US has occupied Iraq, and repeatedly threatened Iran and North Korea.  It should therefore suprise no one if North Korean leaders feel a need for nuclear weapons to protect themselves from an aggressive US foreign and military policy.  
 
@@ -98,11 +98,11 @@ More generally the history of US belicosity includes the [First Barbary War of 1
 
 In this context, declassified US government documents establish that in the 1980s, when the US was clandestinely supporting the Contra war against Nicaragua in violation of US law, it was also [secretly helping the Pakistani nuclear program in violation of US law.  This was done to secure Pakistani cooperation with US support for anti-Soviet resistance in Afghanistan](https://www.wilsoncenter.org/publication/new-documents-spotlight-reagan-era-tensions-over-pakistani-nuclear-program).^[@Burr:2012, @Burr:2013] 
 
-Without this, "the nuclear weapons programmes of Iran, Libya and North Korea - which British and American intelligence now acknowledge were all secretly enabled by Pakistan - would never have got off the ground," according to [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci), special adviser on WMDs to President Clinton.^[The quote is from @Levy:2007.   That article claims he was a special adviser on WDMs to both Clinton and G. W. Bush.  However, the Wikipedia article and @Gallucci:2001 both indicate he left government service in January 2001.]  
+Without this, "the nuclear weapons programmes of Iran, Libya and North Korea - which British and American intelligence now acknowledge were all secretly enabled by Pakistan - would never have got off the ground," according to [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci), special adviser on WMDs to President Clinton.^[The quote is from @Levy:2007.   That article claims he was a special adviser on WDMs to both Clinton and G. W. Bush.  However, the Wikipedia article and @Gallucci:2001 both indicate he left government service in January 2001;  G. W. Bush tool office 2001-01-20.]  
 
 Similar comments have been made by [Richard Barlow](https://en.wikipedia.org/wiki/Richard_Barlow_(Intelligence_analyst)#cite_note-wp-1), a CIA analyst who reported these questionable activities to a committee of the US House.^[@Levy:2007]
 
-And now the US is helping Saudi Arabia obtain nuclear power, in spite of the evidence that [the Saudi government including members of the Saudi royal family were  involved in preparations for 9-11 at least as early as 1999](https://en.wikipedia.org/wiki/The_28_pages) and their [on-going support for Al Qaeda in Yemen, reported as recently as 2017](https://en.wikipedia.org/wiki/Saudi_Arabian-led_intervention_in_Yemen). 
+And now the US is helping Saudi Arabia obtain nuclear power, in spite of the evidence that [the Saudi government including members of the Saudi royal family were  involved in preparations for 9-11 at least as early as 1999](https://en.wikipedia.org/wiki/The_28_pages) and their [on-going support for Al Qaeda in Yemen, reported as recently as 2019](https://en.wikipedia.org/wiki/Saudi_Arabian-led_intervention_in_Yemen). 
 
 Unless there is some fundamental change in the structure of international relations, it seems unwise to assume that there will not be more nuclear nations in the future, with the time to the next "first test" of a nuclear weapon following some distribution that can be used to estimate the probability of a new nuclear-weapon state appearing in any given number of years. 
 
@@ -129,28 +129,36 @@ with(nuclearWeaponStates,
 
 Figures  1 and 2 seem consistent with the following:
 
-- Time between events might be exponentially distributed but with a hazard rate that varies over time.  This is consistent with the apparent increase in the time to the next "first test" by a new nuclear-weapon state but that could be reversed if more states began to perceive greater threats from other nations.  
+- Time between events might be exponentially distributed but with a hazard rate that varies over time.  This is consistent with the apparent increase in the time to the next "first test" by a new nuclear-weapon state, but that could be reversed if more states began to perceive greater threats from other nations.  
 - Log hazard that behaves like a ["Wiener process" (also called a "Brownian motion")](https://en.wikipedia.org/wiki/Wiener_process), which means that the variance of the increments in log(hazard) between "first tests" is proportional to the elapsed time.  
 - The likelihood for the observed times between "first tests" is an exponential density with an exponential survival function for the censored observation from the last "first test" to the present.   
 
-The [bssm package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this using its [ngssm](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ngssm) function.  This function would allow us to use an exponential distribution with constant hazard between observations or for Poisson counts of the number of "first tests" each year with the log(Poisson mean) evolving from year to year following a normal random walk.  Since we want a non-constant hazard, a Poisson model like this seems more consistent with what we want.  
+The [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this using its [`ngssm`](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ngssm) function.  This function would allow us to use an exponential distribution with *constant* hazard between observations or for Poisson counts of the number of "first tests" each year with the log(Poisson mean) *evolving* from year to year following a normal random walk.  Since we want a non-constant hazard, a Poisson model like this seems more consistent with what we want.  
 
 The first argument of y = Observations as time series (or vector) of length n.  For this we want to construct an object of class "ts" with a count of the number of "first tests" by year for each year since 1945.   
 
-We'll use [lubridate](https://lubridate.tidyverse.org/) for dates.  The first thing we want is the current year:  
+We'll use the [`lubridate` package](https://lubridate.tidyverse.org/) for dates.  The first thing we want is the current year.  We get that starting with [`today`](https://www.rdocumentation.org/packages/lubridate/versions/1.7.4/topics/today):  
 
 ```{r today}
 library(lubridate)
 (Today <- today())
 ```
 
-And the current year:  
+From this we get the year:  
 
 ```{r year}
 (currentYear <- year(Today))
 ```
 
-And the year of the first test of a nuclear weapon:  
+Let's include an observation for the current year only of it's more than 6 months since January 1 and since the last "first test":  
+
+```{r currentYear}
+if((month(Today)<7) || 
+   ((Today-tail(nuclearWeaponStates$firstTest, 1))<(366/2)))
+      currentYear <- (year(Today)-1)
+```
+
+Start after the year of the first test of a nuclear weapon:  
 
 ```{r firstYear}
 (firstYear <- year(nuclearWeaponStates$firstTest[1]))
@@ -164,103 +172,107 @@ firstTests <- ts(rep(0, nYrs), firstYear+1, currentYear)
 firstTests[year(nuclearWeaponStates$firstTest)-firstYear] <- 1
 
 library(tibble)
+#(FirstTsts <- tibble(Year=time(firstTests), 
+#      nFirstTests=as.numeric(firstTests)))
 (FirstTsts <- tibble(Year=time(firstTests), 
-      nFirstTests=as.numeric(firstTests)))
+      nFirstTests=firstTests))
 ```
 
-Add ctry to this tibble:  
+Add `ctry` to this tibble:  
 
 ```{r firstCtry}
 Ctry <- rep('', nYrs)
 Ctry[year(nuclearWeaponStates$firstTest[-1])-firstYear] <- 
         nuclearWeaponStates$ctry[-1]
-FirstTsts2 <- cbind(FirstTsts, ctry=Ctry)
+FirstTests <- cbind(FirstTsts, ctry=Ctry)
 ```
 
-Add the fraction of the current year:
+We need the other arguments of [`ngssm`](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ngssm). Many of the arguments seem fairly straightforward.  This is not true for P1 = prior variance of a1.  For this we use the ["Delta method"](https://en.wikipedia.org/wiki/Delta_method) applied to a[t] = log(mu[t]):  For the [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution), the variance is equal to the mean.  And the first derivative of log(mu) = 1/mu.  
 
-```{r yearFract}
-yrFrac <- rep(1, nYrs)
-yrFrac[nYrs] <- ((days(Today)@day - 
-    days(as.Date(paste0(currentYear-1, '-12-31')))@day) / 
-      (365+leap_year((currentYear))) )
-FirstTests <- cbind(FirstTsts2, yearFraction=yrFrac)
-```
-
-We need the other arguments of [ngssm](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ngssm). Many of the arguments seem fairly straightforward.  This is not true for P1 = prior variance of a1.  For this we use the ["Delta method"](https://en.wikipedia.org/wiki/Delta_method) applied to a[t] = log(mu[t]):  For the [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution), the variance is equal to the mean.  And the first derivative of log(mu) = 1/mu.  Thus:  
+However, based on the above plot, let's use only the first 10 years in estimating a prior for a1, being 1946:1955:  This includes the first tests by RU and GB and runs not quite half the time to the first test by FR:  
 
 ```{r prior}
-mu <- mean(FirstTests$nFirstTests)
+mu <- mean(FirstTests$nFirstTests[1:10])
 a1 <- log(mu)
 P1 <- mu / (mu^2)
 ```
 
-With this we can write the following:  
+In this we want to estimate R = the migration standard deviation.  Therefore, we'll set the argument R = NA and R_prior = halfnormal(abs(a1), P1):  
 
 ```{r firstTstsPois}
 library(bssm)
 firstTstsMdl <- ngssm(FirstTests$nFirstTests, 
-    Z=1, T=1, R=1, a1=, P1=P1, 
-    distribution='poisson'
-    
-    )
+    Z=1, T=1, R=NA, a1=, P1=P1, 
+    distribution='poisson', R_prior=halfnormal(abs(a1), P1))
+str(firstTstsMdl)
 ```
 
+firstTstsMdl is an object of class "ngssm".  
 
+The help page on the `ngssm` function does not include examples.  The `bssm` vignette @bssmV1:2017 says, "For models defined with the `ngssm`, `ng_bsm`,
+`ng_ar1`, and `svm` functions, `kfilter` will first construct an approximating Gaussian model for which the Kalman filter is then used."
 
-
-
-```{r ngssm}
-today <- Sys.Date()
-
-
-#y_firstTests <-
-
-
-```
-
-
-daysSinceFirstTest <- difftime(Sys.Date(), 
-        nuclearWeaponStates$firstTest[1], 
-        units='days')
-y_firstTests <- rep(0, daysSinceFirstTest)
-
-
-
-
-
-in the [bssm package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7).  This model is estimated using the [run_mcmc](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/run_mcmc), which is further used to extend the 75 years of history into predicting another 75 years into the future with [predict.mcmc_output](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/predict.mcmc_output).  
-
-
-
-To support this, we modify bssm functions as follows:
-- ngssm_exp = bssm::ngssm modified to allow exponential observations ...
-
-
-
-- run_mcmc_exp = bssm::run_mcmc allowing distribution = "exponentialLastCensored"
-
-
-
-```{r bssm}
-if(FALSE){
-  library(bssm)
-  time2nextMdl <- lgg_ssm(
-    yearsSinceLastFirstTest, 
-    nuclearWeaponStates[-1, ],
-    distribution='gamma')
-}
+```{r kfilter}
+str(kfilter(firstTstsMdl))
 ```
 
 # Parameter estimation 
 
--- bivariate est
+However, this does not allow us to estimate the obvious parameters in this model: the observation and migration variances.  The "bssm" vignette does not provide an example estimating parameters in an `ngssm` model, but it does provide more detail with a model coded using both the `bsm` and `lg_ssm` functions.  For that let's try the [`run_mcmc`](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/run_mcmc) function, copying the call from `run_mcmc(poisson_model, n_iter = 1.1e5, n_burnin = 1e4, nsim_states = 10, method = "is2")` in the bssm vignette:  
 
--- test lh1 = 0, i.e., constant (exponential) hazard 
+```{r run_mcmc}
+set.seed(1)
+firstTstsSim <- run_mcmc(firstTstsMdl, nsim_states=1, 
+          n_iter = 1.1e5)
+firstTstsSim
+class(firstTstsSim)
+```
 
--- confidence interval / region 
+It seems to have done what I wanted, but I'm not sure how to read the output.  
 
-# 80% tolerance interval on the time to the next new nuclear nation  
+If I understand correctly the "Summary for theta", the [maximum likelihood estimate](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation) (or more precisely the [maximum a posteriori estimate](https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation)) for the migration standard deviation, R is 0.186.  I'm not certain what the other numbers for theta are, but they presumably tell us something about the uncertainty in this parameter estimate.  
+
+Similarly, if I understand correctly the "Summary for alpha_75", the posterior mean for a1 is -2.657 vs. the prior mean of -2.225.  
+
+# Predict 
+
+Whether I have this correct or not, the next step seems to be to extend the 74 years of history into predicting another 74 years into the future with [predict.mcmc_output](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/predict.mcmc_output).  For this we start by producing a `future_model`, as in the example in the help page and the bssm vignette:  
+
+```{r future_model}
+firstTstsFutureMdl <- firstTstsMdl
+firstTstsFutureMdl$y <- ts(rep(NA, 74), start=end(firstTstsMdl$y))
+```
+
+```{r predict.mcmc}
+firstTstsPred <- try(predict(firstTstsSim, firstTstsFutureMdl, 
+        nsim=1e6))
+firstTstsPred <- try(bssm:::predict.mcmc_output(firstTstsSim, firstTstsFutureMdl, 
+        nsim=1e4))
+# a call to nongaussian_predict omitted the last "nsim" argument. 
+# Added in a local copy, calling as follows:  
+#firstTstsPred <- predict.mcmc_output(firstTstsSim, 
+#      firstTstsFutureMdl, nsim=1e4)
+#```
+#Error in nongaussian_predict(future_model, probs, t(object$theta), #object$alpha[nrow(object$alpha), : argument "nsim" is missing, with no default
+# >> fixed by adding "nsim" at the end
+
+#Error in bssm:::nongaussian_predict(future_model, probs, t(object$theta),  : 
+#  Not a matrix.
+# FIX: 
+#      alpha_nrow. <- object$alpha[nrow(object$alpha),,]
+#      nda <- dim(object$alpha)
+#      alpha_nrow <- matrix(alpha_nrow., nda[2], nda[3])
+#      out <- bssm:::nongaussian_predict(future_model, probs,
+#          t(object$theta), alpha_nrow, object$counts, 
+#          pmatch(type, c("response", "mean", "state")), seed, 
+#          pmatch(attr(object, "model_type"), 
+#              c("ngssm", "ng_bsm", "svm", "ng_ar1")), 
+#          nsim)
+#
+#  With this change, rerunning this call to predict.mcmc_output(
+#  generated "R Session Aborted:  
+#  R encounterd a fatal error.  The session was terminated.
+```
 
 # Conclusions 
 
