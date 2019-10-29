@@ -20,13 +20,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This document describes how to add new information to the nuclearWeaponStates dataset in the Ecdat package.  
 
-The first step is to update the companion "nuclearWeaponStates.Rd" file.
+The first step is to update the companion  "nuclearWeaponStates.Rd" help file.
 
-Then you want to export the nuclearWeaponStates dataset as a csv file so you can edit it to match the changes in the "nuclearWeaponStates.Rd" file:
+Then update the `nuclearWeaponStates` object so it matches the revised description.  
+
+One way to do this is to export the nuclearWeaponStates dataset as a csv file so you can edit it in a spreadsheet:
 
 ```{r export}
 library(Ecdat)
-availInPkg <- objects(2, pattern='nuclearWeaponStates')
+availInPkg <- objects(2,
+        pattern='nuclearWeaponStates')
 canWrite <- FALSE 
 if('nuclearWeaponStates' %in% availInPkg){
   data(nuclearWeaponStates)
@@ -34,17 +37,17 @@ if('nuclearWeaponStates' %in% availInPkg){
             'nuclearWeaponStates.csv', 
             row.names=FALSE))
   if(!inherits(canWr, 'try-error')){
-    canWrite <- TRUE
+      canWrite <- TRUE
   }
 } 
 getwd()
 ```
 
-## Edit and read 
+# Edit and read 
 
-Next edit the csv file just created as mentioned above.
+If desired, edit the csv file just created as mentioned above. Ignore `firstTestYr` and `yearsSinceLastFirstTest`, because we compute them in this vignette from `firstTest`.  That's because we want (a) `firstTestYr` to be `firstTest` as numeric years rather than as days since 1970-01-01, and (b) `yearsSinceLastFirstTest` to be `diff(firstTestYr)`.  
 
-After that's done, put it in the current working directory and read it:
+If you edit it externally, put it in the current working directory and read it as follows:
 
 ```{r readCSV}
 library(Ecfun)
@@ -52,55 +55,45 @@ if(canWrite){
   nWS <- read.csv(
     'nuclearWeaponStates.csv', 
     stringsAsFactors = FALSE)
-  nuclearWeaponStates <-
+  nWSdf <-
     asNumericDF(nWS, 
           ignore=1:2, Dates=3) 
 }
 ```
 
-## Check 
+(The "ignore" argument in [`asNumericDF`](https://www.rdocumentation.org/packages/Ecfun/versions/0.2-0/topics/asNumericDF) forces that function to retain the data in those columns as is.  In this case, they should be of class "character".  Similarly, the "Dates" argument converts the indicated column to class "Date".)
 
-There are two checks we can perform:  
-
-# Does yearsSincePreviousTest = diff(firstTest)?
+# Compute `firstTestYr` and `yearsSinceLastFirstTest` 
 
 ```{r chk1}
 if(canWrite){
-  nmsNucWeapSt <- names(nuclearWeaponStates)
+  nmsNucWeapSt <- names(nWSdf)
   if('firstTest' %in% nmsNucWeapSt){
-    dDays <- diff(
-      nuclearWeaponStates[,
-                    'firstTest'])
+    firstTestYr <- lubridate::decimal_date(
+        nWSdf$firstTest) 
+    yearsSinceLastFirstTest <- c(NA, 
+      diff(firstTestYr) ) 
   } else {
     print(nmsNucWeapSt)
-    stop("'firstTest' not in names(nuclearWeaponStates)")
+    err <- paste("'firstTest' not in", 
+        "names(nuclearWeaponStates)")
+    stop(err)
   }
-  dYrs <- (dDays / 365.25)
-
-  if('yearsSinceLastFirstTest' %in% nmsNucWeapSt){
-    edYrs <- (nuclearWeaponStates[-1,
-        'yearsSinceLastFirstTest'] 
-          - dYrs)
-    cbind(dDays, dYrs, edYrs)
-
-    oopsDifYrs <- which(abs(
-      nuclearWeaponStates[-1,
-        'yearsSinceLastFirstTest'] - 
-            dYrs)>.005)
-  }
-  if(length(oopsDifYrs)>1){
-    cat('difftime compute errors. ', 
-        ' bad rows = ')
-    print(oopsDifYrs)
-    oopsi <- unique(c(oopsDifYrs, 
-              oopsDifYrs+1))
-    cbind(oopsi, nuclearWeaponStates[oopsi, 
-        1:3])
-  }
+  
+  nuclearWeaponStates <- cbind(
+    nWSdf[, c('nation', 'ctry', 'firstTest')], 
+    firstTestYr = firstTestYr, 
+    yearsSinceLastFirstTest = 
+      yearsSinceLastFirstTest, 
+  nWSdf[, c('nuclearWeapons', 'nYieldNA', 
+      'nLowYield', 'nMidYield', 'nHighYield')]
+  )
 }
 ```
 
-# number of nuclearWeapons
+# number of `nuclearWeapons`
+
+Check the number of `nuclearWeapons`
 
 ```{r nukes}
 if(canWrite){
@@ -112,7 +105,6 @@ if(canWrite){
   if(length(oopsNuk <- which(dnuk != 0))>0){
     cat('count errors.  bad rows =')
     print(oopsNuk)
-    cbind(oopsi, nuclearWeaponStates[, -(2:3)])
   }
 }
 ```
@@ -126,22 +118,24 @@ if(canWrite){
        nuclearWeaponStates, las=1, 
        type='h', xlab='', ylab='')
   with(nuclearWeaponStates, 
-    text(firstTest, yearsSinceLastFirstTest, ctry))
+    text(firstTest, 
+        yearsSinceLastFirstTest, ctry))
 }
 ```  
 
 ... to svg 
 
 ```{r svg}
-if(canWrite){
+if(FALSE){
   svg('Time2nextNuclearState.svg')
   cex. <- 1.5
   plot(yearsSinceLastFirstTest~firstTest,
        nuclearWeaponStates, las=1, 
-       type='h', xlab='', ylab='', cex.axis=cex.)
+       type='h', xlab='', ylab='',
+       cex.axis=cex.)
   with(nuclearWeaponStates, 
-    text(firstTest, yearsSinceLastFirstTest, ctry, 
-         cex=cex.))
+    text(firstTest, yearsSinceLastFirstTest,
+         ctry, cex=cex.))
   dev.off()
 }
 ```  
@@ -150,9 +144,10 @@ if(canWrite){
 
 ```{r save}
 if(canWrite){
+  cat('canWrite = TRUE')
   save(nuclearWeaponStates, 
        file='nuclearWeaponStates.rda')
 }
 ```
 
-Then copy the *.rda file from the current working directory to "ecdat\data", and run "R CMD checka" as usual.  
+Then copy the *.rda file from the current working directory to "ecdat\data", and run "R CMD check" as usual.  
