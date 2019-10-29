@@ -6,7 +6,8 @@ Author: Spencer Graves <spencer.graves@effectivedefense.org>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.5.0)
 Suggests: BMA, car, DescTools, Ecdat, maps, grid, gridBase, pryr,
-        knitr, rmarkdown, invgamma, ipumsr
+        knitr, rmarkdown, invgamma, ipumsr, lubridate, 
+        bayesplot, bssm, ggplot2, tibble 
 VignetteBuilder: knitr
 Imports: fda, gdata, RCurl, XML, tis, jpeg, MASS, TeachingDemos,
         stringi, methods, xml2
