@@ -1,7 +1,7 @@
 ---
 title: "Time to next new nuclear-weapon state"
 author: "Spencer Graves"
-date: "10/27/2019"
+date: "2019-11-18"
 output: html_document 
 #output: pdf_document:
 #    citation_package: biblatex
@@ -44,8 +44,9 @@ plot(yearsSinceLastFirstTest~firstTest,
      ylim=ylim., bty='n')
 #title(
 #  'Figure 1. Time between\nnew nuclear nations')
-xlab. <- paste(c('Note: The US is not on this plot,',
-                 'because it had no predecessors.'), 
+xlab. <- paste(c(
+  'Note: The US is not on this plot,',
+  'because it had no predecessors.'), 
                collapse='\n')
 mtext(xlab., 1, 3)
 mtext('years from the\nprevious "first test"',
@@ -61,7 +62,7 @@ However, it stretches credibility to suggest that nuclear proliferation has stop
 
 Moreover, those 32 do NOT include Turkey nor Saudi Arabia.  On September 4, 2019, Turkish President Erdogan said it was unacceptable for nuclear-armed states to forbid Turkey from acquiring its own nuclear weapons.^[@Toksabay:2019; @OConnor:2019] And Saudi Arabia previously announced a desire to develop nuclear weapons "if Iran does".^[@Wikip:SaudiNuc]  This is particularly disturbing, because of the substantial evidence that Saudi Arabia may have been and may still be the primary recruiter and funder of Islamic terrorism.^[@Benjamin:2016; @Wikiv:WinTerror]   
 
-It therefore seems naive and even foolish to believe that the number of nuclear-weapon states will _not_ continue to grow until either (i) a nuclear war destroys the ability of anyone to make more nuclear weapons, or (ii) the fundamental structure of international relations changes to the point that any nation that perceives an external threat can confidently rely on international law for protection, without a military that might threaten other countries.
+This analysis suggests that the number of nuclear-weapon states will continue to grow until either (i) a nuclear war destroys the ability of anyone to make more nuclear weapons, or (ii) the fundamental structure of international relations changes to the point that any nation that perceives an external threat can confidently rely on international law for protection, without a military that might threaten other countries.
 
 This vignette first reviews the data and history on this issue including brief discussions of what might have motivated different nations to pursue nuclear weapons.  We then consider modeling these data as a series of annual Poisson observations of the number of states conducting a first test of a nuclear weapon each year, where the log(Poisson mean) follows a [Gaussian random walk](https://en.wikipedia.org/wiki/Random_walk#Gaussian_random_walk) in one dimension.  We model these data using the  [`ng_bsm` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.8/topics/ng_bsm) in the [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7).  This model is estimated using the [`run_mcmc` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/run_mcmc), which is further used to extend the 74 years of history of nuclear proliferation available as this is being written in 2019 into predicting another 74 years into the future with [`predict.mcmc_output`](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/predict.mcmc_output).  
 
@@ -92,13 +93,13 @@ In this context, declassified US government documents establish that in the 1980
 
 Without this, "the nuclear weapons programmes of Iran, Libya and North Korea - which British and American intelligence now acknowledge were all secretly enabled by Pakistan - would never have got off the ground," according to [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci), special adviser on WMDs to President Clinton.^[The quote is from @Levy:2007.   That article claims he was a special adviser on WDMs to both Clinton and G. W. Bush.  However, the Wikipedia article and @Gallucci:2001 both indicate he left government service in January 2001;  G. W. Bush took office 2001-01-20.]  
 
-Similar comments have been made by [Richard Barlow](https://en.wikipedia.org/wiki/Richard_Barlow_(Intelligence_analyst)#cite_note-wp-1), a CIA analyst who reported these questionable activities to a committee of the US House.^[@Levy:2007]
+Similar comments have been made by [Richard Barlow](https://en.wikipedia.org/wiki/Richard_Barlow_(Intelligence_analyst)#cite_note-wp-1), a CIA analyst reported these questionable activities to a committee of the US House.^[@Levy:2007. Barlow was reportedly severely punished for honestly answering questionsnin a classified briefing by an oversight committee of the US House.  Barlow described US assistance to Pakistan's nuclear weapons program in exchange for Pakistan's help in supplying rebels in Afghanistan fighting Soviet occupation.  This was during the [Iran-Contra affair](https://en.wikipedia.org/wiki/Iran%E2%80%93Contra_affair), which exposed actions of officials of the Reagan administration to pursue foreign policy objectives in Central America in blatant violation of law passed by Congress and signed by the President.]
 
 And now the US is helping Saudi Arabia obtain nuclear power, in spite of the evidence that [the Saudi government including members of the Saudi royal family were  involved in preparations for 9-11 at least as early as 1999](https://en.wikipedia.org/wiki/The_28_pages) and their [on-going support for Al Qaeda in Yemen, reported as recently as 2019](https://en.wikipedia.org/wiki/Saudi_Arabian-led_intervention_in_Yemen). 
 
 Unless there is some fundamental change in the structure of international relations, it seems unwise to assume that there will not be more nuclear nations in the future, with the time to the next "first test" of a nuclear weapon following a probability distribution consistent with the previous times between "first tests" of nuclear weapons by new nuclear-weapon states.  
 
-# Exponential time between 'first tests' 
+# Exponential time between Poisson 'first tests' 
 
 Figure 1 suggests that the time between 
 'first tests' of succeeding nuclear-weapon states is increasing.  Let's redo that plot with a log scale on the y axis:  
@@ -127,7 +128,7 @@ Figures  1 and 2 seem consistent with the following:
 
 The [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this using its [`ng_bsm` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ng_bsm).  This function allows us to model a normal random walk in log(Poisson mean) of the number of "first tests" each year with the log(Poisson mean). This uses the fact that [the probability distribution of the time between events in a Poisson point process is exponential](https://en.wikipedia.org/wiki/Exponential_distribution).  
 
-The first argument for `ng_bsm` is `y` = Observations as time series (or vector of class "ts") of length equal to the number of years since 1945.  We'll use the [`lubridate` package](https://lubridate.tidyverse.org/) for dates.  The first thing we want is the current year.  We get that starting with [`today`](https://www.rdocumentation.org/packages/lubridate/versions/1.7.4/topics/today):  
+For the first argument `y` in `ng_bsm`, we will use the number of "first tests" each year starting with 1946, the year after the "first test" by the US.  We'll use the [`lubridate` package](https://lubridate.tidyverse.org/) for dates.  The first thing we want is the current year.  We get that starting with [`today`](https://www.rdocumentation.org/packages/lubridate/versions/1.7.4/topics/today):  
 
 ```{r today}
 library(lubridate)
@@ -222,7 +223,7 @@ class(firstTstsSim)
 str(firstTstsSim)
 ```
 
-We see that `dim(firstTstsSim$alpha)` is 75 by 1 by a number close to 645, depending on the seed of the random number generator.  The first dimension (75) is the length of the simulated time series from the year after the first test in 1945 to 2020, the year after the end of the input time series.  The second dimension is the dimensionality of the state vector, which is 1 in this case.  The third is the number of simulated changes actually retained, being a number like 645.  
+We see that `dim(firstTstsSim$alpha)` is 75 by 1 by a number close to 645, depending on the seed of the random number generator.  The first dimension (75) is the length of the simulated time series from the year after the first test in 1945 to 2020, the year after the end of the input time series.  The second dimension is the dimensionality of the state vector, which is 1 in this case.  The third is the number of simulated trajectories actually retained, being a number like 645.  
 
 In `str(firstTstsSim)`, the number of accepted simulations is `dim(firstTstsSim$alpha)[3]`, `dim(firstTstsSim$alpha)[1]`, `dim(firstTstsSim$weights)[1]`, 
 `dim(firstTstsSim$counts)[1]`, and `dim(firstTstsSim$posterior)[1]`.  This is supposed to be equal to `with(firstTstsSim, 
@@ -311,7 +312,7 @@ legend('bottomleft',
     '95% CI (normal approx)', 
     'median', 
     '95% CI (MCMC)'), 
-  col=c(2, 5, 3, 4), 
+  col=c(2, 5, 4, 3), 
   lty=c(1, 3, 2, 2), bty='n')
 par(op)
 ```
@@ -357,10 +358,19 @@ apply(1/VLU, 2, quantile,
 
 This seems consistent with the plot of the data above:  There were 8 'first tests' by a new nuclear-weapon state in the 74 years since the first test by the US, which had no predecessor.  If the mean were constant, it would be 74 / 8 = 9.25 years between 'first tests', which seems consistent with the plot.   
 
-This plot displays an estimated mean time to the next 'first test' starting around 7 years and increasing after 1960 to over 13 years, on average.  
+This plot displays an estimated mean time to the next 'first test' starting around 7 years and increasing after 1960 to over 13 years, on average. 
 
 It seems somewhat surprising that the line doesn't go between RU and GB and between FR and CN.  However, the arguments that should affect that, `a1`, `P1`, and `sd_level`, were set at levels that would support this. 
+
 Apart from that, these estimates overall seem plausible.  
+
+Let's check one more thing to evaluate our understanding of the MCMC algorithm used:  Is there a relationship between the root mean square of  [`diff`](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/diff) of each simulated trajectory of log(Poisson mean) and the corresponding element of `theta`?  
+
+```{r rms}
+
+
+
+```
 
 # Cumulative number of nuclear-weapon states
 
@@ -376,7 +386,13 @@ str(lvlEnew)
 plot(lvlEnew[, 1:10])
 ```
 
-This shows something of how the `bssm` MCMC algorithm works:  A visual inspection of one simulation suggested that the first 10 of the 2500 simulated series include only 4 unique simulations.  `str(firstTstsSim)` above showed that "Length of the final jump chain = 645" for one simulation.  
+This shows something of how the `bssm` MCMC algorithm works:  A visual inspection of one simulation suggested that the first 10 of the 2500 simulated series include only 4 unique simulations replicated 2, 2, 1, and at least 5 times, which matches `firstTstsSim$counts[1:4]`:
+
+```{r firstTstsCounts}
+firstTstsSim$counts[1:5]
+```
+
+`str(firstTstsSim)` above showed that "Length of the final jump chain = 648" for one simulation.  
 
 The `cumsum` of each simulation in `lvlEnew` represents the simulated expected number of new nuclear-weapon states since the US became the first in 1945.  Add one to get the expected total number of nuclear-weapon states over time in each of the 2500 simulations:  
 
@@ -420,7 +436,9 @@ lines(fT_date,
     c(1:nNucStates, nNucStates), type='s')
 ```
 
-The median goes right through the available data.  The mean looks a little high, but overall this looks like a great fit, apart from the fact that all the increments decrease log(Poisson mean).  For that we should consider adding a slope term to the model, which we consider next.  
+The upper and lower limits display the range of plausibilty for trajectories of the meanes of Poisson processes consistent with the available data:  Lines below the lower limit would not likely have produced as many nuclear-weapon states during this period as we have today.  Lines above the upper limit likely would have produced more than the number that exists today.  
+
+The median goes right through the available data.  The mean looks a little high.  Overall this looks like a great fit, apart from the fact that all the increments decrease log(Poisson mean).  For that we should consider adding a slope term to the model, which we consider next.  
 
 # Growing understanding of the risks 
 
@@ -442,7 +460,7 @@ lvlLim1 <- range(lvl)
 lvlLogTick1 <- pretty(lvlLim1)
 axis(4, exp(lvlLogTick1), lvlLogTick1, 
      las=1)
-mtext('log(Poisson mean)', 4, 2)
+mtext('log(Poisson mean)', 4, 3)
 par(op)
 ```
 
@@ -505,64 +523,188 @@ firstTstsFutureMdl$y <- ts(rep(NA, 74),
 ```{r predict.mcmc}
 set.seed(4)
 firstTstsPred_r <- try(predict(firstTstsSim,
-      firstTstsFutureMdl))
+      firstTstsFutureMdl, 
+      return_MCSE = TRUE))
 str(firstTstsPred_r)
+with(firstTstsPred_r, ts.plot(
+  mean, intervals, gpars=list(las=1), 
+  main='predict(...type="response")', 
+  col=1:4, lty=1:4, lwd=c(1,2,2,2)) )
+legend('topleft', 
+  legend=c('mean', "95%", "50%", "5%"), 
+  col=c(1, 4:2), lty=c(1, 4:2),
+  lwd=c(1,2,2,2), bty='n')
 
 firstTstsPred_m <- try(predict(firstTstsSim,
-      type='mean', firstTstsFutureMdl))
+      type='mean', firstTstsFutureMdl, 
+      return_MCSE = TRUE))
 str(firstTstsPred_m)
+with(firstTstsPred_m, ts.plot(
+  mean, intervals, gpars=list(las=1), 
+  main='predict(...type="mean")', 
+  col=1:4, lty=1:4, lwd=c(1, 2,2,2)) )
+legend('topleft', 
+  legend=c('mean', "95%", "50%", "5%"), 
+  col=c(1, 4:2), lty=c(1, 4:2),
+  lwd=c(1,2,2,2), bty='n')
 
 firstTstsPred_s <- try(predict(firstTstsSim,
-      type='state', firstTstsFutureMdl))
+      type='state', firstTstsFutureMdl, 
+      return_MCSE = TRUE))
 str(firstTstsPred_s)
+with(firstTstsPred_s, ts.plot(
+  mean, intervals$level, 
+  gpars=list(las=1), 
+  main='predict(...type="state")', 
+  col=1:4, lty=1:4, lwd=c(1,2,2,2)) )
+legend('topleft', 
+  legend=c('mean', "95%", "50%", "5%"), 
+  col=c(1, 4:2), lty=c(1, 4:2),
+  lwd=c(1,2,2,2), bty='n')
 ```
 
-sapply(firstTstsPred, quantile)
+It's not obvious what type = "response" or "mean" are in this context, but type = "state" seems potentially useful.  
 
-ts.plot(firstTstsPred$mean, 
-        firstTstsPred$intervals, 
-        col=2:5, lty=1:4)
-ts.plot(firstTstsPred$mean, col=2, 
-     log='y', gpars=list(las=1), xlab='')
+However, we really want the cumsum(annual Poisson counts).  To get that, it would be easiest if we had simulated trajectories of log(Poisson means of annual counts).  Then we could compute cumsum(exp(log(Poisson means))) and compute mean and quantiles from those numbers.    
+
+From that, we could estimate the probability of 0, 1, 2, or more currently non-nuclear states (or non-state rebel groups) becoming nuclear as a function of the time into the future. 
+
+We will construct these manually in two different ways:   
+
+* Assuming the annual changes in log(Poisson mean number of new nuclear-weapon states each year) have mean 0 and standard deviation given by the estimate of `theta` in each accepted MCMC simulation. 
+
+* Using the estimated first differences from the level-only model.  
+
+
+
+
+
+
+The first gives pessimistic estimates, basically assuming that the trend toward decreasing hazard showing in the plots in the introduction above could be reversed by a new arms race exemplified by the current nuclear expansion programs in India, Pakistan, the US,^[@Shultz:2019; @Helfand:2019] and Russia as well as the declared desire of the President of Turkey for nuclear weapons^[@OConnor:2019] and the increased threat that such weapons could fall into the hands of terrorists who believe that Armageddon may be a good thing, for whom the possession of nuclear weapons is more of a motivator than a deterrent.^[@Bacevich:2008, pp. 178-179; @Cohen:2009;  see also @Borger:2010]
+
+The second essentially assumes a continuation of the trend visible in the plots above showing gradual reductions in the rate of nuclear proliferation.  
+
+We will examine these two alternative simulations in the order stated, recognizing that the reality could be some in between with a nonzero probability of the elimination of the threat through the entering into force of the International Treaty on the Abolition of Nuclear Weapons, followed by the success of other more aggressive efforts to strengthen international law to the point that any nation that invades another can expect massive nonviolent retaliation in trade restrictions and confiscation of foreign held property of people in the nation of the apparent aggressor(s).  
+
+# Predictions assuming the level-only model
+
+Our primary model estimated in `firstTstsSim` assumes that log(Poisson mean) follows a random walk with independent annual increments of mean 0 and standard deviation `theta`.  Our approach here will iterate over all 2500 accepted simulations after burn-in, matching the log(Poisson mean[2020]) from `firstTstsSims$level[i, 75]` with the estimate of the corresponding standard deviation in theta[i, 1]:
+
+```{r manualPred}
+manPred <- ts(matrix(NA, 75, 2500), 
+    start=currentYear+1)
+
+manPred[1, ] <- (firstTstsSims$level[,
+      75] + rnorm(75, 0, theta[, 1]) )
+
+for(iyr in 2:75){
+  manPred[iyr, ] <- (manPred[iyr-1, ] + 
+        rnorm(2500, 0, theta[, 1]) )
+}
 ```
 
-```{r predict.mcmc2}
-set.seed(5)
-firstTstsPred5 <- try(predict(firstTstsSim,
-      firstTstsFutureMdl, type='mean'))
-str(firstTstsPred5)
-sapply(firstTstsPred5, quantile)
+Next we want to exponentiate these numbers and cumsum each row to get the expected number of new nuclear-weapon states for each simulated future year:  
 
-ts.plot(firstTstsPred5$mean, 
-        firstTstsPred5$intervals, 
-        col=2:5, lty=1:4, log='y', 
-        xlab='')
-
-set.seed(6)
-firstTstsPred6 <- try(predict(firstTstsSim,
-      firstTstsFutureMdl, type='state'))
-str(firstTstsPred6)
+```{r predCumsum}
+str(predEnuc2 <- ts(apply(exp(manPred), 2,
+          cumsum), currentYear+1) )
+ts.plot(predEnuc2[, 1:10], lty=1:10, col=1:10)
 ```
 
-`firstTstsPred6` is still a list of length 2.  However, its second component is also a list with one component for each component of the state vector;  this model only has one component:  level.  
+Now let's add the current nuber of nuclear weapon states, 9 as this is being written on 2019-11-02, to predict the total number of nuclear-weapon states for the next 74 years:    
 
-```{r predict.mcmc2a}
-quantile(firstTstsPred6$mean)
-apply(firstTstsPred6$intervals$level, 2, quantile)
+```{r predStates}
+predEnucStates <- (9+lvlEnuc2) 
+predEnucStates <- ts(9+lvlEnuc2,
+                  currentYear+1) 
+str(predEnucStates)
+predMean <- ts(apply(predEnucStates, 
+        1, mean), currentYear+1) 
+str(predMean)
+predQ <- apply(predEnucStates, 1, 
+    quantile, probs=c(0.05, .5, .95))
+predQuant <- ts(t(predQ),
+                currentYear+1) 
+str(predQuant)
 
-ts.plot(firstTstsPred6$mean, 
-        firstTstsPred6$intervals$level, 
-        col=2:5, lty=1:4)
+yLab <- 'number of nuclear-weapon states'
+plot(c(firstYear, currentYear+75), 
+     c(1, max(predQuant)), type='n', 
+     xlab='', ylab=yLab, las=1)
+lines(fT_date, 
+    c(1:nNucStates, nNucStates), type='s')
+lines(predMean, lty=2, col=2)
+
+predYrs <- time(predQuant)
+matlines(predYrs, predQuant, lty=2, 
+      col=c(3, 4, 3) )
+      
+legend('topleft', 
+  legend=c('mean', 
+    'median', 
+    '90% CI (MCMC)'), 
+  col=c(2, 4, 3), 
+  lty=c(1, 2, 2), bty='n')
+```
+
+The model assumes that the `log(level[i])`, where `i` = a year after 2020, is based on the following recursion:  
+
+<center>
+`log(Poisson mean[i+1]) = log(Poisson[i]) + (independent random increment)`.
+</center>
+<cr>
+
+The mean of the independent increments is 0 with a standrd deviation given by the posterior distribution of the variable `theta` described above. 
+
+Let's start by selecting nYrs from the available MCMC simulations after burn-in:
+
+```{r sample}
+firstTstsFutureMdl$smpl <- sample(
+  with(firstTstsSim, n_iter - n_burnin),
+  nYrs)
+plot(firstTstsFutureMdl$smpl)
+```
+
+We select MCMC samples this way, in case there's a relationship between the MCMC simulations in `theta` and `alpha` stored in `firstTstsSim`, above.  
+
+Now let's select the log(Poisson mean) for each predicted year from the distribution for `(currentYear+1)`:  
+
+```{r simLevel}
+firstTstsFutureMdl$simLevel <- ts(
+  lvlAll$level[firstTstsFutureMdl$smpl, 
+        nYrs+1], currentYear+1)
+```
+
+Let's similary select the standard deviation of these estimated levels from `theta`: 
+
+```{r simSD}
+firstTstsFutureMdl$simSD <- ts(
+  theta[firstTstsFutureMdl$smpl, 1], 
+  currentYear+1)
+```
+
+Now let's predict the future mean number of nuclear-weapon states by adding `cumsum(exp(firstTstsFutureMdl$simLevel))` to the current number of nuclear-weapon states:  
+
+```{r predNucStates}
+firstTstsFutureMdl$predNucStates <- 
+  nrow(nuclearWeaponStates) + cumsum(exp(
+    firstTstsFutureMdl$simLevel))
+plot(firstTstsFutureMdl$predNucStates)
 ```
 
 
-```{r w_ggplot2}
-require(ggplot2)
+)
+
+
+Similarly, the variance of the prediction e
+
+
+at time $t$, where $t$ > 
+independent normal increments to 
 
 
 
 
-```
 
 # Conclusions 
 
@@ -693,10 +835,15 @@ if(png.) dev.off()
 ```
 
 
+# Predictions using the actual increments in the MCMC simulations
+
+
+
+
 # References
 
 [^India]: [India had military conflicts with China in 1962 and 1967](https://en.wikipedia.org/wiki/China%E2%80%93India_relations) before India's first nuclear weapon's test 1974-05-18.  India and China have continued to have conflicts, including, e.g., [the Doklam standoff in 2017](https://en.wikipedia.org/wiki/2017_China%E2%80%93India_border_standoff).
 
-[^Pak]: [India–Pakistan relations](https://en.wikipedia.org/wiki/India%E2%80%93Pakistan_relations) have been marked by frequent conflict since the two nations were born with the dissolution of the British Raj in 1947.  This history might help people understand the need that Pakistani leaders may have felt for nuclear parity with India. 
+[^Pak]: [India–Pakistan relations](https://en.wikipedia.org/wiki/India%E2%80%93Pakistan_relations) have been marked by frequent conflict since the two nations were born with the dissolution of the British Raj in 1947.  This history might help people understand the need that Pakistani leaders may have felt and still feel for nuclear parity with India. 
 
 [^Israel]: [Israel faced many threats from its Arab neighbors before it became an independent nation in 1949](https://en.wikipedia.org/wiki/Arab%E2%80%93Israeli_conflict). These have continued, including the [Gaza border protests](https://en.wikipedia.org/wiki/2018_Gaza_border_protests) that have continued at least to mid 2019.  One might therefore reasonably understand why Israel might feel a need for nuclear weapons and why others might believe that the 1979-09-22 [Vela incident](https://en.wikipedia.org/wiki/Vela_Incident) was an Israeli nuclear test. 
