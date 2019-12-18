@@ -32,6 +32,7 @@ export(.onAttach,
        readUShouse, readUSsenate, readUSstateAbbreviations, 
        recode2, rgrep, rtruncdist, 
        sign, 
+       simulate.bic.glm, 
        strsplit1, subNonStandardCharacters, 
        subNonStandardNames, 
        testURLs, trimImage, 
@@ -40,13 +41,17 @@ export(.onAttach,
 
 #importFrom(base, mean, coefficients)
 importFrom("grDevices", "as.raster")
-importFrom("graphics", "arrows", "legend", "lines", "par", "plot",
-             "points", "rasterImage", "text", "xyinch")
+importFrom("graphics", "arrows", "legend", "lines", 
+    "par", "plot", "points", "rasterImage", "text", 
+    "xyinch")
 importFrom("methods", "as", "is")
 importFrom("stats", "median", "qqnorm", "runif", "sd", 
-           "cov2cor")
+    "cov2cor", "model.matrix", "glm.fit", "vcov", 
+    "coef", "simulate")
 importFrom("utils", "de", "head", "read.csv", "tail")
 importFrom("xml2", 'as_list', 'read_xml')
+importFrom("mvtnorm", "rmvnorm")
+importFrom("BMA", "bic.glm")
 
 import(MASS)
 import(TeachingDemos)
@@ -69,5 +74,6 @@ S3method(plot, qqnorm2s)
 S3method(points, qqnorm2)
 S3method(confint, var)
 S3method(confint, sd)
+S3method(simulate, bic.glm)
 
 
