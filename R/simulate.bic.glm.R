@@ -4,7 +4,17 @@ simulate.bic.glm <- function(object, nsim = 1,
 ##  
 ## 1.  seed?
 ##  
-    if(!is.null(seed))set.seed(seed)
+# copy code from stats:::simulate.lm  
+  if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) 
+    runif(1)
+  if (is.null(seed)) 
+    RNGstate <- get(".Random.seed", envir = .GlobalEnv)
+  else {
+    R.seed <- get(".Random.seed", envir = .GlobalEnv)
+    set.seed(seed)
+    RNGstate <- structure(seed, kind = as.list(RNGkind()))
+    on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
+  }
 ##
 ## 2.  local copies of components of object
 ##  
@@ -94,9 +104,10 @@ simulate.bic.glm <- function(object, nsim = 1,
 ##
   nComponents <- length(postprob)
   nobs <- NROW(newdata)
-  sims <- matrix(NA, nsim, nobs)
+  sims <- matrix(NA, nobs, nsim)
+  colnames(sims) <- paste0("sim_", 1:nsim)
   if(!is.null(rownames(newMat))) 
-    colnames(sims) <- rownames(newMat)
+    rownames(sims) <- rownames(newMat)
 #  if(is.null(wt))wt <- rep(1, nobs)
 ##
 ## 7.  Which models where? 
@@ -118,20 +129,22 @@ simulate.bic.glm <- function(object, nsim = 1,
       simCoef <- mvtnorm::rmvnorm(nsimComp, 
           coef(refitComp), vc)
       newM <- newMat[, mle[Comp,]!=0, drop=FALSE]
-      predComp <- tcrossprod(simCoef, newM)
-      sims[rmdl==Comp, ] <- predComp
+      predComp <- tcrossprod(newM, simCoef)
+      sims[, rmdl==Comp] <- predComp
     }
   }
 ## 
 ## 9.  return type(s) desired 
 ##
   if(length(type)>1){
-    return(list(link=sims, 
-                response = linkinv(sims)))
+    out <- list(link=data.frame(sims), 
+        response = data.frame(linkinv(sims)))
   } else {
     tp <- match.arg(type)
     if(tp=="link"){
-      return(sims) 
-    } else return(linkinv(sims)) 
+      out <- data.frame(sims)
+    } else out <- data.frame(linkinv(sims))
   }
+  attr(out, 'seed') <- RNGstate
+  out
 }
