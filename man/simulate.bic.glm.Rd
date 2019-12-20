@@ -7,7 +7,27 @@
   Compute predictions for \code{newdata} for a
   model of class \code{\link[BMA]{bic.glm}}.  
 
-NOTES:  THIS FUNCTION IS A PRELIMINARY VERSION OF A COMPANION TO THE BMA PACKAGE AND COULD MIGRATE TO BMA OR DISAPPEAR ENTIRELY IN THE FUTURE.  
+NOTES:  
+1.  THIS FUNCTION IS A PRELIMINARY VERSION OF A COMPANION TO 
+THE BMA PACKAGE AND COULD MIGRATE TO BMA OR DISAPPEAR 
+ENTIRELY IN THE FUTURE.  
+2.  help(simulate, stats) says "Package \strong{stats} has a 
+method for "\code{lm}" objects which is used for 
+\code{\link{lm}} and \code{\link{glm}} objects.  ... 
+\strong{Value}:  Typically a list of length 
+\code{nsim} of simulated responses.  Where appropriate the 
+result can be a data frame".  
+\code{simulate.glm(glm(yb1~x, family=binomial), nsim=4)} 
+returns a data.frame with nsim "columns" with names 
+\code{paste0("sim_", 1:nsim)}.  If NCOL(yb1) > 1, each 
+"column" of the data.frame is a numeric matrix with 
+NCOL(yb1) columns.  Note that \code{simulate.lm} 
+returned simulated data.  The present function does 
+NOT return simulated data but rather simulated values 
+on the 'link' or 'response' scales or both.  It may be 
+desired to add an option to this present function for 
+\code{type = "data"} for compatibility with 
+\code{simulate.lm}.  
 }
 \usage{
 \method{simulate}{bic.glm}(object, nsim = 1, 
@@ -34,13 +54,26 @@ NOTES:  THIS FUNCTION IS A PRELIMINARY VERSION OF A COMPANION TO THE BMA PACKAGE
     used in fitting are used.  
   }
   \item{type}{
-    the type of prediction required. The default 
-    is on the scale of the linear predictors; the
-    alternative "response" is on the scale of the 
-    response variable. Thus for a default binomial 
-    model the default predictions are of log-odds
-    (probabilities on logit scale) and type = 
-    "response" gives the predicted probabilities. 
+    the type of simulations required. 
+    \itemize{
+      \item{link}{
+        The default \code{type='link'} is on the 
+        scale of the linear predictors using 
+        \code{\link[mvtnorm]{rmvnorm}} applied  
+        to randomly selected components of the 
+        mixture with \code{mean} = 
+        \code{\link{coef}} and \code{sigma} = 
+        \code{\link{vcov}} for that component.  
+        For a default binomial model, these are 
+        of log-odds (probabilities on logit 
+        scale).
+      }
+      \item{response}{
+        \code{object[['linkinv']]} of \code{
+        type = 'link'}.  For a binomial model, 
+        these are predicted probabilities.  
+      }
+    }
   }
   \item{...}{
     further arguments passed to or from other methods.
@@ -70,26 +103,41 @@ NOTES:  THIS FUNCTION IS A PRELIMINARY VERSION OF A COMPANION TO THE BMA PACKAGE
   mle[Comp, mle[Comp,]!=0], family=fam); 
   simCoef <- mvtnorm::rmvnorm(nsimComp, coef(refitComp), vcov(rfitComp)); sims[rmdl==Comp, ] <- tcrossprod(simCoef, newMat[, mle[Comp,]!=0])}
   
-  10.  \code{if(type=='link')return(sims) else if(type=='response')return(linkinv(sims) else list(link=sims, 
-  response = linkinv(sims))}
+  10.  If \code{length(type)} == 1:  return a \code{\link{data.frame}} 
+  with one column for each desired simulation, consistent with the 
+  behavior of the generic \code{\link{simulate}} applied to objects 
+  of class \code{lm} or \code{glm}.  Otherwise, return a list of 
+  \code{\link{data.frame}}s of the desired types.  
 }
 \value{
-  Returns either a matrix or a list of matrices depending on 'type':  
+  Returns either a \code{\link{data.frame}} or a list of 
+   \code{\link{data.frame}}s depending on 'type':  
   
   \item{link}{
-    a numeric matrix \code{nsims} by \code{nobs}
-    giving the simulations on the 'link' scale.  
+    a \code{\link{data.frame}} with \code{nsim} columns 
+    of \code{nobs} values each giving the simulations on the 
+    \code{link} scale.  
   }
   \item{response}{
-    a numeric matrix \code{nsims} by \code{nobs} 
-    giving the simulations on the 'response' scale, 
-    being \code{linkinv} of the simulations on the 
-    'link' scale.  
+    a \code{\link{data.frame}} with \code{nsim} columns 
+    of \code{nobs} values each giving the simulations on the 
+    \code{response} scale, being \code{linkinv} of the 
+    simulations on the \code{link} scale.  
   }
-  \item{c('link', 'response')}{
-    a \code{list} with simulations on both 
-    the 'link' and 'response' scales, respectively.  
+  \item{for length(type)>1}{
+    a list with simulations on the desired scales.  
   }
+  
+  The value also has an attribute "\code{seed}". 
+  If argument \code{seed} is NULL, the attribute os the 
+  value of \code{\link{.Random.seed}} before the 
+  simulation started.  Otherwise it is the value of 
+  the argument with a "kind" attribuate with value 
+  \code{as.list(RNGkind())}.  
+  
+  NOTE:  This fuction currently may not work
+  with a model fit that involves a multivariate 
+  \code{link} or \code{response}.  
 }
 \author{
   Spencer Graves
@@ -158,7 +206,9 @@ bicGLMfmlsim <- simulate(bicGLMfmla, nsim=3, seed=2,
 all.equal(bicGLMsin, bicGLMfmlsim)                      
 \dontshow{)}
                       
-# compute the correct answers manually 
+##
+## 2a.  Compute the correct answers manually 
+##
 GLMex1 <- glm(y~x, poisson, PoisRegDat)
 GLMex0 <- glm(y~1, poisson, PoisRegDat)
 
@@ -167,20 +217,25 @@ nComp <- length(postProb)
 newMat <- model.matrix(~., newDat)
 set.seed(2)
 (rmdl <- sample(1:nComp, 3, TRUE, 
-               postprob))
-GLMsim. <- matrix(NA, 3, 2)
-colnames(GLMsim.) <- rownames(newMat)
-
+          postprob))
+GLMsim. <- matrix(NA, 2, 3)
+dimnames(GLMsim.) <- list(
+  rownames(newMat), 
+  paste0('sim_', 1:3) )
+          
 sim1 <- mvtnorm::rmvnorm(2, coef(GLMex1), 
                          vcov(GLMex1))
 sim0 <- mvtnorm::rmvnorm(1, coef(GLMex0), 
                          vcov(GLMex0))
-GLMsim.[rmdl==1, ] <- tcrossprod(sim1, newMat)
-GLMsim.[rmdl==2, ] <- tcrossprod(sim0, 
-                      newMat[, 1, drop=FALSE])
-
+GLMsim.[, rmdl==1] <- tcrossprod(newMat, sim1)
+GLMsim.[, rmdl==2] <- tcrossprod(
+          newMat[, 1, drop=FALSE], sim0)
+                      
 \dontshow{stopifnot(}
-all.equal(bicGLMsin[[1]], GLMsim.)
+all.equal(bicGLMsin[[1]], data.frame(GLMsim.), 
+    tolerance=4*sqrt(.Machine$double.eps))
+# tcrossprod numeric precision is mediocre 
+# for the constant model in this example.  
 \dontshow{)}
 }
 \keyword{datagen}
