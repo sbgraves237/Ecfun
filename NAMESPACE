@@ -32,7 +32,7 @@ export(.onAttach,
        readUShouse, readUSsenate, readUSstateAbbreviations, 
        recode2, rgrep, rtruncdist, 
        sign, 
-       simulate.bic.glm, 
+       simulate.bic.glm, simulate.glm, 
        strsplit1, subNonStandardCharacters, 
        subNonStandardNames, 
        testURLs, trimImage, 
@@ -75,5 +75,6 @@ S3method(points, qqnorm2)
 S3method(confint, var)
 S3method(confint, sd)
 S3method(simulate, bic.glm)
+S3method(simulate, glm)
 
 
