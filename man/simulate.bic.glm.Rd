@@ -80,17 +80,25 @@ desired to add an option to this present function for
   }
 }
 \details{
-  1.  \code{if(!is.null(seed))set.seed(seed)}.
+  1.  Save current \code{seed} and optionally set it using
+  code copied from \code{stats:::simulate.lm}.  
   
-  2.  \code{postprob <- object[['postprob']]; x <- object[['x']]; y <- object[['y']]; mle <- object[['mle']]; linkinv <- object[['linkinv']]}.
+  2.  \code{postprob <- object[['postprob']]; 
+  x <- object[['x']]; y <- object[['y']]; 
+  mle <- object[['mle']]; 
+  linkinv <- object[['linkinv']]}.
   
-  3.  \code{cl <- as.list(object[['call']]);  wt <- cl[['wt']]; fam <- cl[['glm.family']]}
+  3.  \code{cl <- as.list(object[['call']]);  wt <- cl[['wt']]; 
+  fam <- cl[['glm.family']]}
 
-  4.  \code{if(is.null(newdata))newdata <- x else ensure that all levels of factors of newdata match x.}
+  4.  \code{if(is.null(newdata))newdata <- x else ensure that 
+  all levels of factors of newdata match x.}
   
-  5.  \code{xMat <- model.matrix(~., x);  newMat <- model.matrix(~., newdata)}
+  5.  \code{xMat <- model.matrix(~., x);  
+  newMat <- model.matrix(~., newdata)}
   
-  6.  \code{nComponents <- length(postprob);  nobs <- NROW(newdata)}
+  6.  \code{nComponents <- length(postprob);  
+  nobs <- NROW(newdata)}
   
   7.  \code{sims <- matrix(NA, nobs, nsim)}
   
@@ -101,7 +109,10 @@ desired to add an option to this present function for
   nsimComp <- sum(rmdl==Comp); 
   refitComp <- glm.fit(xMat[, mle[Comp,]!=0], y, wt,
   mle[Comp, mle[Comp,]!=0], family=fam); 
-  simCoef <- mvtnorm::rmvnorm(nsimComp, coef(refitComp), vcov(rfitComp)); sims[rmdl==Comp, ] <- tcrossprod(simCoef, newMat[, mle[Comp,]!=0])}
+  simCoef <- mvtnorm::rmvnorm(nsimComp, coef(refitComp), 
+  vcov(rfitComp)); 
+  sims[rmdl==Comp, ] <- tcrossprod(newMat[, mle[Comp,]!=0], 
+  simCoef)}
   
   10.  If \code{length(type)} == 1:  return a \code{\link{data.frame}} 
   with one column for each desired simulation, consistent with the 
@@ -111,7 +122,7 @@ desired to add an option to this present function for
 }
 \value{
   Returns either a \code{\link{data.frame}} or a list of 
-   \code{\link{data.frame}}s depending on 'type':  
+  \code{\link{data.frame}}s depending on 'type':  
   
   \item{link}{
     a \code{\link{data.frame}} with \code{nsim} columns 
@@ -143,6 +154,7 @@ desired to add an option to this present function for
   Spencer Graves
 }
 \seealso{
+  \code{\link{simulate}}
   \code{\link[BMA]{bic.glm}}
   \code{\link[BMA]{predict.bic.glm}}
   \code{\link{set.seed}}
