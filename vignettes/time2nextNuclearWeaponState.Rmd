@@ -1,7 +1,7 @@
 ---
 title: "Time to next new nuclear-weapon state"
 author: "Spencer Graves"
-date: "2019-12-21"
+date: "2019-12-22"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
@@ -110,7 +110,7 @@ One might therefore understand the motivation of North Korea to accelerate their
 
 Similar logic might explain why Soviet leaders might have felt a need to defend themselves from nuclear coercion after [having been invaded by the US and over a dozen other countries trying to put the Tsar back in power after World War I](https://en.wikipedia.org/wiki/Allied_intervention_in_the_Russian_Civil_War).  The United Kingdom and France likely felt nuclear threats from the Soviet Union.  China faced nuclear threats from the US regarding Korea and the Taiwan Strait.  India faced major threats from China, [^India] Pakistan from India,[^Pak] and Israel from its neighbors.[^Israel]
 
-More generally the history of US belicosity includes [invading Canada in 1812](https://www.history.com/news/how-u-s-forces-failed-to-conquer-canada-200-years-ago)^[@Berton:1980] and [numerous other foreign interventions](https://en.wikipedia.org/wiki/Foreign_interventions_by_the_United_States) including invading [Afghanistan in 2001](https://en.wikipedia.org/wiki/War_in_Afghanistan_(2001%E2%80%93present)), and [Iraq in 2003](https://en.wikipedia.org/wiki/Iraq_conflict_(2003%E2%80%93present)), plus continued threats against Iran, North Korea, and now Venezuela.  This history might help people understand how leaders in many countries may be concerned about their own security if they fail to do what the US demands of them.  The [extra-judicial execution of Osama bin Laden and four others in his household by SEAL Team 6](https://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden) on 2011-05-02 has reportedly increased the risks that a Pakistani nuclear weapon might be stolen by Islamic terrorists intent on retaliating against the US for its interventions in Pakistan and neighboring countries.^[@Cohen:2009;  see also @Borger:2010] 
+More generally the history of US belicosity includes [invading Canada in 1812](https://www.history.com/news/how-u-s-forces-failed-to-conquer-canada-200-years-ago)^[@Berton:1980 claims that the modern Canadian national identity was forged in that conflict.  Casual conversations with Canadians in the 2000s and 2010s have confirmed that this is one issue that still separates Canadians from the US.] and [numerous other foreign interventions](https://en.wikipedia.org/wiki/Foreign_interventions_by_the_United_States) including invading [Afghanistan in 2001](https://en.wikipedia.org/wiki/War_in_Afghanistan_(2001%E2%80%93present)), and [Iraq in 2003](https://en.wikipedia.org/wiki/Iraq_conflict_(2003%E2%80%93present)), plus continued threats against Iran, North Korea, and now Venezuela.  This history might help people understand how leaders in many countries may be concerned about their own security if they fail to do what the US demands of them.  The [extra-judicial execution of Osama bin Laden and four others in his household by SEAL Team 6](https://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden) on 2011-05-02 has reportedly increased the risks that a Pakistani nuclear weapon might be stolen by Islamic terrorists intent on retaliating against the US for its interventions in Pakistan and neighboring countries.^[@Cohen:2009;  see also @Borger:2010] 
 
 \vspace{\baselineskip}
 \centerline{\textit{\textbf{The September 11th attacks}}}
@@ -225,16 +225,16 @@ FirstTests$timeSinceTrinity <- 1:nYrs
 Now fit this model:  
 
 ```{r fit1}
-summary(PoissonFit <- glm(
+summary(fitProlif1 <- glm(
   firstTests ~ timeSinceTrinity, 
   poisson, FirstTests))
 ```
 
 This says that the time trend visible in Figures \@ref(fig:plot) and \@ref(fig:ploty) is not statistically significant.  
 
-[George Box](https://en.wikipedia.org/wiki/George_E._P._Box) famously said that, ["All models are wrong, but some are useful."](https://en.wikipedia.org/wiki/All_models_are_wrong#Historical_antecedents) 
+[George Box](https://en.wikipedia.org/wiki/George_E._P._Box) famously said that, ["All models are wrong, but some are useful."](https://en.wikipedia.org/wiki/All_models_are_wrong#Historical_antecedents)^[@BoxDraper:1987;  @Wikip:ModelsWrong] 
 
-@Burnham:1998 and others claim that better predictions can generally be obtained using Bayesian Model Averaging.^[See also @Burnham:2002 and Claeskens:2008.] In this case, we have two models:  `log(Poisson mean)` being constant or linear in `timeSinceTrinity`.  The [`bic.glm`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) in the [`BMA`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) package can estimate these two models for us and compute the posterior probabilities as follows:  
+@Burnham:1998 and others claim that better predictions can generally be obtained using Bayesian Model Averaging.^[See also @Raftery:1995 and @Claeskens:2008.] In this case, we have two models:  `log(Poisson mean)` being constant or linear in `timeSinceTrinity`.  The [`bic.glm`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) in the [`BMA`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) package can estimate these two models for us and compute the posterior probabilities as follows:  
 
 ```{r BMA}
 library(BMA)
@@ -309,27 +309,34 @@ sumExpMeans <- sumSims(1/simMeans)
 These numbers are added to Figure \@ref(fig:ploty) to produce Figure \@ref(fig:plotfut).  
 
 ```{r plotfut, fig.cap = "Estimated mean time between first tests, past and future"}
-xlim. <- range(sumExpMeans$Year)
-ylim. <- range(nuclearWeaponStates$yearsSinceLastFirstTest, 
-    head(sumExpMeans[-1], 1), tail(sumExpMeans[-1], 1), 
-    na.rm=TRUE)
+plotNucStatesPred <- function(x=sumExpMeans, ...){
+##
+## plotNucStates with future predictions 
+##  
+  xlim. <- range(x$Year)
+  ylim. <- range(nuclearWeaponStates$yearsSinceLastFirstTest, 
+      head(x[-1], 1), tail(x[-1], 1), na.rm=TRUE)
 
-plotNucStates(xlim.=xlim., ylim.=ylim., log.='y')
+  plotNucStates(xlim.=xlim., ylim.=ylim., log.='y')
 
-with(sumExpMeans, lines(Year, mean))
-with(sumExpMeans, lines(Year, median, lty='dashed', col='blue'))
-with(sumExpMeans, lines(Year, U10, lty='dotted', col='red'))
-with(sumExpMeans, lines(Year, L10, lty='dotted', col='red'))
-legend('topleft', c('80% confidence interval for the mean', 
+  with(x, lines(Year, mean))
+  with(x, lines(Year, median, lty='dashed', col='blue'))
+  with(x, lines(Year, U10, lty='dotted', col='red'))
+  with(x, lines(Year, L10, lty='dotted', col='red'))
+  legend('topleft', c('80% confidence interval for the mean', 
           'mean', 'median'),
-   col=c('red', 'black', 'blue'), 
-   lty=c('dotted', 'solid', 'dashed'), bty='n')
-abline(h=200, lty='dotted', col='grey')
+      col=c('red', 'black', 'blue'), 
+      lty=c('dotted', 'solid', 'dashed'), bty='n')
+  abline(h=200, lty='dotted', col='grey')
+}
+plotNucStatesPred()
 ```
 
 The fairly flat shape of the median and lower 10 percents lines seem consistent with a model that is `r 100*round(fitProlif$postprob[1], 2)` percent constant and `r 100*round(fitProlif$postprob[2], 2)` percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states.  
 
-However, those are simulated lognormal distributions, which means that its reciprocal will also be lognormal with the same standard deviation on the log scale.  This standard deviation is larger the farther we extrapolate into the future.  That increasing standard deviation explains how the averate or mean line in Figure \@ref(fig:plotfut) can exceed the upper 10 percent line.  It also means that the shape of the reciprocal extrapolation in log(Poisson mean) number of first tests of new nuclear-weapon states each year can be similar, but negatively skewed rather than positively skewed as in Figure \@ref(fig:plotfut).   
+However, those are simulated lognormal distributions, which means that its reciprocal will also be lognormal with the same standard deviation on the log scale.  This standard deviation is larger the farther we extrapolate into the future.  That increasing standard deviation explains how the average or mean line in Figure \@ref(fig:plotfut) can eventually exceed the upper 10 percent line.  
+
+It also means that an extrapolation of the reciprocal [i.e., the Poisson mean number of first tests of new nuclear-weapon states each year] can be similar, but negatively skewed rather than positively skewed as in Figure \@ref(fig:plotfut).   
 
 A more interesting and useful view of this is to plot the evolution of the number of nuclear-weapon states through the historical period followed by the forecasts per these simulations.  To compute this we first [cumsum](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cumsum) `simMeanNucStByYr`, the simulated mean number of new nuclear-weapon states for future years.  (In doing this, we assume a zero probability of a nuclear power giving up their nuclear weapons, as [South Africa did prior to its first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).)  
 
@@ -374,8 +381,10 @@ plotNNucStates <- function(xpast=nuclearWeaponStates,
   with(xfuture, lines(Year, L10, lty='dotted', col='red'))
   ncols <- 3
   if(nColsFut>5){
-    with(xfuture, lines(Year, predU10, lty='dotted', col='green'))
-    with(xfuture, lines(Year, predL10, lty='dotted', col='green'))
+    with(xfuture, lines(Year, predU10, lty='dashed', 
+              col='green', lwd=2))
+    with(xfuture, lines(Year, predL10, lty='dashed', 
+              col='green', lwd=2))
     ncols <- 4
   }
 ##
@@ -385,9 +394,10 @@ plotNNucStates <- function(xpast=nuclearWeaponStates,
            'predictions')
   col. <- c('red', 'black', 'blue', 'green')
   lty. <- c('dotted', 'solid', 'dashed', 'dashed')
+  lwd. <- c(rep(1, 3), 2)
     
   legend('topleft', leg[1:ncols], col=col.[1:ncols], 
-         lty=lty.[1:ncols], bty='n')
+         lty=lty.[1:ncols], lwd=lwd., bty='n')
 }
 plotNNucStates()
 ```  
@@ -462,110 +472,61 @@ plotProbs <- function(x=cumPred,
 plotProbs()
 ```
 
-The image in Figure \@ref(fig:prolif) seems too pessimistic to be credible if we believe that nuclear proliferation has slowed.  This is suggested by all the above figures, but was not statistically significant in the `glm` model `PoissonFit` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.  
+The image in Figure \@ref(fig:prolif) seems too pessimistic to be credible if we believe that the rate of nuclear proliferation will continue to decline, as it has historically.  However, that decline was not statistically significant in the `glm` model `fitProlif1` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.  
 
-To get more optimistic estimates, we need to assume that nuclear proliferation has slowed more than is supported by the model fitting above. One approach might be to pretend that the model `PoissonFit` above has 100 percent posterior probability rather than the mere `r round(fitProlif$postprob[2], 2)*100` computed with `fitProlif`.  As before, we start with simulations.  
+One way to get more optimistic estimates is to pretend that the model `fitProlif1` above has 100 percent posterior probability rather than the mere `r round(fitProlif$postprob[2], 2)*100` computed with `fitProlif`.  
+
+# Predictions per the linear-only model 
+
+We want analogues to Figures \@ref(fig:plotfut), \@ref(fig:plotPred), and \@ref(fig:prolif), as summarized in the following table.    
+
+```{r TableOfFigs, fig.cap = "Predictions per Bayesian Model Averaging and linear-only models"}
+tabOfFigs <- data.frame('function'=
+      c('', 'plotNucStatesPred', 'plotNNucStates', 
+        'plotProbs'), 
+    BMA=c('Figure (data)', '4 (sumExpMeans)', 
+          '6 (cumC.PI)', '7 (cumPred)'), 
+    glm=c('Figure (data)', '8 (sumExpMeans1)', 
+          '9 (cumC.PI1)', '10 (cumPred1)'))
+rownames(tabOfFigs) <- c('', 
+   'Estimated mean time between first tests', 
+   'Number of nuclear-weapon states', 
+   paste("dist'n of time to", 
+         'more nuc-weapon states') )
+knitr::kable(tabOfFigs)
+```
+
+As before, we start with simulations.  
 
 ```{r PoissonLin}
-simulate.glm <- function(object, nsim = 1, 
-        seed = NULL, newdata=NULL, 
-        type = c("link", "response"), ...){
-##
-##  simulate method for glm objects 
-##  return type='response', as used above for bic.glm 
-##
-##  
-## 1.  seed?
-##  
-# copy code from stats:::simulate.lm  
-  if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) 
-    runif(1)
-  if (is.null(seed)) 
-    RNGstate <- get(".Random.seed", envir = .GlobalEnv)
-  else {
-    R.seed <- get(".Random.seed", envir = .GlobalEnv)
-    set.seed(seed)
-    RNGstate <- structure(seed, kind = as.list(RNGkind()))
-    on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
-  }
-##
-## 2.  newdata?
-##
-  if(is.null(newdata))stop('newdata required.')
-  newMat <- model.matrix(~., newdata)
-##
-## 3.  simulate coefficients
-##  
-  coefLin <- coef(object)
-  covLin <- vcov(object)
-  simCoef <- mvtnorm::rmvnorm(nSims, coefLin, covLin)
-##
-## 4.  simLink 
-##
-  simLink <- tcrossprod(newMat, simCoef)
-##
-## 5.  linkinv
-##
-  cl <- as.list(object[['call']])
-  fam <- cl[['glm.family']]
-#  convert fam to the form required by glm.fit 
-  family <- get(as.character(fam), 
-      mode = "function", envir = parent.frame())
-  if (is.function(family)) 
-    family <- family()
-  if (is.null(family$family)) {
-    print(family)
-    stop("'family' not recognized")
-  }
-  
-## 
-## 6.  return type(s) desired 
-##
-  if(length(type)>1){
-    out <- list(link=data.frame(sims), 
-        response = data.frame(linkinv(sims)))
-  } else {
-    tp <- match.arg(type)
-    if(tp=="link"){
-      out <- data.frame(sims)
-    } else out <- data.frame(linkinv(sims))
-  }
-  attr(out, 'seed') <- RNGstate
-  out
-}
-simMeans1 <- simulate.glm(PoissonFit, nSims, seed=3, 
+simMeans1 <- simulate(fitProlif1, nSims, seed=3, 
     newdata=pastfut['timeSinceTrinity'], type='response')
-
-#(coefLin <- coef(PoissonFit))
-#(covLin <- vcov(PoissonFit))
-#str(simLin <- mvtnorm::rmvnorm(nSims, coefLin, covLin))
-#str(simMeanLin <- simLin[, 1] + 
-#      outer(simLin[, 2], pastfut$timeSinceTrinity))
 ```
 
 These numbers are added to Figure \@ref(fig:ploty) to produce Figure \@ref(fig:plotfut1), comparable to Figure \@ref(fig:plotfut), assuming the linear model had 100 percent of the posterior probability, not just `r round(fitProlif$postprob[2], 2)*100` percent.  
 
-```{r plotfut1, fig.cap = "Estimated mean time between first tests with log-linear model"}
-str(simMeanL1 <- apply(exp(-simMeanLin), 2, mean))
-str(simMeanQtl <- exp(-t(apply(simMeanLin, 2, quantile, 
-              probs=c(.1, .5, .9))) ))
+%```{r plotfut1, fig.cap = "Estimated mean time between first tests with log-linear model"}
 
-yli1 <- range(
-  nuclearWeaponStates$yearsSinceLastFirstTest, 
-  simMeanL1, simMeanQtl, na.rm=TRUE)
 
-op <- par(mar=c(5, 5, 4, 2)+0.1)
+#str(simMeanL1 <- apply(exp(-simMeanLin), 2, mean))
+#str(simMeanQtl <- exp(-t(apply(simMeanLin, 2, quantile, 
+#              probs=c(.1, .5, .9))) ))
 
-plotNucStates(xlim.=xlim., ylim.=yli1, 
-    line.=c(3, 2.5), log.='y')
+#yli1 <- range(
+#  nuclearWeaponStates$yearsSinceLastFirstTest, 
+#  simMeanL1, simMeanQtl, na.rm=TRUE)
+
+#op <- par(mar=c(5, 5, 4, 2)+0.1)
+
+#plotNucStates(xlim.=xlim., ylim.=yli1, 
+#    line.=c(3, 2.5), log.='y')
 
 #plot(xlim., yli1, type='n', xlab='', ylab='', las=1, 
 #     log='y', bty='n')
 #addCountries(line=c(3, 2.5))
 #mtext(paste(
-#'Note: The US is not on this plot,', 
-#        '\nbecause it had no predecessors.'), 1, 3)
-#mtext('years from the\nprevious "first test"', 2, 2.5)
+#'Note: The US is not on this plot,', because no preds
+#mtext('years from ... 
 #with(nuclearWeaponStates, 
 #  text(firstTest, yearsSinceLastFirstTest,
 #       ctry, xpd=TRUE))
@@ -584,7 +545,7 @@ This model intuitively seems more consistent with the data, though to find it pl
 
 Figure \@ref(fig:proli1) provides the same analysis of Figure \@ref(fig:prolif) for this simpler model with the log(Poisson mean) linear in time.  
 
-```{r proli1, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states for the glm model"}
+  %```{r proli1, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states for the glm model"}
 
 
 
