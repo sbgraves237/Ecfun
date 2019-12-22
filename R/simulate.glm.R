@@ -85,7 +85,7 @@ simulate.glm <- function(object, nsim = 1,
     }
   }
   attr(out, 'seed') <- RNGstate
-  cat('print(type)\n')
-  print(type)
+#  cat('print(type)\n')
+#  print(type)
   out
 }
