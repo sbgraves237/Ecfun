@@ -1,9 +1,12 @@
 ---
 title: "Time to next new nuclear-weapon state"
 author: "Spencer Graves"
-date: "2019-11-20"
+date: "2019-12-21"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
+#NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
+# does not work with 
+# output: html_document 
 bibliography: nuc-references.bib
 vignette: >
   %\VignetteIndexEntry{Time to next new nuclear-weapon state}
@@ -31,23 +34,60 @@ data(nuclearWeaponStates)
 ymax <- max(
   nuclearWeaponStates$yearsSinceLastFirstTest, 
             na.rm=TRUE)
-ylim. <- c(0, ymax)
-plot(yearsSinceLastFirstTest~firstTest, 
-     nuclearWeaponStates, type='h', 
-     xlab='', ylab='', las=1, 
-     ylim=ylim., bty='n')
-#title(
-#  'Figure 1. Time between\nnew nuclear nations')
-xlab. <- paste(c(
-  'Note: The US is not on this plot,',
-  'because it had no predecessors.'), 
+ylim0 <- c(0, ymax)
+
+plotNucStates <- function(type.='n', xlim., ylim., 
+    line.=3:2, cex.=1, mtext.=TRUE, log.='', ...){
+##
+## Write a function to create this desired plot
+## that is general enough to be customized 
+## to make other similar but different plots 
+## later.  
+## 
+## Obviously, during the process of writing 
+## this vignette, it requires revising this 
+## function later as the needs become clearer.  
+##  
+## The advantage of doing it this way, it that
+## it makes the code easier to read, because 
+## it's clearer it clearer what is the same and 
+## what is different between similar plots.  
+##
+#   Start with an internal function 
+#   to add the 2-letter country codes.     
+  addCountries <- function(line.=3:2, cex.=1, mtext.=TRUE){
+#  Add the country codes ("ctry") to a plot 
+#  showing the time between "first tests" 
+#  of nuclear-weapon states
+# ... to save copying code 
+#  and hopefully make the logic clearer
+    xlab. <- paste(c(
+        'Note: The US is not on this plot,',
+        'because it had no predecessors.'), 
                collapse='\n')
-mtext(xlab., 1, 3)
-mtext('years from the\nprevious "first test"',
-      2, 2)
-with(nuclearWeaponStates, 
-  text(firstTest, yearsSinceLastFirstTest,
-       ctry, xpd=TRUE))
+    if(mtext.){
+        mtext(xlab., 1, line.[1], cex=cex.)
+        mtext('years from the\nprevious "first test"',
+        2, line.[2], cex=cex.)
+    }
+    with(nuclearWeaponStates, 
+        text(firstTest, yearsSinceLastFirstTest,
+          ctry, xpd=TRUE, cex=cex.))
+  }
+#  xlim and ylim?
+  if(missing(xlim.))xlim. <- range(
+    nuclearWeaponStates$firstTest)
+  if(missing(ylim.))ylim. <- range(
+    nuclearWeaponStates$yearsSinceLastFirstTest[-1])
+#  
+  plot(yearsSinceLastFirstTest~firstTest, 
+       nuclearWeaponStates, type=type., 
+       xlab='', ylab='', las=1, 
+       xlim=xlim., ylim=ylim., log=log., bty='n', 
+       ...)
+  addCountries(line.=line., cex.=cex., mtext.=mtext.)
+}    
+plotNucStates(type.='h', ylim.=ylim0)
 ```
 
 However, it stretches credibility to suggest that nuclear proliferation has stopped.  There were only 5 nuclear-weapon states when the [Treaty on the Non-Proliferation of Nuclear Weapons (NPT, Non-proliferation treaty)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) entered into force in 1970.  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 29 January 2002, there were 8.  As this is written 2019-10-15, there are 9.  @Toon:2007 noted that in 2003 another 32 had sufficient fissile material to make nuclear weapons if they wished.  
@@ -104,24 +144,13 @@ However, Figure \@ref(fig:plot) suggests that the time between
 To understand the current data better, we redo Figure \@ref(fig:plot) with a log scale on the y axis in Figure \@ref(fig:ploty).   
 
 ```{r ploty, fig.cap = "Time between new nuclear-weapon states"}
-library(Ecdat)
-plot(yearsSinceLastFirstTest~firstTest, 
-     nuclearWeaponStates, type='n', 
-     xlab='', ylab='', las=1, log='y',
-     bty='n')
-#title(
-#'Figure 2. Time between\nnew nuclear-weapon states')
-mtext('Note: The US is not on this plot,\nbecause it had no predecessors.', 1, 3)
-mtext('years from the\nprevious "first test"', 2, 2)
-
-with(nuclearWeaponStates, 
-  text(firstTest, yearsSinceLastFirstTest,
-       ctry, xpd=TRUE))
+plotNucStates(log.='y')
 ```
 
 Figures \@ref(fig:plot) and \@ref(fig:ploty) seem consistent with the following:
 
-- Time between events might be exponentially distributed but with a hazard rate that varies over time.  [Recall that the [hazard rate](https://en.wikipedia.org/wiki/Survival_analysis#Hazard_function_and_cumulative_hazard_function) for the exponential distribution is constant: $h(t) = (-d/dt \log S(t)) = \lambda$, writing the exponential survival function as $S(t) = \exp(-\lambda t)$.]  This is consistent with the apparent increase in the time to the next "first test" by a new nuclear-weapon state.  However, the time between such "first tests" might _decrease_ in the future if more states began to perceive greater threats from other nations.  
+- Time between events might be exponentially distributed but with a hazard rate that varies over time.  [Recall that the [hazard rate](https://en.wikipedia.org/wiki/Survival_analysis#Hazard_function_and_cumulative_hazard_function) for the exponential distribution is constant: $h(t) = (-d/dt \log S(t)) = \lambda$, writing the exponential survival function as $S(t) = \exp(-\lambda t)$.]  This is consistent with the apparent increase in the time to the next "first test" by a new nuclear-weapon state.  
+- Even though nuclear proliferation has been slowing since 1950, it could _accelerate_ in the future if more states began to perceive greater threats from other nations.  
 - Log hazard that is either linear in the time since the first test of a nuclear weapon, code-named ["Trinity"](https://en.wikipedia.org/wiki/Trinity_(nuclear_test)), or behaves like a ["Wiener process" (also called a "Brownian motion")](https://en.wikipedia.org/wiki/Wiener_process), which means that the variance of the increments in log(hazard) between "first tests" is proportional to the elapsed time.  In this article, we model the trend as linear and leave consideration of a [Gaussian random walk](https://en.wikipedia.org/wiki/Random_walk) and similar stochastic formulations for future work.[^ranWalk]
 
 Because of the well-known duality between the [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) and the [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution), we can also model this as a series of the number of events each year, month, week, or day.  For present purposes, we will use a series of annual observation.  Changing to monthly, weekly or daily observations might give us slightly better answers while possibly increasing the compute time more than it's worth.  
@@ -216,30 +245,20 @@ fitProlif <- bic.glm(
 summary(fitProlif)
 ```
 
-It is standard in the BMA literature to assume an approximate uniform distribution over all models considered with a penalty for estimating each additional parameter to correct for the tendancy of the models to overfit the data.  With these standard assumptions, this comparison of these two models estimates a 21.4 percent posterior probability for model including `timeSinceTrinity`, leaving 78.6 percent probability for the model with constant Poisson mean.  Figure \@ref(fig:plotyf) adds these lines to Figure \@ref(fig:ploty).   
+It is standard in the BMA literature to assume an approximate uniform distribution over all models considered with a penalty for estimating each additional parameter to correct for the tendancy of the models to overfit the data.  With these standard assumptions, this comparison of these two models estimates a `r round(100*fitProlif$postprob[2], 1)` percent posterior probability for model including `timeSinceTrinity`, leaving `r round(100*fitProlif$postprob[2], 1)` percent probability for the model with constant Poisson mean.  Figure \@ref(fig:plotyf) adds these lines to Figure \@ref(fig:ploty).   
 
 ```{r plotyf, fig.cap = "BMA fit to time between new nuclear-weapon states"}
-plot(yearsSinceLastFirstTest~firstTestYr, 
-     nuclearWeaponStates, type='n', 
-     xlab='', ylab='', las=1, log='y',
-     bty='n')
-#title(
-#'Figure 2. Time between\nnew nuclear-weapon states')
-mtext('Note: The US is not on this plot,\nbecause it had no predecessors.', 
-      1, 3)
-mtext('years from the\nprevious "first test"', 2, 2)
-
-with(nuclearWeaponStates, 
-  text(firstTestYr, yearsSinceLastFirstTest,
-       ctry, xpd=TRUE))
+plotNucStates(log.='y')
 
 predProlif <- with(fitProlif, 
     outer(rep(1, nYrs+1), mle[, 1]) + 
     outer(0:nYrs, mle[, 2]))
 lgnd <- paste0(c('constant', 'linear'), 
     ' (', 100*round(fitProlif$postprob, 2), '%)')
-matlines(nuclearWeaponStates$firstTestYr[1] + 0:nYrs, 
-         exp(-predProlif), 
+firstTest_nYrs <- as.Date(paste0(
+  trunc(nuclearWeaponStates$firstTestYr[1])+0:nYrs, 
+  '-07-01') )
+matlines(firstTest_nYrs, exp(-predProlif), 
          lty=c('dashed', 'dotted'), 
          col=c('red', 'blue'))
 legend('topleft', lty=c('dashed', 'dotted'), 
@@ -261,45 +280,46 @@ timeSncT <- 1:(2*nYrs)
 pastfut <- tibble(Year=firstYear+timeSncT, 
                  timeSinceTrinity=timeSncT)
 library(Ecfun)
-simMeanNucStByYr <- simulate(fitProlif, nSims, seed=3, 
+simMeans <- simulate(fitProlif, nSims, seed=3, 
     newdata=pastfut['timeSinceTrinity'], type='response')
-str(simMeanNucStByYr)
+dim(simMeans)
 ```
 
 Let's invert these simulated Poisson means to get simulated exponential times, then summarize them in a format compatible with `nuclearWeaponStates`: 
 
 ```{r expSum}
-expMean <- apply(1/simMeanNucStByYr, 1, mean)
-
-expCI. <- (1/apply(simMeanNucStByYr, 1, quantile, 
-                  probs=c(.1, .5, .9)) )
-expCI <- cbind(estDate =as.Date(paste0(pastfut$Year, '-07-01')), 
-      expMean=expMean, data.frame(t(expCI.)) )
-# fix names, because the quantiles are reversed
-whichCI <- which(substring(names(expCI), 1, 1) == "X")
-names(expCI)[whichCI] <- c('U10', 'median', 'L10') 
+sumSims <- function(x, Year=pastfut$Year){
+##
+## return data.frame of Year with 
+## mean and (.1, .5, .9) quantiles
+## 
+  Yr <- as.Date(paste0(Year, '-07-01'))
+  xMean <- apply(x, 1, mean)
+  xCI <- apply(x, 1, quantile, 
+                  probs=c(.1, .5, .9))
+  xSum <- data.frame(Year=Yr, 
+        mean=xMean, data.frame(t(xCI)))
+# fix names
+  colnames(xSum)[3:5] <- c('L10', 'median', 'U10')
+  xSum
+}
+sumExpMeans <- sumSims(1/simMeans)
 ```
 
 These numbers are added to Figure \@ref(fig:ploty) to produce Figure \@ref(fig:plotfut).  
 
 ```{r plotfut, fig.cap = "Estimated mean time between first tests, past and future"}
-xlim <- range(expCI$estDate)
-ylim <- range(nuclearWeaponStates$yearsSinceLastFirstTest, 
-           expMean, expCI[c('U10', 'L10')], na.rm=TRUE)
+xlim. <- range(sumExpMeans$Year)
+ylim. <- range(nuclearWeaponStates$yearsSinceLastFirstTest, 
+    head(sumExpMeans[-1], 1), tail(sumExpMeans[-1], 1), 
+    na.rm=TRUE)
 
-plot(xlim, ylim, type='n', xlab='', ylab='', las=1, 
-     log='y', bty='n')
-mtext('Note: The US is not on this plot,\nbecause it had no predecessors.', 
-      1, 3)
-mtext('years from the\nprevious "first test"', 2, 2)
+plotNucStates(xlim.=xlim., ylim.=ylim., log.='y')
 
-with(nuclearWeaponStates, 
-  text(firstTest, yearsSinceLastFirstTest,
-       ctry, xpd=TRUE))
-with(expCI, lines(estDate, expMean))
-with(expCI, lines(estDate, median, lty='dashed', col='blue'))
-with(expCI, lines(estDate, U10, lty='dotted', col='red'))
-with(expCI, lines(estDate, L10, lty='dotted', col='red'))
+with(sumExpMeans, lines(Year, mean))
+with(sumExpMeans, lines(Year, median, lty='dashed', col='blue'))
+with(sumExpMeans, lines(Year, U10, lty='dotted', col='red'))
+with(sumExpMeans, lines(Year, L10, lty='dotted', col='red'))
 legend('topleft', c('80% confidence interval for the mean', 
           'mean', 'median'),
    col=c('red', 'black', 'blue'), 
@@ -307,48 +327,69 @@ legend('topleft', c('80% confidence interval for the mean',
 abline(h=200, lty='dotted', col='grey')
 ```
 
-The fairly flat shape of the median and lower 10% lines seem consistent with a model that is `{r 100*round(fitProlif$postprob[1], 2)} percent constant and `{r 100*round(fitProlif$postprob[2], 2)} percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states.  
+The fairly flat shape of the median and lower 10 percents lines seem consistent with a model that is `r 100*round(fitProlif$postprob[1], 2)` percent constant and `r 100*round(fitProlif$postprob[2], 2)` percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states.  
 
-However, those are simulated lognormal distributions, which means that its reciprocal may similarly have a large tail that would represent an increasing not decreasing rate of nuclear proliferation.    
+However, those are simulated lognormal distributions, which means that its reciprocal will also be lognormal with the same standard deviation on the log scale.  This standard deviation is larger the farther we extrapolate into the future.  That increasing standard deviation explains how the averate or mean line in Figure \@ref(fig:plotfut) can exceed the upper 10 percent line.  It also means that the shape of the reciprocal extrapolation in log(Poisson mean) number of first tests of new nuclear-weapon states each year can be similar, but negatively skewed rather than positively skewed as in Figure \@ref(fig:plotfut).   
 
-A more interesting and useful view of this is to plot the evolution of the number of nuclear-weapon states through the historical period followed by the forecasts per these simulations.  For this, we assume a zero probability of a nuclear power giving up their nuclear weapons, as [South Africa did prior to its first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid);  see Figure \@ref(fig:plotcum).  
+A more interesting and useful view of this is to plot the evolution of the number of nuclear-weapon states through the historical period followed by the forecasts per these simulations.  To compute this we first [cumsum](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cumsum) `simMeanNucStByYr`, the simulated mean number of new nuclear-weapon states for future years.  (In doing this, we assume a zero probability of a nuclear power giving up their nuclear weapons, as [South Africa did prior to its first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).)  
+
+```{r cumsum}
+str(cumMeans <- apply(simMeans[-(1:nYrs), ], 
+                              2, cumsum))
+quantile(cumMeans[nYrs,])
+(nNucStates <- nrow(nuclearWeaponStates))
+str(cumCI <- sumSims(
+    nNucStates+rbind(0, cumMeans), 
+    pastfut$Year[-(1:(nYrs-1))]))
+```
+
+These numbers are plotted in Figure \@ref(fig:plotcum).  
 
 ```{r plotcum, fig.cap = "Number of nuclear-weapon states, past and predicted mean"}
-str(cumMeanNucStByYr <- apply(simMeanNucStByYr[-(1:nYrs), ], 2, cumsum))
-# sims are now columns rather than rows
-
-nNucStates <- nrow(nuclearWeaponStates)
-str(cumMean <- (nNucStates + 
-    apply(cumMeanNucStByYr, 1, mean)))
-
-str(cumqtle <- (nNucStates +
-    apply(cumMeanNucStByYr, 1, quantile, 
-                  probs=c(.1, .5, .9)) ))
-
-str(cumCI <- cbind(estDate = as.Date(paste0(
-        pastfut$Year[nYrs:(2*nYrs)], '-07-01')), 
-    cumMean=c(nNucStates, cumMean), 
-    data.frame(t(cbind(nNucStates, cumqtle)) ) ))
-# fix names, because the quantiles are reversed
-wchCI <- which(substring(names(cumCI), 1, 1) == "X")
-names(cumCI)[wchCI] <- c('L10', 'median', 'U10') 
-
-ylic <- c(0, tail(cumCI$U10, 1))
-
-plot(xlim, ylic, type='n', xlab='', ylab='', las=1, 
+plotNNucStates <- function(xpast=nuclearWeaponStates, 
+        xfuture=cumCI, ...){       
+##
+## plot stairsteps for xpast and lines for xfuture
+## with either 5 or 7 columns in xfuture  
+##
+  xlim. <- c(xpast$firstTest[1], tail(xfuture$Year, 1))
+  nColsFut <- length(xfuture)
+  ylim. <- c(0, tail(xfuture[[nColsFut]], 1))
+  
+  plot(xlim., ylim., type='n', xlab='', ylab='', las=1, 
      bty='n')
-fT_date <- c(nuclearWeaponStates$firstTest[1], 
-  nuclearWeaponStates$firstTest, Today)
-lines(fT_date, 
-    c(0:nNucStates, nNucStates), type='s')
-
-with(cumCI, lines(estDate, cumMean))
-with(cumCI, lines(estDate, median, lty='dashed', col='blue'))
-with(cumCI, lines(estDate, U10, lty='dotted', col='red'))
-with(cumCI, lines(estDate, L10, lty='dotted', col='red'))
-legend('topleft', c('80% confidence level for the mean', 
-    'mean', 'median'), col=c('red', 'black', 'blue'), 
-    lty=c('dotted', 'solid', 'dashed'), bty='n')
+##
+## 1.  plot xpast
+##  
+  fT_date <- c(xpast$firstTest[1], 
+      xpast$firstTest, Today)
+  lines(fT_date, 
+      c(0:nNucStates, nNucStates), type='s')
+##
+## 2.  plot xfuture 
+##
+  with(xfuture, lines(Year, mean))
+  with(xfuture, lines(Year, median, lty='dashed', col='blue'))
+  with(xfuture, lines(Year, U10, lty='dotted', col='red'))
+  with(xfuture, lines(Year, L10, lty='dotted', col='red'))
+  ncols <- 3
+  if(nColsFut>5){
+    with(xfuture, lines(Year, predU10, lty='dotted', col='green'))
+    with(xfuture, lines(Year, predL10, lty='dotted', col='green'))
+    ncols <- 4
+  }
+##
+## 3.  legend
+##  
+  leg <- c('80% confidence level for the mean', 'mean', 'median', 
+           'predictions')
+  col. <- c('red', 'black', 'blue', 'green')
+  lty. <- c('dotted', 'solid', 'dashed', 'dashed')
+    
+  legend('topleft', leg[1:ncols], col=col.[1:ncols], 
+         lty=lty.[1:ncols], bty='n')
+}
+plotNNucStates()
 ```  
   
 The slopes of the mean and median lines are steeper than the recent history, but the statistical evidence does not support the naive interpretation of a slowing in nuclear proliferation that one might get from considering only the most recent data.  
@@ -360,112 +401,146 @@ Let's add prediction intervals to this plot.
 The simplest bounds on the future are [prediction intervals](https://en.wikipedia.org/wiki/Prediction_interval), which combine the statistical uncertainty in the models with the random variability in the outcomes.  For this we use `rpois(., simMeanNucStByYr)`:
 
 ```{r simNew}
-simNewNucStbyYr <- matrix(rpois(nSims*nYrs,
-      as.matrix(simMeanNucStByYr[-(1:nYrs), ])), 
-  nSims) 
-str(simCumNewNucSt <- apply(simNewNucStbyYr, 1, cumsum))
-# sims are now columns rather than rows 
-quantile(simCumNewNucSt)
+set.seed(9)
+simPred <- data.frame(lapply(
+    simMeans[-(1:nYrs),], rpois, n=nYrs))
+cumPred <- data.frame(lapply(
+    simPred, cumsum))
 
-str(cumStQtl. <- apply(simCumNewNucSt, 1, 
-        quantile, probs=c(.1, .9)) )
-cumStQtl.[, 1:5]
-    
-cumStQtl <- ts(rbind(nNucStates, 
-    nNucStates + t(cumStQtl.)), currentYear)
+str(cumPI <- sumSims(  
+    nNucStates+rbind(0, cumPred),
+    pastfut$Year[-(1:(nYrs-1))]))
+names(cumPI)[c(3, 5)] <- paste0(
+          'pred', c('L', 'U'), 10)
+cumC.PI <- cbind(cumCI, cumPI[c(3, 5)])
 ```
 
 We add this to the image in Figure \@ref(fig:plotcum) to create Figure \@ref(fig:plotPred).    
 
 ```{r plotPred, fig.cap = "Number of nuclear-weapon states, past and predicted"}
-ylip <- c(0, tail(cumStQtl[, 2], 1))
-
-plot(xlim, ylip, type='n', xlab='', ylab='', las=1, 
-     bty='n')
-
-lines(fT_date, 
-    c(0:nNucStates, nNucStates), type='s')
-
-with(cumCI, lines(estDate, cumMean))
-with(cumCI, lines(estDate, median, lty='dashed', col='blue'))
-with(cumCI, lines(estDate, U10, lty='dotted', col='red'))
-with(cumCI, lines(estDate, L10, lty='dotted', col='red'))
-matlines(cumCI$estDate, cumStQtl, lty='dashed', col='green')
-legend('topleft', c('80% prediction interval for the future', 
-        '80% confidence interval for the mean', 
-        'mean', 'median'),
-  col=c('green', 'red', 'black', 'blue'), 
-  lty=c('dashed', 'dotted', 'solid', 'dashed'), 
-  bty='n')
+plotNNucStates(xfuture=cumC.PI)       
 ```  
 
 We also plot the probability of further nuclear proliferation by summarizing `simCumNewNucSt` in Figure \@ref(fig:prolif).    
 
 ```{r prolif, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states"}
-maxNewNucSt <- 5
-probs <- function(x, n=maxNewNucSt){
+plotProbs <- function(x=cumPred, 
+    adj.=matrix(c(.53, -.4, .55, 1.15), 2, byrow=TRUE), 
+    ...){ 
+##
+## Probability distribution of the next 1:5 
+## new nuclear-weapon states 
+##
+## from x = cumPred, a data.frame
+##  
+  maxNewNucSt <- 5
+  probs <- function(x, n=maxNewNucSt){
     p <- colMeans(outer(x, 0:(n-1), '>'))
     p
-}
-str(probProlif. <- apply(simCumNewNucSt, 1, probs))
-probProlif.[, 1:5]
-str(probProlif <- ts(t(probProlif.), 
-                     currentYear+1))
+  }
+  probProlif. <- apply(as.matrix(x), 1, probs)
+  probProlif <- ts(t(probProlif.), 
+                     currentYear+1)
 
-#mainProlif <- paste('Probability distribution of the time', 
-#            '\nto the next 1:5 new nuclear-weapon states')
-matplot(time(probProlif), probProlif, 
-        type='l', xlab='', las=1, ylab='', ylim=0:1)
-#,    main=mainProlif)
-for(i in 1:maxNewNucSt){
-  it <- min(which(probProlif[,i]>=0.5))
-  cat(time(probProlif)[it], '')
-  text(time(probProlif)[it], 0.5, 
+  matplot(time(probProlif), probProlif, 
+        type='l', xlab='', las=1, ylab='', ylim=0:1, 
+        ...)
+  for(i in 1:maxNewNucSt){
+    it <- min(which(probProlif[,i]>=0.5))
+#    cat(time(probProlif)[it], '')
+    text(time(probProlif)[it], 0.5, 
        paste0(time(probProlif)[it], '\n', i))
-}
-abline(h=.5, lty='dotted')
+  }
+  abline(h=.5, lty='dotted')
 
-text(time(probProlif)[it]+16, 0.5, 
-    'median year for', adj=c(.5, -.4))
-text(time(probProlif)[it]+13, 0.5, 
-    'more nuclear-\nweapon states', 
-           adj=c(.5, 1.15))
+  text(time(probProlif)[it]+16, 0.5, 
+      'median year for', adj=adj.[1,])
+  text(time(probProlif)[it]+13, 0.5, 
+      'more nuclear-\nweapon states', 
+           adj=adj.[2,])
+}
+plotProbs()
 ```
 
-The image in Figure \@ref(fig:prolif) seems too pessimistic to be credible if we believe that nuclear proliferation has slowed.  This is suggested by all the above figures, but was not statistically significant in the `glm` model `PoissonFit` above.  
+The image in Figure \@ref(fig:prolif) seems too pessimistic to be credible if we believe that nuclear proliferation has slowed.  This is suggested by all the above figures, but was not statistically significant in the `glm` model `PoissonFit` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.  
 
 To get more optimistic estimates, we need to assume that nuclear proliferation has slowed more than is supported by the model fitting above. One approach might be to pretend that the model `PoissonFit` above has 100 percent posterior probability rather than the mere `r round(fitProlif$postprob[2], 2)*100` computed with `fitProlif`.  As before, we start with simulations.  
 
 ```{r PoissonLin}
-simulate.glm <- function(object, nsim=1, seed=NULL, ...){
+simulate.glm <- function(object, nsim = 1, 
+        seed = NULL, newdata=NULL, 
+        type = c("link", "response"), ...){
 ##
 ##  simulate method for glm objects 
 ##  return type='response', as used above for bic.glm 
 ##
-  
+##  
+## 1.  seed?
+##  
+# copy code from stats:::simulate.lm  
+  if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) 
+    runif(1)
+  if (is.null(seed)) 
+    RNGstate <- get(".Random.seed", envir = .GlobalEnv)
+  else {
+    R.seed <- get(".Random.seed", envir = .GlobalEnv)
+    set.seed(seed)
+    RNGstate <- structure(seed, kind = as.list(RNGkind()))
+    on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
+  }
+##
+## 2.  newdata?
+##
+  if(is.null(newdata))stop('newdata required.')
+  newMat <- model.matrix(~., newdata)
+##
+## 3.  simulate coefficients
+##  
   coefLin <- coef(object)
   covLin <- vcov(object)
-  simLin <- mvtnorm::rmvnorm(nSims, coefLin, covLin)
+  simCoef <- mvtnorm::rmvnorm(nSims, coefLin, covLin)
+##
+## 4.  simLink 
+##
+  simLink <- tcrossprod(newMat, simCoef)
+##
+## 5.  linkinv
+##
+  cl <- as.list(object[['call']])
+  fam <- cl[['glm.family']]
+#  convert fam to the form required by glm.fit 
+  family <- get(as.character(fam), 
+      mode = "function", envir = parent.frame())
+  if (is.function(family)) 
+    family <- family()
+  if (is.null(family$family)) {
+    print(family)
+    stop("'family' not recognized")
+  }
   
-str(simMeanLin <- simLin[, 1] + 
-      outer(simLin[, 2], pastfut$timeSinceTrinity))
-  
-  #simMeanNucStByYr <- simulate(PoissonFit, nSims, seed=3, 
-#    newdata=pastfut['timeSinceTrinity'], type='response')
-#   
-  
+## 
+## 6.  return type(s) desired 
+##
+  if(length(type)>1){
+    out <- list(link=data.frame(sims), 
+        response = data.frame(linkinv(sims)))
+  } else {
+    tp <- match.arg(type)
+    if(tp=="link"){
+      out <- data.frame(sims)
+    } else out <- data.frame(linkinv(sims))
+  }
+  attr(out, 'seed') <- RNGstate
+  out
 }
-  
-tst <- simMeanNucStByYr <- simulate(PoissonFit, nSims, seed=3)
-                      
-#    newdata=pastfut['timeSinceTrinity'], type='response')
+simMeans1 <- simulate.glm(PoissonFit, nSims, seed=3, 
+    newdata=pastfut['timeSinceTrinity'], type='response')
 
-
-(coefLin <- coef(PoissonFit))
-(covLin <- vcov(PoissonFit))
-str(simLin <- mvtnorm::rmvnorm(nSims, coefLin, covLin))
-str(simMeanLin <- simLin[, 1] + 
-      outer(simLin[, 2], pastfut$timeSinceTrinity))
+#(coefLin <- coef(PoissonFit))
+#(covLin <- vcov(PoissonFit))
+#str(simLin <- mvtnorm::rmvnorm(nSims, coefLin, covLin))
+#str(simMeanLin <- simLin[, 1] + 
+#      outer(simLin[, 2], pastfut$timeSinceTrinity))
 ```
 
 These numbers are added to Figure \@ref(fig:ploty) to produce Figure \@ref(fig:plotfut1), comparable to Figure \@ref(fig:plotfut), assuming the linear model had 100 percent of the posterior probability, not just `r round(fitProlif$postprob[2], 2)*100` percent.  
@@ -480,15 +555,20 @@ yli1 <- range(
   simMeanL1, simMeanQtl, na.rm=TRUE)
 
 op <- par(mar=c(5, 5, 4, 2)+0.1)
-plot(xlim, yli1, type='n', xlab='', ylab='', las=1, 
-     log='y', bty='n')
-mtext(paste('Note: The US is not on this plot,', 
-        '\nbecause it had no predecessors.'), 1, 3)
-mtext('years from the\nprevious "first test"', 2, 2.5)
 
-with(nuclearWeaponStates, 
-  text(firstTest, yearsSinceLastFirstTest,
-       ctry, xpd=TRUE))
+plotNucStates(xlim.=xlim., ylim.=yli1, 
+    line.=c(3, 2.5), log.='y')
+
+#plot(xlim., yli1, type='n', xlab='', ylab='', las=1, 
+#     log='y', bty='n')
+#addCountries(line=c(3, 2.5))
+#mtext(paste(
+#'Note: The US is not on this plot,', 
+#        '\nbecause it had no predecessors.'), 1, 3)
+#mtext('years from the\nprevious "first test"', 2, 2.5)
+#with(nuclearWeaponStates, 
+#  text(firstTest, yearsSinceLastFirstTest,
+#       ctry, xpd=TRUE))
 lines(expCI$estDate, simMeanL1)
 lines(expCI$estDate, simMeanQtl[, 2], lty='dashed', col='blue')
 matlines(expCI$estDate, simMeanQtl[, c(1, 3)], lty='dotted', col='red')
@@ -1005,15 +1085,16 @@ if(FALSE){
   axis(2, cex.axis=4, las=1, lwd=2)
   title('Time between new nuclear nations', 
       cex.main=4)
-  mtext(paste0(
-    'Note: The US is not on this plot,', 
-    '\nbecause it had no predecessors.'), 
-        1, 12, cex=4)
-  mtext('years from the\nprevious "first test"',
-      2, 5, cex=4)
-  with(nuclearWeaponStates, 
-    text(firstTest, yearsSinceLastFirstTest,
-       ctry, xpd=TRUE, cex=4))
+addCountries(line=c(12, 2), cex.=4)
+#mtext(paste0(
+#'Note: The US is not on this plot,', 
+#'\nbecause it had no predecessors.'), 
+#1, 12, cex=4)
+#mtext('years from the\nprevious "first test"',
+#      2, 5, cex=4)
+#  with(nuclearWeaponStates, 
+#    text(firstTest, yearsSinceLastFirstTest,
+#       ctry, xpd=TRUE, cex=4))
   dev.off()
 }
 ```
@@ -1039,16 +1120,18 @@ if(FALSE){
   if(Label.)title(
     'Time between new nuclear nations',
                   cex.main=2)
-  noUS <- paste0(
-    'Note: The US is not on this plot,', 
-    '\nbecause it had no predecessors.')
-  if(Label.)mtext(noUS, 1, 6, cex=cex.)
-  ylab. <- paste(
-    'years from the\nprevious "first test"')
-  if(Label.)mtext(ylab., 2, 4, cex=cex.)
-  with(nuclearWeaponStates, 
-    text(firstTest, yearsSinceLastFirstTest,
-       ctry, xpd=TRUE, cex=cex.))
+  if(Label.)addCountries(line=c(6, 4), cex=cex., 
+        mtext.=Label.)  
+#  noUS <- paste0(
+#    'Note: The US is not on this plot,', 
+#    '\nbecause it had no predecessors.')
+#  if(Label.)mtext(noUS, 1, 6, cex=cex.)
+#  ylab. <- paste(
+#    'years from the\nprevious "first test"')
+#  if(Label.)mtext(ylab., 2, 4, cex=cex.)
+#  with(nuclearWeaponStates, 
+#    text(firstTest, yearsSinceLastFirstTest,
+#       ctry, xpd=TRUE, cex=cex.))
   dev.off()
 }
 ```
@@ -1056,9 +1139,9 @@ if(FALSE){
 Plot to png, killing the labeling for Wikimedia Commons
 
 ````{r png2}
-ymax <- max(nuclearWeaponStates$yearsSinceLastFirstTest, 
-            na.rm=TRUE)
-ylim. <- c(0, ymax)
+#ymax <- max(nuclearWeaponStates$yearsSinceLastFirstTest, 
+#            na.rm=TRUE)
+#ylim. <- c(0, ymax)
 
 png. <- FALSE
 cex.ax=1 
@@ -1071,38 +1154,42 @@ if(png.){
   } else par(mar=c(5, 5, 2, 2)+.1)
     cex.ax=4
 }
-plot(yearsSinceLastFirstTest~firstTest, 
-     nuclearWeaponStates, type='h', 
-     xlab='', ylab='', las=1, cex.axis=cex.ax, 
-     bty='n', axes=FALSE, lwd=2, ylim=ylim.)
-if(lbl){
+plotNucStates(type='h', ylim.=ylim0, 
+    line.=3:2, cex.=cex.ax, mtext.=lbl, log.='', 
+    axes=FALSE)
+    
+#plot(yearsSinceLastFirstTest~firstTest, 
+#     nuclearWeaponStates, type='h', 
+#     xlab='', ylab='', las=1, cex.axis=cex.ax, 
+#     bty='n', axes=FALSE, lwd=2, ylim=ylim.)
+#if(lbl){
 #  title('Figure 1. Time between\nnew nuclear nations', 
 #    cex.main=cex.ax)
-  xlab. <- paste(c('Note: The US is not on this plot,',
-                   'because it had no predecessors.'), 
-                 collapse='\n')
-  mtext(xlab., 1, 11, cex=cex.ax)
-  mtext('years from the\nprevious "first test"',
-        2, 6, cex=cex.ax)
-}
+#addCountries(line=c(11, 6), cex=cex.ax)
+#  xlab. <- paste(c('Note: The US is not on this plot,',
+#                   'because it had no predecessors.'), 
+#                 collapse='\n')
+#  mtext(xlab., 1, 11, cex=cex.ax)
+#  mtext('years from the\nprevious "first test"',
+#        2, 6, cex=cex.ax)
+#}
 xyr <- seq(1950, 2000, 10)
 xt. <- paste0(xyr, '-01-01')
 xticks <- as.Date(xt.)
 axis(1, xticks, labels=FALSE, lwd=2)
-axis(1, xticks, xyr, cex.axis=cex.ax, lwd=0, line=2)
+axis(1, xticks, xyr, cex.axis=cex.ax, lwd=0, line=0)
 #axis(1, seq(1950, 2000, by=10), cex.axis=4, lwd=0, line=1)
 axis(2, cex.axis=cex.ax, las=1, lwd=2)
 #  title('Time between new nuclear nations', cex.main=4)
-xlab. <- paste0('Note: The US is not on this plot,', 
-    '\nbecause it had no predecessors.')
+#xlab. <- paste0('Note: The US is not on this plot,', 
+#    '\nbecause it had no predecessors.')
 #  mtext(xlab., 1, 12, cex=4)
-ylab. <- paste0('Note: The US is not on this plot,', 
-    '\nbecause it had no predecessors.')
+#ylab. <- paste0('Note: The US is not on this plot,', 
+#    '\nbecause it had no predecessors.')
 #  mtext(ylab., 1, 12, cex=4)
-  
-with(nuclearWeaponStates, 
-    text(firstTest, yearsSinceLastFirstTest,
-       ctry, xpd=TRUE, cex=cex.ax))
+#  with(nuclearWeaponStates, 
+#    text(firstTest, yearsSinceLastFirstTest,
+#       ctry, xpd=TRUE, cex=cex.ax))
 if(png.) dev.off()
 
 ```
