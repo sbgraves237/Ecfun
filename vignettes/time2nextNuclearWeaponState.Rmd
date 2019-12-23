@@ -37,7 +37,8 @@ ymax <- max(
 ylim0 <- c(0, ymax)
 
 plotNucStates <- function(type.='n', xlim., ylim., 
-    line.=3:2, cex.=1, mtext.=TRUE, log.='', ...){
+    line_mtext=3:2, cex.=1, mtext.=TRUE, log.='', 
+    ...){
 ##
 ## Write a function to create this desired plot
 ## that is general enough to be customized 
@@ -55,7 +56,8 @@ plotNucStates <- function(type.='n', xlim., ylim.,
 ##
 #   Start with an internal function 
 #   to add the 2-letter country codes.     
-  addCountries <- function(line.=3:2, cex.=1, mtext.=TRUE){
+  addCountries <- function(line_mtext=3:2, cex.=1, 
+                           mtext.=TRUE){
 #  Add the country codes ("ctry") to a plot 
 #  showing the time between "first tests" 
 #  of nuclear-weapon states
@@ -66,9 +68,9 @@ plotNucStates <- function(type.='n', xlim., ylim.,
         'because it had no predecessors.'), 
                collapse='\n')
     if(mtext.){
-        mtext(xlab., 1, line.[1], cex=cex.)
+        mtext(xlab., 1, line_mtext[1], cex=cex.)
         mtext('years from the\nprevious "first test"',
-        2, line.[2], cex=cex.)
+          2, line_mtext[2], cex=cex.)
     }
     with(nuclearWeaponStates, 
         text(firstTest, yearsSinceLastFirstTest,
@@ -85,7 +87,8 @@ plotNucStates <- function(type.='n', xlim., ylim.,
        xlab='', ylab='', las=1, 
        xlim=xlim., ylim=ylim., log=log., bty='n', 
        ...)
-  addCountries(line.=line., cex.=cex., mtext.=mtext.)
+  addCountries(line_mtext=line_mtext, cex.=cex., 
+               mtext.=mtext.)
 }    
 plotNucStates(type.='h', ylim.=ylim0)
 ```
@@ -317,7 +320,7 @@ plotNucStatesPred <- function(x=sumExpMeans, ...){
   ylim. <- range(nuclearWeaponStates$yearsSinceLastFirstTest, 
       head(x[-1], 1), tail(x[-1], 1), na.rm=TRUE)
 
-  plotNucStates(xlim.=xlim., ylim.=ylim., log.='y')
+  plotNucStates(xlim.=xlim., ylim.=ylim., log.='y', ...)
 
   with(x, lines(Year, mean))
   with(x, lines(Year, median, lty='dashed', col='blue'))
@@ -412,17 +415,29 @@ The simplest bounds on the future are [prediction intervals](https://en.wikipedi
 
 ```{r simNew}
 set.seed(9)
-simPred <- data.frame(lapply(
-    simMeans[-(1:nYrs),], rpois, n=nYrs))
-cumPred <- data.frame(lapply(
-    simPred, cumsum))
+cumsumPred <- function(x=simMeans, ...){
+##
+## cumsum of rpois predictions 
+##  
+  simPred <- data.frame(lapply(
+      x[-(1:nYrs),], rpois, n=nYrs))
+  cumPred <- data.frame(lapply(
+      simPred, cumsum))
+  cumPred
+}
+cumPred <- cumsumPred()
 
-str(cumPI <- sumSims(  
-    nNucStates+rbind(0, cumPred),
-    pastfut$Year[-(1:(nYrs-1))]))
-names(cumPI)[c(3, 5)] <- paste0(
+cumsumC.PI <- function(cumP=cumPred, 
+            cumsumCI=cumCI, ...){
+  cumPI <- sumSims(  
+      nNucStates+rbind(0, cumP),
+      pastfut$Year[-(1:(nYrs-1))])
+  names(cumPI)[c(3, 5)] <- paste0(
           'pred', c('L', 'U'), 10)
-cumC.PI <- cbind(cumCI, cumPI[c(3, 5)])
+  cumC.PI <- cbind(cumsumCI, cumPI[c(3, 5)])
+  cumC.PI
+}
+cumC.PI <- cumsumC.PI()
 ```
 
 We add this to the image in Figure \@ref(fig:plotcum) to create Figure \@ref(fig:plotPred).    
@@ -434,9 +449,8 @@ plotNNucStates(xfuture=cumC.PI)
 We also plot the probability of further nuclear proliferation by summarizing `simCumNewNucSt` in Figure \@ref(fig:prolif).    
 
 ```{r prolif, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states"}
-plotProbs <- function(x=cumPred, 
-    adj.=matrix(c(.53, -.4, .55, 1.15), 2, byrow=TRUE), 
-    ...){ 
+plotProbs <- function(x=cumPred, ...){ 
+# adj.=matrix(c(.53, -.4, .55, 1.15), 2, byrow=TRUE), ...){ 
 ##
 ## Probability distribution of the next 1:5 
 ## new nuclear-weapon states 
@@ -451,30 +465,41 @@ plotProbs <- function(x=cumPred,
   probProlif. <- apply(as.matrix(x), 1, probs)
   probProlif <- ts(t(probProlif.), 
                      currentYear+1)
-
+  colnames(probProlif) <- 1:maxNewNucSt
+  ylims <- probProlif.[c(1, maxNewNucSt), c(1, nYrs)]
+  midLine <- round(mean(ylims[c(1, 4)]), 2)
   matplot(time(probProlif), probProlif, 
-        type='l', xlab='', las=1, ylab='', ylim=0:1, 
+        type='l', xlab='', las=1, ylab='', 
         ...)
+  abline(h=midLine, lty='dotted')
+  
+  midTime <- rep(NA, maxNewNucSt)
   for(i in 1:maxNewNucSt){
-    it <- min(which(probProlif[,i]>=0.5))
+    it <- min(which(probProlif[,i]>=midLine))
 #    cat(time(probProlif)[it], '')
-    text(time(probProlif)[it], 0.5, 
-       paste0(time(probProlif)[it], '\n', i))
+    midTime[i] <- time(probProlif)[it]
+    text(midTime[i], midLine, 
+       paste0(midTime[i], '\n', i))
   }
-  abline(h=.5, lty='dotted')
+  text(currentYear+0.95*nYrs, midLine, 
+       paste0('p =\n', midLine) )
 
-  text(time(probProlif)[it]+16, 0.5, 
-      'median year for', adj=adj.[1,])
-  text(time(probProlif)[it]+13, 0.5, 
-      'more nuclear-\nweapon states', 
-           adj=adj.[2,])
+#  text(time(probProlif)[it]+16, 0.5, 
+#      'median year for', adj=adj.[1,])
+#  text(time(probProlif)[it]+13, 0.5, 
+#      'more nuclear-\nweapon states', 
+#           adj=adj.[2,])
+  list(midLine=midLine, midTime=midTime, 
+       probProlif=probProlif)
 }
-plotProbs()
+probProlif <- plotProbs()
 ```
 
-The image in Figure \@ref(fig:prolif) seems too pessimistic to be credible if we believe that the rate of nuclear proliferation will continue to decline, as it has historically.  However, that decline was not statistically significant in the `glm` model `fitProlif1` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.  
+Figure \@ref(fig:prolif) says there is a `r round(100*max(probProlif$probProlif))` percent chance of another nuclear-weapon state by `r tail(time(probProlif$probProlif), 1)` with a `r 100*probProlif$midLine` percent chance of at least 1 by `r probProlif$midTime[1]`.  
 
-One way to get more optimistic estimates is to pretend that the model `fitProlif1` above has 100 percent posterior probability rather than the mere `r round(fitProlif$postprob[2], 2)*100` computed with `fitProlif`.  
+This image may seem too pessimistic to be credible if we believe that the rate of nuclear proliferation will continue to decline, as it has historically.  However, that decline was not statistically significant in the `glm` model `fitProlif1` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.  
+
+One way to get more optimistic estimates is to pretend that the model `fitProlif1` above has 100 percent posterior probability rather than the mere `r round(fitProlif$postprob[2], 2)*100` computed with `fitProlif`.  We next look at what that estimates for future nuclear proliferation.  
 
 # Predictions per the linear-only model 
 
@@ -505,84 +530,43 @@ simMeans1 <- simulate(fitProlif1, nSims, seed=3,
 
 These numbers are added to Figure \@ref(fig:ploty) to produce Figure \@ref(fig:plotfut1), comparable to Figure \@ref(fig:plotfut), assuming the linear model had 100 percent of the posterior probability, not just `r round(fitProlif$postprob[2], 2)*100` percent.  
 
-%```{r plotfut1, fig.cap = "Estimated mean time between first tests with log-linear model"}
-
-
-#str(simMeanL1 <- apply(exp(-simMeanLin), 2, mean))
-#str(simMeanQtl <- exp(-t(apply(simMeanLin, 2, quantile, 
-#              probs=c(.1, .5, .9))) ))
-
-#yli1 <- range(
-#  nuclearWeaponStates$yearsSinceLastFirstTest, 
-#  simMeanL1, simMeanQtl, na.rm=TRUE)
-
-#op <- par(mar=c(5, 5, 4, 2)+0.1)
-
-#plotNucStates(xlim.=xlim., ylim.=yli1, 
-#    line.=c(3, 2.5), log.='y')
-
-#plot(xlim., yli1, type='n', xlab='', ylab='', las=1, 
-#     log='y', bty='n')
-#addCountries(line=c(3, 2.5))
-#mtext(paste(
-#'Note: The US is not on this plot,', because no preds
-#mtext('years from ... 
-#with(nuclearWeaponStates, 
-#  text(firstTest, yearsSinceLastFirstTest,
-#       ctry, xpd=TRUE))
-lines(expCI$estDate, simMeanL1)
-lines(expCI$estDate, simMeanQtl[, 2], lty='dashed', col='blue')
-matlines(expCI$estDate, simMeanQtl[, c(1, 3)], lty='dotted', col='red')
-legend('topleft', c('80% confidence interval for the mean', 
-          'mean', 'median'),
-   col=c('red', 'black', 'blue'), 
-   lty=c('dotted', 'solid', 'dashed'), bty='n')
-abline(h=200, lty='dotted', col='grey')
+```{r plotfut1, fig.cap = "Estimated mean time between first tests with log-linear model"}
+sumExpMeans1 <- sumSims(1/simMeans1)
+op <- par(mar=c(5,5,4,2))
+plotNucStatesPred(sumExpMeans1, line_mtext=c(3, 3))
 par(op)
 ```
 
-This model intuitively seems more consistent with the data, though to find it plausible, we need to supply additional intuition based on the hope or belief that nuclear proliferation is slowing and will continue to slow more than is supported by our naively preferred BMA model, `fitProlif`.  
+This model intuitively seems more consistent with the data than the BMA model.  However, to find it plausible, we need to to believe other information we have about nuclear proliferation beyond the estimates of uncertainty documented in the BMA model, `fitProlif`.  
 
-Figure \@ref(fig:proli1) provides the same analysis of Figure \@ref(fig:prolif) for this simpler model with the log(Poisson mean) linear in time.  
+We similary modify Figure \@ref(fig:plotPred) to produce Figure \@ref(fig:plotPred1).  
 
-  %```{r proli1, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states for the glm model"}
+```{r plotPred1, fig.cap = 'Number of nuclear-weapon states, past and predicted with the glm model'}
+cumPred1 <- cumsumPred(simMeans1)
 
+str(cumMeans1 <- apply(simMeans1[-(1:nYrs), ], 
+                              2, cumsum))
 
+str(cumCI1 <- sumSims(
+    nNucStates+rbind(0, cumMeans1), 
+    pastfut$Year[-(1:(nYrs-1))]))
 
-
-str(probProli1. <- t(apply(exp(simMeanLin[, -(1:nYrs)]), 2, probs)))
-head(probProli1.)
-str(probProli1 <- ts(probProli1., currentYear+1))
-
-matplot(time(probProli1), probProli1, 
-        type='l', xlab='', las=1, ylab='', ylim=0:1)
-for(i in 1:maxNewNucSt){
-  it <- min(which(probProli1[,i]>=0.5))
-  cat(time(probProli1)[it], '')
-  text(time(probProli1)[it], 0.5, 
-       paste0(time(probProli1)[it], '\n', i))
-}
-abline(h=.5, lty='dotted')
-
-text(time(probProli1)[it]+16, 0.5, 
-    'median year for', adj=c(.5, -.4))
-text(time(probProli1)[it]+13, 0.5, 
-    'more nuclear-\nweapon states', 
-           adj=c(.5, 1.15))
+cumC.PI1 <- cumsumC.PI(cumPred1, cumCI1)
+plotNNucStates(xfuture=cumC.PI1)
 ```
 
+And let's look at Figure \@ref(fig:cumPred1) and compare with Figure \@ref(fig:cumPred).  
 
-
-
-
-str(simMeanExp <- exp(-simMeanLin))
-
-str(expMean1 <- apply(simMeanExp, 2, mean))
-str(expCI1 <- t(apply(simMeanExp, 2, quantile, 
-                    probs=c(.1, .5, .9))))
-head(expCI1)
-colnames(expCI1) <- c('L10', 'median', 'U10')
+```{r prolif1, fig.cap='Probability distribution of the time to more nuc-weapon states per glm model'}
+probProlif1 <- plotProbs(cumPred1)
 ```
+
+Figure \@ref(fig:prolif1) provides the same analysis of Figure \@ref(fig:prolif) for this simpler model with the log(Poisson mean) linear in time.  As expected, this provides a more optimistic forecast, with a `r round(max(probProlif1$probProlif)*100)` percent chance of at least one more nuclear-weapon state by `r tail(time(probProlif1$probProlif), 1)` and correspondingly lower probabilities of further nuclear proliferation more generally relative to the analysis of Figure \@ref(fig:prolif).  
+
+
+
+
+
 
 
 
@@ -1152,14 +1136,7 @@ axis(2, cex.axis=cex.ax, las=1, lwd=2)
 #    text(firstTest, yearsSinceLastFirstTest,
 #       ctry, xpd=TRUE, cex=cex.ax))
 if(png.) dev.off()
-
 ```
-
-
-# Predictions using the actual increments in the MCMC simulations
-
-
-
 
 # References
 
