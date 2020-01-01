@@ -4,31 +4,54 @@
   A "simulate" method for a glm object
 }
 \description{
-  Compute predictions for \code{newdata} for a
-  model of class \code{\link{glm}}.  
+  Simulate predictions for \code{newdata} for a
+  model of class \code{\link{glm}} with mean 
+  \code{coef(object)} and variance 
+  \code{vcov(object)}. 
 
-NOTE: The \strong{stats} package has a 
-\code{\link{simulate}} method for 
-"\code{lm}" objects which is used for 
-\code{\link{lm}} and \code{\link{glm}} objects.  
-It returns simulated data consistent with the 
-model fit but not simulated values for the 
-\code{link} or \code{response}.  For example, 
-for a \code{\link{glm}} model for binomial
-counts of the numbers of successes in \code{n}
-trials, \code{simulate.lm} returns integers 
-between 0 and \code{n}.  The 
-\code{simulate.glm} function documented here
-returns optionally simulated "link" and / or 
-"response" values.  With a default 
-binomial example, "link" values are on a 
-logit scale, and "response" values are 
-probabilities, i.e., between 0 and 1.  
+NOTES: The \strong{stats} package has a 
+\code{\link[stats]{simulate}} method for "\code{lm}" 
+objects which is used for \code{\link{lm}} and 
+\code{\link{glm}} objects.  It differs from the 
+current \code{simulate.glm} function in two 
+fundamental and important ways:  
+
+  \enumerate{
+    \item{\code{stats::\link[stats]{simulate}}
+      returns simulated data consistent with the 
+      model fit assuming the estimated model 
+      parameters are true and exact, i.e., 
+      ignoring the uncertainty in parameter 
+      estimation.  Thus, if \code{family = 
+      poisson}, 
+      \code{stats::\link[stats]{simulate}}
+      returns nonnegative integers.  
+    
+      By contrast the \code{simulate.glm}
+      function documented here returns optionally 
+      simulated \code{coef (coefficients)} plus 
+      simulated values for the \code{link} and / 
+      or \code{response} but currently \emph{NOT} 
+      pseudo-random numbers on the scale of the 
+      response.  
+    }
+    \item{ 
+      The \code{simulate.glm} function documented
+      here also accepts an optional \code{newdata}
+      argument, not accepted by 
+      \code{stats::\link[stats]{simulate}}.  The 
+      \code{stats::\link[stats]{simulate}} 
+      function only returns simulated values for 
+      the cases in the training set with no 
+      possibilities for use for different sets 
+      of conditions.  
+    }
+  }  
 }
 \usage{
 \method{simulate}{glm}(object, nsim = 1, 
     seed = NULL, newdata=NULL, 
-    type = c("link", "response"), ...)
+    type = c("coef", "link", "response"), ...)
 }
 \arguments{
   \item{object}{
@@ -52,6 +75,11 @@ probabilities, i.e., between 0 and 1.
   \item{type}{
     the type of simulations required. 
     \itemize{
+      \item{coef}{
+        Simulated coefficents using 
+        \code{mvtnorm::\link[mvtnorm]{rmvnorm}(nsim, 
+        coef(object), vcov(object))}.  
+      }
       \item{link}{
         The default \code{type='link'} is on the 
         scale of the linear predictors using 
@@ -98,11 +126,18 @@ probabilities, i.e., between 0 and 1.
 \value{
   Returns either a \code{\link{data.frame}} or a list of 
    \code{\link{data.frame}}s depending on 'type':  
-  
+   
+  \item{coef}{a \code{\link{data.frame}} with 
+    \code{nsim} columns giving simulated parameters generated
+    using \code{mvtnorm::\link[mvtnorm]{rmvnorm}(nsim, 
+    coef(object), vcov(object))}.  
+  }
   \item{link}{
     a \code{\link{data.frame}} with \code{nsim} columns 
     of \code{nobs} values each giving the simulations on the 
-    \code{link} scale.  
+    \code{link} scale by applying each set of simulated 
+    coefficients to \code{newdata} (or to the training 
+    set of \code{newdata} is not supplied).  
   }
   \item{response}{
     a \code{\link{data.frame}} with \code{nsim} columns 
@@ -177,11 +212,14 @@ set.seed(2)
 
 sim <- mvtnorm::rmvnorm(3, coef(GLMex), 
                          vcov(GLMex))
+rownames(sim) <- paste0('sim_', 1:3)
+simDF <- data.frame(t(sim))
 
 GLMsim.l <- tcrossprod(newMat, sim)
 colnames(GLMsim.l) <- paste0('sim_', 1:3)
 GLMsim.r <- exp(GLMsim.l) 
-GLMsim2 <- list(link=data.frame(GLMsim.l), 
+GLMsim2 <- list(coef=simDF, 
+  link=data.frame(GLMsim.l), 
   response=data.frame(GLMsim.r) )
 attr(GLMsim2, 'seed') <- RNGstate  
 
