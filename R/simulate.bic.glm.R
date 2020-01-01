@@ -1,6 +1,6 @@
 simulate.bic.glm <- function(object, nsim = 1, 
         seed = NULL, newdata=NULL, 
-        type = c("link", "response"), ...){
+        type = c("coef", "link", "response"), ...){
 ##  
 ## 1.  seed?
 ##  
@@ -114,20 +114,28 @@ simulate.bic.glm <- function(object, nsim = 1,
 ##
   rmdl <- sample(1:nComponents, nsim, TRUE, 
       postprob)
+#  
+  nVars <- NCOL(mle)    
+  Coefs <- matrix(0, nVars, nsim)
+  dimnames(Coefs) <- list(
+    colnames(newMat), colnames(sims) )
 ##
 ## 8.  Simulate in link space
 ##
   for(Comp in 1:nComponents){
+
     nsimComp <- sum(rmdl==Comp)
-    if(nsimComp>0){
+    if(any(rmdl==Comp)){
       xMatC <- xMat[, mle[Comp,]!=0, drop=FALSE]
       refitComp <- glm.fit(x=xMatC, y=y, 
-        weights=wt, start=mle[Comp, mle[Comp,]!=0], 
-        family=family)
+          weights=wt, start=mle[Comp, mle[Comp,]!=0], 
+            family=family)
       class(refitComp) <- 'glm'
       vc <- vcov(refitComp)
       simCoef <- mvtnorm::rmvnorm(nsimComp, 
-          coef(refitComp), vc)
+                    coef(refitComp), vc)
+      Coefs[mle[Comp,]!=0, rmdl==Comp] <- t(simCoef)
+#      
       newM <- newMat[, mle[Comp,]!=0, drop=FALSE]
       predComp <- tcrossprod(newM, simCoef)
       sims[, rmdl==Comp] <- predComp
@@ -136,15 +144,42 @@ simulate.bic.glm <- function(object, nsim = 1,
 ## 
 ## 9.  return type(s) desired 
 ##
-  if(length(type)>1){
-    out <- list(link=data.frame(sims), 
-        response = data.frame(linkinv(sims)))
-  } else {
-    tp <- match.arg(type)
-    if(tp=="link"){
+#  9.1.   only 1 type
+  if(length(type)<1)stop('No "type" requested.')
+  if(length(type)<2){
+    if(!is.na(pmatch(type, 'coef'))){
+      out <- Coefs
+      attr(out, 'seed') <- RNGstate
+      return(out)
+    } else if(!is.na(pmatch(type, 'link'))){
       out <- data.frame(sims)
-    } else out <- data.frame(linkinv(sims))
+      attr(out, 'seed') <- RNGstate
+      return(out)
+    } else if(is.na(pmatch(type, 'response'))){
+      stop('Not a recognized type.  type = ', type)
+    } else {
+      out <- data.frame(linkinv(sims))
+      attr(out, 'seed') <- RNGstate
+      return(out)
+    }
   }
+#  9.2. more than 1 type requested
+  out <- vector('list', length(type))
+  names(out) <- type 
+  if(any(!is.na(pmatch(type, 'coef')))){
+      out[['coef']] <- Coefs
+  }
+  if(any(!is.na(pmatch(type, 'link')))){
+    out[['link']] <- data.frame(sims)
+  } 
+  if(any(!is.na(pmatch(type, 'response')))){
+    out[['response']] <- data.frame(linkinv(sims))
+  } 
+  attr(out, 'seed') <- RNGstate
+#  cat('print(type)\n')
+#  print(type)
+  out
+#
   attr(out, 'seed') <- RNGstate
   out
 }
