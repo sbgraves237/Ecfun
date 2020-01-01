@@ -164,8 +164,9 @@ fundamental and important ways:
   Spencer Graves
 }
 \seealso{
-  \code{\link{simulate}}
+  \code{\link[stats]{simulate}}
   \code{\link{glm}}
+  \code{\link{predict.glm}}
   \code{\link{set.seed}}
 }
 %\references{}
