@@ -4,7 +4,7 @@
   A "simulate" method for a BMA::bic.glm object
 }
 \description{
-  Compute predictions for \code{newdata} for a
+  Simulate predictions for \code{newdata} for a
   model of class \code{\link[BMA]{bic.glm}}.  
 
 NOTES:  
@@ -26,7 +26,7 @@ returned simulated data.  The present function does
 NOT return simulated data but rather simulated values 
 on the 'link' or 'response' scales or both.  It may be 
 desired to add an option to this present function for 
-\code{type = "data"} for compatibility with 
+\code{type = "data"} or equivalently for compatibility with 
 \code{simulate.lm}.  
 }
 \usage{
