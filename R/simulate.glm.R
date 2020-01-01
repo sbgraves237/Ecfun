@@ -1,6 +1,6 @@
 simulate.glm <- function(object, nsim = 1, 
         seed = NULL, newdata=NULL, 
-        type = c("link", "response"), ...){
+        type = c("coef", "link", "response"), ...){
 ##  
 ## 1.  seed?
 ##  
@@ -40,10 +40,11 @@ simulate.glm <- function(object, nsim = 1,
   vc <- vcov(object)
   simCoef <- mvtnorm::rmvnorm(nsim, 
           coef(object), vc)
+  rownames(simCoef) <- paste0('sim_', 1:nsim)
   sims <- tcrossprod(newMat, simCoef)
-  colnames(sims) <- paste0('sim_', 1:nsim)
+#  colnames(sims) <- paste0('sim_', 1:nsim)
 ## 
-## 9.  return type(s) desired 
+## 9.  need "response"?
 ##
 # if('response' %in% type){
   if(any(!is.na(pmatch(type, 'response')))){
@@ -65,25 +66,40 @@ simulate.glm <- function(object, nsim = 1,
       stop("linkinv from 'family' is not a function.")
     }
   }
-  if(length(type)>1){
-    if(all(is.na(pmatch(type, 'response')))){
-      print(type)
-      stop("length(type)>1 but 'response' is not in type")
-    }
-    out <- list(link=data.frame(sims), 
-        response = data.frame(linkinv(sims)))
-  } else {
-    tp <- match.arg(type)
-    if(tp=="link"){
+##
+## 10.  return type(s) desired
+##
+#  10.1.   only 1 type
+  if(length(type)<1)stop('No "type" requested.')
+  if(length(type)<2){
+    if(!is.na(pmatch(type, 'coef'))){
+      out <- data.frame(t(simCoef))
+      attr(out, 'seed') <- RNGstate
+      return(out)
+    } else if(!is.na(pmatch(type, 'link'))){
       out <- data.frame(sims)
+      attr(out, 'seed') <- RNGstate
+      return(out)
+    } else if(is.na(pmatch(type, 'response'))){
+      stop('Not a recognized type.  type = ', type)
     } else {
-      if(all(is.na(pmatch(type, 'response')))){
-        print(type)
-        stop("length(type)>1 but 'response' is not in type")
-      }
       out <- data.frame(linkinv(sims))
+      attr(out, 'seed') <- RNGstate
+      return(out)
     }
   }
+#  10.2. more than 1 type requested
+  out <- vector('list', length(type))
+  names(out) <- type 
+  if(any(!is.na(pmatch(type, 'coef')))){
+      out[['coef']] <- data.frame(t(simCoef))
+  }
+  if(any(!is.na(pmatch(type, 'link')))){
+    out[['link']] <- data.frame(sims)
+  } 
+  if(any(!is.na(pmatch(type, 'response')))){
+    out[['response']] <- data.frame(linkinv(sims))
+  } 
   attr(out, 'seed') <- RNGstate
 #  cat('print(type)\n')
 #  print(type)
