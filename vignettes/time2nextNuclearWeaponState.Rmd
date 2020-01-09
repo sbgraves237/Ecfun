@@ -1,7 +1,7 @@
 ---
 title: "Time to next new nuclear-weapon state"
-author: "Spencer Graves"
-date: "2020-01-01"
+author: "Spencer Graves and Doug Samuelson"
+date: "2020-01-06"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
@@ -39,6 +39,7 @@ ymax <- max(
             na.rm=TRUE)
 ylim0 <- c(0, ymax)
 
+NPTdate = as.Date('1970-03-05')
 plotNucStates <- function(type.='n', xlim., ylim., 
     line_mtext=3:2, cex.=1, mtext.=TRUE, log.='', 
     ...){
@@ -90,25 +91,38 @@ plotNucStates <- function(type.='n', xlim., ylim.,
        xlab='', ylab='', las=1, 
        xlim=xlim., ylim=ylim., log=log., bty='n', 
        ...)
+  abline(v=NPTdate, lty='dashed', col='grey')
+  ymid <- {
+    if(log.=='y') sqrt(ylim.[1]*ylim.[2]) else 
+      mean(ylim.)
+  }
+  text(NPTdate-.017*diff(xlim.), 
+       ymid, 'NPT', col='grey', srt=90)
   addCountries(line_mtext=line_mtext, cex.=cex., 
                mtext.=mtext.)
 }    
 plotNucStates(type.='h', ylim.=ylim0)
 ```
 
-However, it stretches credibility to suggest that nuclear proliferation has stopped.  There were only 5 nuclear-weapon states when the [Treaty on the Non-Proliferation of Nuclear Weapons (NPT, Non-proliferation treaty)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) entered into force in 1970.  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  @Toon:2007 noted that in 2003 another 32 had sufficient fissile material to make nuclear weapons if they wished.  
+However, it stretches credibility to suggest that nuclear proliferation has stopped.  There were only 5 nuclear-weapon states when the [Treaty on the Non-Proliferation of Nuclear Weapons (NPT, Non-proliferation treaty)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  @Toon:2007 noted that in 2003 another 32 had sufficient fissile material to make nuclear weapons if they wished.  
 
-Moreover, those 32 do NOT include either Turkey nor Saudi Arabia.  On 2019-09-04, Turkish President Erdogan said it was unacceptable for nuclear-armed states to forbid Turkey from acquiring its own nuclear weapons.^[@Toksabay:2019; @OConnor:2019.] 
+Moreover, those 32 do _NOT_ include either Turkey nor Saudi Arabia.  On 2019-09-04, Turkish President Erdogan said it was unacceptable for nuclear-armed states to forbid Turkey from acquiring its own nuclear weapons.^[@Toksabay:2019; @OConnor:2019.] 
 
-In 2006 *Forbes* reported that Saudi Arabia has "a secret underground city and dozens of underground silos for" Pakistani nuclear weapons and missiles.^[@Forbes:SaudiNuc;  see also @Wikip:SaudiNuc.] In 2018 the *Middle East Monitor* reported that "Israel 'is selling nuclear information' to Saudi Arabia".^[@MEM:SaudiNuc;  see also @Wikip:SaudiNuc.]  This is particularly disturbing, because of the substantial evidence that Saudi Arabia may have been and may still be the primary recruiter and funder of Islamic terrorism.^[@Benjamin:2016; see also @Wikiv:WinTerror.]  
+In 2006 *Forbes* reported that Saudi Arabia has "a secret underground city and dozens of underground silos for" Pakistani nuclear weapons and missiles.^[@Forbes:2006;  see also @Wikip:SaudiNuc.] In 2018 the *Middle East Monitor* reported that "Israel 'is selling nuclear information' to Saudi Arabia".^[@MEM:SaudiNuc;  see also @Wikip:SaudiNuc.]  This is particularly disturbing, because of the substantial evidence that Saudi Arabia may have been and may still be the primary recruiter and funder of Islamic terrorism.^[@Benjamin:2016; see also @Wikiv:WinTerror.]  
 
 This analysis suggests that the number of nuclear-weapon states will likely continue to grow until either (i) a nuclear war destroys the ability of anyone to make more nuclear weapons, or (ii) the fundamental structure of international relations changes to the point that any nation that perceives an external threat can confidently rely on international law for protection, without a military that might threaten other countries.
 
 This vignette first reviews the data and history on this issue including brief discussions of what might have motivated different nations to pursue nuclear weapons.  We then consider modeling these data as a series of annual Poisson observations of the number of states conducting a first test of a nuclear weapon each year (1 in each of 8 years since 1945; 0 in the others).
 
-The simplest such model that considers the possible inhomogeniety visible in Figure \@ref(fig:plot) is [Poisson regression](https://en.wikipedia.org/wiki/Poisson_regression) assuming that log(Poisson mean) is linear in the time since the first test of nuclear weapon by the US in 1945.  We estimate this using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  This model is plausible to the extent that this trend might represent a growing international awareness of the threat represented by nuclear weapons including a hypothesized increasing reluctance of existing nuclear-weapon states to share their technology. The current process of ratifying the [Treaty on the Prohibition of Nuclear Weapons](https://en.wikipedia.org/wiki/Treaty_on_the_Prohibition_of_Nuclear_Weapons) supports the hypothesis of such a trend, while the lack of universal support for it clearly indicates that nuclear proliferation is still likely to continue.  We use this model to extend the 74 years of history of nuclear proliferation available as this is being written `r nukeDataCurrent` into predicting another 74 years into the future. First, however, we review some of the history that may have motivated existing nuclear-weapon states to develop this techology.  
+The simplest such model that considers the possible inhomogeniety visible in Figure \@ref(fig:plot) is [Poisson regression](https://en.wikipedia.org/wiki/Poisson_regression) assuming that log(Poisson mean) is linear in the time since the first test of nuclear weapon by the US in 1945.  We estimate this using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  This model is plausible to the extent that this trend might represent a growing international awareness of the threat represented by nuclear weapons including a hypothesized increasing reluctance of existing nuclear-weapon states to share their technology. The current process of ratifying the [Treaty on the Prohibition of Nuclear Weapons](https://en.wikipedia.org/wiki/Treaty_on_the_Prohibition_of_Nuclear_Weapons) supports the hypothesis of such a trend, while the lack of universal support for it clearly indicates that nuclear proliferation is still likely to continue.  We use this model to extend the 74 years of history of nuclear proliferation available as this is being written `r nukeDataCurrent` into predicting another 74 years into the future. 
 
-# What motivated the existing nuclear-weapon states to develop this capability?
+# How did the existing nuclear-weapon states develop this capability? 
+
+There are, of course, multiple issues in nuclear proliferation:  a new nuclear-weapon state requires at least four distinct things to produce a nuclear weapon: motivation, money, knowledge, and material.  
+
+## Motivation
+
+Virtually any country that feels threatened would like to have some counterweight against aggression by a potential enemy.  The US funded the Manhattan project believing that Nazi Germany likely had a similar project.  
 
 @Ellsberg:2017 noted that every US president since [Truman (president: 1945-1953)](https://pl.wikipedia.org/wiki/Harry_Truman) considered the use of nuclear weapons.  [With the possible exception of Ford, all threatened to use them, sometimes publicly, sometimes in secret.](https://en.wikipedia.org/wiki/Daniel_Ellsberg#The_Doomsday_Machine) Countries threatened include the Soviet Union (now Russia), the People's Republic of China, Iraq, Iran, Libya, India, and North Korea.^[@Ellsberg:2017.  See also @Wikip:Ellsberg.]  
 
@@ -117,7 +131,7 @@ One might therefore understand the motivation of North Korea to accelerate their
 
 Similar logic might explain why Soviet leaders might have felt a need to defend themselves from nuclear coercion after [having been invaded by the US and over a dozen other countries trying to put the Tsar back in power after World War I](https://en.wikipedia.org/wiki/Allied_intervention_in_the_Russian_Civil_War).^[@Fogelsong:2014.  Many more references can be found in @Wikip:AlliesInRussia.]  The United Kingdom and France likely felt nuclear threats from the Soviet Union.^[The UK and France would have had many reasons to fear the intentions of the USSR during the early period of the [Cold War](https://en.wikipedia.org/wiki/Cold_War):  The first test of a nuclear weapon by the USSR came just over three months after the end of the 1948-49 [Berlin Blockade](https://en.wikipedia.org/wiki/Berlin_Blockade).  Other aspects of Soviet repression in countries they occupied in Eastern Europe contributed to the failed [Hungarian Revolution of 1956](https://en.wikipedia.org/wiki/Hungarian_Revolution_of_1956).]  China faced nuclear threats from the US regarding Korea^[@Pierson:2017.  See also @Wikip:Ellsberg.] and the Taiwan Strait.^[@Halperin:1966.  See also @Wikip:Ellsberg.]  India faced major threats from China, [^India] Pakistan from India,[^Pak] and Israel from its neighbors.[^Israel]
 
-More generally the history of US belicosity includes [invading Canada in 1812](https://www.history.com/news/how-u-s-forces-failed-to-conquer-canada-200-years-ago)^[@Berton:1980 claims that the modern Canadian national identity was forged in that conflict.  Casual conversations with Canadians in the 2000s and 2010s have confirmed that this is one issue that still separates Canadians from the US.] and [numerous other foreign interventions](https://en.wikipedia.org/wiki/Foreign_interventions_by_the_United_States) including invading [Afghanistan in 2001](https://en.wikipedia.org/wiki/War_in_Afghanistan_(2001%E2%80%93present)), and [Iraq in 2003](https://en.wikipedia.org/wiki/Iraq_conflict_(2003%E2%80%93present)), plus continued threats against Iran, North Korea, and more recently Venezuela.  This history might help people understand how leaders in many countries may be concerned about their own security if they fail to do what the US demands of them.  The [extra-judicial execution of Osama bin Laden and four others in his household by SEAL Team 6](https://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden) on 2011-05-02 has reportedly increased the risks that a Pakistani nuclear weapon might be stolen by Islamic terrorists intent on retaliating against the US for its interventions in Pakistan and neighboring countries.^[@Cohen:2009;  see also @Borger:2010] 
+More generally the history of US belicosity includes [invading Canada in 1812](https://www.history.com/news/how-u-s-forces-failed-to-conquer-canada-200-years-ago)^[@Berton:1980 claims that the modern Canadian national identity was forged in that conflict.  Casual conversations with Canadians in the 2000s and 2010s have confirmed that this is one issue that still separates Canadians from the US.] and [numerous other foreign interventions](https://en.wikipedia.org/wiki/Foreign_interventions_by_the_United_States) including invading [Afghanistan in 2001](https://en.wikipedia.org/wiki/War_in_Afghanistan_(2001%E2%80%93present)), and [Iraq in 2003](https://en.wikipedia.org/wiki/Iraq_conflict_(2003%E2%80%93present)), plus continued threats against Iran, North Korea, and more recently Venezuela.  This history might help people understand how leaders in many countries may be concerned about their own security if they fail to do what the US demands of them.  The [extra-judicial execution of Osama bin Laden and four others in his household by SEAL Team 6](https://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden) on 2011-05-02 has reportedly increased the risks that a Pakistani nuclear weapon might be stolen by Islamic terrorists intent on retaliating against the US for its interventions in Pakistan and neighboring countries.^[@Cohen:2009;  see also @Borger:2010.] 
 
 \vspace{\baselineskip}
 \centerline{\textit{\textbf{The September 11th attacks}}}
@@ -125,21 +139,34 @@ More generally the history of US belicosity includes [invading Canada in 1812](h
 \centerline{\textit{\textbf{might have been a mushroom cloud.}}}
 \vspace{\baselineskip}
 
-In this context, declassified US government documents establish that in the 1980s, when the US was clandestinely supporting the Contra war against Nicaragua in violation of US law, it was also [secretly helping the Pakistani nuclear program in violation of US law.  This was done to secure Pakistani cooperation with US support for anti-Soviet resistance in Afghanistan](https://www.wilsoncenter.org/publication/new-documents-spotlight-reagan-era-tensions-over-pakistani-nuclear-program).^[@Burr:2012, @Burr:2013.] 
+All this suggests that it will be difficult to reduce the threat of nuclear proliferation and nuclear war without somehow changing the nature of international relations so weaker countries have less to fear from the demands of nuclear-weapon states like the US.  
 
-Without this, "the nuclear weapons programmes of Iran, Libya and North Korea - which British and American intelligence now acknowledge were all secretly enabled by Pakistan - would never have got off the ground," according to [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci), special adviser on WMDs to President Clinton.^[The quote is from @Levy:2007.   That article claims he was a special adviser on WDMs to both Clinton and G. W. Bush.  However, the Wikipedia article and @Gallucci:2001 both indicate he left government service in January 2001;  G. W. Bush took office 2001-01-20.]  
+## Money 
 
-Similar comments have been made by [Richard Barlow](https://en.wikipedia.org/wiki/Richard_Barlow_(Intelligence_analyst)#cite_note-wp-1), a CIA analyst who reported these questionable activities to a committee of the US House.^[@Levy:2007. Barlow was reportedly severely punished for honestly answering questions in a classified briefing to an oversight committee of the US House.  Barlow described US assistance to Pakistan's nuclear weapons program in exchange for Pakistan's help in supplying rebels in Afghanistan fighting Soviet occupation.  This was during the [Iran-Contra affair](https://en.wikipedia.org/wiki/Iran%E2%80%93Contra_affair), which exposed actions of officials of the Reagan administration to pursue foreign policy objectives in Central America in blatant violation of law passed by Congress and signed by the President.]
+It's no accident that most of the world's nuclear-weapon states are large countries with substantial populations and economies.  That's not true of Israel with only roughly 9 million people nor North Korea with roughly 26 million people in 2018.  France and the UK have only about 67 and 68 million people, but they are also among the world leaders in the size of their economies.  
 
-And now the US is helping Saudi Arabia obtain nuclear power, in spite of (a) the evidence that [the Saudi government including members of the Saudi royal family were  involved in preparations for the suicide mass murders of September 11, 2001, at least as early as 1999](https://en.wikipedia.org/wiki/The_28_pages)^[@The28pages.  See also @Wikip:28pages.] and (b) their [on-going support for Al Qaeda in Yemen, reported as recently as 2019](https://en.wikipedia.org/wiki/Saudi_Arabian-led_intervention_in_Yemen).^[See, for example, @Bazzi:2019 and @Wikip:SaudiYemen, more generally.] 
+Pakistan is a relatively poor country that that got [secret help from the US in the 1980s in violation of US law to secure Pakistani cooperation with US support for anti-Soviet resistance in Afghanistan](https://www.wilsoncenter.org/publication/new-documents-spotlight-reagan-era-tensions-over-pakistani-nuclear-program).[^Pak2] [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci), a special adviser on WMDs to President Clinton, said that the nuclear programs of Iran, Libya and North Korea got US technology from Pakistan, and would not have gotten off the ground without US support for the Pakistani nuclear program.[^KP] 
 
-**Conclusions**:  
+And now the US is helping Saudi Arabia obtain nuclear power, in spite of (a) the evidence that [the Saudi government including members of the Saudi royal family were involved in preparations for the suicide mass murders of September 11, 2001, at least as early as 1999](https://en.wikipedia.org/wiki/The_28_pages),^[@Graham:2003.  See also @Wikip:28pages.] and (b) their [on-going support for Al Qaeda in Yemen, reported as recently as 2019](https://en.wikipedia.org/wiki/Saudi_Arabian-led_intervention_in_Yemen).^[See, for example, @Bazzi:2019 and @Wikip:SaudiYemen, more generally.] 
+
+## Knowledge
+
+In 1976, [John Aristotle Phillips](https://en.wikipedia.org/wiki/John_Aristotle_Phillips) an "underachieving" undergraduate at Princeton University, "designed a nuclear weapon using publicly available books and papers."^[@Spokane:1976. See also @Wikip:studentBomb.] Nuclear weapons experts disagreed on whether the design would have worked.  Whether Phillips' design would have worked or not, it should be clear that the continuing progress in human understanding of atomic physics inevitably make it easier for people interested in making such weapons to acquire the knowledge of how to do so.  
+
+That was less true in the 1940s.  After Soviet premier Joseph Stalin learned of the atomic bombings of Hiroshima and Nagasaki, the USSR (now Russia) increased the funding for their nuclear program.  That was helped by effective intelligence gathering about the German nuclear weapon project and the American Manhattan Project.^[@osti:espionage.  See also @wikip:Soviet.]  
+
+## Material 
+
+Reportedly the most difficult part of making nuclear weapons is obtaining the sufficient fissile material.  As noted above, @Toon:2007 said that 32 currently non-nuclear powers had sufficient fissile material in 2003 to make nuclear weapons if they wished. 
+
+## Conclusions regarding motivation, money, knowledge and materials
  
   1. There seems to be no shortage of motivations for other countries to acquire nuclear weapons.  
   
-  2. The knowledge and materials required to make such weapons in a relatively short order are also fairly widely available, even without the documented willingness of current nuclear powers to secretly help other countries acquire such weapons.[^quickNukes]  
+  2. The knowledge and materials required to make such weapons in a relatively short order are also fairly widely available, even without the documented willingness of current nuclear powers to secretly help other countries acquire such weapons in some cases.[^quickNukes]  
   
   3. Unless there is some fundamental change in the structure of international relations, it seems unwise to assume that there will not be more nuclear nations in the future, with the time to the next "first test" of a nuclear weapon following a probability distribution consistent with the previous times between "first tests" of nuclear weapons by the current nuclear-weapon states.  
+
 
 # Exponential time between Poisson "first tests" 
 
@@ -378,6 +405,10 @@ plotNNucStates <- function(xfuture,
       xpast$firstTest, Today)
   lines(fT_date, 
       c(0:nNucStates, nNucStates), type='s')
+  abline(v=NPTdate, lty='dashed', col='grey')
+  ymid <- mean(ylim.)
+  text(NPTdate-.017*diff(xlim.), 
+       ymid, 'NPT', col='grey', srt=90)  
 ##
 ## 2.  plot xfuture 
 ##
@@ -571,7 +602,7 @@ We also sumarize the probability distribution of the time to more nuclear-weapon
 probProlif1 <- plotProbs(cumPred1)
 ```
 
-As expected Figures \@ref(fig:plotfut1), \@ref(fig:plotPred1), and \@ref(fig:prolif1) provide a more optimistic image than the comparable Figures \@ref(fig:plotfut), \@ref(fig:plotPred), and \@ref(fig:prolif).  The estimated probability of at least one more nuclear-weapon state by the end of the forecast period, `r tail(time(probProlif1$probProlif), 1)`, dropped from `r round(max(probProlif$probProlif)*100)` percent in Figure \@ref(fig:prolif) to `r round(max(probProlif1$probProlif)*100)` percent in Figure \@ref(fig:prolif).  Not surprisingly, the probability distributions associated with all aspects of nuclear proliferation are more optimistic with the single `glm` model, `fitProlif1`, than the comparable `BMA` model, `fitProlif`.  
+As expected Figures \@ref(fig:plotfut1), \@ref(fig:plotPred1), and \@ref(fig:prolif1) provide a more optimistic image than the comparable Figures \@ref(fig:plotfut), \@ref(fig:plotPred), and \@ref(fig:prolif).  The estimated probability of at least one more nuclear-weapon state by the end of the forecast period, `r tail(time(probProlif1$probProlif), 1)`, dropped from `r round(max(probProlif$probProlif)*100)` percent in Figure \@ref(fig:prolif) to `r round(max(probProlif1$probProlif)*100)` percent in Figure \@ref(fig:prolif1).  Not surprisingly, the probability distributions associated with all aspects of nuclear proliferation are more optimistic with the single `glm` model, `fitProlif1`, than the comparable `BMA` model, `fitProlif`.  
 
 However, to believe the more optimistic analysis, we must use evidence beyond what's in the data.  
 
@@ -579,7 +610,7 @@ The safest policy may be to believe that the reality is someplace in between.  A
 
 # Discussion 
 
-A growing number of leading figures have said that as long as the world maintains large nuclear arsenals, it is only a matter of time before there is a nuclear war.  Concerns like this have been expressed by two former US Secretaries of Defense ([Robert McNamara](https://en.wikipedia.org/wiki/Robert_McNamara)^[@McNamara:2003] and [William Perry](https://en.wikipedia.org/wiki/William_Perry)), two former US Secretaries of State ([Henry Kissinger](https://en.wikipedia.org/wiki/Henry_Kissinger) and [George Schultz](https://en.wikipedia.org/wiki/George_Shultz)), former US Senator [Sam Nunn](https://en.wikipedia.org/wiki/Sam_Nunn),^[@Shultz:2019] and others with, for example, the [Nuclear Threat Initiative](https://en.wikipedia.org/wiki/Nuclear_Threat_Initiative).  [Daniel Ellsberg](https://en.wikipedia.org/wiki/Daniel_Ellsberg) has said that a nuclear war will most likely generate a nuclear winter that lasts several years during which 98 percent of humanity will starve to death if they do not die of something else sooner.^[@Ellsberg:2017b] Banerjee and Duflo, two of the three who won the 2019 Nobel Memorial Prize in Economics, have noted that neither economic nor political stability are assured for any country, including the United States, China and India.  In particular, they predict that economic growth will almost certainly slow substantailly in the latter two, leaving many poor people in desparate economic straits.^[@Banerjee:2019] Various journalists and academic researchers remind us that President Trump has demonized various different groups and promoted an increase in ethnic violence.  He refused in 2016 and has continued to refuse to say if he would accept the results of an election if he lost.^[Klaas:2019] Internal problems in the US, China, India or any other nuclear-weapon state could push political leaders to pursue increasingly risky foreign adventures, like Argentina did in 1982,^[@Wikip:Faulklands] possibly leading to a war that could become nuclear.   
+A growing number of leading figures have said that as long as the world maintains large nuclear arsenals, it is only a matter of time before there is a nuclear war.  Concerns like this have been expressed by two former US Secretaries of Defense ([Robert McNamara](https://en.wikipedia.org/wiki/Robert_McNamara)^[@McNamara:2003] and [William Perry](https://en.wikipedia.org/wiki/William_Perry)), two former US Secretaries of State ([Henry Kissinger](https://en.wikipedia.org/wiki/Henry_Kissinger) and [George Schultz](https://en.wikipedia.org/wiki/George_Shultz)), former US Senator [Sam Nunn](https://en.wikipedia.org/wiki/Sam_Nunn),^[@Shultz:2019] and others with, for example, the [Nuclear Threat Initiative](https://en.wikipedia.org/wiki/Nuclear_Threat_Initiative). [Daniel Ellsberg](https://en.wikipedia.org/wiki/Daniel_Ellsberg) has said that a nuclear war will most likely generate a nuclear winter that lasts several years during which 98 percent of humanity will starve to death if they do not die of something else sooner.^[@Ellsberg:2017b] Banerjee and Duflo, two of the three who won the 2019 Nobel Memorial Prize in Economics, have noted that neither economic nor political stability are assured for any country, including the United States, China and India.  In particular, they predict that economic growth will almost certainly slow substantailly in the latter two, leaving many poor people in desparate economic straits.^[@Banerjee:2019] Various journalists and academic researchers remind us that President Trump has demonized various different groups and promoted an increase in ethnic violence.  He refused in 2016 and has continued to refuse to say if he would accept the results of an election if he lost.^[Klaas:2019] Internal problems in the US, China, India or any other nuclear-weapon state could push political leaders to pursue increasingly risky foreign adventures, like Argentina did in 1982,^[@Wikip:Faulklands] possibly leading to a war that could become nuclear.   
 
 The present work only increases the urgency of limiting the threat of nuclear war and nuclear proliferation in particular.  This article has estimated confidence and prediction intervals for the time to the next new nuclear-weapon state.  To this end, we built two two models, one being too pessimistic to be credible and the other more optimistic than is justified by the data considered.  The optimistic model estimates a `r as.numeric(round(100*probProlif1$label_year['label_prob.1']))` percent chance of at least one more nuclear-weapon state by `r as.numeric(round(probProlif1$label_year['label_year']))` and a `r as.numeric(round(100*probProlif1$label_year['label_prob.5']))` percent chance of 5 or more by that time.  
 
@@ -725,6 +756,12 @@ if(png.) dev.off()
 
 [^quickNukes]: In addition to the 32 currently non-nuclear-weapon states with "sufficient fissile material to make nuclear weapons if they wished", per @Toon:2007, the inspector general of the US Department of Energy concluded in 2009 (in its most recent public accounting) that enough highly enriched uranium was missing from US inventories to make at least five nuclear bombs comparable to those that destroyed substantial portions of Hiroshima and Nagasaki in 1945.  Substantially more weapons-grade materials may be missing in other countries, especially Russia (@Malone:2018).   
 
-[^ranWalk]: The [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this.  Its [`ng_bsm` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ng_bsm) supports modeling a normal random walk in log(Poisson mean) of the number of "first tests" each year. This uses the fact that [the probability distribution of the time between events in a homogeneous Poisson point process is exponential](https://en.wikipedia.org/wiki/Exponential_distribution).   
+[^ranWalk]: The [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this.  Its [`ng_bsm` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ng_bsm) supports modeling a normal random walk in log(Poisson mean) of the number of "first tests" each year. This uses the fact that [the probability distribution of the time between events in a homogeneous Poisson point process is exponential](https://en.wikipedia.org/wiki/Exponential_distribution). 
 
 [^WikivTime]: For precursors to the current study that involve censored estimation of time to a nuclear war, see @Wikiv:extinct and @Wikiv:Armageddon.  
+
+[^KP]:  See @Levy:2007.  That article claims that Gallucci was a special adviser on WDMs to both Clinton and G. W. Bush.  However, the Wikipedia article and @Gallucci:2001 both indicate he left government service in January 2001;  G. W. Bush took office 2001-01-20.  Similar comments were made by [Richard Barlow](https://en.wikipedia.org/wiki/Richard_Barlow_(Intelligence_analyst)#cite_note-wp-1), a CIA analyst who reported these questionable activities to a committee of the US House as noted by @Levy:2007. Barlow was reportedly severely punished for honestly answering questions in a classified briefing to an oversight committee of the US House.  Barlow said that US assistance to Pakistan's nuclear weapons program was in exchange for Pakistan's help in supplying rebels in Afghanistan fighting Soviet occupation.  This was during the [Iran-Contra affair](https://en.wikipedia.org/wiki/Iran%E2%80%93Contra_affair), which exposed actions of officials of the Reagan administration to pursue foreign policy objectives in Central America in blatant violation of law passed by Congress and signed by the President.
+
+[^Pak2]:  @Burr:2012, @Burr:2013. There have also been reports that China helped Pakistan obtain nuclear weapons.  However, [China has vigorously denied those charges, many if not all of which may not be credible, having originated with the US government.](https://en.wikipedia.org/wiki/Pakistan_and_weapons_of_mass_destruction)  See @Wikip:PakNuc.
+
+Also, China reportedly wanted a counterweight against the nuclear threat to them posed by India.^[
