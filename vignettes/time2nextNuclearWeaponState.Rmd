@@ -20,7 +20,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 # Ecdat::nuclearWeaponStates include all 
 # first test up to nukeDataCurrent:  
-nukeDataCurrent <- as.Date('2019-12-24')
+nukeDataCurrent <- as.Date('2020-01-09')
 ```
 
 # Abstract
@@ -114,7 +114,7 @@ This analysis suggests that the number of nuclear-weapon states will likely cont
 
 This vignette first reviews the data and history on this issue including brief discussions of what might have motivated different nations to pursue nuclear weapons.  We then consider modeling these data as a series of annual Poisson observations of the number of states conducting a first test of a nuclear weapon each year (1 in each of 8 years since 1945; 0 in the others).
 
-The simplest such model that considers the possible inhomogeniety visible in Figure \@ref(fig:plot) is [Poisson regression](https://en.wikipedia.org/wiki/Poisson_regression) assuming that log(Poisson mean) is linear in the time since the first test of nuclear weapon by the US in 1945.  We estimate this using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  This model is plausible to the extent that this trend might represent a growing international awareness of the threat represented by nuclear weapons including a hypothesized increasing reluctance of existing nuclear-weapon states to share their technology. The current process of ratifying the [Treaty on the Prohibition of Nuclear Weapons](https://en.wikipedia.org/wiki/Treaty_on_the_Prohibition_of_Nuclear_Weapons) supports the hypothesis of such a trend, while the lack of universal support for it clearly indicates that nuclear proliferation is still likely to continue.  We use this model to extend the 74 years of history of nuclear proliferation available as this is being written `r nukeDataCurrent` into predicting another 74 years into the future. 
+The simplest such model that considers the possible inhomogeniety visible in Figure \@ref(fig:plot) is [Poisson regression](https://en.wikipedia.org/wiki/Poisson_regression) assuming that log(Poisson mean) is linear in the time since the first test of a nuclear weapon by the US on `r nuclearWeaponStates$firstTest[1]`.  We estimate this using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  This model is plausible to the extent that this trend might represent a growing international awareness of the threat represented by nuclear weapons including a hypothesized increasing reluctance of existing nuclear-weapon states to share their technology. The current process of ratifying the [Treaty on the Prohibition of Nuclear Weapons](https://en.wikipedia.org/wiki/Treaty_on_the_Prohibition_of_Nuclear_Weapons) supports the hypothesis of such a trend, while the lack of universal support for it clearly indicates that nuclear proliferation is still likely to continue.  We use this model to extend the 74 years of history of nuclear proliferation available as this is being written `r nukeDataCurrent` into predicting another 74 years into the future. 
 
 # How did the existing nuclear-weapon states develop this capability? 
 
@@ -131,7 +131,7 @@ One might therefore understand the motivation of North Korea to accelerate their
 
 Similar logic might explain why Soviet leaders might have felt a need to defend themselves from nuclear coercion after [having been invaded by the US and over a dozen other countries trying to put the Tsar back in power after World War I](https://en.wikipedia.org/wiki/Allied_intervention_in_the_Russian_Civil_War).^[@Fogelsong:2014.  Many more references can be found in @Wikip:AlliesInRussia.]  The United Kingdom and France likely felt nuclear threats from the Soviet Union.^[The UK and France would have had many reasons to fear the intentions of the USSR during the early period of the [Cold War](https://en.wikipedia.org/wiki/Cold_War):  The first test of a nuclear weapon by the USSR came just over three months after the end of the 1948-49 [Berlin Blockade](https://en.wikipedia.org/wiki/Berlin_Blockade).  Other aspects of Soviet repression in countries they occupied in Eastern Europe contributed to the failed [Hungarian Revolution of 1956](https://en.wikipedia.org/wiki/Hungarian_Revolution_of_1956).]  China faced nuclear threats from the US regarding Korea^[@Pierson:2017.  See also @Wikip:Ellsberg.] and the Taiwan Strait.^[@Halperin:1966.  See also @Wikip:Ellsberg.]  India faced major threats from China, [^India] Pakistan from India,[^Pak] and Israel from its neighbors.[^Israel]
 
-More generally the history of US belicosity includes [invading Canada in 1812](https://www.history.com/news/how-u-s-forces-failed-to-conquer-canada-200-years-ago)^[@Berton:1980 claims that the modern Canadian national identity was forged in that conflict.  Casual conversations with Canadians in the 2000s and 2010s have confirmed that this is one issue that still separates Canadians from the US.] and [numerous other foreign interventions](https://en.wikipedia.org/wiki/Foreign_interventions_by_the_United_States) including invading [Afghanistan in 2001](https://en.wikipedia.org/wiki/War_in_Afghanistan_(2001%E2%80%93present)), and [Iraq in 2003](https://en.wikipedia.org/wiki/Iraq_conflict_(2003%E2%80%93present)), plus continued threats against Iran, North Korea, and more recently Venezuela.  This history might help people understand how leaders in many countries may be concerned about their own security if they fail to do what the US demands of them.  The [extra-judicial execution of Osama bin Laden and four others in his household by SEAL Team 6](https://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden) on 2011-05-02 has reportedly increased the risks that a Pakistani nuclear weapon might be stolen by Islamic terrorists intent on retaliating against the US for its interventions in Pakistan and neighboring countries.^[@Cohen:2009;  see also @Borger:2010.] 
+More generally the history of US belicosity includes [invading Canada in 1812](https://www.history.com/news/how-u-s-forces-failed-to-conquer-canada-200-years-ago)^[@Berton:1980 claims that the modern Canadian national identity was forged in the War of 1812.  Casual conversations with Canadians in the 2000s and 2010s have confirmed that this is one issue that still separates Canadians from the US.] and [numerous other foreign interventions](https://en.wikipedia.org/wiki/Foreign_interventions_by_the_United_States) including invading [Afghanistan in 2001](https://en.wikipedia.org/wiki/War_in_Afghanistan_(2001%E2%80%93present)), and [Iraq in 2003](https://en.wikipedia.org/wiki/Iraq_conflict_(2003%E2%80%93present)), plus continued threats against Iran, North Korea, and more recently Venezuela.  This history might help people understand how leaders in many countries may be concerned about their own security if they fail to do what the US demands of them.  The [extra-judicial execution of Osama bin Laden and four others in his household by SEAL Team 6](https://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden) on 2011-05-02 has reportedly increased the risks that a Pakistani nuclear weapon might be stolen by Islamic terrorists intent on retaliating against the US for its interventions in Pakistan and neighboring countries.^[@Cohen:2009;  see also @Borger:2010.] 
 
 \vspace{\baselineskip}
 \centerline{\textit{\textbf{The September 11th attacks}}}
@@ -151,13 +151,13 @@ And now the US is helping Saudi Arabia obtain nuclear power, in spite of (a) the
 
 ## Knowledge
 
-In 1976, [John Aristotle Phillips](https://en.wikipedia.org/wiki/John_Aristotle_Phillips) an "underachieving" undergraduate at Princeton University, "designed a nuclear weapon using publicly available books and papers."^[@Spokane:1976. See also @Wikip:studentBomb.] Nuclear weapons experts disagreed on whether the design would have worked.  Whether Phillips' design would have worked or not, it should be clear that the continuing progress in human understanding of atomic physics inevitably make it easier for people interested in making such weapons to acquire the knowledge of how to do so.  
+In 1976, [John Aristotle Phillips](https://en.wikipedia.org/wiki/John_Aristotle_Phillips), an "underachieving" undergraduate at Princeton University, "designed a nuclear weapon using publicly available books and papers."^[@Spokane:1976. See also @Wikip:studentBomb.] Nuclear weapons experts disagreed on whether the design would have worked.  Whether Phillips' design would have worked or not, it should be clear that the continuing progress in human understanding of atomic physics inevitably make it easier for people interested in making such weapons to acquire the knowledge of how to do so.  
 
-That was less true in the 1940s.  After Soviet premier Joseph Stalin learned of the atomic bombings of Hiroshima and Nagasaki, the USSR (now Russia) increased the funding for their nuclear program.  That was helped by effective intelligence gathering about the German nuclear weapon project and the American Manhattan Project.^[@osti:espionage.  See also @wikip:Soviet.]  
+That was less true in the 1940s.  After Soviet premier Joseph Stalin learned of the atomic bombings of Hiroshima and Nagasaki, the USSR (now Russia) increased the funding for their nuclear program.  Their nuclear-weapons program was helped by intelligence gathering about the German nuclear weapon project and the American Manhattan Project.^[@osti:espionage.  See also @wikip:Soviet.]  
 
 ## Material 
 
-Reportedly the most difficult part of making nuclear weapons is obtaining the sufficient fissile material.  As noted above, @Toon:2007 said that 32 currently non-nuclear powers had sufficient fissile material in 2003 to make nuclear weapons if they wished. 
+Reportedly the most difficult part of making nuclear weapons today is obtaining sufficient fissile material.  As noted above, @Toon:2007 said that 32 currently non-nuclear powers had sufficient fissile material in 2003 to make nuclear weapons if they wished. 
 
 ## Conclusions regarding motivation, money, knowledge and materials
  
@@ -165,8 +165,7 @@ Reportedly the most difficult part of making nuclear weapons is obtaining the su
   
   2. The knowledge and materials required to make such weapons in a relatively short order are also fairly widely available, even without the documented willingness of current nuclear powers to secretly help other countries acquire such weapons in some cases.[^quickNukes]  
   
-  3. Unless there is some fundamental change in the structure of international relations, it seems unwise to assume that there will not be more nuclear nations in the future, with the time to the next "first test" of a nuclear weapon following a probability distribution consistent with the previous times between "first tests" of nuclear weapons by the current nuclear-weapon states.  
-
+  3. Unless there is some fundamental change in the structure of international relations, it seems unwise to assume that there will not be more nuclear-weapon states in the future, with the time to the next "first test" of a nuclear weapon following a probability distribution consistent with the previous times between "first tests" of nuclear weapons by the current nuclear-weapon states.  
 
 # Exponential time between Poisson "first tests" 
 
@@ -708,7 +707,7 @@ if(png.){
     cex.ax=4
 }
 plotNucStates(type='h', ylim.=ylim0, 
-    line.=3:2, cex.=cex.ax, mtext.=lbl, log.='', 
+    line=3:2, cex.=cex.ax, mtext.=lbl, log.='', 
     axes=FALSE)
     
 #plot(yearsSinceLastFirstTest~firstTest, 
