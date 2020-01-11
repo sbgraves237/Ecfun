@@ -1,7 +1,7 @@
 ---
 title: "Time to next new nuclear-weapon state"
 author: "Spencer Graves and Doug Samuelson"
-date: "2020-01-06"
+date: "2020-01-10"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
@@ -20,16 +20,16 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 # Ecdat::nuclearWeaponStates include all 
 # first test up to nukeDataCurrent:  
-nukeDataCurrent <- as.Date('2020-01-09')
+nukeDataCurrent <- as.Date('2020-01-10')
 ```
 
 # Abstract
 
-This article models the time between the "first test" of a nuclear weapon by one nation and the next.  It uses this model to obtain confidence bounds on the number of nuclear-weapon states decades into the future.  A plot of the times between "first tests" of the 9 nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) that suggests a linear decrease in time in log(Poisson mean) of the number of "first tests" each year by new nuclear-weapon states.  This can be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  We fit this model and use it to predict the probabilities of further nuclear proliferation.   In brief, we estimate a probability of at least 61 percent that there will be at least one more nuclear-weapon state by 2050 and a 10 percent chance of at least 5 more by that time, unless there is a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
+This article models the time between the "first test" of a nuclear weapon by one nation and the next.  It uses this model to obtain confidence bounds on the number of nuclear-weapon states decades into the future.  A plot of the times between "first tests" of the 9 nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) that suggests a linear decrease over time in log(Poisson mean) of the number of "first tests" each year by new nuclear-weapon states.  This can be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  We fit this model and use it to predict the probabilities of further nuclear proliferation.   In brief, we estimate a probability of at least 61 percent that there will be at least one more nuclear-weapon state by 2050 and a 10 percent chance of at least 5 more by that time, unless there is a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
 
 # Introduction 
 
-The plot of times between "first tests" by the world's nuclear-weapon states as of `r nukeDataCurrent` suggests that the process of nuclear proliferation has slowed over time;  see Figure \@ref(fig:plot). 
+A plot of times between "first tests" by the world's nuclear-weapon states as of `r nukeDataCurrent` suggests that the process of nuclear proliferation has slowed over time;  see Figure \@ref(fig:plot). 
 
 ```{r, plot, fig.cap = "Time between new nuclear-weapon states"}
 library(Ecdat)
@@ -153,7 +153,7 @@ And now the US is helping Saudi Arabia obtain nuclear power, in spite of (a) the
 
 In 1976, [John Aristotle Phillips](https://en.wikipedia.org/wiki/John_Aristotle_Phillips), an "underachieving" undergraduate at Princeton University, "designed a nuclear weapon using publicly available books and papers."^[@Spokane:1976. See also @Wikip:studentBomb.] Nuclear weapons experts disagreed on whether the design would have worked.  Whether Phillips' design would have worked or not, it should be clear that the continuing progress in human understanding of atomic physics inevitably make it easier for people interested in making such weapons to acquire the knowledge of how to do so.  
 
-That was less true in the 1940s.  After Soviet premier Joseph Stalin learned of the atomic bombings of Hiroshima and Nagasaki, the USSR (now Russia) increased the funding for their nuclear program.  Their nuclear-weapons program was helped by intelligence gathering about the German nuclear weapon project and the American Manhattan Project.^[@osti:espionage.  See also @wikip:Soviet.]  
+That was less true in the 1940s.  After Soviet premier Joseph Stalin learned of the atomic bombings of Hiroshima and Nagasaki, the USSR (now Russia) increased the funding for their nuclear program.  That nuclear-weapons program was helped by intelligence gathering about the German nuclear weapon project and the American Manhattan Project.^[@osti:espionage.  See also @wikip:Soviet.]  
 
 ## Material 
 
@@ -176,7 +176,7 @@ However, Figure \@ref(fig:plot) suggests that the time between
 
 To understand the current data better, we redo Figure \@ref(fig:plot) with a log scale on the y axis in Figure \@ref(fig:ploty).   
 
-```{r ploty, fig.cap = "Time between new nuclear-weapon states"}
+```{r ploty, fig.cap = "Semilog plot of time between new nuclear-weapon states"}
 plotNucStates(log.='y')
 ```
 
@@ -208,7 +208,7 @@ From this we get the year:
 (currentYear <- year(Today))
 ```
 
-Let's include an observation for the current year only if it's more than 6 months since January 1 and since the last "first test":  
+We include an observation for the current year only if it's more than 6 months since January 1 and since the last "first test".  
 
 ```{r currentYear}
 if((month(Today)<7) || 
@@ -218,14 +218,14 @@ if((month(Today)<7) ||
       currentYear <- (year(Today)-1)
 ```
 
-Start after the year of the first test of a nuclear weapon:  
+Start after the year of the first test of a nuclear weapon.  
 
 ```{r firstYear}
 firstTstYr <- year(nuclearWeaponStates$firstTest)
 (firstYear <- firstTstYr[1])
 ```
 
-Now let's create a vector of the number of "firstTests" by year:  
+We use this to create a vector of the number of `firstTest`s by year and put this a `tibble` with `Year`.  
 
 ```{r firstTests}
 (nYrs <- currentYear - firstYear)
@@ -234,13 +234,11 @@ firstTstYrSinceFirst <- firstTstYr - firstYear
 firstTests[firstTstYrSinceFirst] <- 1
 
 library(tibble)
-#(FirstTsts <- tibble(Year=time(firstTests), 
-#      nFirstTests=as.numeric(firstTests)))
 (FirstTsts <- tibble(Year=time(firstTests), 
       nFirstTests=firstTests))
 ```
 
-Add `ctry` to this tibble:  
+We add `ctry` to this `tibble` for future reference.  
 
 ```{r firstCtry}
 Ctry <- rep('', nYrs)
@@ -249,13 +247,13 @@ Ctry[firstTstYrSinceFirst] <-
 FirstTests <- cbind(FirstTsts, ctry=Ctry)
 ```
 
-And add `timeSinceTrinity`:  
+We add `timeSinceTrinity`, which we use in modeling.    
 
 ```{r timeSince}
 FirstTests$timeSinceTrinity <- 1:nYrs
 ```
 
-Now fit this model:  
+We then fit a model with log(Poisson mean number of first tests each year) linear in `timeSinceTrinity`.  
 
 ```{r fit1}
 summary(fitProlif1 <- glm(
@@ -267,7 +265,7 @@ This says that the time trend visible in Figures \@ref(fig:plot) and \@ref(fig:p
 
 [George Box](https://en.wikipedia.org/wiki/George_E._P._Box) famously said that, ["All models are wrong, but some are useful."](https://en.wikipedia.org/wiki/All_models_are_wrong#Historical_antecedents)^[@BoxDraper:1987;  @Wikip:ModelsWrong.] 
 
-@Burnham:1998 and others claim that better predictions can generally be obtained using Bayesian Model Averaging.^[See also @Raftery:1995 and @Claeskens:2008.] In this case, we have two models:  `log(Poisson mean)` being constant or linear in `timeSinceTrinity`.  The [`bic.glm`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) function in the [`BMA`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) package can estimate these two models and compute posterior probabilities as follows:  
+@Burnham:1998 and others claim that better predictions can generally be obtained using Bayesian Model Averaging.^[See also @Raftery:1995 and @Claeskens:2008.] In this case, we have two models:  `log(Poisson mean)` being constant or linear in `timeSinceTrinity`.  The [`bic.glm`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) function in the [`BMA`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) package can estimate these two models and compute posterior probabilities.    
 
 ```{r BMA}
 library(BMA)
@@ -278,7 +276,7 @@ fitProlif <- bic.glm(
 summary(fitProlif)
 ```
 
-It is standard in the BMA literature to assume an approximate uniform distribution over all models considered with a penalty for estimating each additional parameter to correct for the tendancy of the models to overfit the data.  With these standard assumptions, this comparison of these two models estimates a `r round(100*fitProlif$postprob[2])` percent posterior probability for model including `timeSinceTrinity`, leaving `r round(100*fitProlif$postprob[1])` percent probability for the model with constant Poisson mean.  Figure \@ref(fig:plotyf) adds these lines to Figure \@ref(fig:ploty).   
+It is standard in the BMA literature to assume an approximate uniform distribution over all models considered with a penalty for estimating each additional parameter to correct for the tendancy of the models to overfit the data.  With these standard assumptions, this comparison of these two models estimates a `r round(100*fitProlif$postprob[2])` percent posterior probability for the model linear in  `timeSinceTrinity`, leaving `r round(100*fitProlif$postprob[1])` percent probability for the model with a constant Poisson mean.  Figure \@ref(fig:plotyf) adds these lines to Figure \@ref(fig:ploty).
 
 ```{r plotyf, fig.cap = "BMA fit to time between new nuclear-weapon states"}
 plotNucStates(log.='y')
@@ -318,7 +316,7 @@ simMeans <- simulate(fitProlif, nSims, seed=3,
 dim(simMeans)
 ```
 
-Let's invert these simulated Poisson means to get simulated exponential times, then summarize them in a format compatible with `nuclearWeaponStates`: 
+We invert these simulated Poisson means to get simulated exponential times, then summarize them in a format compatible with `nuclearWeaponStates`. 
 
 ```{r expSum}
 sumSims <- function(x, Year=pastfut$Year){
@@ -366,11 +364,11 @@ plotNucStatesPred <- function(x, ...){
 plotNucStatesPred(sumExpMeans)
 ```
 
-The fairly flat shape of the median and lower 10 percents lines seem consistent with a model that is `r 100*round(fitProlif$postprob[1], 2)` percent constant and `r 100*round(fitProlif$postprob[2], 2)` percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states by the end of the forecasted period, `r year(tail(sumExpMeans$Year, 1))`.  
+The fairly flat shape of the median and lower 10 percent lines seem consistent with a model that is `r 100*round(fitProlif$postprob[1], 2)` percent constant and `r 100*round(fitProlif$postprob[2], 2)` percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states by the end of the forecasted period, `r year(tail(sumExpMeans$Year, 1))`.  
 
 However, those are simulated lognormal distributions, which means that its reciprocal, the mean number of "first tests" each year, will also be lognormal with the same standard deviation on the log scale.  This standard deviation is larger the farther we extrapolate into the future.  That increasing standard deviation explains how the average or mean line in Figure \@ref(fig:plotfut) can eventually exceed the upper 10 percent line. 
 
-A more interesting and useful view of this is to plot the evolution of the number of nuclear-weapon states through the historical period followed by the forecasts per these simulations.^[In doing this, we assume a zero probability of a nuclear power giving up their nuclear weapons, as [South Africa reportedly did in 1989](https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction), prior to its [first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).  We could potentially add South Africa to `nuclearWeaponStates` with the same date as Israel, then model the distribution of the time to when a nuclear-weapon state gives up its nuclear weapons using an exponential distribution.  For that, we have one observed time and nine such times that are censored.  Standard theory in that case says that the maximum likelihood estimate of the mean time to relinquishing nuclear weapons assuming an exponential distribution is the sum of all the times, censored or observed, divided by the number of observations. For purposes of illustration, we will assume that South Africa dismanteled its nuclear weapons 1989-12-31, though a report of an inspection by the  International Atomic Energy Agency dated 1994-08-19 said they had dismantled six nuclear weapons and were still working to dismantle one more.  Based on this, the estimated mean lifetime of a nuclear-weapon state can be estimated at `r round(as.numeric(difftime(Today, as.Date('1979-09-22'), units='weeks') + sum(difftime(Today, nuclearWeaponStates$firstTest, units='weeks')))/52)` years.  We could potentially add this to the current modeling effort, but it would not likely change the answers enough to justify the additional effort.]  
+A more interesting and useful view of this is to plot the evolution of the number of nuclear-weapon states through the historical period followed by the forecasts per these simulations.^[In doing this, we assume a zero probability of a nuclear power giving up their nuclear weapons, even though [South Africa reportedly discontinued their nuclear weapons program in 1989](https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction), prior to its [first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).  We could potentially add South Africa to `nuclearWeaponStates` with the same date as Israel, then model the distribution of the time to when a nuclear-weapon state gives up its nuclear weapons using an exponential distribution.  For that, we have one observed time and nine such times that are censored.  Standard theory in that case says that the maximum likelihood estimate of the mean time to relinquishing nuclear weapons assuming an exponential distribution is the sum of all the times, censored or observed, divided by the number of observations. For purposes of illustration, we will assume that South Africa dismanteled its nuclear weapons 1989-12-31, though a report of an inspection by the  International Atomic Energy Agency dated 1994-08-19 said they had dismantled six nuclear weapons and were still working to dismantle one more.  Based on this, the estimated mean lifetime of a nuclear-weapon state can be estimated at `r round(as.numeric(difftime(Today, as.Date('1979-09-22'), units='weeks') + sum(difftime(Today, nuclearWeaponStates$firstTest, units='weeks')))/52)` years.  We could potentially add this to the current modeling effort, but it would not likely change the answers enough to justify the additional effort.]  
 
 ```{r cumsum}
 str(cumMeans <- apply(simMeans[-(1:nYrs), ], 
@@ -444,7 +442,7 @@ Let's add prediction intervals to this plot.
 
 # Prediction intervals
 
-The simplest bounds on the future are [prediction intervals](https://en.wikipedia.org/wiki/Prediction_interval), which combine the statistical uncertainty in the models with the random variability in the outcomes.  For this we use `rpois(., simMeanNucStByYr)`:
+The simplest bounds on the future are [prediction intervals](https://en.wikipedia.org/wiki/Prediction_interval), which combine the statistical uncertainty in the models with the random variability in the outcomes.  For this we use `rpois(., simMeanNucStByYr)`.  
 
 ```{r simNew}
 set.seed(9)
@@ -534,7 +532,7 @@ probProlif <- plotProbs(cumPred)
 
 Figure \@ref(fig:prolif) says there is a `r round(100*max(probProlif$probProlif))` percent chance of another nuclear-weapon state by `r tail(time(probProlif$probProlif), 1)` with a `r 100*probProlif$midLine` percent chance of at least 1 by `r probProlif$midTime[1]`.  
 
-This image may seem too pessimistic to be credible if we believe that the rate of nuclear proliferation will continue to decline, as it has historically.  However, that decline was not statistically significant in the `glm` model `fitProlif1` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.  
+This image may seem too pessimistic to be credible if we believe that the rate of nuclear proliferation will continue to decline, as suggested by Figures \@ref(fig:plot) through \@ref(fig:plotPred) above.  However, that decline was not statistically significant in the `glm` model `fitProlif1` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.
 
 One way to get more optimistic estimates is to pretend that the model `fitProlif1` above has 100 percent posterior probability rather than the mere `r round(fitProlif$postprob[2], 2)*100` percent computed with `fitProlif`.  We next look at what that estimates for future nuclear proliferation.  
 
@@ -609,11 +607,13 @@ The safest policy may be to believe that the reality is someplace in between.  A
 
 # Discussion 
 
-A growing number of leading figures have said that as long as the world maintains large nuclear arsenals, it is only a matter of time before there is a nuclear war.  Concerns like this have been expressed by two former US Secretaries of Defense ([Robert McNamara](https://en.wikipedia.org/wiki/Robert_McNamara)^[@McNamara:2003] and [William Perry](https://en.wikipedia.org/wiki/William_Perry)), two former US Secretaries of State ([Henry Kissinger](https://en.wikipedia.org/wiki/Henry_Kissinger) and [George Schultz](https://en.wikipedia.org/wiki/George_Shultz)), former US Senator [Sam Nunn](https://en.wikipedia.org/wiki/Sam_Nunn),^[@Shultz:2019] and others with, for example, the [Nuclear Threat Initiative](https://en.wikipedia.org/wiki/Nuclear_Threat_Initiative). [Daniel Ellsberg](https://en.wikipedia.org/wiki/Daniel_Ellsberg) has said that a nuclear war will most likely generate a nuclear winter that lasts several years during which 98 percent of humanity will starve to death if they do not die of something else sooner.^[@Ellsberg:2017b] Banerjee and Duflo, two of the three who won the 2019 Nobel Memorial Prize in Economics, have noted that neither economic nor political stability are assured for any country, including the United States, China and India.  In particular, they predict that economic growth will almost certainly slow substantailly in the latter two, leaving many poor people in desparate economic straits.^[@Banerjee:2019] Various journalists and academic researchers remind us that President Trump has demonized various different groups and promoted an increase in ethnic violence.  He refused in 2016 and has continued to refuse to say if he would accept the results of an election if he lost.^[Klaas:2019] Internal problems in the US, China, India or any other nuclear-weapon state could push political leaders to pursue increasingly risky foreign adventures, like Argentina did in 1982,^[@Wikip:Faulklands] possibly leading to a war that could become nuclear.   
+A growing number of leading figures have said that as long as the world maintains large nuclear arsenals, it is only a matter of time before there is a nuclear war.  Concerns like this have been expressed by two former US Secretaries of Defense ([Robert McNamara](https://en.wikipedia.org/wiki/Robert_McNamara)^[@McNamara:2003] and [William Perry](https://en.wikipedia.org/wiki/William_Perry)), two former US Secretaries of State ([Henry Kissinger](https://en.wikipedia.org/wiki/Henry_Kissinger) and [George Schultz](https://en.wikipedia.org/wiki/George_Shultz)), former US Senator [Sam Nunn](https://en.wikipedia.org/wiki/Sam_Nunn),^[@Shultz:2019] and others with, for example, the [Nuclear Threat Initiative](https://en.wikipedia.org/wiki/Nuclear_Threat_Initiative). [Daniel Ellsberg](https://en.wikipedia.org/wiki/Daniel_Ellsberg) has said that a nuclear war will most likely generate a nuclear winter that lasts several years during which 98 percent of humanity will starve to death if they do not die of something else sooner.^[@Ellsberg:2017b] Banerjee and Duflo, two of the three who won the 2019 Nobel Memorial Prize in Economics, have noted that neither economic nor political stability are assured for any country, including the United States, China and India.  In particular, they predict that economic growth will almost certainly slow substantailly in the latter two, leaving many poor people in desparate economic straits.^[@Banerjee:2019] Various journalists and academic researchers remind us that President Trump has demonized various different groups and promoted an increase in ethnic violence.  He refused in 2016 and has continued to refuse to say if he would accept the results of an election if he lost in 2020.^[Klaas:2019] Internal problems in the US, China, India or any other nuclear-weapon state could push political leaders to pursue increasingly risky foreign adventures, like Argentina did in 1982,^[@Wikip:Faulklands] possibly leading to a war that could produce nuclear Armageddon.   
 
 The present work only increases the urgency of limiting the threat of nuclear war and nuclear proliferation in particular.  This article has estimated confidence and prediction intervals for the time to the next new nuclear-weapon state.  To this end, we built two two models, one being too pessimistic to be credible and the other more optimistic than is justified by the data considered.  The optimistic model estimates a `r as.numeric(round(100*probProlif1$label_year['label_prob.1']))` percent chance of at least one more nuclear-weapon state by `r as.numeric(round(probProlif1$label_year['label_year']))` and a `r as.numeric(round(100*probProlif1$label_year['label_prob.5']))` percent chance of 5 or more by that time.  
 
-We can expect that some non-nuclear nations and terrorist groups would eagerly pursue nuclear weapons if such seemed feasible unless some unprecidented change in international law provided them with effective judicial recourse to perceived threats.  Moreover, these weapons will become more available with the passage of time unless some international movement has far more success than similar previous efforts in given the poor, weak and disfranchised effective nonviolent means for pursuing a redress of grievances.  
+We can expect that some non-nuclear nations and terrorist groups would eagerly pursue nuclear weapons if such seemed feasible unless some unprecidented change in international law provided them with effective judicial recourse to perceived threats.  
+
+Moreover, these weapons will become more available with the passage of time unless (a) a nuclear war destroys everyone's ability to make more such weapons for a long time, or (b) an international movement has far more success than similar previous efforts in giving the poor, weak and disfranchised effective nonviolent means for pursuing a redress of grievances.  
 
 # Appendix.  Plotting to a file 
 
