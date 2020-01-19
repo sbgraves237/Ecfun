@@ -1,7 +1,7 @@
 ---
 title: "Time to next new nuclear-weapon state"
 author: "Spencer Graves and Doug Samuelson"
-date: "2020-01-10"
+date: "2020-01-13"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
@@ -85,6 +85,13 @@ plotNucStates <- function(type.='n', xlim., ylim.,
     nuclearWeaponStates$firstTest)
   if(missing(ylim.))ylim. <- range(
     nuclearWeaponStates$yearsSinceLastFirstTest[-1])
+# If very wide log scale on y, 
+# make the margins wider and move the label out:    
+  if((log.=='y') && (diff(log(ylim.))>5)){
+    op <- par(mar=c(5, 6, 4, 2)+0.1)
+    on.exit(par(op))
+    line_mtext[2] <- 4
+  } 
 #  
   plot(yearsSinceLastFirstTest~firstTest, 
        nuclearWeaponStates, type=type., 
@@ -104,11 +111,11 @@ plotNucStates <- function(type.='n', xlim., ylim.,
 plotNucStates(type.='h', ylim.=ylim0)
 ```
 
-However, it stretches credibility to suggest that nuclear proliferation has stopped.  There were only 5 nuclear-weapon states when the [Treaty on the Non-Proliferation of Nuclear Weapons (NPT, Non-proliferation treaty)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  @Toon:2007 noted that in 2003 another 32 had sufficient fissile material to make nuclear weapons if they wished.  
+It stretches credibility to suggest that nuclear proliferation has stopped.  There were only 5 nuclear-weapon states when the [Treaty on the Non-Proliferation of Nuclear Weapons (NPT, Non-proliferation treaty)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  @Toon:2007 noted that in 2003 another 32 had sufficient fissile material to make nuclear weapons if they wished.  
 
 Moreover, those 32 do _NOT_ include either Turkey nor Saudi Arabia.  On 2019-09-04, Turkish President Erdogan said it was unacceptable for nuclear-armed states to forbid Turkey from acquiring its own nuclear weapons.^[@Toksabay:2019; @OConnor:2019.] 
 
-In 2006 *Forbes* reported that Saudi Arabia has "a secret underground city and dozens of underground silos for" Pakistani nuclear weapons and missiles.^[@Forbes:2006;  see also @Wikip:SaudiNuc.] In 2018 the *Middle East Monitor* reported that "Israel 'is selling nuclear information' to Saudi Arabia".^[@MEM:SaudiNuc;  see also @Wikip:SaudiNuc.]  This is particularly disturbing, because of the substantial evidence that Saudi Arabia may have been and may still be the primary recruiter and funder of Islamic terrorism.^[@Benjamin:2016; see also @Wikiv:WinTerror.]  
+Similarly, in 2006 *Forbes* reported that Saudi Arabia has "a secret underground city and dozens of underground silos for" Pakistani nuclear weapons and missiles.^[@Forbes:2006;  see also @Wikip:SaudiNuc.] In 2018 the *Middle East Monitor* reported that "Israel 'is selling nuclear information' to Saudi Arabia".^[@MEM:SaudiNuc;  see also @Wikip:SaudiNuc.]  This is particularly disturbing, because of the substantial evidence that Saudi Arabia may have been and may still be the primary recruiter and funder of Islamic terrorism.^[@Benjamin:2016; see also @Wikiv:WinTerror.]  
 
 This analysis suggests that the number of nuclear-weapon states will likely continue to grow until either (i) a nuclear war destroys the ability of anyone to make more nuclear weapons, or (ii) the fundamental structure of international relations changes to the point that any nation that perceives an external threat can confidently rely on international law for protection, without a military that might threaten other countries.
 
@@ -151,7 +158,7 @@ And now the US is helping Saudi Arabia obtain nuclear power, in spite of (a) the
 
 ## Knowledge
 
-In 1976, [John Aristotle Phillips](https://en.wikipedia.org/wiki/John_Aristotle_Phillips), an "underachieving" undergraduate at Princeton University, "designed a nuclear weapon using publicly available books and papers."^[@Spokane:1976. See also @Wikip:studentBomb.] Nuclear weapons experts disagreed on whether the design would have worked.  Whether Phillips' design would have worked or not, it should be clear that the continuing progress in human understanding of atomic physics inevitably make it easier for people interested in making such weapons to acquire the knowledge of how to do so.  
+In 1976, [John Aristotle Phillips](https://en.wikipedia.org/wiki/John_Aristotle_Phillips), an "underachieving" undergraduate at Princeton University, "designed a nuclear weapon using publicly available books and papers."^[@Spokane:1976. See also @Wikip:studentBomb.] Nuclear weapons experts disagreed on whether the design would have worked.  Whether Phillips' design would have worked or not, it should be clear that the continuing progress in human understanding of [nuclear physics](https://en.wikipedia.org/wiki/Nuclear_physics) inevitably make it easier for people interested in making such weapons to acquire the knowledge of how to do so.  
 
 That was less true in the 1940s.  After Soviet premier Joseph Stalin learned of the atomic bombings of Hiroshima and Nagasaki, the USSR (now Russia) increased the funding for their nuclear-weapons program.  That program was helped by intelligence gathering about the German nuclear weapon project and the American Manhattan Project.^[@osti:espionage.  See also @wikip:Soviet.]  
 
@@ -172,7 +179,7 @@ Reportedly the most difficult part of making nuclear weapons today is obtaining 
 Possibly the simplest model for something like the time between "first tests" in a situation like this is to assume they come from one [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) with 8 observed times between the 9 current nuclear-weapon states plus one [censored observation](https://en.wikipedia.org/wiki/Censoring_(statistics)) of the time between the most recent one and a presumed next one.[^WikivTime]  
 
 However, Figure \@ref(fig:plot) suggests that the time between 
-"first tests" of succeeding nuclear-weapon states is increasing.  This makes it difficult to use censored data estimation as just described.  
+"first tests" of succeeding nuclear-weapon states is increasing.  The decreasing hazard suggested by this figure requires mathematics that are not as easy as the censored data estimation as just described. 
 
 To understand the current data better, we redo Figure \@ref(fig:plot) with a log scale on the y axis in Figure \@ref(fig:ploty).   
 
@@ -184,7 +191,7 @@ Figures \@ref(fig:plot) and \@ref(fig:ploty) seem consistent with the following:
 
 - Time between events might be exponentially distributed but with a hazard rate that varies over time.  [Recall that the [hazard rate](https://en.wikipedia.org/wiki/Survival_analysis#Hazard_function_and_cumulative_hazard_function) for the exponential distribution is constant: $h(t) = (-d/dt \log S(t)) = \lambda$, writing the exponential survival function as $S(t) = \exp(-\lambda t)$.]  A non-constant hazard is consistent with the apparent increase in the time to the next "first test" by a new nuclear-weapon state.  
 - Even though nuclear proliferation has been slowing since 1950, it could _accelerate_ in the future if more states began to perceive greater threats from other nations.  
-- Log hazard that is either linear in the time since the first test of a nuclear weapon (code-named ["Trinity"](https://en.wikipedia.org/wiki/Trinity_(nuclear_test)))^[@Rhodes:1986.  See also @Wikip:Trinity.] or behaves like a ["Wiener process" (also called a "Brownian motion")](https://en.wikipedia.org/wiki/Wiener_process).^[This stochastic formulation would mean that the variance of the increments in log(hazard) between "first tests" is proportional to the elapsed time.  See @Wolfram:Wiener and @Wikip:Wiener.]  In this article, we model the trend as linear and leave consideration of a [Gaussian random walk](https://en.wikipedia.org/wiki/Random_walk) and similar stochastic formulations for future work.[^ranWalk]
+- Log hazard that is either linear or decreasing with some higher power of the time since the first test of a nuclear weapon (code-named ["Trinity"](https://en.wikipedia.org/wiki/Trinity_(nuclear_test)))^[@Rhodes:1986.  See also @Wikip:Trinity.] or behaves like a ["Wiener process" (also called a "Brownian motion")](https://en.wikipedia.org/wiki/Wiener_process).^[This stochastic formulation would mean that the variance of the increments in log(hazard) between "first tests" is proportional to the elapsed time.  See @Wolfram:Wiener and @Wikip:Wiener.]  In this article, we model the trend as deterministic and leave consideration of a [Gaussian random walk](https://en.wikipedia.org/wiki/Random_walk) and similar stochastic formulations for future work.[^ranWalk]
 
 Because of the well-known duality between the [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) and the [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution), we can also model this as a series of the number of events each year, month, week, or day.  For present purposes, we will use a series of annual observation.  Changing to monthly, weekly or daily observations might give us slightly better answers while possibly increasing the compute time more than it's worth.  
 
@@ -247,7 +254,7 @@ Ctry[firstTstYrSinceFirst] <-
 FirstTests <- cbind(FirstTsts, ctry=Ctry)
 ```
 
-We add `timeSinceTrinity`, which we use in modeling.    
+We add `timeSinceTrinity`, which we will use in modeling.    
 
 ```{r timeSince}
 FirstTests$timeSinceTrinity <- 1:nYrs
@@ -297,26 +304,72 @@ legend('topleft', lty=c('dashed', 'dotted'),
      bty='n')
 ```
 
-The lines in this figure seem higher than the mean of the points and a linear trend through the points.  This bias might be explained by the difference between ordinary least squares and `glm` used in this case.  
+The lines in this figure seem higher than the mean of the points and a linear trend through the points.  This bias might be explained by the difference between ordinary least squares and `glm` used in this case.
 
-We shall compute here central 80 percent confidence and prediction intervals for future nuclear proliferation based on the fitted BMA model.  (["Confidence intervals"](https://en.wikipedia.org/wiki/Confidence_interval) bound the predicted mean number of nuclear-weapon states for each future year considered.  Central 80 percent ["prediction intervals"](https://en.wikipedia.org/wiki/Prediction_interval) are limits that include the central 80 percent of distribution of the number of nuclear-weapon states.  They add the uncertainty in the modeled Poisson process to the uncertainty of estimating the mean of that process for each future year considered.)^[We could also compute $(p, 1-\alpha)$ ["tolerance intervals"](https://en.wikipedia.org/wiki/Tolerance_interval#Relation_to_other_intervals) that would have a probability of $(1-\alpha)$ of containing a proportion of at least $p$ of all future observations.  That's more complicated than what seems needed for the present application.] 
-  
+It's well known that extrapolation is problematic.  Bayesian Model Averaging offers on average more plausible predictions than using a single model.  Before proceeding, let's consider this same BMA fit with quadratic, cubic, and quartic terms.
+
+```{r fit23}
+FirstTests$time2 <- (1:nYrs)^2
+FirstTests$time3 <- (1:nYrs)^3
+FirstTests$time4 <- (1:nYrs)^4
+FirstTests$time5 <- (1:nYrs)^5
+fitProlif4 <- bic.glm(
+  FirstTests[4:7], FirstTests$nFirstTests, "poisson")
+fitProlif4$postprob
+fitProlif4$mle
+fitProlif5 <- try(bic.glm(
+  FirstTests[4:8], FirstTests$nFirstTests, "poisson"))
+```
+
+When quadratic, cubic and quartic terms are considered, the `BMA:::bic.glm` algorithm keeps only the highest order term, and their regression coefficients are all negative.  This means that the the Poisson probability as a function of `timeSinceTrinity` for each model in the Bayesian Model Average declines as `timeSinceTrinity` increases, except (obviously) for the constant model. When a fifth order term is included, the model is computationally singular.  Both these resuts make some sense, as there are only 8 years with one "first test";  all the others have zero "first tests", and no year had more than one.  
+
+We add the extra lines of `fitProlif4` to Figure \@ref(fig:plotyf) to get Figure \@ref(fig:ploty4).
+
+```{r ploty4, fig.cap = "BMA quartic fit to time between new nuclear-weapon states"}
+plotNucStates(log.='y')
+
+predProlif4 <- matrix(NA, nYrs+1, 5)
+predProlif4[, 1] <- fitProlif4$mle[1,1]
+for(pwr in 1:4){
+  predProlif4[, pwr+1] <- with(fitProlif4, 
+      mle[pwr+1, 1] + ((0:nYrs)^pwr)* 
+      fitProlif4$mle[pwr+1, pwr+1])
+}
+lgnd4 <- paste0(c('constant', 'linear', 'quadratic', 
+        'cubic', 'quartic'), 
+    ' (', 100*round(fitProlif4$postprob, 4), '%)')
+matlines(firstTest_nYrs, exp(-predProlif4), 
+         lty=1:5, col=1:5)
+legend('topleft', lty=1:5, col=1:5, lgnd4, 
+     bty='n', cex=0.95)
+```
+
+Comparing predictions between `fitProlif` and `fitProlif4` might help us understand better the limits of what we can learn from the available data.  
+
+Next, we compute here central 80 percent confidence, prediction, and (0.8, 0.8) tolerance intervals for future nuclear proliferation based on fitProlif and fitProlif4.  [["Confidence intervals"](https://en.wikipedia.org/wiki/Confidence_interval) bound the predicted mean number of nuclear-weapon states for each future year considered.  Central 80 percent ["prediction intervals"](https://en.wikipedia.org/wiki/Prediction_interval) are limits that include the central 80 percent of distribution of the number of nuclear-weapon states.  They add the uncertainty in the modeled Poisson process to the uncertainty of estimating the mean of that process for each future year considered.  We will also compute
+(0.8, 0.8) ["tolerance intervals"](https://en.wikipedia.org/wiki/Tolerance_interval#Relation_to_other_intervals); $(p, 1-\alpha)$ tolerance intervals have a probability of $(1-\alpha)$ of containing a proportion of at least $p$ of all future observations.] 
+
 # Confidence intervals    
   
-We will start by computing `nSims` simulated Poisson mean numbers of "first tests" by new nuclear-weapon states for each of the `nYrs` years used in `fitProlif` and another `nYrs` years beyond.  These simulations will later be used to compute confidence intervals for the model fit and predictions.  
+We start by computing `nSims` simulated Poisson mean numbers of "first tests" by new nuclear-weapon states for each of the `nYrs` years used in `fitProlif` and `fitProlif4` and another `nYrs` years beyond.  These simulations will later be used to compute confidence intervals for the model fit and prediction and tolerance intervals for the actual number of nuclear-weapon states.  
 
 ```{r meanSims}
 nSims <- 5000
 timeSncT <- 1:(2*nYrs)
 pastfut <- tibble(Year=firstYear+timeSncT, 
-                 timeSinceTrinity=timeSncT)
+                 timeSinceTrinity=timeSncT, 
+                 time2=timeSncT^2, time3=timeSncT^3, 
+                 time4=timeSncT^4)
 library(Ecfun)
 simMeans <- simulate(fitProlif, nSims, seed=3, 
-    newdata=pastfut['timeSinceTrinity'], type='response')
+    newdata=pastfut[2], type='response')
 dim(simMeans)
+simMeans4 <- simulate(fitProlif4, nSims, seed=3, 
+    newdata=pastfut[2:5], type='response')
+dim(simMeans4)
 ```
 
-We invert these simulated Poisson means to get simulated exponential times, then summarize them in a format compatible with `nuclearWeaponStates`. 
+We invert these simulated Poisson means to get simulated exponential times, then summarize them in a format compatible with `yearsSinceLastFirstTest` in `nuclearWeaponStates`. 
 
 ```{r expSum}
 sumSims <- function(x, Year=pastfut$Year){
@@ -335,9 +388,10 @@ sumSims <- function(x, Year=pastfut$Year){
   xSum
 }
 sumExpMeans <- sumSims(1/simMeans)
+sumExpMeans4 <- sumSims(1/simMeans4)
 ```
 
-These numbers are added to Figure \@ref(fig:ploty) to produce Figure \@ref(fig:plotfut).  
+These numbers are added to Figure \@ref(fig:ploty) to produce Figures \@ref(fig:plotfut) and \@ref(fig:plotfu4).  
 
 ```{r plotfut, fig.cap = 'Estimated mean time between "first tests," past and future'}
 plotNucStatesPred <- function(x, ...){
@@ -348,9 +402,8 @@ plotNucStatesPred <- function(x, ...){
   xlim. <- range(x$Year)
   ylim. <- range(nuclearWeaponStates$yearsSinceLastFirstTest, 
       head(x[-1], 1), tail(x[-1], 1), na.rm=TRUE)
-
+  
   plotNucStates(xlim.=xlim., ylim.=ylim., log.='y', ...)
-
   with(x, lines(Year, mean))
   with(x, lines(Year, median, lty='dashed', col='blue'))
   with(x, lines(Year, U10, lty='dotted', col='red'))
@@ -364,11 +417,25 @@ plotNucStatesPred <- function(x, ...){
 plotNucStatesPred(sumExpMeans)
 ```
 
-The fairly flat shape of the median and lower 10 percent lines seem consistent with a model that is `r 100*round(fitProlif$postprob[1], 2)` percent constant and `r 100*round(fitProlif$postprob[2], 2)` percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states by the end of the forecasted period, `r year(tail(sumExpMeans$Year, 1))`.  
+The fairly flat shape of the median and lower 10 percent lines in Figure \@ref(fig:plotfut) seem consistent with a model that is `r 100*round(fitProlif$postprob[1], 2)` percent constant and `r 100*round(fitProlif$postprob[2], 2)` percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states by the end of the forecasted period, `r year(tail(sumExpMeans$Year, 1))`.  
 
-However, those are simulated lognormal distributions, which means that its reciprocal, the mean number of "first tests" each year, will also be lognormal with the same standard deviation on the log scale.  This standard deviation is larger the farther we extrapolate into the future.  That increasing standard deviation explains how the average or mean line in Figure \@ref(fig:plotfut) can eventually exceed the upper 10 percent line. 
+The fact that the mean of the simulations exceeds the upper confidence limit for `r year(tail(sumExpMeans$Year, 1))` seems odd but can be explained by noting that this is a mixture with a smaller component being positively skewed with a mean substantially larger than the more common component.  To understand this consider a toy example 
 
-A more interesting and useful view of this is to plot the evolution of the number of nuclear-weapon states through the historical period followed by the forecasts per these simulations.^[In doing this, we assume a zero probability of a nuclear power giving up their nuclear weapons, even though [South Africa reportedly discontinued their nuclear weapons program in 1989](https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction), prior to its [first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).  We could potentially add South Africa to `nuclearWeaponStates` with the same date as Israel, then model the distribution of the time to when a nuclear-weapon state gives up its nuclear weapons using an exponential distribution.  For that, we have one observed time and nine such times that are censored.  Standard theory in that case says that the maximum likelihood estimate of the mean time to relinquishing nuclear weapons assuming an exponential distribution is the sum of all the times, censored or observed, divided by the number of observations. For purposes of illustration, we will assume that South Africa dismanteled its nuclear weapons 1989-12-31, though a report of an inspection by the  International Atomic Energy Agency dated 1994-08-19 said they had dismantled six nuclear weapons and were still working to dismantle one more.  Based on this, the estimated mean lifetime of a nuclear-weapon state can be estimated at `r round(as.numeric(difftime(Today, as.Date('1979-09-22'), units='weeks') + sum(difftime(Today, nuclearWeaponStates$firstTest, units='weeks')))/52)` years.  We could potentially add this to the current modeling effort, but it would not likely change the answers enough to justify the additional effort.]  
+$$
+X = PX_1+(1-P)X_2
+$$ 
+
+with the random variable $P$ being either 0 or 1 with E$P$ = $p$, $X_i$ being lognormal with mean and standard deviation of the logarithms being $\mu_i$ and $\sigma_i$, respectively, and with $P$ and $X_i$, $i$ = 1, 2, being independent of one another.  Consider the further simplification with $\mu_1$ = 0 = $\sigma_1$.  Then the ($1-p/2$) upper limit for $X$ is the median of the second component, $\exp(\mu_2)$, while E$X = (1-p)\exp(\mu_2 + \sigma^2_2/2)$.  Then the mean is greater than this upper limit whenever $(1-p)\exp(\sigma^2_2/2)$ > 1, which will be true if $\sigma_2 > \sqrt{-2\log(1-p)}$.  The case considered here is more complicated than this toy example, but the same principle applies.  
+
+Note further that the distribution for each year in Figure \@ref(fig:plotfut) is a mixture of lognormal distributions, which means that their reciprocals, the mean numbers of "first tests" each year, will also be a mixture of lognormals with the same standard deviations on the log scale.  This standard deviation is larger the farther we extrapolate into the future.  
+
+```{r plotfu4, fig.cap = 'Estimated mean time between "first tests" considering up to a quartic model'}
+plotNucStatesPred(sumExpMeans4)
+```
+
+The increase over time in the _mean_ time between "first tests" in Figures \@ref(fig:plotfut) and \@ref(fig:plotfu4) looks promising.  
+
+However, we are more concerned with the shorter times between "first tests", and they seem all too probable, as we shall see when we simulate and `cumsum` them.  To do that, we append these simulated predictions to a plot of the evolution of the number of nuclear-weapon states through the historical period.^[In these simulations, we assume a zero probability of a nuclear power giving up their nuclear weapons, even though [South Africa reportedly discontinued their nuclear weapons program in 1989](https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction), prior to its [first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).  We could potentially add South Africa to `nuclearWeaponStates` with the same date as Israel, then model the distribution of the time to when a nuclear-weapon state gives up its nuclear weapons using an exponential distribution.  For that, we have one observed time and eight such times that are censored.  Standard theory in that case says that the maximum likelihood estimate of the mean time to relinquishing nuclear weapons assuming an exponential distribution is the sum of all the times, censored or observed, divided by the number of times observed, not including the censored times in the denominator. For purposes of illustration, we will assume that South Africa dismanteled its nuclear weapons 1989-12-31, though a report of an inspection by the  International Atomic Energy Agency dated 1994-08-19 said they had dismantled six nuclear weapons and were still working to dismantle one more.  Based on this, the estimated mean lifetime of a nuclear-weapon state can be estimated at `r round(as.numeric(difftime(Today, as.Date('1979-09-22'), units='weeks') + sum(difftime(Today, nuclearWeaponStates$firstTest, units='weeks')))/52)` years.  We could potentially add this to the current modeling effort, but it would not likely change the answers enough to justify the additional effort.]
 
 ```{r cumsum}
 str(cumMeans <- apply(simMeans[-(1:nYrs), ], 
@@ -380,7 +447,7 @@ str(cumCI <- sumSims(
     pastfut$Year[-(1:(nYrs-1))]))
 ```
 
-These numbers are plotted in Figure \@ref(fig:plotcum).  
+These numbers are plotted in Figure \@ref(fig:plotcum). 
 
 ```{r plotcum, fig.cap = "Number of nuclear-weapon states, past and predicted mean"}
 plotNNucStates <- function(xfuture, 
@@ -438,11 +505,36 @@ plotNNucStates(cumCI)
   
 The slopes of the mean and median lines are steeper than the recent history, but the statistical evidence does not support the naive interpretation of a slowing in nuclear proliferation that one might get from considering only the most recent data.  
 
-Let's add prediction intervals to this plot.  
+We repeat this analysis with the quartic BMA mixture in Figure \@ref(fig:plotcum4). 
+
+```{r plotcum4, fig.cap = "Number of nuclear-weapon states, past and predicted mean, BMA quartic fit"}
+str(cumMeans4 <- apply(simMeans4[-(1:nYrs), ], 
+                              2, cumsum))
+quantile(cumMeans4[nYrs,])
+str(cumCI4 <- sumSims(
+    nNucStates+rbind(0, cumMeans4), 
+    pastfut$Year[-(1:(nYrs-1))]))
+
+plotNNucStates(cumCI4)
+```  
+
+Comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) shows that the higher order terms in the quartic BMA mixture widens the confidence interval, making the 10th percentile essentially flat at near zero while the mean quickly escapes the upper limit.  That sharply rising mean suggests that less than 10 percent of the simulations predict nuclear arms races that involve many nation states and many more non-state armed groups.  These outcomes are not likely, but the probabilities of such outcomes seem too large to be considered negligible, especially when gambling with the future of civilization, as we are if we fail to take aggressive action to deal with this threat.  
+
+The mean, median and 80 percent confidence limits for the final year in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) are as follows:  
+
+```{r nNucStatesLastYr}
+rbind(tail(cumCI, 1), tail(cumCI4, 1))
+```
+
+The median and lower limit are lower for the quartic BMA mixture while the upper limit is slightly higher and the mean for the quartic BMA mixture is too large to be credible.  
+
+Even ignoring the simulations of uncontrolled nuclear arms races, the median lines in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) predict between `r round(tail(cumCI, 1)$median, 1)` and `r round(tail(cumCI4, 1)$median, 1)` at the end of the current simulated period, `r year(tail(cumCI, 1)$Year)`, which is within the anticipated lifespan of a substantial portion of babies born today.  
+
+We extend this analysis by adding prediction intervals to these plots.  
 
 # Prediction intervals
 
-The simplest bounds on the future are [prediction intervals](https://en.wikipedia.org/wiki/Prediction_interval), which combine the statistical uncertainty in the models with the random variability in the outcomes.  For this we use `rpois(., simMeanNucStByYr)`.  
+The simplest bounds on the future are [prediction intervals](https://en.wikipedia.org/wiki/Prediction_interval), which combine the statistical uncertainty in the estimates of mean numbers of nuclear-weapon states with the random variability in the outcomes.  For this we use `rpois(., simMeanNucStByYr)`.  
 
 ```{r simNew}
 set.seed(9)
@@ -450,8 +542,20 @@ cumsumPred <- function(x, ...){
 ##
 ## cumsum of rpois predictions based on x
 ##  
+ rpois. <- function(n, lambda){
+      n2 <- max(length(n), length(lambda))
+      n <- rep_len(n, n2)
+      lambda <- rep_len(lambda, n2)
+#
+      big <- (lambda>1e6)
+      out <- rep(NA, n2)
+      out[big] <- rnorm(sum(big), lambda[big], sqrt(lambda[big]))
+      out[!big] <- rpois(sum(!big), lambda[!big])
+      out
+  }
+#  
   simPred <- data.frame(lapply(
-      x[-(1:nYrs),], rpois, n=nYrs))
+      x[-(1:nYrs),], rpois., n=nYrs))
   cumPred <- data.frame(lapply(
       simPred, cumsum))
   cumPred
@@ -475,6 +579,18 @@ We add this to the image in Figure \@ref(fig:plotcum) to create Figure \@ref(fig
 ```{r plotPred, fig.cap = "Number of nuclear-weapon states, past and predicted"}
 plotNNucStates(xfuture=cumC.PI)       
 ```  
+
+We do the same for the quartic BMA model in Figure \@ref(fig:plotcum4) to produce Figure \@ref(fig:plotPred4).    
+
+```{r plotPred4, fig.cap = "Number of nuclear-weapon states, past and predicted"}
+cumPred4 <- cumsumPred(simMeans4)
+cumC.PI4 <- cumsumC.PI(cumPred4, cumCI4)
+plotNNucStates(xfuture=cumC.PI4)       
+```
+
+
+
+
 
 We also plot the probability distribution of further nuclear proliferation by summarizing `simCumNewNucSt` in Figure \@ref(fig:prolif).    
 
@@ -532,7 +648,19 @@ probProlif <- plotProbs(cumPred)
 
 Figure \@ref(fig:prolif) says there is a `r round(100*max(probProlif$probProlif))` percent chance of another nuclear-weapon state by `r tail(time(probProlif$probProlif), 1)` with a `r 100*probProlif$midLine` percent chance of at least 1 by `r probProlif$midTime[1]`.  
 
+
+
+
+# Tolerance intervals
+
+
+
+
+
 This image may seem too pessimistic to be credible if we believe that the rate of nuclear proliferation will continue to decline, as suggested by Figures \@ref(fig:plot) through \@ref(fig:plotPred) above.  However, that decline was not statistically significant in the `glm` model `fitProlif1` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.
+
+
+
 
 One way to get more optimistic estimates is to pretend that the model `fitProlif1` above has 100 percent posterior probability rather than the mere `r round(fitProlif$postprob[2], 2)*100` percent computed with `fitProlif`.  We next look at what that estimates for future nuclear proliferation.  
 
@@ -759,10 +887,8 @@ if(png.) dev.off()
 
 [^ranWalk]: The [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this.  Its [`ng_bsm` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ng_bsm) supports modeling a normal random walk in log(Poisson mean) of the number of "first tests" each year. This uses the fact that [the probability distribution of the time between events in a homogeneous Poisson point process is exponential](https://en.wikipedia.org/wiki/Exponential_distribution). 
 
-[^WikivTime]: For precursors to the current study that involve censored estimation of time to a nuclear war, see @Wikiv:extinct and @Wikiv:Armageddon.  
+[^WikivTime]: For precursors to the current study that involve censored estimation of time to a nuclear war, see @Wikiv:extinct and @Wikiv:Armageddon.
 
-[^KP]:  See @Levy:2007.  That article claims that Gallucci was a special adviser on WDMs to both Clinton and G. W. Bush.  However, the Wikipedia article and @Gallucci:2001 both indicate he left government service in January 2001;  G. W. Bush took office 2001-01-20.  Similar comments were made by [Richard Barlow](https://en.wikipedia.org/wiki/Richard_Barlow_(Intelligence_analyst)#cite_note-wp-1), a CIA analyst who reported these questionable activities to a committee of the US House as noted by @Levy:2007. Barlow was reportedly severely punished for honestly answering questions in a classified briefing to an oversight committee of the US House.  Barlow said that US assistance to Pakistan's nuclear weapons program was in exchange for Pakistan's help in supplying rebels in Afghanistan fighting Soviet occupation.  This was during the [Iran-Contra affair](https://en.wikipedia.org/wiki/Iran%E2%80%93Contra_affair), which exposed actions of officials of the Reagan administration to pursue foreign policy objectives in Central America in blatant violation of law passed by Congress and signed by the President.
+[^KP]:  @Levy:2007 say that Gallucci was a special adviser on WDMs to US Presidents Clinton and G. W. Bush.  The Wikipedia article on him says he was US Assistant Secretary of State for Political-Military Affairs from July 13, 1992 to October 11, 1994 under Presidents George H. W. Bush and Bill Clinton but not G. W. Bush.  Later, per @Gallucci:2001, "In March 1998, the Department of State announced his appointment as Special Envoy to deal with the threat posed by the proliferation of ballistic missiles and weapons of mass destruction. He held this position until January 2001."  G. W. Bush became US President 2001-01-20.  Thus, if Gallucci served under G. W. Bush, it was only for a few days.  Similar remarks about the US helping Pakistan's nuclear program were made by [Richard Barlow](https://en.wikipedia.org/wiki/Richard_Barlow_(Intelligence_analyst)#cite_note-wp-1), a CIA analyst who reported these questionable activities to a committee of the US House as noted by @Levy:2007. Barlow was reportedly severely punished for honestly answering questions in a classified briefing to an oversight committee of the US House.  Barlow said that US assistance to Pakistan's nuclear weapons program was in exchange for Pakistan's help in supplying rebels in Afghanistan fighting Soviet occupation.  This was during the [Iran-Contra affair](https://en.wikipedia.org/wiki/Iran%E2%80%93Contra_affair), which exposed actions of officials of the Reagan administration to pursue foreign policy objectives in Central America in blatant violation of law passed by Congress and signed by the President.
 
 [^Pak2]:  @Burr:2012, @Burr:2013. There have also been reports that China helped Pakistan obtain nuclear weapons.  However, [China has vigorously denied those charges, many if not all of which may not be credible, having originated with the US government.](https://en.wikipedia.org/wiki/Pakistan_and_weapons_of_mass_destruction)  See @Wikip:PakNuc.
-
-Also, China reportedly wanted a counterweight against the nuclear threat to them posed by India.^[
