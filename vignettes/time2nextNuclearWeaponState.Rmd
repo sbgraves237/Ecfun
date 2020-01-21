@@ -1,5 +1,5 @@
 ---
-title: "Time to next new nuclear-weapon state"
+title: "Forecasting Nuclear Proliferation"
 author: "Spencer Graves and Doug Samuelson"
 date: "2020-01-21"
 output: bookdown::pdf_book
