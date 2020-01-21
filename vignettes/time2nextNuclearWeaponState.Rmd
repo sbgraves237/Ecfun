@@ -1,7 +1,7 @@
 ---
 title: "Time to next new nuclear-weapon state"
 author: "Spencer Graves and Doug Samuelson"
-date: "2020-01-13"
+date: "2020-01-21"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
@@ -20,12 +20,12 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 # Ecdat::nuclearWeaponStates include all 
 # first test up to nukeDataCurrent:  
-nukeDataCurrent <- as.Date('2020-01-10')
+nukeDataCurrent <- as.Date('2020-01-21')
 ```
 
 # Abstract
 
-This article models the time between the "first test" of a nuclear weapon by one nation and the next.  It uses this model to obtain confidence bounds on the number of nuclear-weapon states decades into the future.  A plot of the times between "first tests" of the 9 nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) that suggests a linear decrease over time in log(Poisson mean) of the number of "first tests" each year by new nuclear-weapon states.  This can be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  We fit this model and use it to predict the probabilities of further nuclear proliferation.   In brief, we estimate a probability of at least 61 percent that there will be at least one more nuclear-weapon state by 2050 and a 10 percent chance of at least 5 more by that time, unless there is a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
+This article models the time between the "first test" of a nuclear weapon by one nation and the next over the 74 years of history since the first such test by the US, and uses those results to forecast nuclear proliferation over the next 74 years.  A plot of the times between "first tests" of the 9 nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) that suggests a linear decrease over time in log(Poisson mean) of the number of "first tests" each year by new nuclear-weapon states.  This can be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  However, the linear trend is not statistically signficant.  We therefore use Bayesian Model Averaging (BMA).  In brief, we find that a continuation of the status quo is possible but not likely.  More likely is a continuation of nuclear proliferation until there is either a nuclear Armageddon or a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
 
 # Introduction 
 
@@ -131,7 +131,7 @@ There are, of course, multiple issues in nuclear proliferation:  a new nuclear-w
 
 Virtually any country that feels threatened would like to have some counterweight against aggression by a potential enemy.  The US funded the Manhattan project believing that Nazi Germany likely had a similar project.  
 
-@Ellsberg:2017 noted that every US president since [Truman (president: 1945-1953)](https://pl.wikipedia.org/wiki/Harry_Truman) considered the use of nuclear weapons.  [With the possible exception of Ford, all threatened to use them, sometimes publicly, sometimes in secret.](https://en.wikipedia.org/wiki/Daniel_Ellsberg#The_Doomsday_Machine) Countries threatened include the Soviet Union (now Russia), the People's Republic of China, Iraq, Iran, Libya, India, and North Korea.^[@Ellsberg:2017.  See also @Wikip:Ellsberg.]  
+@Ellsberg:2017 noted that every US president since [Truman (president: 1945-1953)](https://pl.wikipedia.org/wiki/Harry_Truman) considered the use of nuclear weapons.  [With the possible exception of Ford (president: 1974-1977), all threatened to use them, sometimes publicly, sometimes in secret.](https://en.wikipedia.org/wiki/Daniel_Ellsberg#The_Doomsday_Machine) Countries threatened include the Soviet Union (now Russia), the People's Republic of China, Iraq, Iran, Libya, India, and North Korea.^[@Ellsberg:2017.  See also @Wikip:Ellsberg.]  
 
 One might therefore understand the motivation of North Korea to accelerate their nuclear program in the early 2000s after hearing themselves along with Iran and Iraq described as the ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) by US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush)^[@Bush:2002;  see also @Wikip:AxisOfEvil.] and after then seeing Iran repeatedly threatened and Iraq invaded with [estimated deaths ranging from over 100,000 to over a million](https://en.wikipedia.org/wiki/Casualties_of_the_Iraq_War)^[For a survey of casualty estimates by many different groups, see 
 @Wikip:IraqWar.  The highest serious counts appear to have been @ORB:2008.] out of a population in 2016 of roughly 37 million.  Indeed, any reasonable person might understand the eagerness of North Korean leaders for something that could protect them from similar threats.  
@@ -176,7 +176,7 @@ Reportedly the most difficult part of making nuclear weapons today is obtaining 
 
 # Exponential time between Poisson "first tests" 
 
-Possibly the simplest model for something like the time between "first tests" in a situation like this is to assume they come from one [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) with 8 observed times between the 9 current nuclear-weapon states plus one [censored observation](https://en.wikipedia.org/wiki/Censoring_(statistics)) of the time between the most recent one and a presumed next one.[^WikivTime]  
+Possibly the simplest model for something like the time between "first tests" in an application like this is to assume they come from one [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) with 8 observed times between the 9 current nuclear-weapon states plus one [censored observation](https://en.wikipedia.org/wiki/Censoring_(statistics)) of the time between the most recent one and a presumed next one. This simple theory tells us that the maximum likelihood estimate of the mean time between such "first tests" is the total time from the US "Trinity" test to the present, `r round(yrsSinceT <- as.numeric(difftime(nukeDataCurrent, nuclearWeaponStates$firstTest[1], units='days')/365.25), 1)` years, divided by the number of new nuclear-weapon states `r (nNewNucSt <- (nrow(nuclearWeaponStates)-1))`, not counting the first, which had no predicessors.  Conclusion:  Mean time between "first tests" = `r round(yrsSinceT / nNewNucSt, 1)` years.[^WikivTime]  
 
 However, Figure \@ref(fig:plot) suggests that the time between 
 "first tests" of succeeding nuclear-weapon states is increasing.  The decreasing hazard suggested by this figure requires mathematics that are not as easy as the censored data estimation as just described. 
@@ -349,9 +349,9 @@ Comparing predictions between `fitProlif` and `fitProlif4` might help us underst
 Next, we compute here central 80 percent confidence, prediction, and (0.8, 0.8) tolerance intervals for future nuclear proliferation based on fitProlif and fitProlif4.  [["Confidence intervals"](https://en.wikipedia.org/wiki/Confidence_interval) bound the predicted mean number of nuclear-weapon states for each future year considered.  Central 80 percent ["prediction intervals"](https://en.wikipedia.org/wiki/Prediction_interval) are limits that include the central 80 percent of distribution of the number of nuclear-weapon states.  They add the uncertainty in the modeled Poisson process to the uncertainty of estimating the mean of that process for each future year considered.  We will also compute
 (0.8, 0.8) ["tolerance intervals"](https://en.wikipedia.org/wiki/Tolerance_interval#Relation_to_other_intervals); $(p, 1-\alpha)$ tolerance intervals have a probability of $(1-\alpha)$ of containing a proportion of at least $p$ of all future observations.] 
 
-# Confidence intervals    
+# Confidence limits    
   
-We start by computing `nSims` simulated Poisson mean numbers of "first tests" by new nuclear-weapon states for each of the `nYrs` years used in `fitProlif` and `fitProlif4` and another `nYrs` years beyond.  These simulations will later be used to compute confidence intervals for the model fit and prediction and tolerance intervals for the actual number of nuclear-weapon states.  
+We start by computing `nSims` simulated Poisson mean numbers of "first tests" by new nuclear-weapon states for each of the `nYrs` years used in `fitProlif` and `fitProlif4` and another `nYrs` years beyond.  These simulations will later be used to compute confidence limits for the model fit and prediction and tolerance limits for the actual number of nuclear-weapon states.  
 
 ```{r meanSims}
 nSims <- 5000
@@ -408,7 +408,7 @@ plotNucStatesPred <- function(x, ...){
   with(x, lines(Year, median, lty='dashed', col='blue'))
   with(x, lines(Year, U10, lty='dotted', col='red'))
   with(x, lines(Year, L10, lty='dotted', col='red'))
-  legend('topleft', c('80% confidence interval for the mean', 
+  legend('topleft', c('80% confidence limits for the mean', 
           'mean', 'median'),
       col=c('red', 'black', 'blue'), 
       lty=c('dotted', 'solid', 'dashed'), bty='n')
@@ -433,7 +433,7 @@ Note further that the distribution for each year in Figure \@ref(fig:plotfut) is
 plotNucStatesPred(sumExpMeans4)
 ```
 
-The increase over time in the _mean_ time between "first tests" in Figures \@ref(fig:plotfut) and \@ref(fig:plotfu4) looks promising.  
+The increase over time in the _mean_ time between "first tests" in Figures \@ref(fig:plotfut) and \@ref(fig:plotfu4) suggests a desirable decrease in the rate of nuclear proliferation.  
 
 However, we are more concerned with the shorter times between "first tests", and they seem all too probable, as we shall see when we simulate and `cumsum` them.  To do that, we append these simulated predictions to a plot of the evolution of the number of nuclear-weapon states through the historical period.^[In these simulations, we assume a zero probability of a nuclear power giving up their nuclear weapons, even though [South Africa reportedly discontinued their nuclear weapons program in 1989](https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction), prior to its [first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).  We could potentially add South Africa to `nuclearWeaponStates` with the same date as Israel, then model the distribution of the time to when a nuclear-weapon state gives up its nuclear weapons using an exponential distribution.  For that, we have one observed time and eight such times that are censored.  Standard theory in that case says that the maximum likelihood estimate of the mean time to relinquishing nuclear weapons assuming an exponential distribution is the sum of all the times, censored or observed, divided by the number of times observed, not including the censored times in the denominator. For purposes of illustration, we will assume that South Africa dismanteled its nuclear weapons 1989-12-31, though a report of an inspection by the  International Atomic Energy Agency dated 1994-08-19 said they had dismantled six nuclear weapons and were still working to dismantle one more.  Based on this, the estimated mean lifetime of a nuclear-weapon state can be estimated at `r round(as.numeric(difftime(Today, as.Date('1979-09-22'), units='weeks') + sum(difftime(Today, nuclearWeaponStates$firstTest, units='weeks')))/52)` years.  We could potentially add this to the current modeling effort, but it would not likely change the answers enough to justify the additional effort.]
 
@@ -470,6 +470,13 @@ plotNNucStates <- function(xfuture,
   lines(fT_date, 
       c(0:nNucStates, nNucStates), type='s')
   abline(v=NPTdate, lty='dashed', col='grey')
+# abline(h=20)  
+  xlim20. <- c(xlim.[1]-7*365, xlim.[1])
+  lines(xlim20., rep(20, 2), lty='dashed', col='grey', 
+        xpd=NA)
+  xlim20 <- c(as.Date('1980-01-01'), xlim.[2])
+  lines(xlim20, rep(20, 2), lty='dashed', col='grey')
+#  
   ymid <- mean(ylim.)
   text(NPTdate-.017*diff(xlim.), 
        ymid, 'NPT', col='grey', srt=90)  
@@ -481,22 +488,33 @@ plotNNucStates <- function(xfuture,
   with(xfuture, lines(Year, U10, lty='dotted', col='red'))
   with(xfuture, lines(Year, L10, lty='dotted', col='red'))
   ncols <- 3
-  if(nColsFut>5){
+  leg <- c('80% confidence limits for the mean', 'mean', 'median')
+  col. <- c('red', 'black', 'blue')
+#  
+  if('predU10' %in% names(xfuture)){
+    leg <- c(leg, '80% prediction limits')
+    col. <- c(col., 'green')
     with(xfuture, lines(Year, predU10, lty='dashed', 
               col='green', lwd=2))
     with(xfuture, lines(Year, predL10, lty='dashed', 
               col='green', lwd=2))
     ncols <- 4
   }
+  if('tolU10' %in% names(xfuture)){
+    leg <- c(leg, '(0.8, 0.8) tolerance limits')
+    col. <- c(col., 'purple')
+    with(xfuture, lines(Year, tolU10, lty='dashed', 
+              col='purple', lwd=2))
+    with(xfuture, lines(Year, tolL10, lty='dashed', 
+              col='purple', lwd=2))
+    ncols <- 4
+  }
 ##
 ## 3.  legend
 ##  
-  leg <- c('80% confidence level for the mean', 'mean', 'median', 
-           'predictions')
-  col. <- c('red', 'black', 'blue', 'green')
   lty. <- c('dotted', 'solid', 'dashed', 'dashed')
   lwd. <- c(rep(1, 3), 2)
-    
+#    
   legend('topleft', leg[1:ncols], col=col.[1:ncols], 
          lty=lty.[1:ncols], lwd=lwd., bty='n')
 }
@@ -518,41 +536,60 @@ str(cumCI4 <- sumSims(
 plotNNucStates(cumCI4)
 ```  
 
-Comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) shows that the higher order terms in the quartic BMA mixture widens the confidence interval, making the 10th percentile essentially flat at near zero while the mean quickly escapes the upper limit.  That sharply rising mean suggests that less than 10 percent of the simulations predict nuclear arms races that involve many nation states and many more non-state armed groups.  These outcomes are not likely, but the probabilities of such outcomes seem too large to be considered negligible, especially when gambling with the future of civilization, as we are if we fail to take aggressive action to deal with this threat.  
+Comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) shows that the higher order terms in the quartic BMA mixture widens the confidence limits, making the 10th percentile essentially flat with almost no additional nuclear proliferation, while the mean quickly escapes the upper limit.  That sharply rising mean suggests that less than 10 percent of the simulations predict nuclear arms races that involve many nation states and many more non-state armed groups.  These outcomes are not likely, but the probabilities of such outcomes seem too large to be considered negligible, especially when gambling with the future of civilization, as we are if we fail to take aggressive action to deal with this threat.  
 
 The mean, median and 80 percent confidence limits for the final year in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) are as follows:  
 
 ```{r nNucStatesLastYr}
-rbind(tail(cumCI, 1), tail(cumCI4, 1))
+cumCI2 <- rbind(tail(cumCI, 1), tail(cumCI4, 1))
+rownames(cumCI2) <- c('BMA2', 'BMA4')
+cumCI2
 ```
 
-The median and lower limit are lower for the quartic BMA mixture while the upper limit is slightly higher and the mean for the quartic BMA mixture is too large to be credible.  
+The median and lower limit are lower for the quartic BMA mixture while the upper limit is slightly higher, and the mean for the quartic BMA mixture is too large to be credible.  
 
-Even ignoring the simulations of uncontrolled nuclear arms races, the median lines in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) predict between `r round(tail(cumCI, 1)$median, 1)` and `r round(tail(cumCI4, 1)$median, 1)` at the end of the current simulated period, `r year(tail(cumCI, 1)$Year)`, which is within the anticipated lifespan of a substantial portion of babies born today.  
+Even ignoring the simulations of uncontrolled nuclear arms races, the median lines in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) predict between `r round(tail(cumCI, 1)$median, 1)` and `r round(tail(cumCI4, 1)$median, 1)` at the end of the current simulated period, `r year(tail(cumCI, 1)$Year)`, which is within the anticipated lifespan of a substantial portion of babies born today.  Those _median_ numbers are a little less than double the number of nuclear-weapon states today.  
 
 We extend this analysis by adding prediction intervals to these plots.  
 
-# Prediction intervals
+# Prediction limits
 
 The simplest bounds on the future are [prediction intervals](https://en.wikipedia.org/wiki/Prediction_interval), which combine the statistical uncertainty in the estimates of mean numbers of nuclear-weapon states with the random variability in the outcomes.  For this we use `rpois(., simMeanNucStByYr)`.  
 
 ```{r simNew}
 set.seed(9)
+rpois. <- function(n, lambda){
+## 
+## Some of the means are so large that 
+## rpois sometimes returns NAs.  
+## Avoid this by outputting numerics
+## rather than integers in those cases.
+## NOTE:  This was discussed on 
+## r-devel@r-project.org 2020-01-19 and 20
+## with the tentative conclusion that 
+## a change such as documented here 
+## might be implemented in a future version
+## of R.  If that happens, this 
+## function will no longer be needed.  
+##  
+      n2 <- max(n, length(lambda))
+      n. <- rep_len(n, n2)
+      lam <- rep_len(lambda, n2)
+#  If Poisson mean = 0.9*.Machine$integer.max, 
+#  an observation would have to be over 
+#  4600 standard deviations above the mean 
+#  to generate an error.        
+      big <- (lam>0.9*.Machine$integer.max)
+      out <- rep(NA, n2)
+      out[big] <- round(rnorm(sum(big), 
+                  lam[big], sqrt(lam[big])))
+      out[!big] <- rpois(sum(!big), lam[!big])
+      out
+}
 cumsumPred <- function(x, ...){
 ##
 ## cumsum of rpois predictions based on x
 ##  
- rpois. <- function(n, lambda){
-      n2 <- max(length(n), length(lambda))
-      n <- rep_len(n, n2)
-      lambda <- rep_len(lambda, n2)
-#
-      big <- (lambda>1e6)
-      out <- rep(NA, n2)
-      out[big] <- rnorm(sum(big), lambda[big], sqrt(lambda[big]))
-      out[!big] <- rpois(sum(!big), lambda[!big])
-      out
-  }
 #  
   simPred <- data.frame(lapply(
       x[-(1:nYrs),], rpois., n=nYrs))
@@ -580,19 +617,15 @@ We add this to the image in Figure \@ref(fig:plotcum) to create Figure \@ref(fig
 plotNNucStates(xfuture=cumC.PI)       
 ```  
 
-We do the same for the quartic BMA model in Figure \@ref(fig:plotcum4) to produce Figure \@ref(fig:plotPred4).    
+We do the same for the quartic BMA model in Figure \@ref(fig:plotcum4) to produce Figure \@ref(fig:plotPred4).  In both Figures \@ref(fig:plotPred) and \@ref(fig:plotPred4) the most likely scenarios, especially the median line and the space more generally between the 80 percent confidence limits, predict a continuation of nuclear proliferation.  It's difficult to imagine how that could continue without also substantively increasing the risk of nuclear war and therefore also of the extinction of civilization.  
 
-```{r plotPred4, fig.cap = "Number of nuclear-weapon states, past and predicted"}
+```{r plotPred4, fig.cap = "Number of nuclear-weapon states, past and predicted per quartic BMA model"}
 cumPred4 <- cumsumPred(simMeans4)
 cumC.PI4 <- cumsumC.PI(cumPred4, cumCI4)
 plotNNucStates(xfuture=cumC.PI4)       
 ```
 
-
-
-
-
-We also plot the probability distribution of further nuclear proliferation by summarizing `simCumNewNucSt` in Figure \@ref(fig:prolif).    
+We also plot the probability distribution of further nuclear proliferation by summarizing `cumPred` in Figure \@ref(fig:prolif).    
 
 ```{r prolif, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states"}
 plotProbs <- function(x, label_year=2050, ...){ 
@@ -648,23 +681,76 @@ probProlif <- plotProbs(cumPred)
 
 Figure \@ref(fig:prolif) says there is a `r round(100*max(probProlif$probProlif))` percent chance of another nuclear-weapon state by `r tail(time(probProlif$probProlif), 1)` with a `r 100*probProlif$midLine` percent chance of at least 1 by `r probProlif$midTime[1]`.  
 
+We replicate Figure \@ref(fig:prolif) for the quartic BMA model in Figure \@ref(fig:prolif4).
 
+```{r prolif4, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states using the quartic BMA model"}
+probProlif4 <- plotProbs(cumPred4)
+```
 
+The quartic BMA model summarized in Figure \@ref(fig:prolif4) is more optimistic than the constant-linear BMA model summarized in Figure \@ref(fig:prolif):  The estimated probability of one more nuclear-weapon state by 2050 drops from `r round(window(probProlif$probProlif, 2050, 2050)[,1], 2)` for the constant-linear mixture to `r round(window(probProlif4$probProlif, 2050, 2050)[,1], 2)` for the quartic BMA model.  However, the conclusions from even this more optimistic model remain the same:  
 
-# Tolerance intervals
+\vspace{\baselineskip}
+\centerline{\textit{\textbf{The current structure of international relations}}}
 
+\centerline{\textit{\textbf{threatens the extinction of civilization.}}}
+\vspace{\baselineskip}
 
+To better quantify the uncertainty in modeling, we next construct tolerance intervals for the time to the next new nuclear-weapon state.  
 
+# Tolerance limits
 
+We want to add tolerance rather then prediction limits to Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4).  To do this, we add `rpois` simulations to the limits in those figures, rather than `rpois` simulations all the background simulations used to construct Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4).  
+
+```{r simTol}
+cumsumTol <- function(x=cumCI, ...){
+##
+## cumsum of rpois predictions based on x
+##  
+#  
+  simTolU. <- rpois.(nSims*nYrs, diff(x$U10))
+  simTolU <- matrix(rpois.(nSims*nYrs, 
+                    diff(x$U10)), nYrs)
+  simTolL <- matrix(rpois.(nSims*nYrs, 
+                    diff(x$L10)), nYrs)
+#  
+  cumTolU <- apply(simTolU, 2, cumsum)
+  cumTolL <- apply(simTolL, 2, cumsum)
+#
+  cumTolU10 <- apply(cumTolU, 1, quantile, probs=0.9)
+  cumTolL10 <- apply(cumTolL, 1, quantile, probs=0.1)
+#    
+  x$tolL10 <- (nNucStates + c(0, cumTolL10))
+  x$tolU10 <- (nNucStates + c(0, cumTolU10))
+#
+  as.data.frame(x)
+}
+cumTol <- cumsumTol(cumCI)
+```
+
+```{r plotTol, fig.cap = "Number of nuclear-weapon states, past and predicted"}
+plotNNucStates(cumTol)
+```
+
+The upper limit line in Figure \@ref(fig:plotTol) is higher than that in \@ref(fig:plotcum).  It gives us a bit more humility regarding the value of current knowledge.  However, the difference is not enough to substantively alter our conclusions, namely that nuclear proliferation is likely and should not be ignored.  
+
+Do we get the same considering the quartic BMA model?  
+
+```{r plotTol4, fig.cap = "Number of nuclear-weapon states, past and predicted per quartic BMA model"}
+cumTol4 <- cumsumTol(cumCI4)
+plotNNucStates(cumTol4)
+```
+
+Indeed, the conclusion from Figure \@ref(fig:plotTol4) is the same as before: Nuclear proliferation is likely to continue until something makes it impossible for anyone to make more nuclear weapons for a very long time.  This will either happen as a result of (a) a nuclear war leading to the destruction of civilization or (b) a major and unprecidented political movement that strengthens international law to the point that the poor, weak, and disfranchised have effective judicial redress for grievances.  
+
+# THE END?  
+
+DOUG SAMUELSON and others:  My current thought is to end this paper at this point and delete the next section.  I may want to retain the appendix and use it to document the production of figures used in a Wikiversity article summarizing these results.  
+
+# Predictions per the linear-only model 
 
 This image may seem too pessimistic to be credible if we believe that the rate of nuclear proliferation will continue to decline, as suggested by Figures \@ref(fig:plot) through \@ref(fig:plotPred) above.  However, that decline was not statistically significant in the `glm` model `fitProlif1` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.
 
-
-
-
 One way to get more optimistic estimates is to pretend that the model `fitProlif1` above has 100 percent posterior probability rather than the mere `r round(fitProlif$postprob[2], 2)*100` percent computed with `fitProlif`.  We next look at what that estimates for future nuclear proliferation.  
-
-# Predictions per the linear-only model 
 
 We want analogues to Figures \@ref(fig:plotfut), \@ref(fig:plotPred), and \@ref(fig:prolif), as summarized in the following table.    
 
