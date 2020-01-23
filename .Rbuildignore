@@ -1,3 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
+vignettes/time2nextNuclearWeaponState.aux
+vignettes/time2nextNuclearWeaponState.log
+vignettes/time2nextNuclearWeaponState.out
+vignettes/time2nextNuclearWeaponState.tex
+vignettes/time2nextNuclearWeaponState.toc
+cran-comments.md
