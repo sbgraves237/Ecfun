@@ -1,6 +1,6 @@
 ---
 title: "Forecasting Nuclear Proliferation"
-author: "Spencer Graves and Doug Samuelson"
+author: "Spencer Graves (and Doug Samuelson?)"
 date: "2020-01-21"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
