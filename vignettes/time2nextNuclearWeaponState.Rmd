@@ -1,7 +1,7 @@
 ---
 title: "Forecasting Nuclear Proliferation"
 author: "Spencer Graves (and Doug Samuelson?)"
-date: "2020-01-21"
+date: "2020-01-25"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
@@ -20,7 +20,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 # Ecdat::nuclearWeaponStates include all 
 # first test up to nukeDataCurrent:  
-nukeDataCurrent <- as.Date('2020-01-21')
+nukeDataCurrent <- as.Date('2020-01-25')
 ```
 
 # Abstract
@@ -507,13 +507,13 @@ plotNNucStates <- function(xfuture,
               col='purple', lwd=2))
     with(xfuture, lines(Year, tolL10, lty='dashed', 
               col='purple', lwd=2))
-    ncols <- 4
+    ncols <- ncols+1
   }
 ##
 ## 3.  legend
 ##  
-  lty. <- c('dotted', 'solid', 'dashed', 'dashed')
-  lwd. <- c(rep(1, 3), 2)
+  lty. <- c('dotted', 'solid', rep('dashed', 3))
+  lwd. <- c(rep(1, 3), 2, 2)
 #    
   legend('topleft', leg[1:ncols], col=col.[1:ncols], 
          lty=lty.[1:ncols], lwd=lwd., bty='n')
@@ -724,7 +724,7 @@ cumsumTol <- function(x=cumCI, ...){
 #
   as.data.frame(x)
 }
-cumTol <- cumsumTol(cumCI)
+cumTol <- cumsumTol(cumC.PI)
 ```
 
 ```{r plotTol, fig.cap = "Number of nuclear-weapon states, past and predicted"}
@@ -736,7 +736,7 @@ The upper limit line in Figure \@ref(fig:plotTol) is higher than that in \@ref(f
 Do we get the same considering the quartic BMA model?  
 
 ```{r plotTol4, fig.cap = "Number of nuclear-weapon states, past and predicted per quartic BMA model"}
-cumTol4 <- cumsumTol(cumCI4)
+cumTol4 <- cumsumTol(cumC.PI4)
 plotNNucStates(cumTol4)
 ```
 
