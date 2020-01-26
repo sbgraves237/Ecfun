@@ -364,7 +364,13 @@ library(Ecfun)
 simMeans <- simulate(fitProlif, nSims, seed=3, 
     newdata=pastfut[2], type='response')
 dim(simMeans)
-simMeans4 <- simulate(fitProlif4, nSims, seed=3, 
+
+# earlier simulations showed a curve 
+# for the mean of simMeans4 that 
+# that was quite extreme. 
+# Check it by set.seed(1) here
+# and 2, 3, ... later
+simMeans4 <- simulate(fitProlif4, nSims, seed=1, 
     newdata=pastfut[2:5], type='response')
 dim(simMeans4)
 ```
@@ -538,15 +544,39 @@ plotNNucStates(cumCI4)
 
 Comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) shows that the higher order terms in the quartic BMA mixture widens the confidence limits, making the 10th percentile essentially flat with almost no additional nuclear proliferation, while the mean quickly escapes the upper limit.  That sharply rising mean suggests that less than 10 percent of the simulations predict nuclear arms races that involve many nation states and many more non-state armed groups.  These outcomes are not likely, but the probabilities of such outcomes seem too large to be considered negligible, especially when gambling with the future of civilization, as we are if we fail to take aggressive action to deal with this threat.  
 
-The mean, median and 80 percent confidence limits for the final year in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) are as follows:  
+We replicate the production of cumCI4 to see how stable the numbers are for the final year in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4), starting with what we have.  
 
-```{r nNucStatesLastYr}
+```{r qq4, fig.cap = "Lognormal probability plot of mean numbers of nuclear-weapon states per the quartic mixture model in the last simulated year"}
 cumCI2 <- rbind(tail(cumCI, 1), tail(cumCI4, 1))
 rownames(cumCI2) <- c('BMA2', 'BMA4')
+
+for(i in 2:10){
+  simMeans4b <- simulate(fitProlif4, nSims, seed=i, 
+      newdata=pastfut[2:5], type='response')
+  cumMeans4b <- apply(simMeans4b[-(1:nYrs), ], 
+                              2, cumsum)
+  cumCI4b <- sumSims(
+    nNucStates+rbind(0, cumMeans4b), 
+    pastfut$Year[-(1:(nYrs-1))])
+  cumCI2 <- rbind(cumCI2, tail(cumCI4b, 1))
+  rownames(cumCI2)[i+1] <- paste0(
+    'BMA4', letters[i])
+}
+
+qqCI2 <- as.data.frame(
+  qqnorm(cumCI2$mean[-1], datax=TRUE, 
+       log='x', ylab='simulated mean'))
+with(qqCI2[1, , drop=FALSE], 
+     points(x, y, pch=15))
+with(qqCI2[1, , drop=FALSE], 
+     text(x, y, adj=c(0, 0.5), 
+          '  <- used in other figures'))
 cumCI2
 ```
 
-The median and lower limit are lower for the quartic BMA mixture while the upper limit is slightly higher, and the mean for the quartic BMA mixture is too large to be credible.  
+These replications establish that the simulated `mean` number of nuclear-weapon states in the last simulated year, `r year(tail(cumCI$Year, 1))`, in Figure \@ref(fig:plotcum4) is _not_ a complete outlier.  
+
+Beyond that, comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) establishes that the median and lower limit are lower for the quartic BMA mixture while the upper limit is slightly higher, and the mean for the quartic BMA mixture is too large to be credible.  
 
 Even ignoring the simulations of uncontrolled nuclear arms races, the median lines in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) predict between `r round(tail(cumCI, 1)$median, 1)` and `r round(tail(cumCI4, 1)$median, 1)` at the end of the current simulated period, `r year(tail(cumCI, 1)$Year)`, which is within the anticipated lifespan of a substantial portion of babies born today.  Those _median_ numbers are a little less than double the number of nuclear-weapon states today.  
 
