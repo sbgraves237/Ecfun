@@ -386,9 +386,10 @@ sumSims <- function(x, Year=pastfut$Year){
   Yr <- as.Date(paste0(Year, '-07-01'))
   xMean <- apply(x, 1, mean)
   xCI <- apply(x, 1, quantile, 
-                  probs=c(.1, .5, .9))
+          probs=c(.1, .2, .5, .8, .9))
 # fix names
-  rownames(xCI) <- c('L10', 'median', 'U10') 
+  rownames(xCI) <- c(
+    'L10', 'L20', 'median', 'U20', 'U10') 
   xSum <- data.frame(Year=Yr, 
         mean=xMean, data.frame(t(xCI)))
   xSum
@@ -414,7 +415,9 @@ plotNucStatesPred <- function(x, ...){
   with(x, lines(Year, median, lty='dashed', col='blue'))
   with(x, lines(Year, U10, lty='dotted', col='red'))
   with(x, lines(Year, L10, lty='dotted', col='red'))
-  legend('topleft', c('80% confidence limits for the mean', 
+  with(x, lines(Year, U20, lty='dotted', col='red'))
+  with(x, lines(Year, L20, lty='dotted', col='red'))
+  legend('topleft', c('60, 80% confidence limits for the mean', 
           'mean', 'median'),
       col=c('red', 'black', 'blue'), 
       lty=c('dotted', 'solid', 'dashed'), bty='n')
@@ -493,8 +496,10 @@ plotNNucStates <- function(xfuture,
   with(xfuture, lines(Year, median, lty='dashed', col='blue'))
   with(xfuture, lines(Year, U10, lty='dotted', col='red'))
   with(xfuture, lines(Year, L10, lty='dotted', col='red'))
+  with(xfuture, lines(Year, U20, lty='dotted', col='red'))
+  with(xfuture, lines(Year, L20, lty='dotted', col='red'))
   ncols <- 3
-  leg <- c('80% confidence limits for the mean', 'mean', 'median')
+  leg <- c('60, 80% confidence limits for the mean', 'mean', 'median')
   col. <- c('red', 'black', 'blue')
 #  
   if('predU10' %in% names(xfuture)){
@@ -633,9 +638,20 @@ cumsumC.PI <- function(cumsumPred, cumsumCI, ...){
   cumPI <- sumSims(  
       nNucStates+rbind(0, cumsumPred),
       pastfut$Year[-(1:(nYrs-1))])
-  names(cumPI)[c(3, 5)] <- paste0('pred', 
-                            c('L', 'U'), 10)
-  cumC.PI <- cbind(cumsumCI, cumPI[c(3, 5)])
+  prd. <- which(names(cumPI) %in% 
+              c('L10', 'L20', 'U20', 'U10'))
+  names(cumPI)[prd.] <- paste0('pred', 
+              c('L10', 'L20', 'U20', 'U10'))      
+# checks
+  dYr <- difftime(cumsumCI$Year, cumPI$Year, 'days')
+  if(any(as.numeric(dYr)>0)) 
+      stop('Years do not match')
+  rd.mean <- ((cumsumCI$mean-cumPI$mean) /
+      (cumsumCI$mean+cumPI$mean) )
+  if(any(rd.mean>0.01))
+    stop('means do not match')
+# cbind  
+  cumC.PI <- cbind(cumsumCI, cumPI[prd.])
   cumC.PI
 }
 cumC.PI <- cumsumC.PI(cumPred, cumCI)
