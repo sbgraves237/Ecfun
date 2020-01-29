@@ -788,90 +788,17 @@ plotNNucStates(cumTol4)
 
 Indeed, the conclusion from Figure \@ref(fig:plotTol4) is the same as before: Nuclear proliferation is likely to continue until something makes it impossible for anyone to make more nuclear weapons for a very long time.  This will either happen as a result of (a) a nuclear war leading to the destruction of civilization or (b) a major and unprecidented political movement that strengthens international law to the point that the poor, weak, and disfranchised have effective judicial redress for grievances.  
 
-# THE END?  
-
-DOUG SAMUELSON and others:  My current thought is to end this paper at this point and delete the next section.  I may want to retain the appendix and use it to document the production of figures used in a Wikiversity article summarizing these results.  
-
-# Predictions per the linear-only model 
-
-This image may seem too pessimistic to be credible if we believe that the rate of nuclear proliferation will continue to decline, as suggested by Figures \@ref(fig:plot) through \@ref(fig:plotPred) above.  However, that decline was not statistically significant in the `glm` model `fitProlif1` above.  This encouraged us to use Bayesian Model Averaging (BMA), which placed more weight on the constant model.
-
-One way to get more optimistic estimates is to pretend that the model `fitProlif1` above has 100 percent posterior probability rather than the mere `r round(fitProlif$postprob[2], 2)*100` percent computed with `fitProlif`.  We next look at what that estimates for future nuclear proliferation.  
-
-We want analogues to Figures \@ref(fig:plotfut), \@ref(fig:plotPred), and \@ref(fig:prolif), as summarized in the following table.    
-
-```{r TableOfFigs, fig.cap = "Predictions per Bayesian Model Averaging and linear-only models"}
-tabOfFigs <- data.frame(Function=
-      c('', 'plotNucStatesPred', 'plotNNucStates', 
-        'plotProbs'), 
-    BMA=c('Figure (data)', '4 (sumExpMeans)', 
-          '6 (cumC.PI)', '7 (cumPred)'), 
-    glm=c('Figure (data)', '8 (sumExpMeans1)', 
-          '9 (cumC.PI1)', '10 (cumPred1)'))
-names(tabOfFigs)[1] <- 'function'
-rownames(tabOfFigs) <- c('', 
-   'Estimated mean time between "first tests"', 
-   'Number of nuclear-weapon states', 
-   paste("dist'n of time to", 
-         'more nuc-weapon states') )
-knitr::kable(tabOfFigs)
-```
-
-\vspace{\baselineskip}
-As before, we use simulations.  
-
-```{r PoissonLin}
-simMeans1 <- simulate(fitProlif1, nSims, seed=3, 
-    newdata=pastfut['timeSinceTrinity'], type='response')
-```
-
-These numbers are added to Figure \@ref(fig:ploty) to produce Figure \@ref(fig:plotfut1), comparable to Figure \@ref(fig:plotfut), assuming the linear model had 100 percent of the posterior probability, not just `r round(fitProlif$postprob[2], 2)*100` percent.  
-
-```{r plotfut1, fig.cap = 'Estimated mean time between "first tests" with log-linear model'}
-sumExpMeans1 <- sumSims(1/simMeans1)
-
-op <- par(mar=c(5,5,4,2))
-plotNucStatesPred(sumExpMeans1, line_mtext=c(3, 3))
-par(op)
-```
-
-This model intuitively seems more consistent with the data than the BMA model.  However, to find it plausible, we need to to believe other information we have about nuclear proliferation beyond the estimates of uncertainty documented in the BMA model, `fitProlif`.  
-
-We similary modify Figure \@ref(fig:plotPred) to produce Figure \@ref(fig:plotPred1).  
-
-```{r plotPred1, fig.cap = 'Number of nuclear-weapon states, past and predicted with the glm model'}
-cumPred1 <- cumsumPred(simMeans1)
-
-str(cumMeans1 <- apply(simMeans1[-(1:nYrs), ], 
-                              2, cumsum))
-
-str(cumCI1 <- sumSims(
-    nNucStates+rbind(0, cumMeans1), 
-    pastfut$Year[-(1:(nYrs-1))]))
-
-cumC.PI1 <- cumsumC.PI(cumPred1, cumCI1)
-plotNNucStates(xfuture=cumC.PI1)
-```
-
-We also sumarize the probability distribution of the time to more nuclear-weapon states in Figure \@ref(fig:prolif1), similar to Figure \@ref(fig:prolif).  
-
-```{r prolif1, fig.cap='Probability distribution of the time to more nuclear-weapon states per glm model'}
-probProlif1 <- plotProbs(cumPred1)
-```
-
-As expected Figures \@ref(fig:plotfut1), \@ref(fig:plotPred1), and \@ref(fig:prolif1) provide a more optimistic image than the comparable Figures \@ref(fig:plotfut), \@ref(fig:plotPred), and \@ref(fig:prolif).  The estimated probability of at least one more nuclear-weapon state by the end of the forecast period, `r tail(time(probProlif1$probProlif), 1)`, dropped from `r round(max(probProlif$probProlif)*100)` percent in Figure \@ref(fig:prolif) to `r round(max(probProlif1$probProlif)*100)` percent in Figure \@ref(fig:prolif1).  Not surprisingly, the probability distributions associated with all aspects of nuclear proliferation are more optimistic with the single `glm` model, `fitProlif1`, than the comparable `BMA` model, `fitProlif`.  
-
-However, to believe the more optimistic analysis, we must use evidence beyond what's in the data.  
-
-The safest policy may be to believe that the reality is someplace in between.  At any event, it seems unwise to pretend that the future will likely be better than the more optimistic scenario provided by `fitProlif1` and the accompanying Figures \@ref(fig:plotfut1), \@ref(fig:plotPred1), and \@ref(fig:prolif1) -- unless we actually see an international de-nuclearization movement with momentum far beyond what we currently see with the [International Campaign to Abolish Nuclear Weapons (ICAN)](https://en.wikipedia.org/wiki/International_Campaign_to_Abolish_Nuclear_Weapons), the United Nations [Treaty on the Prohibition of Nuclear Weapons](https://en.wikipedia.org/wiki/Treaty_on_the_Prohibition_of_Nuclear_Weapons), and related efforts.   
-
 # Discussion 
 
 A growing number of leading figures have said that as long as the world maintains large nuclear arsenals, it is only a matter of time before there is a nuclear war.  Concerns like this have been expressed by two former US Secretaries of Defense ([Robert McNamara](https://en.wikipedia.org/wiki/Robert_McNamara)^[@McNamara:2003] and [William Perry](https://en.wikipedia.org/wiki/William_Perry)), two former US Secretaries of State ([Henry Kissinger](https://en.wikipedia.org/wiki/Henry_Kissinger) and [George Schultz](https://en.wikipedia.org/wiki/George_Shultz)), former US Senator [Sam Nunn](https://en.wikipedia.org/wiki/Sam_Nunn),^[@Shultz:2019] and others with, for example, the [Nuclear Threat Initiative](https://en.wikipedia.org/wiki/Nuclear_Threat_Initiative). [Daniel Ellsberg](https://en.wikipedia.org/wiki/Daniel_Ellsberg) has said that a nuclear war will most likely generate a nuclear winter that lasts several years during which 98 percent of humanity will starve to death if they do not die of something else sooner.^[@Ellsberg:2017b] 
 
 Banerjee and Duflo, two of the three who won the 2019 Nobel Memorial Prize in Economics, have noted that neither economic nor political stability are assured for any country, including the United States, China and India.  In particular, they predict that economic growth will almost certainly slow substantailly in the latter two, leaving many poor people in desparate economic straits.^[@Banerjee:2019] Various journalists and academic researchers remind us that President Trump has demonized various different groups and promoted an increase in ethnic violence.  He refused in 2016 and has continued to refuse to say if he would accept the results of an election if he lost in 2020.^[Klaas:2019] Internal problems in the US, China, India or any other nuclear-weapon state could push political leaders to pursue increasingly risky foreign adventures, like Argentina did in 1982,^[@Wikip:Faulklands] possibly leading to a war that could produce nuclear Armageddon.   
 
-The present work only increases the urgency of limiting the threat of nuclear war and nuclear proliferation in particular.  This article has estimated confidence and prediction intervals for the time to the next new nuclear-weapon state.  To this end, we built two two models, one being too pessimistic to be credible and the other more optimistic than is justified by the data considered.  The optimistic model estimates a `r as.numeric(round(100*probProlif1$label_year['label_prob.1']))` percent chance of at least one more nuclear-weapon state by `r as.numeric(round(probProlif1$label_year['label_year']))` and a `r as.numeric(round(100*probProlif1$label_year['label_prob.5']))` percent chance of 5 or more by that time.  
+The present work only increases the urgency of limiting the threat of nuclear war and nuclear proliferation in particular.  
+
+In the 20 years following the first test of a nuclear weapon on `r nuclearWeaponStates$firstTest[1]` by the US, four more nations acquired such weapons.  In the 50 years since the Non-Proliferation Treaty took effect in 1970, another four acquired them, according to a commonly accepted list of existing nuclear-weapon states and when they each first tested a nuclear weapon.  Our analysis of the available data considering only the dates of these first tests suggests that nuclear proliferation may have been slowing throughout this period.  However, that apparent trend was not statistically significant in the model we fit.  
+
+It's known that Bayesian Model Averages (BMA) tend to give better predictions than single model fits.  Accordingly, we've estimated confidence, prediction, and tolerance limits for the number of new nuclear-weapon states `r nYrs` years into the future based on two BMA models with mixtures of either a constant with a linear model or a constant with terms up to quartic in the time since the very first test of a nuclear weapon.   
 
 We can expect that some non-nuclear nations and terrorist groups would eagerly pursue nuclear weapons if such seemed feasible unless some unprecidented change in international law provided them with effective judicial recourse to perceived threats.  
 
