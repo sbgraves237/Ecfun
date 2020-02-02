@@ -11,6 +11,11 @@
 #    Travis hasn't worked for me since.  
 # OK on win-bilder devel 2020-02-01
 # NOTEs on check_rhub: 
+
+#> Packages unavailable to check Rd xrefs: 
+# 'EnvStats', 'drc', 'zoo', 'prodlim', 'TRAMPR'
+# I hope I can safely ignore this NOTE.   
+
 #   Found the following (possibly) invalid URLs:
 #   https://www.measuringworth.com/
 #   ** THIS IS A VALID URL 
