@@ -183,7 +183,7 @@ if(Update){
 }
 ```  
 
-Next: battleDeaths and battleDeathsPMP:  
+Next:  `battleDeaths` and `battleDeathsPMP`:  
 
 ```{r battleDeaths}
 if(Update){
@@ -204,7 +204,18 @@ if(Update){
 
 ## Unemployment?  
 
-Unemployment figures came from different sources for different years.  Since 1940 the source has been the Bureau of Labor Statistics (BLS), series LNS14000000 from the Curent Population Survey.  These data are available as a monthly series from the [Current Population Survey of the Bureau of Labor Statistics](https://www.bls.gov/cps/).  Download the most recent years as an Excel file, compute row averages, and manually transfer the numbers for the most recent years here:  
+Unemployment figures came from different 
+sources for different years.  Since 1940 
+the source has been the Bureau of Labor 
+Statistics (BLS), series LNS14000000 from 
+the Current Population Survey.  These data 
+are available as a monthly series from 
+the [Current Population Survey of the Bureau 
+of Labor Statistics](https://www.bls.gov/cps/).  
+Download the most recent years as an Excel 
+file, compute row averages, and manually 
+transfer the numbers for the most recent years 
+here:  
 
 ```{r unemp}
 if(Update){
