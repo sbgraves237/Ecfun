@@ -147,7 +147,7 @@
     NOTE:  If \code{na.rm} = \code{FALSE}, the 
     output will be all \code{NA} if 
     \code{rescale} = \code{TRUE}.  This could 
-    produce non useable answers in most cases.  
+    produce non usable answers in most cases.  
     To avoid that, the default for \code{na.rm} 
     is \code{TRUE} whenever \code{rescale} = 
     \code{TRUE}.  Conversely, applications using
@@ -308,7 +308,8 @@
   \code{\link[EnvStats]{boxcoxCensored}} in the
   EnvStats package.  
   
-  \code{\link[drc]{boxcox.drc}} in the drc package.  
+  \code{\link[drc]{boxcox.drc}} in the 
+  \code{drc} package.  
   
   \code{\link[car]{boxCox}} in the car package.  
   
