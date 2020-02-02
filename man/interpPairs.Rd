@@ -411,7 +411,7 @@ all.equal(j.50, j.5.)
 logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                   sep = .Platform$file.sep)
 if(require(jpeg)){
-  Rlogo <- try(readJPEG(logo.jpg))
+  Rlogo <- try(readJPEG(logo.jpg, TRUE))
   if(!inherits(Rlogo, 'try-error')){
 # argument list for a call to rasterImage or rasterImageAdj   
     RlogoLoc <- list(image=Rlogo,
