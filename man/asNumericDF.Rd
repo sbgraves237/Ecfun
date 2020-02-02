@@ -9,7 +9,7 @@
   blanks and a leading dollar sign plus
   commas (thousand separators) and drop
   information after a blank (other than
-  leadng blanks), then coerce to numeric or
+  leading blanks), then coerce to numeric or
   to factors, Dates, or POSIXct as desired.
   
   For a \code{\link{data.frame}}, apply 
@@ -162,7 +162,7 @@ asNumericDF(x, keep=
   } 
 }
 \details{
-For asNumericChar:  
+For \code{asNumericChar}:  
 
   1.  Replace commas by nothing
 
@@ -174,7 +174,7 @@ For asNumericChar:
 
   4.  as.numeric
 
-for asNumericDF:  
+for \code{asNumericDF}:  
 
   1.  Copy \code{x} to \code{X}.  
  
