@@ -36,9 +36,9 @@ the \code{simulate.glm} function:
       response.  
     }
     \item{ 
-      The \code{simulate.bic.glm} function documented
-      here also accepts an optional \code{newdata}
-      argument, not accepted by 
+      The \code{simulate.bic.glm} function 
+      documented here also accepts an optional 
+      \code{newdata} argument, not accepted by 
       \code{stats::\link[stats]{simulate}}.  The 
       \code{stats::\link[stats]{simulate}} 
       function only returns simulated values for 
@@ -186,10 +186,10 @@ the \code{simulate.glm} function:
   If argument \code{seed} is NULL, the attribute os the 
   value of \code{\link{.Random.seed}} before the 
   simulation started.  Otherwise it is the value of 
-  the argument with a "kind" attribuate with value 
+  the argument with a "kind" attribute with value 
   \code{as.list(RNGkind())}.  
   
-  NOTE:  This fuction currently may not work
+  NOTE:  This function currently may not work
   with a model fit that involves a multivariate 
   \code{link} or \code{response}.  
 }
