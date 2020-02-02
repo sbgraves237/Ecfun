@@ -412,7 +412,7 @@ logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                   sep = .Platform$file.sep)
 if(require(jpeg)){
   Rlogo <- try(readJPEG(logo.jpg))
-  if(inherits(Rlogo, 'array')){
+  if(!inherits(Rlogo, 'try-error')){
 # argument list for a call to rasterImage or rasterImageAdj   
     RlogoLoc <- list(image=Rlogo,
       xleft.0 = c(NZ=176.5,CH=172,US=171,  
