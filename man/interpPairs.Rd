@@ -411,7 +411,7 @@ all.equal(j.50, j.5.)
 logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
                   sep = .Platform$file.sep)
 if(require(jpeg)){
-  Rlogo <- try(readJPEG(logo.jpg, TRUE))
+  Rlogo <- try(readJPEG(logo.jpg))
   if(!inherits(Rlogo, 'try-error')){
 # argument list for a call to rasterImage or rasterImageAdj   
     RlogoLoc <- list(image=Rlogo,
@@ -434,10 +434,11 @@ if(require(jpeg)){
             .proportion=rep(c(0, -1), c(2, 4)) )
 # check 
 \dontshow{stopifnot(}
-all.equal(names(RlogoInterp), 
-   c('image', 'xright', 'ytop', 'xleft', 'ybottom', 'angle'))
+  all.equal(names(RlogoInterp), 
+      c('image', 'xright', 'ytop', 
+        'xleft', 'ybottom', 'angle'))
 \dontshow{)} 
-}
+
 # NOTE:  'xleft', and 'ybottom' were created in interpPairs, 
 # and therefore come after 'xright' and 'ytop', which were 
 # already there.  
@@ -445,18 +446,19 @@ all.equal(names(RlogoInterp),
 ##
 ## 2.10.  using envir
 ##
-  RlogoDiag <- list(x0=quote(Rlogo.$xleft), 
+    RlogoDiag <- list(x0=quote(Rlogo.$xleft), 
                   y0=quote(Rlogo.$ybottom), 
                   x1=quote(Rlogo.$xright), 
                   y1=quote(Rlogo.$ytop) ) 
 
-  RlogoD <- interpPairs(RlogoDiag, .p=1, 
+    RlogoD <- interpPairs(RlogoDiag, .p=1, 
                     envir=list(Rlogo.=RlogoInterp) ) 
 %  RlogoD. <- RlogoInterp[c('xleft', 'ybottom', 'xright', 'ytop')]
 %  names(RlogoD.) <- c('x0', 'y0', 'x1', 'y1')
 \dontshow{stopifnot(}
-all.equal(RlogoD, RlogoDiag)
+    all.equal(RlogoD, RlogoDiag)
 \dontshow{)}
+  }
 }
 ##
 ## 2.11.  assign;  no interp but should work   
