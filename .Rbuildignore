@@ -8,3 +8,4 @@ vignettes/time2nextNuclearWeaponState.tex
 vignettes/time2nextNuclearWeaponState.toc
 cran-comments.md
 revdep
+^CRAN-RELEASE$
