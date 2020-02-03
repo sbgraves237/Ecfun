@@ -6,10 +6,10 @@
 
 ## R CMD check results
 
-# OK on macOS 2020-02-01
+# OK on macOS 2020-02-03
 # OK on Travis-CI 2020-01-23; 
 #    Travis hasn't worked for me since.  
-# OK on win-bilder devel 2020-02-01
+# OK on win-bilder R version 3.6.2 and devel 2020-02-03
 # NOTEs on check_rhub: 
 
 #> Packages unavailable to check Rd xrefs: 
@@ -24,12 +24,6 @@
 #   ** macroeconomic data.
 #   ** It's cited but not read in the package, 
 #   ** and I'd prefer not to have to mangle the URL
-#
-#  It also found that 
-#  http://www.reinhartandrogoff.com/
-#  was invalid.  This has disappeared from the web. 
-#  Those links have been redirected to the 
-#  Internet Archive.  
 
 ## Downstream dependencies
 # OK on revdepcheck::revdep_check 
