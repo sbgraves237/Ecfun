@@ -116,30 +116,13 @@ rasterImageAdj(image, xleft=par('usr')[1], ybottom=par('usr')[3],
 }
 \examples{
 # something to plot 
-#logo.jpg <- paste(R.home(), "doc", "html", "logo.jpg",
-#                  sep = .Platform$file.sep)
-RdocDir <- dir(R.home(), pattern='^doc$', full.names = TRUE)
-RhtmlDir <- dir(RdocDir, pattern='^html$', full.names=TRUE)
-JPGs <- dir(RhtmlDir, pattern='\\\\.jpg$', full.names=TRUE)
-if(length(JPGs)>1){
-  logoJPG <- paste0(.Platform$file.sep, 'logo.jpg$')
-  logo.jpg <- grep(logoJPG, JPGs, value=TRUE)
-  if(length(logo.jpg)>1)logo.jpg <- logo.jpg[1]
-  if(length(logo.jpg)<1)logo.jpg <- JPGs[1]
-} else logo.jpg <- JPGs
-if(length(logo.jpg)<1){
-  cat('logo.jpg not found.\n')
-  print(R.home())
-  print(dir(RdocDir))
-  print(dir(RhtmlDir))
-  if(!fda::CRAN())stop('logo.jpg not found')
-} else {
-# length(logo.jpg)==1 so continue:  
-  if(require(jpeg)){
+logo.jpg <- file.path(R.home('doc'), 'html', 'logo.jpg')
+if(require(jpeg)){
 ##
 ## 1.  Shrink as required
 ##
-    Rlogo <- readJPEG(logo.jpg)
+  Rlogo <- try(readJPEG(logo.jpg))
+  if(inherits(Rlogo, 'array')){  
   \dontshow{stopifnot(}
     all.equal(dim(Rlogo), c(76, 100, 3))
   \dontshow{)}
