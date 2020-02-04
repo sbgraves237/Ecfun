@@ -4,18 +4,31 @@
 * ubuntu 12.04 (on travis-ci), R 3.6.2
 * win-builder (devel and release)
 
+## I apologize for submitting a new version
+## with the same number as the one on CRAN. 
+## I remember checking that, but evidently, 
+## I didn't actually read what I looked at.  
+##
+## Since the last submission, I've 
+## made a couple of minor changes.  
+
 ## R CMD check results
 
-# OK on macOS 2020-02-03
-# OK on Travis-CI 2020-01-23; 
+# OK on macOS 2020-02-03 for Ecfun 0.2-3
+# OK on Travis-CI 2020-01-23 for Ecfun 0.2-2.  
 #    Travis hasn't worked for me since.  
 # OK on win-bilder R version 3.6.2 and devel 2020-02-03
+#    for Ecfun 0.2-2.  
 # NOTEs on check_rhub: 
 
 #> Packages unavailable to check Rd xrefs: 
 # 'EnvStats', 'drc', 'zoo', 'prodlim', 'TRAMPR'
-# I hope I can safely ignore this NOTE.   
+# I hope I can safely ignore this NOTE, 
+# because it's a deficiency on rhub, not with Ecfun.  
 
+
+#  NO ERRORS OR WARNINGS.  
+#  
 #   Found the following (possibly) invalid URLs:
 #   https://www.measuringworth.com/
 #   ** THIS IS A VALID URL 
@@ -28,8 +41,20 @@
 ## Downstream dependencies
 # OK on revdepcheck::revdep_check 
 # on both macOS and Win10 2020-02-01
+# (Ecfun 0.2-2;  
+# No changes to code, only documentation 
+# between that 0.2-2 and 0.2-3, 
+# so I didn't rerun revdep_check.  
+
 
 ## CRAN checks problems 
+
+#  I listed the "revdep" file in .Rignore,  
+#  but devtools::release included it anyway. 
+#  I physically deleted that directory, 
+#  so it should not be in this version.  
+
+## in the OLD 0.2-2:  
 ## noted in email from Prof. Ripley 2020-01-20
 # *1. read.testURLs that generated 
 #     errors from internet access 
