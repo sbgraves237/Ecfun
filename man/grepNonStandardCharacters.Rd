@@ -9,8 +9,8 @@
 }
 \usage{
 grepNonStandardCharacters(x, value=FALSE,
-   standardCharacters=c(letters, LETTERS, ' ','.', ',', 0:9,
-      '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
+   standardCharacters=c(letters, LETTERS, ' ','.', ',', 
+     0:9, '\"', "\'", '-', '_', '(', ')', '[', ']', '\n'),
    ... )
 }
 \arguments{
@@ -25,22 +25,25 @@ grepNonStandardCharacters(x, value=FALSE,
     \code{FALSE} to return their indices.
   }
   \item{standardCharacters}{
-    Characters to overlook in \code{x} to identify anything not in
-    \code{standardCharacters}.
+    Characters to overlook in \code{x} to identify anything
+    not in \code{standardCharacters}.
   }
-  \item{\dots}{ optional arguments for \code{\link{regexpr}} }
+  \item{\dots}{ 
+    optional arguments for \code{\link{regexpr}} 
+  }
 }
 \details{
-  1.  x. <- strsplit(x, ''):  convert the input character vector to a
-  list of vectors of character vectors with \code{nchar(x.[i])} == 1
-    for i in 1:length(x).
+  1.  x. <- strsplit(x, ''):  convert the input character
+  vector to a list of vectors of character vectors with
+  \code{nchar(x.[i])} == 1 for i in 1:length(x).
 
-  2.  sapply(x., ...) to identify all elements for which any element of
-  x[[i]] is not in \code{standardCharacters}.
+  2.  sapply(x., ...) to identify all elements for which
+  any element of x[[i]] is not in 
+  \code{standardCharacters}.
 }
 \value{
-  an integer vector identifying all elements of \code{x} containing a
-  character not in \code{standardCharacters}.
+  an integer vector identifying all elements of \code{x}
+  containing a character not in \code{standardCharacters}.
 }
 \author{
   Spencer Graves
@@ -67,8 +70,7 @@ all.equal(chk, 2)
 chkv <- grepNonStandardCharacters(Names, TRUE)
 
 \dontshow{stopifnot(}
-all.equal(chkv, 'Ra`l')
+all.equal(chkv, Names[2])
 \dontshow{)}
-
 }
 \keyword{manip}
