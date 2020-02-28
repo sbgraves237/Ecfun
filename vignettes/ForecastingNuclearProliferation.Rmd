@@ -150,7 +150,8 @@ howHist <- t(as.matrix(data.frame(
   US = c('Nazi threat', 'self', 
     paste('own scientists + immigrants,', 
       'esp. fr. Germany and Italy, plus',
-      'collaboration w the UK & Canada'), 'Congo + self'),
+      'collaboration w the UK & Canada'), 
+    'Congo + self'),
   USSR = c(paste('Hiroshima & Nagasaki bombs +', 
       'western invasions during WW II,',
       'after WW I, and before'), 'self', 
@@ -167,7 +168,7 @@ howHist <- t(as.matrix(data.frame(
     'students in UK, US', 
     'Canadian nuc reactor'), 
   Israel = c('hostile neighbors', 'self', 
-    'self + France', 'France, Argentina'), 
+    'self + France', 'France + ???'), 
   Pakistan=c('Loss of E. Pakistan in 1971', 
     'Saudis + self', 'US, maybe China?', 'self?'), 
   N.Korea = c('threats fr. US', "self?", 
@@ -302,7 +303,7 @@ China has reportedly had sufficient domestic reserves of uranium to support its 
 
 India's nuclear weapons program seems to have been entirely (or almost entirely) based on plutonium.^[@Wikip:IndiaNuc;  see also @Toon:2007 and @Wikip:Ures.]  
 
-Israel seems not to have had sufficient uranium deposits to meet its own needs.  Instead, they purchased some from France until France ended their nuclear-weapons collaboration with Israel in the 1960s. Israel also purchased uranium from Argentina.^[@Wikip:IsraelNuc.] To minimize the amount of uranium needed, nearly all Israeli nuclear weapons seem to be plutonium bombs.^[@Toon:2007.]
+Israel seems not to have had sufficient uranium deposits to meet its own needs.  Instead, they purchased some from France until France ended their nuclear-weapons collaboration with Israel in the 1960s. To minimize the amount of uranium needed, nearly all Israeli nuclear weapons seem to be plutonium bombs.^[@Toon:2007.]
 
 It's not clear where Pakistan got most of its uranium: Its reserves in 2015 were estimated at zero, and its historical production to that point was relatively low.^[@Wikip:Ures.] By comparison with the first seven nuclear-weapon states, it's not clear where Pakistan might have gotten enough uranium to produce 83 plutonium bombs and 44 uranium bombs, as estimated by @Toon:2007^[Table 2, p. 1976.]  As previously noted, the US helped the Pakistani nuclear-weapons program in the 1980s and accused China of providing similar assistance, a charge that China has repeatedly and vigorously denied.  Both France and China have provided civlian nuclear reactors, which could help produce plutonium but not $^{235}$U.^[@Wikip:PakNuc.]
 
@@ -963,7 +964,7 @@ Indeed, the conclusion from Figure \@ref(fig:plotTol4) is the same as before: Nu
 
 A growing number of leading figures have said that as long as the world maintains large nuclear arsenals, it is only a matter of time before there is a nuclear war.  Concerns like this have been expressed by two former US Secretaries of Defense ([Robert McNamara](https://en.wikipedia.org/wiki/Robert_McNamara)^[@McNamara:2003] and [William Perry](https://en.wikipedia.org/wiki/William_Perry)), two former US Secretaries of State ([Henry Kissinger](https://en.wikipedia.org/wiki/Henry_Kissinger) and [George Schultz](https://en.wikipedia.org/wiki/George_Shultz)), former US Senator [Sam Nunn](https://en.wikipedia.org/wiki/Sam_Nunn),^[@Shultz:2019] and others with, for example, the [Nuclear Threat Initiative](https://en.wikipedia.org/wiki/Nuclear_Threat_Initiative). [Daniel Ellsberg](https://en.wikipedia.org/wiki/Daniel_Ellsberg) has said that a nuclear war will most likely generate a nuclear winter that lasts several years during which 98 percent of humanity will starve to death if they do not die of something else sooner.^[@Ellsberg:2017b] 
 
-Banerjee and Duflo, two of the three who won the 2019 Nobel Memorial Prize in Economics, have noted that neither economic nor political stability are assured for any country, including the United States, China and India.  In particular, they predict that economic growth will almost certainly slow substantailly in the latter two, leaving many poor people in desparate economic straits.^[@Banerjee:2019] Various journalists and academic researchers remind us that President Trump has demonized various different groups and promoted an increase in ethnic violence.  He refused in 2016 and has continued to refuse to say if he would accept the results of an election if he lost in 2020.^[Klaas:2019] Internal problems in the US, China, India or any other nuclear-weapon state could push political leaders to pursue increasingly risky foreign adventures, like Argentina did in 1982,^[@Wikip:Faulklands] possibly leading to a war that could produce nuclear Armageddon.  
+Banerjee and Duflo, two of the three who won the 2019 Nobel Memorial Prize in Economics, have noted that neither economic nor political stability are assured for any country, including the United States, China and India.  In particular, they predict that economic growth will almost certainly slow substantailly in the latter two, leaving many poor people in desparate economic straits.^[@Banerjee:2019] Various journalists and academic researchers remind us that President Trump has demonized various different groups and promoted an increase in ethnic violence.  He refused in 2016 and has continued to refuse to say if he would accept the results of an election if he lost in 2020.^[Klaas:2019] Internal problems in the US, China, India or any other nuclear-weapon state could push political leaders to pursue increasingly risky foreign adventures, like Argentina did in 1982,^[@Wikip:Faulklands] possibly leading to a war that could produce nuclear Armageddon.
 
 The present work only increases the urgency of limiting the threat of nuclear war and nuclear proliferation in particular.
 
