@@ -1,7 +1,3 @@
-#exportPattern("^[^\\.]")
-
-## Quick and dirty: {just to confirm that it is sufficient}
-
 export(.onAttach, 
         Arrows, as.Date1970, asNumericChar, asNumericDF, 
        BoxCox, 
@@ -52,7 +48,8 @@ importFrom("utils", "de", "head", "read.csv", "tail")
 importFrom("xml2", 'as_list', 'read_xml')
 importFrom("mvtnorm", "rmvnorm")
 importFrom("BMA", "bic.glm")
-
+importFrom("xlsx", "read.xlsx2")
+    
 import(MASS)
 import(TeachingDemos)
 import(fda)
