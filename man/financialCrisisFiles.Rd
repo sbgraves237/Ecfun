@@ -7,10 +7,9 @@
   created by the \code{financialCrisisFiles}
   function to describe files containing data on
   financial crises downloadable from
-  \url{http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7/}.
+  \url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7}.  [NOTE:  Sometime between 2019-09-19 and 2020-02-02, the web site for the book itself was inactivated.  This web address refers to a backup copy on the Internet Archive.]  
 }
 \usage{
-%data(FinancialCrisisFiles)
 financialCrisisFiles(files=c("22_data.xls", 
     "23_data.xls", "Varieties_Part_III.xls", 
     "25_data.xls"), ...)
@@ -33,14 +32,14 @@ financialCrisisFiles(files=c("22_data.xls",
 }
 \details{
   Reinhart and Rogoff 
-  (\url{http://www.reinhartandrogoff.com}) provide
+  (\url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com}) provide
   numerous data sets analyzed in their book, 
   "This Time Is Different: Eight Centuries of 
   Financial Folly".  Of interest here are data on
   financial crises of various types for 70 
-  countries spanning the years 1800 - 2010, 
+  countries spanning the years 1800 - 2010,   
   downloadable from
-  \url{http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7/}.
+  \url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7}.  
 
   The function \code{financialCrisisFiles} 
   produces a list of class 
@@ -69,25 +68,28 @@ financialCrisisFiles(files=c("22_data.xls",
   The function \code{financialCrisisFiles} 
   returns a list of class \code{financialCrisisFiles}.  
   This is a list with components carrying the names of 
-  files to be read.  Each component is a list of optional
-  arguments to pass to \code{do.call(read.xls, ...)} to read the sheet
+  files to be read.  Each component is a list of
+  optional arguments to pass to 
+  \code{do.call(read.xls, ...)} to read the sheet
   with name = name of that component.
 
-  The default value returned by \code{financialCrisisFiles} is the data
-  object \code{FinancialCrisisFiles}.  This corresponds to the files
-  downloaded from
-  \url{http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7/}
-  in January 2013 (except for the fourth, which was not available there
-  because of an error with the web site but instead was obtained
-  directly from Prof. Reinhart).
+  The default value returned by 
+  \code{financialCrisisFiles} is the data object 
+  \code{FinancialCrisisFiles}.  This corresponds to 
+  the files downloaded from
+  \url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7} in January 2013 (except for the 
+  fourth, which was not available there because of 
+  an error with the web site but instead was 
+  obtained directly from Prof. Reinhart).
 }
 \source{
   The web site for the book, described in the "details"
   of \code{\link{readFinancialCrisisFiles}}.  
 }
 \references{
-  Carmen M. Reinhart and Kenneth S. Rogoff (2009) This Time Is
-  Different:  Eight Centuries of Financial Folly, Princeton U. Pr.
+  Carmen M. Reinhart and Kenneth S. Rogoff (2009) This
+  Time Is Different:  Eight Centuries of Financial
+  Folly, Princeton U. Pr.
 }
 \author{Spencer Graves}
 \seealso{
@@ -100,13 +102,9 @@ Ecdat.xls <- dir(Ecdat.demoFiles,
     pattern='xls$', full.names=TRUE)
 if(require(gdata) &&
         !fda::CRAN()){
-  tst <- financialCrisisFiles(Ecdat.xls)
+  FinancialCrisisFiles <- 
+        financialCrisisFiles(Ecdat.xls)
 }
-\dontrun{
-# check
-\dontshow{stopifnot(}
-all.equal(tst, data(FinancialCrisisFiles))
-\dontrun{)}
 }
 }
 \keyword{IO}
