@@ -1,4 +1,5 @@
-financialCrisisFiles <- function(files=c("22_data.xls", "23_data.xls",
+financialCrisisFiles <- function(files=
+    c("22_data.xls", "23_data.xls",
        "Varieties_Part_III.xls", "25_data.xls"), ...){
 ##
 ## 0.  checks
@@ -24,8 +25,8 @@ financialCrisisFiles <- function(files=c("22_data.xls", "23_data.xls",
 ##
 #    Con0 <- xls2csv(files[i])
     cat('Read ', files[i], '; ', sep='')
-    Contents <- gdata::read.xls(files[i], pattern='Country',
-                         stringsAsFactors=FALSE)
+    Contents <- gdata::read.xls(files[i], 
+       pattern='Country', stringsAsFactors=FALSE)
 ##
 ## 2.  Extract the names of the Countries
 ##
@@ -46,22 +47,22 @@ financialCrisisFiles <- function(files=c("22_data.xls", "23_data.xls",
     ns <- length(sheets)
     found <- numeric(ns)
     for(js in 1:ns){
-        fj <- pmatch(sheets[js], Ctries)
-        if(is.na(fj)){
-            fjs <- switch(sheets[js],
-                         UK=pmatch('UnitedKingdom', Ctries),
-                         US=pmatch('UnitedStates', Ctries)
-                         )
-            if(!is.null(fjs))fj <- fjs
-        }
-        found[js] <- fj
+      fj <- pmatch(sheets[js], Ctries)
+      if(is.na(fj)){
+          fjs <- switch(sheets[js],
+               UK=pmatch('UnitedKingdom', Ctries),
+               US=pmatch('UnitedStates', Ctries)
+               )
+          if(!is.null(fjs))fj <- fjs
+      }
+      found[js] <- fj
     }
     nc <- length(Ctries)
     if(nc != sum(!is.na(found))){
-        cat('Country name from Contents not found in sheet names\n')
-        print(Ctries)
-        print(sheets)
-        stop()
+      cat('Country name from Contents not found in sheet names\n')
+      print(Ctries)
+      print(sheets)
+      stop()
     }
     Ctri. <- sort(sheets[!is.na(found)])
 ##
