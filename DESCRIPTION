@@ -10,7 +10,7 @@ Suggests: car, DescTools, Ecdat, maps, grid, gridBase, pryr,
         bayesplot, bssm, ggplot2, tibble, kableExtra
 VignetteBuilder: knitr
 Imports: fda, gdata, RCurl, XML, tis, jpeg, MASS, TeachingDemos,
-        stringi, methods, xml2, BMA, mvtnorm
+        stringi, methods, xml2, BMA, mvtnorm, xlsx
 Description: Functions to update data sets in Ecdat and to create,
           manipulate, plot, and analyze those and similar data sets.
 LazyData: true
