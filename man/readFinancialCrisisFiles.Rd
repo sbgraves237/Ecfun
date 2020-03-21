@@ -9,12 +9,12 @@
   object of class \code{\link{financialCrisisFiles}}.
   This is designed to read Excel files describing
   financial crises since 1800 downloaded from
-  \url{http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7/}.
+  \url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7}.  [NOTE:  Sometime between 2019-09-19 and 2020-02-02, the web site for the book itself was inactivated.  This web address refers to a backup copy on the Internet Archive.]
 
   \code{bankingCrises} is a \code{data.frame} created
   by \code{readFinancialCrisisFiles()} using 3 files
   downloaded from 
-  \url{http://www.reinhartandrogoff.com} and 1 obtained
+  \url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com} and 1 obtained
   from Prof. Reinhart in January 2013.
 }
 \usage{
@@ -78,7 +78,9 @@ readFinancialCrisisFiles(files, crisisType=7, ...)
   \code{readFinancialCrisisFiles} reads the sheets for 
   the individual countries.
 }
-\source{ \url{http://www.reinhartandrogoff.com} }
+\source{ 
+  \url{https://web.archive.org/web/20190919224018/http://www.reinhartandrogoff.com} 
+}
 \value{
   If \code{length(crisisType)} == 1, a 
   \code{data.frame} is returned with the first 
@@ -107,8 +109,17 @@ readFinancialCrisisFiles(files, crisisType=7, ...)
 library(Ecdat)
 %data(FinancialCrisisFiles)
 \dontrun{
-bankingCrises <- readFinancialCrisisFiles(
+Ecdat.demoFiles <- system.file('demoFiles', 
+    package='Ecdat')
+Ecdat.xls <- dir(Ecdat.demoFiles, 
+    pattern='xls$', full.names=TRUE)
+if(require(gdata) &&
+        !fda::CRAN()){
+  FinancialCrisisFiles <- 
+        financialCrisisFiles(Ecdat.xls)
+  bankingCrises <- readFinancialCrisisFiles(
     FinancialCrisisFiles)
+  }
 }
 
 ##
