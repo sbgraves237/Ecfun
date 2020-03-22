@@ -2,11 +2,11 @@
 \alias{financialCrisisFiles}
 \title{ Files containing financial crisis data }
 \description{
-  \code{FinancialCrisisFiles} in \code{Ecdat} is 
-  an object of class \code{financialCrisisFiles}
-  created by the \code{financialCrisisFiles}
-  function to describe files containing data on
-  financial crises downloadable from
+  The \code{FinancialCrisisFiles} function
+  returns an object of class 
+  \code{financialCrisisFiles} describing
+  files containing data on financial crises
+  downloadable from
   \url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7}.  [NOTE:  Sometime between 2019-09-19 and 2020-02-02, the web site for the book itself was inactivated.  This web address refers to a backup copy on the Internet Archive.]  
 }
 \usage{
@@ -32,64 +32,58 @@ financialCrisisFiles(files=c("22_data.xls",
 }
 \details{
   Reinhart and Rogoff 
-  (\url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com}) provide
-  numerous data sets analyzed in their book, 
-  "This Time Is Different: Eight Centuries of 
-  Financial Folly".  Of interest here are data on
-  financial crises of various types for 70 
-  countries spanning the years 1800 - 2010,   
-  downloadable from
+  (\url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com})
+  provide numerous data sets analyzed in
+  their book, "This Time Is Different: Eight
+  Centuries of Financial Folly".  Of
+  interest here are data on financial crises
+  of various types for 70 countries spanning
+  the years 1800 - 2010, downloadable from
   \url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7}.  
 
   The function \code{financialCrisisFiles} 
   produces a list of class 
-  \code{financialCrisisFiles} describing four 
-  different Excel files in very similar formats 
-  with one sheet per Country and a few extra
-  descriptor sheets.  The data object 
-  \code{FinancialCrisisFiles} is the default
-  output of that function.
+  \code{financialCrisisFiles} describing
+  four different Excel files in very similar
+  formats with one sheet per Country and a
+  few extra descriptor sheets.  
 
   It does this in several steps:
 
   1.  Read the first sheet of each file
 
-  2.  Extract the names of the Countries from 
-  that first sheet.
+  2.  Extract the names of the Countries 
+  from that first sheet.
 
-  3.  Eliminate any blank spaces in the names 
-  to convert, e.g., "Costa Rica" to "CostaRica".
+  3.  Eliminate any blank spaces in the 
+  names to convert, e.g., "Costa Rica" to
+  "CostaRica".
 
-  4.  Find the sheets corresponding to each of the compressed names.
+  4.  Find the sheets corresponding to each 
+  of the compressed names.
 
   5.  Construct the output list.
 }
 \value{
   The function \code{financialCrisisFiles} 
-  returns a list of class \code{financialCrisisFiles}.  
-  This is a list with components carrying the names of 
-  files to be read.  Each component is a list of
-  optional arguments to pass to 
-  \code{do.call(read.xls, ...)} to read the sheet
-  with name = name of that component.
-
-  The default value returned by 
-  \code{financialCrisisFiles} is the data object 
-  \code{FinancialCrisisFiles}.  This corresponds to 
-  the files downloaded from
-  \url{https://web.archive.org/web/20150419090824/http://www.reinhartandrogoff.com/data/browse-by-topic/topics/7} in January 2013 (except for the 
-  fourth, which was not available there because of 
-  an error with the web site but instead was 
-  obtained directly from Prof. Reinhart).
+  returns a list of class 
+  \code{financialCrisisFiles}.  This is a
+  list with components carrying the names of
+  files to be read.  Each component is a 
+  list of optional arguments to pass to 
+  \code{do.call(read.xls, ...)} to read the
+  sheet with name = name of that component.
 }
 \source{
-  The web site for the book, described in the "details"
-  of \code{\link{readFinancialCrisisFiles}}.  
+  The web site for the book, described in 
+  the "details" of 
+  \code{\link{readFinancialCrisisFiles}}.  
 }
 \references{
-  Carmen M. Reinhart and Kenneth S. Rogoff (2009) This
-  Time Is Different:  Eight Centuries of Financial
-  Folly, Princeton U. Pr.
+  Carmen M. Reinhart and Kenneth S. Rogoff 
+  (2009) This Time Is Different:  Eight
+  Centuries of Financial Folly, Princeton U.
+  Pr.
 }
 \author{Spencer Graves}
 \seealso{
@@ -104,7 +98,6 @@ if(require(gdata) &&
         !fda::CRAN()){
   FinancialCrisisFiles <- 
         financialCrisisFiles(Ecdat.xls)
-}
 }
 }
 \keyword{IO}
