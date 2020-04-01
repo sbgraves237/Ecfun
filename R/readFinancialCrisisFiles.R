@@ -59,7 +59,7 @@ readFinancialCrisisFiles <- function(files, crisisType=7, ...){
           jCtry <- try(do.call(xlsx::read.xlsx2, 
                                doti))
           if(class(jCtry)=='try-error'){
-            print(oops)
+            print(jCtry)
             warning('read.xlsx2 failed; try gdata')
             dots$xls <- fileNames[i]
             dots$sheet <- iNames[j]
