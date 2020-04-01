@@ -310,11 +310,11 @@ It's not clear where Pakistan got most of its uranium: Its reserves in 2015 were
 
 According to the Federation of American Scientists, "North Korea maintains uranium mines with an estimated four million tons of exploitable high-quality uranium ore ... that ... contains approximately 0.8% extractable uranium.^[@Aftergood:2006;  see also @Wikip:NKoreaNuc.] If that's accurate, processing all that would produce 4,000,000 times 0.008 = 32,000 tons of pure natural uranium, which should be enough to produce the weapons they apparently have today.  
 
-## Conclusions regarding motivation, money, knowledge and materials
+## Conclusions regarding motivation, money, knowledge and material
  
   1. There seems to be no shortage of motivations for other countries to acquire nuclear weapons.  The leaders of the Soviet Union had personal memories of being invaded not only by Germany during World War II but also by the US and others after World War I.  The UK had reason to fear the Soviets in their occupation of Eastern Europe.  The French decided after Suez they couldn't trust the US to defend them.  China had been forced to yield to nuclear threats before starting their nuclear program, as did India, Pakistan and North Korea.  Israel has fought multiple wars since their independence in 1948.  
   
-  2. The knowledge and materials required to make such weapons in a relatively short order are also fairly widely available, even without the documented willingness of current nuclear powers to secretly help other countries acquire such weapons in some cases.[^quickNukes]  
+  2. The knowledge and material required to make such weapons in a relatively short order are also fairly widely available, even without the documented willingness of current nuclear powers to secretly help other countries acquire such weapons in some cases.[^quickNukes]  
   
   3. Unless there is some fundamental change in the structure of international relations, it seems unwise to assume that there will not be more nuclear-weapon states in the future, with the time to the next "first test" of a nuclear weapon following a probability distribution consistent with the previous times between "first tests" of nuclear weapons by the current nuclear-weapon states.  
 
@@ -979,7 +979,7 @@ Moreover, these weapons will become more available with the passage of time unle
 
 # References
 
-[^quickNukes]: In addition to the 32 currently non-nuclear-weapon states with "sufficient fissile material to make nuclear weapons if they wished", per @Toon:2007, the inspector general of the US Department of Energy concluded in 2009 (in its most recent public accounting) that enough highly enriched uranium was missing from US inventories to make at least five nuclear bombs comparable to those that destroyed substantial portions of Hiroshima and Nagasaki in 1945.  Substantially more weapons-grade materials may be missing in other countries, especially Russia (@Malone:2018).
+[^quickNukes]: In addition to the 32 currently non-nuclear-weapon states with "sufficient fissile material to make nuclear weapons if they wished", per @Toon:2007, the inspector general of the US Department of Energy concluded in 2009 (in its most recent public accounting) that enough highly enriched uranium was missing from US inventories to make at least five nuclear bombs comparable to those that destroyed substantial portions of Hiroshima and Nagasaki in 1945.  Substantially more weapons-grade material may be missing in other countries, especially Russia (@Malone:2018).
 
 [^WikivTime]: For precursors to the current study that involve censored estimation of time to a nuclear war, see @Wikiv:extinct and @Wikiv:Armageddon.  
 
