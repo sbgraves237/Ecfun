@@ -1,7 +1,7 @@
 ---
 title: "Forecasting Nuclear Proliferation"
 author: "Spencer Graves and Doug Samuelson"
-date: "2020-02-06"
+date: "2020-04-02"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
@@ -21,7 +21,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 # Ecdat::nuclearWeaponStates include all 
 # first test up to nukeDataCurrent:  
-nukeDataCurrent <- as.Date('2020-03-27')
+nukeDataCurrent <- as.Date('2020-04-02')
 library(lubridate)
 library(Ecdat)
 firstTstYr <- year(nuclearWeaponStates$firstTest)
@@ -40,7 +40,7 @@ plot2file <- FALSE
 
 # Abstract
 
-This article models the time between the first test of a nuclear weapon by one nation and the next over the `r nYrs` years of history since the first such test by the US.  We use those results to forecast nuclear proliferation over the next 74 years.  The maximum likelihoood estimate of the time between "first tests" (74 years divided by 8 "first tests") = 9.3 years using the standard formula for censored estimation of a constant exponential distribution.  However, a plot of the times between "first tests" of the 9 nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) that suggests a decrease over time in log(Poisson mean) of the number of "first tests" each year by new nuclear-weapon states. This might be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  Unfortunately, the linear trend is not statistically signficant.  We therefore use Bayesian Model Averaging (BMA), considering two related BMA mixtures.  This average of the Monte Carlo simulations for the constant-linear mixture forecasts an addition 5.4 new nuclear-weapon states by 2093, using a forecasting period to match the available history.  The average _nonlinear_ mixture forecasts an addition 7.3 new nuclear-weapon states by 2093. Eighty percent percent prediction limits run from 0 to 14 new nuclear-weapon states, within the typical life span of babies born today.  The risk of a nuclear war leading to the extinction of civilization is increasing.  Nuclear proliferation will likely continue until it becomes effectively impossible for anyone to make more nuclear weapons for a very long time.  This could come from a nuclear war or a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
+This article models the time between the first test of a nuclear weapon by one nation and the next over the `r nYrs` years of history since the first such test by the US.  We use those results to forecast nuclear proliferation over the next 74 years.  The maximum likelihoood estimate of the time between "first tests" (74 years divided by 8 "first tests") = 9.3 years using the standard formula for censored estimation of a constant exponential distribution.  However, a plot of the times between "first tests" of the 9 nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) that suggests a decrease over time in log(Poisson mean) of the number of "first tests" each year by new nuclear-weapon states. This might be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  Unfortunately, the linear trend is not statistically signficant.  We therefore use Bayesian Model Averaging (BMA), considering two related BMA mixtures.  The average of Monte Carlo simulations for the constant-linear mixture forecasts an additional 5.4 new nuclear-weapon states by 2093, using a forecasting period to match the available history.  The average _nonlinear_ mixture forecasts an additional 7.3 new nuclear-weapon states by 2093. Eighty percent percent prediction limits run from 0 to 14 new nuclear-weapon states, within the typical life span of babies born today.  The risk of a nuclear war leading to the extinction of civilization is increasing.  Nuclear proliferation will likely continue until it becomes effectively impossible for anyone to make more nuclear weapons for a very long time.  This could come from a nuclear war or a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
 
 # Introduction 
 
@@ -54,10 +54,10 @@ ymax <- max(
             na.rm=TRUE)
 ylim0 <- c(0, ymax)
 
-NPTdate = as.Date('1970-03-05')
+NPTdate = as.Date(c('1970-03-05', '1988-06-01'))
 plotNucStates <- function(type.='n', xlim., ylim., 
     line_mtext=3:2, cex.=1, mtext.=TRUE, log.='', 
-    ...){
+    yNPT=NULL, ...){
 ##
 ## Write a function to create this desired plot
 ## that is general enough to be customized 
@@ -68,10 +68,10 @@ plotNucStates <- function(type.='n', xlim., ylim.,
 ## this vignette, it requires revising this 
 ## function later as the needs become clearer.  
 ##  
-## The advantage of doing it this way, it that
+## The advantage of doing it this way, is that
 ## it makes the code easier to read, because 
-## it's clearer it clearer what is the same and 
-## what is different between similar plots.  
+## it's clearer what is the same and what is 
+## different between similar plots.  
 ##
 #   Start with an internal function 
 #   to add the 2-letter country codes.     
@@ -114,19 +114,23 @@ plotNucStates <- function(type.='n', xlim., ylim.,
        xlim=xlim., ylim=ylim., log=log., bty='n', 
        ...)
   abline(v=NPTdate, lty='dashed', col='grey')
-  ymid <- {
-    if(log.=='y') sqrt(ylim.[1]*ylim.[2]) else 
-      mean(ylim.)
+  if(is.null(yNPT)){
+    yNPT <- {
+      if(log.=='y') sqrt(ylim.[1]*ylim.[2]) else 
+        mean(ylim.)
+    }
   }
-  text(NPTdate-.017*diff(xlim.), 
-       ymid, 'NPT', col='grey', srt=90)
+  text(NPTdate-.017*diff(xlim.), yNPT, 
+       c('NPT', 'INF'), col='grey', srt=90)
   addCountries(line_mtext=line_mtext, cex.=cex., 
                mtext.=mtext.)
 }    
 plotNucStates(type.='h', ylim.=ylim0)
 ```
 
-However, it stretches credibility to suggest that nuclear proliferation has stopped:  There were only 5 nuclear-weapon states when the [Treaty on the Non-Proliferation of Nuclear Weapons (NPT, Non-proliferation treaty)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  @Toon:2007 noted that in 2003 another 32 had sufficient fissile material to make nuclear weapons if they wished.  
+This plot also marks the effective dates of both the [Treaty on the Non-Proliferation of Nuclear Weapons (Non-Prolireration Treaty, NP)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) and the [Intermediate-range Nuclear Forces (INF) Treaty](https://en.wikipedia.org/wiki/Intermediate-Range_Nuclear_Forces_Treaty), (1970-03-05 and 1988-06-01, respectively), because of the suggestion that those treaties may have slowed the rate of nuclear proliferation.  
+
+A visual analysis of this plot suggests that nuclear proliferation is still alive and well, and neither the NPT nor the INF treaty impacted nuclear proliferation. Worse, the image suggests that it stretches credibility to suggest that nuclear proliferation has stopped:  There were only 5 nuclear-weapon states when the [Treaty on the Non-Proliferation of Nuclear Weapons (NPT, Non-proliferation treaty)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  @Toon:2007 noted that in 2003 another 32 had sufficient fissile material to make nuclear weapons if they wished.  
 
 Moreover, those 32 do _NOT_ include either Turkey nor Saudi Arabia.  On 2019-09-04, Turkish President Erdogan said it was unacceptable for nuclear-armed states to forbid Turkey from acquiring its own nuclear weapons.^[@Toksabay:2019; @OConnor:2019.] 
 
@@ -196,7 +200,7 @@ kable(howHist) %>%
 
 To help us understand the differences in sizes of the different nuclear-weapon states, Figure \@ref(fig:nucStates) plots the populations and Gross Domestic Products (GDP) of the current nuclear-weapon states.^[Data for different years, 2017-2020, depending on what was available from Wikipedia on 2020-02-05.] The following provides analysis with references behind the summary in Figure \@ref(fig:nucStates).
 
-```{r nucStates, fig.cap = "Gross Domestic Product and Populaton of Nuclear-Weapon States"}
+```{r nucStates, fig.cap = "Gross Domestic Product and Population of Nuclear-Weapon States"}
 #op <- par(mar=c(5,5,4,2)+.1)
 plot(GDP_B/1000 ~ popM, nuclearWeaponStates, type='n', 
      log='xy', las=1, xlab='', ylab='')
@@ -439,7 +443,7 @@ summary(fitProlif)
 It is standard in the BMA literature to assume a priori an approximate uniform distribution over all models considered with a penalty for estimating each additional parameter to correct for the tendancy of the models to overfit the data.  With these standard assumptions, this comparison of these two models estimates a `r round(100*fitProlif$postprob[2])` percent posterior probability for the model linear in  `timeSinceTrinity`, leaving `r round(100*fitProlif$postprob[1])` percent probability for the model with a constant Poisson mean.  Figure \@ref(fig:plotyf) adds these lines to Figure \@ref(fig:ploty).^[For Figure \@ref(fig:ploty), we use the standard duality between the Poisson and exponential distributions, ignoring the fact that changes over time in the Poisson rate imply that the hazard rate is not constant, as required for the exponential distribution.]
 
 ```{r plotyf, fig.cap = "BMA fit to time between new nuclear-weapon states"}
-plotNucStates(log.='y')
+plotNucStates(log.='y', yNPT=4)
 
 predProlif <- with(fitProlif, 
     outer(rep(1, nYrs+1), mle[, 1]) + 
@@ -480,7 +484,7 @@ When quadratic, cubic and quartic terms are considered, the `BMA:::bic.glm` algo
 We add the extra lines of `fitProlif4` to Figure \@ref(fig:plotyf) to get Figure \@ref(fig:ploty4).
 
 ```{r ploty4, fig.cap = "BMA quartic fit to time between new nuclear-weapon states"}
-plotNucStates(log.='y')
+plotNucStates(log.='y', yNPT=4)
 
 predProlif4 <- matrix(NA, nYrs+1, 5)
 predProlif4[, 1] <- fitProlif4$mle[1,1]
@@ -561,10 +565,12 @@ plotNucStatesPred <- function(x, ...){
 ## summarized in x   
 ##  
   xlim. <- range(x$Year)
-  ylim. <- range(nuclearWeaponStates$yearsSinceLastFirstTest, 
-      head(x[-1], 1), tail(x[-1], 1), na.rm=TRUE)
+  ylim. <- range(
+    nuclearWeaponStates$yearsSinceLastFirstTest, 
+    head(x[-1], 1), tail(x[-1], 1), na.rm=TRUE)
   
-  plotNucStates(xlim.=xlim., ylim.=ylim., log.='y', ...)
+  plotNucStates(xlim.=xlim., 
+                ylim.=ylim., log.='y', ...)
   with(x, lines(Year, mean))
   with(x, lines(Year, median, lty='dashed', col='blue'))
   with(x, lines(Year, U10, lty='dotted', col='red'))
@@ -614,7 +620,7 @@ These numbers are plotted in Figure \@ref(fig:plotcum).
 ```{r plotcum_Fn}
 plotNNucStates <- function(xfuture, 
         xpast=nuclearWeaponStates, 
-        lwd.=c(1,1,1,2,2), ...){       
+        lwd.=c(1,1,1,2,2), yNPT=2.5, ...){       
 ##
 ## plot stairsteps for xpast and lines for xfuture
 ## with either 5 or 7 columns in xfuture  
@@ -623,8 +629,8 @@ plotNNucStates <- function(xfuture,
   nColsFut <- length(xfuture)
   ylim. <- c(0, tail(xfuture[[nColsFut]], 1))
   
-  plot(xlim., ylim., type='n', xlab='', ylab='', las=1, 
-     bty='n')
+  plot(xlim., ylim., type='n', xlab='', ylab='',
+       las=1, bty='n')
 ##
 ## 1.  plot xpast
 ##  
@@ -635,14 +641,13 @@ plotNNucStates <- function(xfuture,
   abline(v=NPTdate, lty='dashed', col='grey')
 # abline(h=20)  
   xlim20. <- c(xlim.[1]-7*365, xlim.[1])
-  lines(xlim20., rep(20, 2), lty='dashed', col='grey', 
-        xpd=NA)
+  lines(xlim20., rep(20, 2), lty='dashed', 
+        col='grey', xpd=NA)
   xlim20 <- c(as.Date('1980-01-01'), xlim.[2])
   lines(xlim20, rep(20, 2), lty='dashed', col='grey')
 #  
-  ymid <- mean(ylim.)
-  text(NPTdate-.017*diff(xlim.), 
-       ymid, 'NPT', col='grey', srt=90)  
+  text(NPTdate-.017*diff(xlim.), yNPT, 
+       c('NPT', 'INF'), col='grey', srt=90)  
 ##
 ## 2.  plot xfuture 
 ##
