@@ -1,7 +1,7 @@
 ---
 title: "Forecasting Nuclear Proliferation"
 author: "Spencer Graves and Doug Samuelson"
-date: "2020-04-02"
+date: "2020-04-19"
 output: bookdown::pdf_book
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
@@ -30,12 +30,12 @@ firstTstYr <- year(nuclearWeaponStates$firstTest)
 (Today <- today())
 currentYear <- year(Today)
 if((month(Today)<7) || 
-   (difftime(Today, 
-          tail(nuclearWeaponStates$firstTest, 1), 
-          units = 'days')<(366/2)))
-      currentYear <- (year(Today)-1)
+     (difftime(Today, 
+        tail(nuclearWeaponStates$firstTest, 1), 
+        units = 'days')<(366/2)))
+    currentYear <- (year(Today)-1)
 nYrs <- currentYear - firstYear
-plot2file <- FALSE
+save_svg <- !fda::CRAN()
 ```
 
 # Abstract
@@ -58,8 +58,8 @@ ymax <- max(
   nuclearWeaponStates$yearsSinceLastFirstTest, 
             na.rm=TRUE)
 ylim0 <- c(0, ymax)
-
 NPTdate = as.Date(c('1970-03-05', '1988-06-01'))
+
 plotNucStates <- function(type.='n', xlim., ylim., 
     line_mtext=3:2, cex.=1, mtext.=TRUE, log.='', 
     yNPT=NULL, ...){
@@ -107,7 +107,7 @@ plotNucStates <- function(type.='n', xlim., ylim.,
     nuclearWeaponStates$yearsSinceLastFirstTest[-1])
 # If very wide log scale on y, 
 # make the margins wider and move the label out:    
-  if((log.=='y') && (diff(log(ylim.))>5)){
+  if((log.=='y') && (diff(log(ylim.))>5) ){
     op <- par(mar=c(5, 6, 4, 2)+0.1)
     on.exit(par(op))
     line_mtext[2] <- 4
@@ -131,6 +131,14 @@ plotNucStates <- function(type.='n', xlim., ylim.,
                mtext.=mtext.)
 }    
 plotNucStates(type.='h', ylim.=ylim0)
+if(save_svg){
+  print(getwd())
+  svg('NucWeaponStates_YrsBetw1stTsts.svg')
+  op <- par(cex=1.7, cex.axis=1.4)
+  plotNucStates(type.='h', ylim.=ylim0, 
+      mtext. = FALSE)
+  dev.off()
+}
 ```
 
 This plot also marks the effective dates of both the [Treaty on the Non-Proliferation of Nuclear Weapons (Non-Prolireration Treaty, NP)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) and the [Intermediate-range Nuclear Forces (INF) Treaty](https://en.wikipedia.org/wiki/Intermediate-Range_Nuclear_Forces_Treaty), (1970-03-05 and 1988-06-01, respectively), because of the suggestion that those treaties may have slowed the rate of nuclear proliferation.  
@@ -213,17 +221,6 @@ title(ylab='nominal GDP (USD trillions)')
 title(xlab='population (millions)', line = 1.7)
 nNucStates <- nrow(nuclearWeaponStates)
 
-#NucSt <- paste0('CN = China, ', 
-# 'FR, GB (overplotted) = France + UK, ',
-#  ' IL = Israel,\nIN = India, KP = North Korea, ', 
-#  'PK = Pakistan, RU = Russia')
-#title(xlab=NucSt, line=3.5, cex.lab=0.85)
-
-#lines(GDP_B/1000 ~ popM, nuclearWeaponStates, 
-#      type='c', lty='dotted', col='grey')
-#with(nuclearWeaponStates, arrows(head(popM, -1),
-#  head(GDP_B/1000, -1), tail(popM, -1), 
-#  tail(GDP_B/1000, -1), col='grey'))
 i0 <- c(1:2, 4:(nNucStates-1))
 with(nuclearWeaponStates, arrows(
   popM[i0], GDP_B[i0]/1000, 
@@ -241,6 +238,32 @@ with(nuclearWeaponStates,
   legend('bottomright', legend=leg, 
          bty='n', text.col=cols))
 #par(op)
+
+if(save_svg){
+  print(getwd())
+  svg('NucWeaponStates_GDP_pop.svg')
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,4, 2, 2)+.1)
+  cex2 <- 1.7
+
+  plot(GDP_B/1000 ~ popM, nuclearWeaponStates, type='n',
+       log='xy', las=1, xlab='', ylab='')
+  nNucStates <- nrow(nuclearWeaponStates)
+
+  i0 <- c(1:2, 4:(nNucStates-1))
+  with(nuclearWeaponStates, arrows(
+    popM[i0], GDP_B[i0]/1000, 
+    popM[i0+1], GDP_B[i0+1]/1000, col='grey', 
+    lty='dotted'))
+  cols <- c(US='blue', RU='red', GB='red', 
+     FR='blue', CN='red', IN='orange', 
+     IL='blue', PK='green', KP='red')
+  with(nuclearWeaponStates, 
+     text(popM, GDP_B/1000, ctry, 
+          col=cols) )
+
+  dev.off()
+}
 ```
 
 ## Motivation
@@ -338,13 +361,15 @@ To understand the current data better, we redo Figure \@ref(fig:plot) with a log
 ```{r ploty, fig.cap = paste("Semilog plot of time between new nuclear-weapon states.", NucStates)}
 plotNucStates(log.='y')
 # optionally write to a file
-if(plot2file){
-  svg('nucProlif.svg', width=9, height=7)
-#  png('nucProlif.png', width=1300, height=1000)
-  cex2 <- 1.6
-  par(cex=cex2, mar=c(5, 4, 2, 2)+.1)
-  plotNucStates(log.='y', cex.=cex2)    
-  dev.off()    
+if(save_svg){
+  print(getwd())
+  svg('NucWeaponStates_logYrsBetw1stTsts.svg')
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 2)+.1)
+  cex2 <- 1.7
+  plotNucStates(mtext. = FALSE, log.='y', 
+                cex.=cex2)
+  dev.off()
 }
 ```
 
@@ -354,7 +379,7 @@ Figures \@ref(fig:plot) and \@ref(fig:ploty) seem consistent with the following:
 - Even though nuclear proliferation has been slowing since 1950, it could _accelerate_ in the future if more states began to perceive greater threats from other nations.  
 - Fortunately we can simplify this modeling problem by useing the famous duality between exponential time between events and a Poisson distribution for numbers of events in specific intervals of time.  By modeling Poisson counts of "first tests" each year, we can use techniques for Poisson regression for models suggested by Figure \@ref(fig:ploty).  The simplest such model might consider log(Poisson mean numbers of "first tests" each year) to be linear in the time since the first test of a nuclear weapon (code-named ["Trinity"](https://en.wikipedia.org/wiki/Trinity_(nuclear_test)).^[@Rhodes:1986.  See also @Wikip:Trinity.]  However, the image in Figure \@ref(fig:ploty) suggests the line may not be straight.  Easily tested alternatives to linearity could be second, third and fourth powers of the "timeSinceTrinity".^[One might also consider a model with the log(Poisson mean) behaving like a ["Wiener process" (also called a "Brownian motion")](https://en.wikipedia.org/wiki/Wiener_process).  This stochastic formulation would mean that the variance of the increments in log(hazard) between "first tests" is proportional to the elapsed time.  See @Wolfram:Wiener and @Wikip:Wiener.  The [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this.  Its [`ng_bsm` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ng_bsm) supports modeling a normal random walk in log(Poisson mean) of the number of "first tests" each year.  In this article, we model the trend as deterministic and leave consideration of a [Gaussian random walk](https://en.wikipedia.org/wiki/Random_walk) and similar stochastic formulations for future work.]
 
-We use Poisson regression to model this as a series of the number of events each year, month, week, or day.  For present purposes, we will use a series of annual observation.  Changing to monthly, weekly or daily observations might give us slightly better answers while possibly increasing the compute time more than it's worth.  
+We use Poisson regression to model this as a series of the number of events each year, month, week, or day.  For present purposes, we will use a series of annual observation.  Changing to monthly, weekly or daily observations might give us slightly better answers while possibly increasing the compute time more than it's worth.
 
 # Parameter estimation 
 
@@ -504,16 +529,43 @@ matlines(firstTest_nYrs, exp(-predProlif4),
          lty=1:5, col=1:5)
 legend('topleft', lty=1:5, col=1:5, lgnd4, 
      bty='n', cex=0.95)
+
+if(save_svg){
+  print(getwd())
+  svg('NucWeaponStates_BMAyrsBetw1stTsts.svg',
+      height=3.5)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1,
+            mfrow=c(1, 2))
+# const+linear
+  plotNucStates(log.='y', yNPT=4, mtext. = FALSE)
+  matlines(firstTest_nYrs, exp(-predProlif), 
+         lty=c('dashed', 'dotted'), 
+         col=c('red', 'blue'))
+  legend('topleft', lty=c('dashed', 'dotted'), 
+     col=c('red', 'blue'), lgnd, 
+     bty='n')
+# const+...+quartic
+  plotNucStates(log.='y', yNPT=4, mtext. = FALSE)
+
+  matlines(firstTest_nYrs, exp(-predProlif4), 
+         lty=1:5, col=1:5)
+  legend('topleft', lty=1:5, col=1:5, lgnd4, 
+     bty='n', cex=0.85)
+  dev.off()
+}
 ```
 
-Comparing predictions between `fitProlif` and `fitProlif4` might help us understand better the limits of what we can learn from the available data. 
+Comparing predictions between `fitProlif` and `fitProlif4` might help us understand better the limits of what we can learn from the available data.  A visual analysis of Figure \@ref(fig:ploty4) makes one wonder if the quartic, cubic and quadratic fits are really almost as good as the linear, as suggested by minor differences in the posterior probabilities estimate by the `bic.glm` algorithm.  However, the forecasts of nuclear proliferation will be dominated by the constant component of the BMA mixture, and its posterior probability is `r 100*round(fitProlif$postprob[1], 2)` percent for the constant-linear mixture and `r 100*round(fitProlif4$postprob[1], 4)` for the quartic mixture.  That means that the median line and all the lower quantiles of all simulated futures based on these models would be dominated by that constant term.  
 
-Next, we compute central 60 and 80 percent confidence limits plus 80 percent prediction, and (0.8, 0.8) tolerance limits for future nuclear proliferation based on `fitProlif` and `fitProlif4`.[^cipiti]
+Moreover, the constant and linear lines in Figure \@ref(fig:ploty4) look more plausible, at least to the present author, than the quadratic, cubic and quartic lines.  That, in turn, suggests that the constant linear mixture may be more plausible than the quartic mixture, and the posterior probability for the constant model in that mixture is `r 100*round(fitProlif$postprob[1], 2)` percent.  
+
+We next use `fitProlif` and `fitProlif4` to compute central 60 and 80 percent confidence limits plus 80 percent prediction, and (0.8, 0.8) tolerance limits for future nuclear proliferation.[^cipiti]
 
 # Confidence limits    
   
 We start by computing `nSims` simulated Poisson mean numbers of "first tests" by new nuclear-weapon states for each of the `nYrs` years used in `fitProlif` and `fitProlif4` and another `nYrs` years beyond.  These simulations will later be used to compute confidence limits for the model fit and prediction and tolerance limits for the actual number of nuclear-weapon states.
-<!--I wanted to put "[^cipiti]" here.  However, that duplicated a relatively large footnote; unacceptable.-->
+<!--I wanted to put "[^cipiti]" here.  However, that duplicated a relatively large footnote rather than creating a second reference to the same large footnote; unacceptable.-->
 
 ```{r meanSims}
 nSims <- 5000
@@ -576,21 +628,39 @@ plotNucStatesPred <- function(x, ...){
   plotNucStates(xlim.=xlim., 
                 ylim.=ylim., log.='y', ...)
   with(x, lines(Year, mean))
-  with(x, lines(Year, median, lty='dashed', col='blue'))
-  with(x, lines(Year, U10, lty='dotted', col='red'))
-  with(x, lines(Year, L10, lty='dotted', col='red'))
-  with(x, lines(Year, U20, lty='dotted', col='red'))
-  with(x, lines(Year, L20, lty='dotted', col='red'))
-  legend('topleft', c('60, 80% confidence limits for the mean', 
+  with(x, lines(Year, median, lty='dashed',
+                col='blue'))
+  with(x, lines(Year, U10, lty='dotted',
+                col='red'))
+  with(x, lines(Year, L10, lty='dotted',
+                col='red'))
+  with(x, lines(Year, U20, lty='dotted',
+                col='red'))
+  with(x, lines(Year, L20, lty='dotted',
+                col='red'))
+  legend('topleft', 
+    c('60, 80% confidence limits for the mean', 
           'mean', 'median'),
-      col=c('red', 'black', 'blue'), 
-      lty=c('dotted', 'solid', 'dashed'), bty='n')
+    col=c('red', 'black', 'blue'), 
+    lty=c('dotted', 'solid', 'dashed'), bty='n')
   abline(h=200, lty='dotted', col='grey')
 }
 plotNucStatesPred(sumExpMeans)
+
+if(save_svg){
+  print(getwd())
+  svg(paste0('NucWeaponStates_', 
+        'FcstMeanTimeBetw1stTsts.svg'))
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 2)+.1)
+  cex2 <- 1.7
+  plotNucStatesPred(sumExpMeans, mtext. = FALSE,
+            cex.=cex2)
+  dev.off()
+}
 ```
 
-The fairly flat shape of the median and lower 10 percent lines in Figure \@ref(fig:plotfut) seem consistent with a model that is `r 100*round(fitProlif$postprob[1], 2)` percent constant and `r 100*round(fitProlif$postprob[2], 2)` percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states by the end of the forecasted period, `r year(tail(sumExpMeans$Year, 1))`.  
+The fairly flat shape of the median and lower 10 aond 20 percent lines in Figure \@ref(fig:plotfut) seem consistent with a model that is `r 100*round(fitProlif$postprob[1], 2)` percent constant and `r 100*round(fitProlif$postprob[2], 2)` percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states by the end of the forecasted period, `r year(tail(sumExpMeans$Year, 1))`.  
 
 The fact that the mean of the simulations exceeds the upper confidence limit for `r year(tail(sumExpMeans$Year, 1))` seems odd but can be explained by noting that this is a mixture with a smaller component being positively skewed with a mean substantially larger than the more common component.  To understand this consider a toy example 
 
@@ -604,6 +674,18 @@ Note further that the distribution for each year in Figure \@ref(fig:plotfut) is
 
 ```{r plotfu4, fig.cap = paste('Estimated mean time between "first tests" considering up to a quartic model.', NucStates)}
 plotNucStatesPred(sumExpMeans4)
+
+if(save_svg){
+  print(getwd())
+  svg(paste0('NucWeaponStates_', 
+        'QuarticFcstMeanTimeBetw1stTsts.svg'))
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 2)+.1)
+  cex2 <- 1.7
+  plotNucStatesPred(sumExpMeans4, mtext. = FALSE,
+            cex.=cex2)
+  dev.off()
+}
 ```
 
 The increase over time in the _mean_ time between "first tests" in Figures \@ref(fig:plotfut) and \@ref(fig:plotfu4) suggests a desirable decrease in the rate of nuclear proliferation.  
@@ -624,14 +706,17 @@ These numbers are plotted in Figure \@ref(fig:plotcum).
 ```{r plotcum_Fn}
 plotNNucStates <- function(xfuture, 
         xpast=nuclearWeaponStates, 
-        lwd.=c(1,1,1,2,2), yNPT=2.5, ...){       
+        lwd.=c(1,1,1,2,2), yNPT=2.5, 
+        ylim.=NULL, ...){       
 ##
 ## plot stairsteps for xpast and lines for xfuture
 ## with either 5 or 7 columns in xfuture  
 ##
-  xlim. <- c(xpast$firstTest[1], tail(xfuture$Year, 1))
+  xlim. <- c(xpast$firstTest[1], 
+             tail(xfuture$Year, 1))
   nColsFut <- length(xfuture)
-  ylim. <- c(0, tail(xfuture[[nColsFut]], 1))
+  if(is.null(ylim.))ylim. <- c(0,
+                  tail(xfuture[[nColsFut]], 1))
   
   plot(xlim., ylim., type='n', xlab='', ylab='',
        las=1, bty='n')
@@ -704,13 +789,18 @@ plotNNucStates <- function(xfuture,
 ```{r plotcum, fig.cap = "Number of nuclear-weapon states, past and predicted mean"}
 plotNNucStates(cumCI)
 # optionally write to a file
-if(plot2file){
-#  svg('nucProlifPred.svg', width=9, height=7)
-  png('nucProlifPred.png', width=2600, height=1500)
-  cex2 <- 8
-  par(cex=cex2, mar=c(2,2, 0, 2)+.1, lwd=2)
-  plotNNucStates(cumCI, lwd.=rep(8,5))
-  dev.off()    
+if(save_svg){
+  print(getwd())
+  svg('NucWeaponStates_nucProlifPred.svg',
+      height=3.5)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1,
+            mfrow=c(1, 2))
+# const+linear
+  plotNNucStates(cumCI, mtext. = FALSE)
+  
+
+  dev.off()
 }
 ```  
   
@@ -727,6 +817,23 @@ str(cumCI4 <- sumSims(
     pastfut$Year[-(1:(nYrs-1))]))
 
 plotNNucStates(cumCI4)
+# optionally write to a file
+if(save_svg){
+  print(getwd())
+  svg('NucWeaponStates_nucProlifPred.svg',
+      height=3.5)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1,
+            mfrow=c(1, 2))
+# const+linear
+  nColsFut <- length(cumCI4)
+  ylim. <- c(0, tail(cumCI4[[nColsFut]], 1))
+  plotNNucStates(cumCI, mtext. = FALSE, 
+                 ylim.=ylim.)
+  plotNNucStates(cumCI4, mtext. = FALSE, 
+                 ylim.=ylim.)
+  dev.off()
+}
 ```  
 
 Comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) shows that the higher order terms in the quartic BMA mixture widens the confidence limits, making the 10th percentile essentially flat with almost no additional nuclear proliferation, while the mean quickly escapes the upper limit.  That sharply rising mean suggests that less than 10 percent of the simulations predict nuclear arms races that involve many nation states and many more non-state armed groups.  These outcomes are not likely, but the probabilities of such outcomes seem too large to be dismissed without further consideration, especially when gambling with the future of civilization.  
@@ -850,13 +957,32 @@ We do the same for the quartic BMA model in Figure \@ref(fig:plotcum4) to produc
 ```{r plotPred4, fig.cap = "Number of nuclear-weapon states, past and predicted per quartic BMA model"}
 cumPred4 <- cumsumPred(simMeans4)
 cumC.PI4 <- cumsumC.PI(cumPred4, cumCI4)
-plotNNucStates(xfuture=cumC.PI4)       
+plotNNucStates(xfuture=cumC.PI4)  
+
+# optionally write to a file
+if(save_svg){
+  print(getwd())
+  svg('NucWeaponStates_nucProlifPredInt.svg',
+      height=3.5)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1,
+            mfrow=c(1, 2))
+# const+linear
+  nColsFut <- length(cumC.PI4)
+  ylim. <- c(0, tail(cumC.PI4[[nColsFut]], 1))
+  plotNNucStates(cumC.PI, mtext. = FALSE, 
+                 ylim.=ylim.)
+  plotNNucStates(cumC.PI4, mtext. = FALSE, 
+                 ylim.=ylim.)
+  dev.off()
+}
 ```
 
 We also plot the probability distribution of further nuclear proliferation by summarizing `cumPred` in Figure \@ref(fig:prolif).    
 
 ```{r prolif, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states"}
-plotProbs <- function(x, label_year=2050, ...){ 
+plotProbs <- function(x, label_year=2050, 
+        cex.txt = 1, ...){ 
 # adj.=matrix(c(.53, -.4, .55, 1.15), 2, byrow=TRUE), ...){ 
 ##
 ## Probability distribution of the next 1:5 
@@ -886,18 +1012,19 @@ plotProbs <- function(x, label_year=2050, ...){
 #    cat(time(probProlif)[it], '')
     midTime[i] <- time(probProlif)[it]
     text(midTime[i], midLine, 
-       paste0(midTime[i], '\n', i))
+       paste0(midTime[i], '\n', i), 
+       cex=cex.txt)
   }
   text(currentYear+0.95*nYrs, midLine, 
        paste0('p =\n', midLine) )
-# lable_year
+# lab3l_year
   abline(v=label_year, lty='dotted')
   iyr <- which(time(probProlif) == label_year)
   label_p <- probProlif[iyr, ]
   lines(time(probProlif)[c(1, iyr)], 
         rep(label_p[1], 2), lty='dotted', ...)
   text(time(probProlif)[1+iyr/4], label_p[1],
-    paste0('p =\n', round(label_p[1], 2), ...) )
+      paste0('p =\n', round(label_p[1], 2)) )
 #
   list(midLine=midLine, midTime=midTime, 
        probProlif=probProlif, 
@@ -913,6 +1040,25 @@ We replicate Figure \@ref(fig:prolif) for the quartic BMA model in Figure \@ref(
 
 ```{r prolif4, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states using the quartic BMA model"}
 probProlif4 <- plotProbs(cumPred4)
+
+# optionally write to a file
+if(save_svg){
+  print(getwd())
+  svg('NucWeaponStates_nucProbs.svg',
+      height=3.5)
+  op <- par(cex=1, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1,
+            mfrow=c(1, 2))
+# const+linear
+  cex.txt <- 0.7
+  ylim. <- c(0, tail(
+    probProlif$probProlif[, 1], 1))
+  plotProbs(cumPred, ylim=ylim., 
+      cex.txt=cex.txt)
+  plotProbs(cumPred4, ylim=ylim., 
+      cex.txt=cex.txt)
+  dev.off()
+}
 ```
 
 The quartic BMA model summarized in Figure \@ref(fig:prolif4) is more optimistic than the constant-linear BMA model summarized in Figure \@ref(fig:prolif):  The estimated probability of one more nuclear-weapon state by 2050 drops from `r round(window(probProlif$probProlif, 2050, 2050)[,1], 2)` for the constant-linear mixture to `r round(window(probProlif4$probProlif, 2050, 2050)[,1], 2)` for the quartic BMA model.  However, the conclusions from even this more optimistic model remain the same:  
@@ -966,6 +1112,23 @@ Do we get the same considering the quartic BMA model?  See Figure \@ref(fig:plot
 ```{r plotTol4, fig.cap = "Number of nuclear-weapon states, past and predicted per quartic BMA model"}
 cumTol4 <- cumsumTol(cumC.PI4)
 plotNNucStates(cumTol4)
+
+if(save_svg){
+  print(getwd())
+  svg('NucWeaponStates_nucProlifTolInt.svg',
+      height=3.5)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1,
+            mfrow=c(1, 2))
+# const+linear
+  nColsFut <- length(cumTol4)
+  ylim. <- c(0, tail(cumTol4[[nColsFut]], 1))
+  plotNNucStates(cumTol, mtext. = FALSE, 
+                 ylim.=ylim.)
+  plotNNucStates(cumTol4, mtext. = FALSE, 
+                 ylim.=ylim.)
+  dev.off()
+}
 ```
 
 Indeed, the conclusion from Figure \@ref(fig:plotTol4) is the same as before: Nuclear proliferation is likely to continue until something makes it impossible for anyone to make more nuclear weapons for a very long time.  
