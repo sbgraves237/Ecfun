@@ -40,7 +40,7 @@ save_svg <- !fda::CRAN()
 
 # Abstract
 
-This article models the time between the first test of a nuclear weapon by one nation and the next over the `r nYrs` years of history since the first such test by the US.  We use those results to forecast nuclear proliferation over the next 74 years.  The maximum likelihoood estimate of the time between "first tests" (74 years divided by 8 "first tests") is 9.3 years using the standard formula for censored estimation of a constant exponential distribution.  However, a plot of the times between "first tests" of the 9 nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) that suggests a decrease over time in log(Poisson mean) of the number of "first tests" each year by new nuclear-weapon states. This might be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  Unfortunately, the linear trend is not statistically signficant.  We therefore use Bayesian Model Averaging (BMA), considering two related BMA mixtures.  The average of Monte Carlo simulations for the constant-linear mixture forecasts an additional 7.3 new nuclear-weapon states by 2093, using a forecasting period to match the available history, within the anticipated lifespan of most babies born today.  The average _nonlinear_ mixture forecasts an additional 5.5 new nuclear-weapon states by 2093. Eighty percent percent prediction limits run from 0 to 14 new nuclear-weapon states.  The risk of a nuclear war leading to the extinction of civilization is _increasing_.  Nuclear proliferation will likely continue until it becomes effectively impossible for anyone to make more nuclear weapons for a very long time.  This could come from a nuclear war or a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
+This article models the time between the first test of a nuclear weapon by one nation and the next over the `r nYrs` years of history available as this is being written since the first such test by the US.^[Obviously, this considers the data available as this is being written `r nukeDataCurrent`.] We use those results to forecast nuclear proliferation over the next `r nYrs` years.  The maximum likelihoood estimate of the time between "first tests" (74 years divided by 8 "first tests") is 9.3 years using the standard formula for censored estimation of a constant exponential distribution.  However, a plot of the times between "first tests" of the 9 nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) that suggests a decrease over time in log(Poisson mean) of the number of "first tests" each year by new nuclear-weapon states. This might be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  Unfortunately, the linear trend is not statistically signficant.  We therefore use Bayesian Model Averaging (BMA), considering two related BMA mixtures.  The average of Monte Carlo simulations for the constant-linear mixture forecasts an additional 7.3 new nuclear-weapon states by 2093, using a forecasting period to match the available history, within the anticipated lifespan of most babies born today.  The average _nonlinear_ mixture forecasts an additional 5.5 new nuclear-weapon states by 2093. Eighty percent percent prediction limits run from 0 to 14 new nuclear-weapon states.  The risk of a nuclear war leading to the extinction of civilization is _increasing_.  Nuclear proliferation will likely continue until it becomes effectively impossible for anyone to make more nuclear weapons for a very long time.  This could come from a nuclear war or a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
 
 # Introduction 
 
@@ -141,58 +141,64 @@ if(save_svg){
 }
 ```
 
-This plot also marks the effective dates of both the [Treaty on the Non-Proliferation of Nuclear Weapons (Non-Prolireration Treaty, NP)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) and the [Intermediate-range Nuclear Forces (INF) Treaty](https://en.wikipedia.org/wiki/Intermediate-Range_Nuclear_Forces_Treaty), (1970-03-05 and 1988-06-01, respectively), because of the suggestion that those treaties may have slowed the rate of nuclear proliferation.  
+This plot also marks the effective dates of both the [Treaty on the Non-Proliferation of Nuclear Weapons (Non-Prolireration Treaty, NPT)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) and the [Intermediate-range Nuclear Forces (INF) Treaty](https://en.wikipedia.org/wiki/Intermediate-Range_Nuclear_Forces_Treaty), (1970-03-05 and 1988-06-01, respectively), because of the suggestion that those treaties may have slowed the rate of nuclear proliferation.
 
-A visual analysis of this plot suggests that nuclear proliferation is still alive and well, and neither the NPT nor the INF treaty impacted nuclear proliferation. Worse, the image suggests that it stretches credibility to suggest that nuclear proliferation has stopped:  There were only 5 nuclear-weapon states when the [Treaty on the Non-Proliferation of Nuclear Weapons (NPT, Non-proliferation treaty)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  
+A visual analysis of this plot suggests that nuclear proliferation is still alive and well, and neither the NPT nor the INF treaty had a major impact on nuclear proliferation. The image is pretty bad:  There were only 5 nuclear-weapon states when the NPT entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  _Current international policy on nuclear weapons seems to assume that nuclear proliferation has stopped.  It clearly has not._   
 
 @Toon:2007 noted that in 2003 another 32 had sufficient fissile material to make nuclear weapons if they wished.  Moreover, those 32 do _NOT_ include either Turkey nor Saudi Arabia.  On 2019-09-04, Turkish President Erdogan said it was unacceptable for nuclear-armed states to forbid Turkey from acquiring its own nuclear weapons.^[@Toksabay:2019; @OConnor:2019.] 
 
 Similarly, in 2006 *Forbes* reported that Saudi Arabia has "a secret underground city and dozens of underground silos for" Pakistani nuclear weapons and missiles.^[@Forbes:2006;  see also @Wikip:SaudiNuc.] In 2018 the *Middle East Monitor* reported that "Israel 'is selling nuclear information' to Saudi Arabia".^[@MEM:SaudiNuc;  see also @Wikip:SaudiNuc.]  This is particularly disturbing, because of the substantial evidence that Saudi Arabia may have been and may still be the primary recruiter and funder of Islamic terrorism.^[@Benjamin:2016; see also @Wikiv:WinTerror.]  
 
-This analysis suggests that the number of nuclear-weapon states will likely continue to grow until some dramatic break with the past makes further nuclear proliferation either effectively impossible or sufficiently undesirable.  
+This analysis suggests that the number of nuclear-weapon states will likely continue to grow until some dramatic break with the past makes further nuclear proliferation either effectively impossible or sufficiently undesirable. 
 
-This vignette first reviews the data and history on this issue. We then consider modeling these data as a series of annual Poisson observations of the number of states conducting a first test of a nuclear weapon each year (1 in each of 8 years since 1945; 0 in the others).
+This vignette first reviews the data and history on this issue. We then model these data as a series of annual Poisson observations of the number of states conducting a first test of a nuclear weapon each year (1 in each of 8 years since 1945; 0 in the others).
 
-A relatively simple model for the inhomogeniety visible in Figure \@ref(fig:plot) is [Poisson regression](https://en.wikipedia.org/wiki/Poisson_regression) assuming that log(Poisson mean) is linear in the time since the first test of a nuclear weapon by the US on `r nuclearWeaponStates$firstTest[1]`.  We estimate this using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  This model is plausible to the extent that this trend might represent a growing international awareness of the threat represented by nuclear weapons including a hypothesized increasing reluctance of existing nuclear-weapon states to share their technology. The current process of ratifying the new [Treaty on the Prohibition of Nuclear Weapons](https://en.wikipedia.org/wiki/Treaty_on_the_Prohibition_of_Nuclear_Weapons) supports the hypothesis of such a trend, while the lack of universal support for it and the trend visible in Figure \@ref(fig:plot) clearly indicate that nuclear proliferation is still likely to continue.  We use this model to extend the `r nYrs` years of history of nuclear proliferation available as this is being written `r nukeDataCurrent` into predicting another `r nYrs` years into the future. 
+A relatively simple model for the inhomogeneity visible in Figure \@ref(fig:plot) is [Poisson regression](https://en.wikipedia.org/wiki/Poisson_regression) assuming that log(Poisson mean) is linear in the time since the first test of a nuclear weapon by the US on `r nuclearWeaponStates$firstTest[1]`.  We estimate this using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  This model is plausible to the extent that this trend might represent a growing international awareness of the threat represented by nuclear weapons including a hypothesized increasing reluctance of existing nuclear-weapon states to share their technology. The current process of ratifying the new [Treaty on the Prohibition of Nuclear Weapons](https://en.wikipedia.org/wiki/Treaty_on_the_Prohibition_of_Nuclear_Weapons) supports the hypothesis of such a trend, while the lack of universal support for it and the trend visible in Figure \@ref(fig:plot) clearly indicate that nuclear proliferation is still likely to continue.  We use this model to extend the `r nYrs` years of history of nuclear proliferation available as this is being written `r nukeDataCurrent` into predicting another `r nYrs` years into the future. 
 
 # How did the existing nuclear-weapon states develop this capability? 
 
-There are, of course, multiple issues in nuclear proliferation:  a new nuclear-weapon state requires at least four distinct things to produce a nuclear weapon: motivation, money, knowledge, and material.  
-
-__Disclaimer__:  Complete answers to each of these questions for every nuclear-weapon state can never be known with certainty. The literature found by the present authors is summarized in the accompanying table with citations to the literature in the following discussion but should not be considered any more authoritative than the sources cited, some of which may not be adequate to support all the details and the generalizations in the accompanying table.    
+There are, of course, multiple issues in nuclear proliferation.  A new nuclear-weapon state requires at least four distinct things to produce a nuclear weapon: motivation, money, knowledge, and material.  The accompanying table summarizes the literature the present authors found that seems relevant to the questions at hand.  Of course, definitive answers to these questions has been lost to history or is still locked away as official secrets.    
 
 However, this analysis should be sufficient to support the general conclusions of this article.  
 
 ```{r howHistMat, fig.cap="Motivation, money, knowledge and material for nuclear-weapon states"}
 howHist <- t(as.matrix(data.frame( 
-  US = c('Nazi threat', 'self', 
+  US = c('US', 'Nazi threat', 'self', 
     paste('own scientists + immigrants,', 
       'esp. fr. Germany and Italy, plus',
       'collaboration w the UK & Canada'), 
     'Congo + self'),
-  USSR = c(paste('Hiroshima & Nagasaki bombs +', 
+  "USSR" = c("USSR\n(RU)", paste(
+      'Hiroshima & Nagasaki bombs +', 
       'western invasions during WW II,',
       'after WW I, and before'), 'self', 
     paste('own scientists + espionage', 
       'in the US & captured Germans'), 'self'), 
-  UK = c('USSR', 'self', 'Manhattan Project', 
-    'Canada'), 
-  FR = c('USSR + Suez Crisis', rep('self', 3)), 
-  China = c(paste('1st Taiwan Strait Crisis 1954–1955,',
-        'Korean Conflict, etc.'), 
-    'self', 'USSR', 'self'), 
-  India = c(paste('loss of territory:', 
-      'China-Himalayan border-1962'), 'self', 
-    'students in UK, US', 
+  "UK" = c("UK\n(GB)", 'USSR', 'self', 
+                'Manhattan Project', 'Canada'), 
+  "France" = c("France\n(FR)", 
+      'USSR + Suez Crisis', rep('self', 3)), 
+  "China" = c("China\n(CN)", paste(
+      '1st Taiwan Strait Crisis 1954–1955,',
+      'Korean Conflict, etc.'), 
+      'self', 'USSR', 'self'), 
+  "India" = c("India\n(IN)", 
+     paste('loss of territory:', 
+      'China-Himalayan border-1962'), 
+     'self', 
+     'students in UK, US', 
     'Canadian nuc reactor'), 
-  Israel = c('hostile neighbors', 'self', 
+  "Israel" = c("Israel\n(IL)", 
+    'hostile neighbors', 'self', 
     'self + France', 'France + ???'), 
-  Pakistan=c('Loss of E. Pakistan in 1971', 
+  "Pakistan" =c("Pakistan\n(PK)", 
+    'Loss of E. Pakistan in 1971', 
     'Saudis + self', 'US, maybe China?', 'self?'), 
-  N.Korea = c('threats fr. US', "self?", 
+  "N.Korea" = c("N.Korea\n(KP)", 
+    'threats fr. US', "self?", 
     'US via Pakistan?', 'self?'), 
   stringsAsFactors=FALSE)))  
-colnames(howHist) <- c('Motivation', 
+colnames(howHist) <- c('Nation', 'Motivation', 
           'Money', "Knowledge", "Material")
 
 library(knitr)
@@ -203,7 +209,7 @@ em. <- c(nation=2.2, motive=10, money=2,
          knowledge=10, material=3.4)
 em <- paste0(emTot*em./sum(em.), 'em')
 
-kable(howHist) %>% 
+kable(howHist, row.names=FALSE) %>% 
   column_spec(1, width=em[1]) %>%
   column_spec(2, width=em[2]) %>%
   column_spec(3, width=em[3]) %>%
@@ -211,9 +217,35 @@ kable(howHist) %>%
   column_spec(5, width=em[5]) 
 ```
 
-To help us understand the differences in sizes of the different nuclear-weapon states, Figure \@ref(fig:nucStates) plots the populations and Gross Domestic Products (GDP) of the current nuclear-weapon states.^[Data for different years, 2017-2020, depending on what was available from Wikipedia on 2020-02-05.] The following provides analysis with references behind the summary in Figure \@ref(fig:nucStates).
+## Motivation
 
-```{r nucStates, fig.cap = "Gross Domestic Product and Population of Nuclear-Weapon States"}
+Virtually any country that feels threatened would like to have some counterweight against aggression by a potential enemy.  
+
+- The US funded the Manhattan project believing that Nazi Germany likely had a similar project.  
+
+- Soviet leaders might have felt a need to defend themselves from nuclear coercion after having been invaded by Nazi Germany only a few years earlier, and having defeated [foreign invasions from the West and the East after world War I trying to put the Tsar back in power](https://en.wikipedia.org/wiki/Allied_intervention_in_the_Russian_Civil_War).^[@Fogelsong:1995.  That doesn't count [numerous other invasions that are a sordid part of Russian history](https://en.wikipedia.org/wiki/French_invasion_of_Russia), which educated Russians throughout history would likely remember, even if their invaders may not.]
+
+- The United Kingdom and France felt nuclear threats from the Soviet Union.^[The UK and France would have had many reasons to fear the intentions of the USSR during the early period of the [Cold War](https://en.wikipedia.org/wiki/Cold_War):  The first test of a nuclear weapon by the USSR came just over three months after the end of the 1948-49 [Berlin Blockade](https://en.wikipedia.org/wiki/Berlin_Blockade).  Other aspects of Soviet repression in countries they occupied in Eastern Europe contributed to the failed [Hungarian Revolution of 1956](https://en.wikipedia.org/wiki/Hungarian_Revolution_of_1956).]  
+
+- France's concern about the Soviets increased [after the US refused to support them](https://en.wikipedia.org/wiki/France_and_weapons_of_mass_destruction#cite_note-16) during the [1956 Suez Crisis](https://en.wikipedia.org/wiki/Suez_Crisis):  If the US would not support a British-French-Israeli invasion of Egypt, the US might not defend France against a possible Soviet invasion.^[@Fromkin:2006.  See also @Wikip:FranceNuc]
+
+- China reportedly decided to initiate its nuclear weapons program during the [First Taiwan Strait Crisis](https://en.wikipedia.org/wiki/China_and_weapons_of_mass_destruction#Nuclear_weapons) of 1954-55,^[@Wikip:ChinaNuc;  see also @Wikip:TaiwanStrait, @Halperin:1966, and @Wikip:Ellsberg.] following nuclear threats from the US regarding Korea.^[@Pierson:2017.  See also @Wikip:Ellsberg.] 
+
+- India lost territory to China in the [1962 Sino-Indian War](https://en.wikipedia.org/wiki/Sino-Indian_War), which reportedly convinced India to abandon a policy of avoiding nuclear weapons.^[@Riedel:2012.  See also @Wikip:IndiaNuc. India and China have continued to have conflicts.  See, for example, the Wikipedia articles on [China-India relations](https://en.wikipedia.org/wiki/China%E2%80%93India_relations) and the [2017 China-India border standoff](https://en.wikipedia.org/wiki/2017_China%E2%80%93India_border_standoff).]
+
+- Pakistan's nuclear weapons program began in 1972 in response to the loss of East Pakistan (now Bangledesh) in the 1971 [Bangladesh Liberation War](https://en.wikipedia.org/wiki/Bangladesh_Liberation_War).^[@Wikip:PakNuc.  [India-Pakistan relations](https://en.wikipedia.org/wiki/India%E2%80%93Pakistan_relations) have been marked by frequent conflict since the two nations were born with the dissolution of the British Raj in 1947.  This history might help people understand the need that Pakistani leaders may have felt and still feel for nuclear parity with India, beyond the loss of half their population and 15 percent of their land area in the 1971 Bangladesh Liberation War.] On November 29, 2016, Moeed Yusuf claimed that the threat of a nuclear war between India and Pakistan was the most serious foreign policy issue facing then-President-elect Trump.^[@Yusuf:2016] That may have been an overstatement, but the possibilities of a nuclear war between India and Pakistan should not be underestimated. [There have been lethal conflicts between India and Pakistan at least as recent as 2019.](https://en.wikipedia.org/wiki/Indo-Pakistani_wars_and_conflicts#Past_skirmishes_and_standoffs) If that conflict goes nuclear, it could produce a “nuclear autumn” during which a quarter of humanity not directly impacted by the nuclear war would starve to death, according to simulations by leading climatologists.^[@Toon:2007]
+
+- Israel has faced potentially hostile neighbors since its declaration of independence in 1948.^[@Wikip:ArabIsrael.  Threats perceived by Israel continue, including the [Gaza border protests](https://en.wikipedia.org/wiki/2018_Gaza_border_protests) that have continued at least into 2020.  One might therefore reasonably understand why Israel might feel a need for nuclear weapons and why others might believe that the 1979-09-22 [Vela incident](https://en.wikipedia.org/wiki/Vela_Incident) was an Israeli nuclear test.] 
+ 
+- North Korea first tested a nuclear weapon on  2006-10-09,^[@CRS:2016.  The US Congressional Research Service in 2016 reported, “The Comprehensive Nuclear-Test-Ban Treaty Organization (CTBTO) PrepCom's international monitoring system detected data indicating that North Korea had conducted a nuclear test on January 6, 2016. ... On October 9, 2006, North Korea declared that it had conducted an underground nuclear test.”  For the present purposes, we use the October date declared by North Korea, not the January date reported by CTBTO.  See also @Wikip:NKoreaNuc06.] less than five years after having been named as part of an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) by US President George W. Bush on 2002-01-29.^[@Bush:2002;  see also @Wikip:AxisOfEvil.] Chomsky claimed that the relations between the US and North Korea have followed "a kind of tit-for-tat policy.  You make a hostile gesture, and we'll respond with a crazy gesture of our own.  You make an accommodating gesture, and we'll reciprocate in some way."  He gave several examples including a 1994 agreement that halted North Korean nuclear-weapons development.  "When George W. Bush came into office, North Korea had maybe one [untested] nuclear weapon and verifiably wasn't producing any more."^[@Chomsky:2017, pp. 131-134. Chomsky includes in this game of tit-for-tat the total destruction of North Korean infrastructure during the Korean War in the early 1950s, including huge dams that controlled the nation's water supply, destroying their crops, and raising the spectre of mass starvation. @Kolko:1968 noted that German General Syss-Inquart ordered similar destruction of dikes in Holland in 1945, which condemned many Dutch civilians to death by starvation. For that crime Syss-Inquart became one of only 24 of the people convicted at the Nurenberg war crimes trial to have been sentencted to death.  Chomsky noted that this is "not in our memory bank, but it's in theirs."]
+
+All this suggests that it will be difficult to reduce the threat of nuclear proliferation and nuclear war without somehow changing the nature of international relations so weaker countries have less to fear from the demands of stronger countries.  
+
+## Money 
+
+To help us understand the differences in sizes of the different nuclear-weapon states, Figure \@ref(fig:nucStates) plots the populations and Gross Domestic Products (GDP) of the current nuclear-weapon states.^[Data for different years, 2017-2020, depending on what was available from Wikipedia on 2020-02-05.] The following subsections provide analysis with references behind the summary in Figure \@ref(fig:nucStates).
+
+```{r nucStates, fig.cap = "Gross Domestic Product and Population of Nuclear-Weapon States.  (Country codes as with Figure 1 with GB, FR overplotted.)"}
 #op <- par(mar=c(5,5,4,2)+.1)
 plot(GDP_B/1000 ~ popM, nuclearWeaponStates, type='n',
      log='xy', las=1, xlab='', ylab='')
@@ -234,9 +266,9 @@ with(nuclearWeaponStates,
           col=cols) )
 leg <- with(nuclearWeaponStates, 
     paste(ctry, '=', nation))
-with(nuclearWeaponStates, 
-  legend('bottomright', legend=leg, 
-         bty='n', text.col=cols))
+#with(nuclearWeaponStates, 
+#  legend('bottomright', legend=leg, 
+#         bty='n', text.col=cols))
 #par(op)
 
 if(save_svg){
@@ -266,33 +298,9 @@ if(save_svg){
 }
 ```
 
-## Motivation
-
-Virtually any country that feels threatened would like to have some counterweight against aggression by a potential enemy.  The US funded the Manhattan project believing that Nazi Germany likely had a similar project.  
-
-Soviet leaders might have felt a need to defend themselves from nuclear coercion after having been invaded by Nazi Germany only a few years earlier, and having defeated [foreign invasions from the West and the East after world War I trying to put the Tsar back in power](https://en.wikipedia.org/wiki/Allied_intervention_in_the_Russian_Civil_War).^[@Fogelsong:2014.  That doesn't count [numerous other invasions that are a sordid part of Russian history](https://en.wikipedia.org/wiki/French_invasion_of_Russia), which educated Russians throughout history would likely remember, even if their invadors may not.]
-
-The United Kingdom and France felt nuclear threats from the Soviet Union.^[The UK and France would have had many reasons to fear the intentions of the USSR during the early period of the [Cold War](https://en.wikipedia.org/wiki/Cold_War):  The first test of a nuclear weapon by the USSR came just over three months after the end of the 1948-49 [Berlin Blockade](https://en.wikipedia.org/wiki/Berlin_Blockade).  Other aspects of Soviet repression in countries they occupied in Eastern Europe contributed to the failed [Hungarian Revolution of 1956](https://en.wikipedia.org/wiki/Hungarian_Revolution_of_1956).]  
-
-France's concern about the Soviets increased [after the US refused to support them](https://en.wikipedia.org/wiki/France_and_weapons_of_mass_destruction#cite_note-16) during the [1956 Suez Crisis](https://en.wikipedia.org/wiki/Suez_Crisis):  If the US would not support a British-French-Israeli invasion of Egypt, the US might not defend France against a possible Soviet invasion.^[@Fromkin:2006.  See also @Wikip:FranceNuc]
-
-China reportedly decided to initiate its nuclear weapons program during the [First Taiwan Strait Crisis](https://en.wikipedia.org/wiki/China_and_weapons_of_mass_destruction#Nuclear_weapons) of 1954-55,^[@Wikip:ChinaNuc;  see also @Wikip:TaiwanStrait, @Halperin:1966, and @Wikip:Ellsberg.] following nuclear threats from the US regarding Korea^[@Pierson:2017.  See also @Wikip:Ellsberg.] 
-
-India lost territory to China in the [1962 Sino-Indian War](https://en.wikipedia.org/wiki/Sino-Indian_War), which reportedly convinced India to abandon a policy of avoiding nuclear weapons.^[@Riedel:2012.  See also @Wikip:IndiaNuc. India and China have continued to have conflicts, [e.g., in  1967](https://en.wikipedia.org/wiki/China%E2%80%93India_relations), and [the Doklam standoff in 2017](https://en.wikipedia.org/wiki/2017_China%E2%80%93India_border_standoff).]
-
-Pakistan's nuclear weapons program began in 1972 in response to the loss of East Pakistan (now Bangledesh) in the 1971 [Bangladesh Liberation War](https://en.wikipedia.org/wiki/Bangladesh_Liberation_War).^[@Wikip:PakNuc.  [India-Pakistan relations](https://en.wikipedia.org/wiki/India%E2%80%93Pakistan_relations) have been marked by frequent conflict since the two nations were born with the dissolution of the British Raj in 1947.  This history might help people understand the need that Pakistani leaders may have felt and still feel for nuclear parity with India, beyond the loss of half their population and 15 percent of their land area in the 1971 Bangladesh Liberation War.] On November 29, 2016, Moeed Yusuf claimed that the threat of a nuclear war between India and Pakistan was the most serious foreign policy issue facing US President-elect Trump.^[@Yusuf:2016] That may have been an overstatement, but the possibilities of a nuclear war between India and Pakistan should not be underestimated.  
-
-Israel has faced potentially hostile neighbors since its declaration of independence in 1948.^[@Wikip:ArabIsrael.  Threats perceived by Israel continue, including the [Gaza border protests](https://en.wikipedia.org/wiki/2018_Gaza_border_protests) that have continued at least into 2020.  One might therefore reasonably understand why Israel might feel a need for nuclear weapons and why others might believe that the 1979-09-22 [Vela incident](https://en.wikipedia.org/wiki/Vela_Incident) was an Israeli nuclear test.] 
- 
-North Korea first tested a nuclear weapons 2006-10-09,^[@Medalia:2009;  @CRS:2016.  See also @Wikip:NKoreaNuc06.] less than five years after having been named as part of an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) by US President George W. Bush on 2002-01-29.^[@Bush:2002;  see also @Wikip:AxisOfEvil.] Chomsky claimed that the relations between the US and North Korea have followed "a kind of tit-for-tat policy.  You make a hostile gesture, and we'll respond with a crazy gesture of our own.  You make an accommodating gesture, and we'll reciprocate in some way."  He gave several examples including a 1994 agreement that halted North Korean nuclear-weapons development.  "When George W. Bush came into office, North Korea had maybe one [untested] nuclear weapon and verifiably wasn't producing any more."^[@Chomsky:2017, pp. 131-134. Chomsky includes in this game of tit-for-tat the total destruction of North Korean infrastructure during the Korean War in the early 1950s, including huge dams that controlled the nation's water supply, destroying their crops, and raising the spectre of mass starvation. @Kolko:1968 noted that German General Syss-Inquart ordered similar destruction of dikes in Holland in 1945, which condemned many Dutch civilians to death by starvation. For that crime Syss-Inquart became one of only 24 of the people convicted at the Nurenberg war crimes trial to have been sentencted to death.  Chomsky noted that this is "not in our memory bank, but it's in theirs."]
-
-All this suggests that it will be difficult to reduce the threat of nuclear proliferation and nuclear war without somehow changing the nature of international relations so weaker countries have less to fear from the demands of stronger countries.  
-
-## Money 
-
 It's no accident that most of the world's nuclear-weapon states are large countries with substantial populations and economies. That's not true of Israel with only roughly 9 million people nor North Korea with roughly 26 million people in 2018.  France and the UK have only about 67 and 68 million people, but they are also among the world leaders in the size of their economies.  
 
-Pakistan is a relatively poor country;  it reportedly received financial assistance from Saudi Arabia for its nuclear program.^[@Riedel:2008.]  
+Pakistan is a relatively poor country.  It reportedly received financial assistance from Saudi Arabia for its nuclear program.^[@Riedel:2008.]  
 
 Another reason for a possible decline in the rate of nuclear proliferation apparent in Figure \@ref(fig:plot) is the fact that among nuclear-weapon states, those with higher GDPs tended to acquire this capability earlier, as is evident in Figure \@ref(fig:nucStates).
 
@@ -308,20 +316,17 @@ The UK's nuclear-weapons program was built in part on their wartime participatio
 
 China got some help from the Soviet Union during the initial phases of their nuclear program.^[@Wikip:ChinaNuc.]
 
-The first country to get nuclear weapons after the Non-Proliferation Treaty was India, whose Atomic Energy Commission was founded in 1948, chaired by Homi J. Bhabha;   he had published important research in nuclear physics while a graduate student in England in the 1930s, working with some of the leading nuclear physicists of that day.^[@Wikip:Bhabha;  see also @Wikip:NucTimeline.]
+The first country to get nuclear weapons after the Non-Proliferation Treaty was India.  Their Atomic Energy Commission was founded in 1948, chaired by Homi J. Bhabha.  He had published important research in nuclear physics while a graduate student in England in the 1930s, working with some of the leading nuclear physicists of that day.^[@Wikip:Bhabha;  see also @Wikip:NucTimeline.]
 
 Meanwhile, Israel's nuclear weapons program initially included sending students abroad to study under leading physicists like Enrico Fermi at the University of Chicago.  It also included extensive collaboration with the French nuclear-weapons program.^[@Wikip:IsraelNuc.]
 
-Pakistan got [secret help from the US in the 1980s in violation of US law to secure Pakistani cooperation with US support for anti-Soviet resistance in Afghanistan](https://www.wilsoncenter.org/publication/new-documents-spotlight-reagan-era-tensions-over-pakistani-nuclear-program).[^Pak2] [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci), a special adviser on WMDs to President Clinton, said that the nuclear weapons programs of North Korea, Iran and Libya would not have gotten off the ground without help the US gave to the Pakistani nuclear weapons program.[^KP] 
-
-Western sources have claimed that China also helped Pakistan's nuclear-weapons program, but Chna has denied those claims.^[@Wikip:PakNuc.] 
+Pakistan got [secret help from the US in the 1980s in violation of US law to secure Pakistani cooperation with US support for anti-Soviet resistance in Afghanistan](https://www.wilsoncenter.org/publication/new-documents-spotlight-reagan-era-tensions-over-pakistani-nuclear-program).[^Pak2] [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci) said that the nuclear weapons programs of North Korea, Iran and Libya would not have gotten off the ground without help the US gave to the Pakistani nuclear weapons program in violation of US law;  Gallucci is a leading scholar and expert on non-proliferation, who held senior positions in the Reagan, George H. W. Bush and Clinton administrations.[^KP] Western sources have claimed that China also helped Pakistan's nuclear-weapons program, but China has denied those claims.^[@Wikip:PakNuc.] 
 
 And now the US is helping Saudi Arabia obtain nuclear power, in spite of (a) the evidence that [the Saudi government including members of the Saudi royal family were involved at least as early as 1999 in preparations for the suicide mass murders of September 11, 2001](https://en.wikipedia.org/wiki/The_28_pages),^[@Graham:2003.  See also @Wikip:28pages.] and (b) their [on-going support for Al Qaeda in Yemen, reported as recently as 2019](https://en.wikipedia.org/wiki/Saudi_Arabian-led_intervention_in_Yemen).^[See, for example, @Bazzi:2019 and @Wikip:SaudiYemen, more generally.] 
 
 ## Material 
 
-Reportedly the most difficult part of making nuclear weapons today is obtaining sufficient fissile material.
-@Toon:2007 said, "Thirteen countries operate plutonium and/or uranium enrichment facilities, including Iran", but Iran did not have sufficient fissile material in 2003 to make a nuclear weapon.  Another 20 were estimated to have had sufficient stockpiles of fissile material acquired elsewhere to make nuclear weapons.  They concluded that 32 (being 13 minus 1 plus 20) additional countries have sufficient fissile material to make nuclear weapons if they want.^[pp. 1975, 1977.  The 32 countries they identified included 12 of the 13 that "operate plutonium and/or uranium enrichement facilities", excepting Iran as noted.  The other 20 countries acquired stockpiles elsewhere. In addition to the 32 with sufficient fissile material to make a nuclear weapon, Egypt, Iraq and the former Yugoslavia were listed as having abandoned a nuclear-weapons program.]  
+Reportedly the most difficult part of making nuclear weapons today is obtaining sufficient fissile material. @Toon:2007 said, "Thirteen countries operate plutonium and/or uranium enrichment facilities, including Iran", but Iran did not have sufficient fissile material in 2003 to make a nuclear weapon.  Another 20 were estimated to have had sufficient stockpiles of fissile material acquired elsewhere to make nuclear weapons.  They concluded that 32 (being 13 minus 1 plus 20) additional countries have sufficient fissile material to make nuclear weapons if they want.^[pp. 1975, 1977.  The 32 countries they identified included 12 of the 13 that "operate plutonium and/or uranium enrichment facilities", excepting Iran as noted.  The other 20 countries acquired stockpiles elsewhere. In addition to the 32 with sufficient fissile material to make a nuclear weapon, Egypt, Iraq and the former Yugoslavia were listed as having abandoned a nuclear-weapons program.]
 
 @Toon:2007 also said, "In 1992 the International Atomic Energy Agency safeguarded less than 1% of the world’s HEU [Highly Enriched Uranium] and only about 35% of the world inventory of Pu [Plutonium] ... .  Today [in 2007] a similarly small fraction is safeguarded." 
 
@@ -331,13 +336,13 @@ Much of the uranium for the very first test of a nuclear weapon by the US came f
 
 The French nuclear-weapons program seems to have been built primarily on plutonium.^[@Wikip:FranceNuc.  See also Table 2 in @Toon:2007, which claims that in 2003, France had enough fissile material for roughly 24,000 plutonium bombs and 1,350 $^{235}$U bombs.]  This required them to first build standard $^{238}$U nuclear reactors to make the plutonium.  Then they didn't need nearly as much uranium to sustain their program.  
 
-China has reportedly had sufficient domestic reserves of uranium to support its own needs,^[@Wikip:Ures.], even exporting some to the USSR in the 1950s in exchange for other assistance with their nuclear defense program.^[@Wikip:ChinaNuc.] 
+China has reportedly had sufficient domestic reserves of uranium to support its own needs,^[@Wikip:Ures.] even exporting some to the USSR in the 1950s in exchange for other assistance with their nuclear defense program.^[@Wikip:ChinaNuc.] 
 
 India's nuclear weapons program seems to have been entirely (or almost entirely) based on plutonium.^[@Wikip:IndiaNuc;  see also @Toon:2007 and @Wikip:Ures.]  
 
 Israel seems not to have had sufficient uranium deposits to meet its own needs.  Instead, they purchased some from France until France ended their nuclear-weapons collaboration with Israel in the 1960s. To minimize the amount of uranium needed, nearly all Israeli nuclear weapons seem to be plutonium bombs.^[@Toon:2007.]
 
-It's not clear where Pakistan got most of its uranium: Its reserves in 2015 were estimated at zero, and its historical production to that point was relatively low.^[@Wikip:Ures.] By comparison with the first seven nuclear-weapon states, it's not clear where Pakistan might have gotten enough uranium to produce 83 plutonium bombs and 44 uranium bombs, as estimated by @Toon:2007^[Table 2, p. 1976.]  As previously noted, the US helped the Pakistani nuclear-weapons program in the 1980s and accused China of providing similar assistance, a charge that China has repeatedly and vigorously denied.  Both France and China have provided civilian nuclear reactors, which could help produce plutonium but not $^{235}$U.^[@Wikip:PakNuc.]
+It's not clear where Pakistan got most of its uranium: Its reserves in 2015 were estimated at zero, and its historical production to that point was relatively low.^[@Wikip:Ures.] By comparison with the first seven nuclear-weapon states, it's not clear where Pakistan might have gotten enough uranium to produce 83 plutonium bombs and 44 uranium bombs, as estimated by @Toon:2007^[Table 2, p. 1976.]  As previously noted, the US helped the Pakistani nuclear-weapons program in the 1980s and accused China of providing similar assistance, a charge that China has repeatedly and vigorously denied.  China has provided civilian nuclear reactors, which could help produce plutonium but not $^{235}$U.^[@Wikip:PakNuc.]
 
 According to the Federation of American Scientists, "North Korea maintains uranium mines with an estimated four million tons of exploitable high-quality uranium ore ... that ... contains approximately 0.8% extractable uranium."^[@Aftergood:2006;  see also @Wikip:NKoreaNuc.] If that's accurate, processing all that would produce 4,000,000 times 0.008 = 32,000 tons of pure natural uranium, which should be enough to produce the weapons they have today.  
 
@@ -351,10 +356,9 @@ According to the Federation of American Scientists, "North Korea maintains urani
 
 # Distribution of the time between Poisson "first tests" 
 
-Possibly the simplest model for something like the time between "first tests" in an application like this is to assume they come from one [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) with 8 observed times between the 9 current nuclear-weapon states plus one [censored observation](https://en.wikipedia.org/wiki/Censoring_(statistics)) of the time between the most recent one and a presumed next one. This simple theory tells us that the maximum likelihood estimate of the mean time between such "first tests" is the total time from the US "Trinity" test to the present, `r round(yrsSinceT <- as.numeric(difftime(nukeDataCurrent, nuclearWeaponStates$firstTest[1], units='days')/365.25), 1)` years, divided by the number of new nuclear-weapon states `r (nNewNucSt <- nNucStates-1)`, not counting the first, which had no predicessors.  Conclusion:  Mean time between "first tests" = `r round(yrsSinceT / nNewNucSt, 1)` years.[^WikivTime]
+Possibly the simplest model for something like the time between "first tests" in an application like this is to assume they come from one [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) with 8 observed times between the 9 current nuclear-weapon states plus one [censored observation](https://en.wikipedia.org/wiki/Censoring_(statistics)) of the time between the most recent one and a presumed next one. This simple theory tells us that the maximum likelihood estimate of the mean time between such "first tests" is the total time from the US "Trinity" test to the present, `r round(yrsSinceT <- as.numeric(difftime(nukeDataCurrent, nuclearWeaponStates$firstTest[1], units='days')/365.25), 1)` years, divided by the number of new nuclear-weapon states, `r (nNewNucSt <- nNucStates-1)`, not counting the first, which had no predecessors.  Conclusion:  Mean time between "first tests" = `r round(yrsSinceT / nNewNucSt, 1)` years.[^WikivTime]
 
-However, Figure \@ref(fig:plot) suggests that the time between 
-"first tests" of succeeding nuclear-weapon states is increasing.  The decreasing hazard suggested by this figure requires mathematics that are not as easy as the censored data estimation as just described. 
+However, Figure \@ref(fig:plot) suggests that the time between "first tests" of succeeding nuclear-weapon states is increasing.  The decreasing hazard suggested by this figure requires mathematics that are not as easy as the censored data estimation as just described. 
 
 To understand the current data better, we redo Figure \@ref(fig:plot) with a log scale on the y axis in Figure \@ref(fig:ploty).   
 
@@ -375,11 +379,11 @@ if(save_svg){
 
 Figures \@ref(fig:plot) and \@ref(fig:ploty) seem consistent with the following:
 
-- If the mean time between "first tests" is increasing over time, as suggested by Figures \@ref(fig:plot) and \@ref(fig:ploty), then the distribution cannot be exponential, becaause that requires a constant [hazard rate](https://en.wikipedia.org/wiki/Survival_analysis#Hazard_function_and_cumulative_hazard_function).  [For the exponential distribution, $h(t) = (-d/dt \log S(t)) = \lambda$, writing the exponential survival function as $S(t) = \exp(-\lambda t)$.]  
+- If the mean time between "first tests" is increasing over time, as suggested by Figures \@ref(fig:plot) and \@ref(fig:ploty), then the distribution cannot be exponential, because that requires a constant [hazard rate](https://en.wikipedia.org/wiki/Survival_analysis#Hazard_function_and_cumulative_hazard_function).  [For the exponential distribution, $h(t) = (-d/dt \log S(t)) = \lambda$, writing the exponential survival function as $S(t) = \exp(-\lambda t)$.]  
 - Even though nuclear proliferation has been slowing since 1950, it could _accelerate_ in the future if more states began to perceive greater threats from other nations.  
-- Fortunately we can simplify this modeling problem by using the famous duality between exponential time between events and a Poisson distribution for numbers of events in specific intervals of time.  By modeling Poisson counts of "first tests" each year, we can use techniques for Poisson regression for models suggested by Figure \@ref(fig:ploty).  The simplest such model might consider log(Poisson mean numbers of "first tests" each year) to be linear in the time since the first test of a nuclear weapon (code-named ["Trinity"](https://en.wikipedia.org/wiki/Trinity_(nuclear_test)).^[@Rhodes:1986.  See also @Wikip:Trinity.]  However, the image in Figure \@ref(fig:ploty) suggests the line may not be straight.  Easily tested alternatives to linearity could be second, third and fourth powers of the "timeSinceTrinity".^[One might also consider a model with the log(Poisson mean) behaving like a ["Wiener process" (also called a "Brownian motion")](https://en.wikipedia.org/wiki/Wiener_process).  This stochastic formulation would mean that the variance of the increments in log(hazard) between "first tests" is proportional to the elapsed time.  See @Wolfram:Wiener and @Wikip:Wiener.  The [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this.  Its [`ng_bsm` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ng_bsm) supports modeling a normal random walk in log(Poisson mean) of the number of "first tests" each year.  In this article, we model the trend as deterministic and leave consideration of a [Gaussian random walk](https://en.wikipedia.org/wiki/Random_walk) and similar stochastic formulations for future work.]
+- Fortunately we can simplify this modeling problem by using the famous duality between exponential time between events and a Poisson distribution for numbers of events in specific intervals of time.  By modeling Poisson counts of "first tests" each year, we can use techniques for Poisson regression for models suggested by Figure \@ref(fig:ploty).  The simplest such model might consider log(Poisson mean numbers of "first tests" each year) to be linear in the time since the first test of a nuclear weapon (code-named ["Trinity"](https://en.wikipedia.org/wiki/Trinity_(nuclear_test))).^[@Rhodes:1986.  See also @Wikip:Trinity.]  However, the image in Figure \@ref(fig:ploty) suggests the line may not be straight.  Easily tested alternatives to linearity could be second, third and fourth powers of the "timeSinceTrinity".^[One might also consider a model with the log(Poisson mean) behaving like a ["Wiener process" (also called a "Brownian motion")](https://en.wikipedia.org/wiki/Wiener_process).  This stochastic formulation would mean that the variance of the increments in log(hazard) between "first tests" is proportional to the elapsed time.  See @Wolfram:Wiener and @Wikip:Wiener.  The [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this.  Its [`ng_bsm` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ng_bsm) supports modeling a normal random walk in log(Poisson mean) of the number of "first tests" each year.  In this article, we model the trend as deterministic and leave consideration of a [Gaussian random walk](https://en.wikipedia.org/wiki/Random_walk) and similar stochastic formulations for future work.]
 
-We use Poisson regression to model this as a series of the number of events each year, month, week, or day.  For present purposes, we will use a series of annual observation.  Changing to monthly, weekly or daily observations might give us slightly better answers while possibly increasing the compute time more than it's worth.
+We use Poisson regression to model this as a series of the number of events each year.^[We could potentially use one observation each month, week or day.  Such a change might give us slightly better answers while possibly increasing the compute time more than it's worth.]
 
 # Parameter estimation 
 
@@ -456,7 +460,7 @@ summary(fitProlif1 <- glm(
 
 This says that the time trend visible in Figures \@ref(fig:plot) and \@ref(fig:ploty) is not statistically significant.  
 
-[George Box](https://en.wikipedia.org/wiki/George_E._P._Box) famously said that, ["All models are wrong, but some are useful."](https://en.wikipedia.org/wiki/All_models_are_wrong#Historical_antecedents)^[@BoxDraper:1987;  @Wikip:ModelsWrong.] 
+[George Box](https://en.wikipedia.org/wiki/George_E._P._Box) famously said that, ["All models are wrong, but some are useful."](https://en.wikipedia.org/wiki/All_models_are_wrong)^[@BoxDraper:1987;  @Wikip:ModelsWrong.] 
 
 @Burnham:1998 and others claim that better predictions can generally be obtained using Bayesian Model Averaging.^[See also @Raftery:1995 and @Claeskens:2008.] In this case, we have two models:  `log(Poisson mean)` being constant or linear in `timeSinceTrinity`.  The [`bic.glm`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) function in the [`BMA`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) package can estimate these two models and compute posterior probabilities.    
 
@@ -469,7 +473,7 @@ fitProlif <- bic.glm(
 summary(fitProlif)
 ```
 
-It is standard in the BMA literature to assume a priori an approximate uniform distribution over all models considered with a penalty for estimating each additional parameter to correct for the tendancy of the models to overfit the data.  With these standard assumptions, this comparison of these two models estimates a `r round(100*fitProlif$postprob[2])` percent posterior probability for the model linear in  `timeSinceTrinity`, leaving `r round(100*fitProlif$postprob[1])` percent probability for the model with a constant Poisson mean.  Figure \@ref(fig:plotyf) adds these lines to Figure \@ref(fig:ploty).^[For Figure \@ref(fig:plotyf), we use the standard duality between the Poisson and exponential distributions.  Of course, when the hazard rate is not constant, the distribution of the time to the next "first test" is not exponential. Modeling log(Poisson mean) gives us more flexibility than trying to use any of the standard generalizations of the exponential distribution.]
+It is standard in the BMA literature to assume a priori an approximate uniform distribution over all models considered with a penalty for estimating each additional parameter to correct for the tendency of the models to overfit the data.  With these standard assumptions, this comparison of these two models estimates a `r round(100*fitProlif$postprob[2])` percent posterior probability for the model linear in  `timeSinceTrinity`, leaving `r round(100*fitProlif$postprob[1])` percent probability for the model with a constant Poisson mean.  Figure \@ref(fig:plotyf) adds these lines to Figure \@ref(fig:ploty).^[For Figure \@ref(fig:plotyf), we use the standard duality between the Poisson and exponential distributions.  Of course, when the hazard rate is not constant, the distribution of the time to the next "first test" is not exponential. Modeling log(Poisson mean) gives us more flexibility than trying to use any of the standard generalizations of the exponential distribution.]
 
 ```{r plotyf, fig.cap = paste("BMA fit to time between new nuclear-weapon states.", NucStates)}
 plotNucStates(log.='y', yNPT=4)
@@ -556,15 +560,15 @@ if(save_svg){
 }
 ```
 
-Comparing predictions between `fitProlif` and `fitProlif4` might help us understand better the limits of what we can learn from the available data.  A visual analysis of Figure \@ref(fig:ploty4) makes one wonder if the quartic, cubic and quadratic fits are really almost as good as the linear, as suggested by minor differences in the posterior probabilities estimate by the `bic.glm` algorithm.  However, the forecasts of nuclear proliferation will be dominated by the constant component of the BMA mixture, and its posterior probability is `r 100*round(fitProlif$postprob[1], 2)` percent for the constant-linear mixture and `r 100*round(fitProlif4$postprob[1], 4)` percent for the quartic mixture.  That means that the median line and all the lower quantiles of all simulated futures based on these models would be dominated by that constant term.  
+Comparing predictions between `fitProlif` and `fitProlif4` might help us understand better the limits of what we can learn from the available data.  A visual analysis of Figure \@ref(fig:ploty4) makes one wonder if the quartic, cubic and quadratic fits are really almost as good as the linear, as suggested by minor differences in the posterior probabilities estimated by the `bic.glm` algorithm.  However, the forecasts of nuclear proliferation will be dominated by the constant component of the BMA mixture;  its posterior probability is `r 100*round(fitProlif$postprob[1], 2)` percent for the constant-linear mixture and `r 100*round(fitProlif4$postprob[1], 4)` percent for the quartic mixture.  That means that the median line and all the lower quantiles of all simulated futures based on these models would be dominated by that constant term.  
 
-Moreover, the constant and linear lines in Figure \@ref(fig:ploty4) look more plausible, at least to the present author, than the quadratic, cubic and quartic lines.  That, in turn, suggests that the constant linear mixture may be more plausible than the quartic mixture, and the posterior probability for the constant model in that mixture is `r 100*round(fitProlif$postprob[1], 2)` percent.  
+Moreover, the quadratic, cubic and quartic lines in the right (quartic mixture) panel of Figure \@ref(fig:ploty4) do not look nearly as plausible, at least to the present author, as the constant and linear lines.^[Recall that the estimation methodology here is Poisson regression, not ordinary least squares.] That, in turn, suggests that the constant linear mixture may be more plausible than the quartic mixture
 
-We next use `fitProlif` and `fitProlif4` to compute central 60 and 80 percent confidence limits plus 80 percent prediction, and (0.8, 0.8) tolerance limits for future nuclear proliferation.[^cipiti]
+We next use `fitProlif` and `fitProlif4` to compute central 60 and 80 percent confidence limits plus 80 percent prediction, and (0.8, 0.8) tolerance limits for future nuclear proliferation, as discussed in the next three sections of this vignette.[^cipiti]
 
 # Confidence limits    
   
-We start by computing `nSims` simulated Poisson mean numbers of "first tests" by new nuclear-weapon states for each of the `nYrs` years used in `fitProlif` and `fitProlif4` and another `nYrs` years beyond.  These simulations will later be used to compute confidence limits for the model fit and prediction and tolerance limits for the actual number of nuclear-weapon states.
+We start by computing `nSims` simulated Poisson mean numbers of "first tests" by new nuclear-weapon states for each of the `nYrs` years used in `fitProlif` and `fitProlif4` and another `nYrs` years beyond.  These simulations will later be used to compute confidence limits for the model estimates of the Poisson mean and prediction and tolerance limits for the actual number of nuclear-weapon states.
 <!--I wanted to put "[^cipiti]" here.  However, that duplicated a relatively large footnote rather than creating a second reference to the same large footnote; unacceptable.-->
 
 ```{r meanSims}
@@ -651,20 +655,20 @@ if(save_svg){
   print(getwd())
   svg(paste0('NucWeaponStates_', 
         'FcstMeanTimeBetw1stTsts.svg'))
-  op <- par(cex=1.7, cex.axis=1.4, 
+  op <- par(cex=1.4, cex.axis=1.3, 
             mar=c(2,3, 2, 2)+.1)
-  cex2 <- 1.7
+  cex2 <- 1.3
   plotNucStatesPred(sumExpMeans, mtext. = FALSE,
             cex.=cex2)
   dev.off()
 }
 ```
 
-The fairly flat shape of the median and lower 10 and 20 percent lines in Figure \@ref(fig:plotfut) seem consistent with a model that is `r 100*round(fitProlif$postprob[1], 2)` percent constant and `r 100*round(fitProlif$postprob[2], 2)` percent linear on the log scale, reported with `summary(fitProlif)` above.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states by the end of the forecasted period, `r year(tail(sumExpMeans$Year, 1))`.  
+The fairly flat shape of the median and lower 10 and 20 percent lines in Figure \@ref(fig:plotfut) seem consistent with a model that is a mixture of log-normal distributions with the dominant component having a mean that is constant over time and a probability of `r 100*round(fitProlif$postprob[1], 2)` percent.  The substantial curvature of the solid line forecast looks hopeful, with a mean of simulated means being almost 200 years between successive "first tests" by new nuclear-weapon states by the end of the forecasted period, `r year(tail(sumExpMeans$Year, 1))`.  
 
-The fact that the mean of the simulations exceeds the upper confidence limit for `r year(tail(sumExpMeans$Year, 1))` seems odd but can be explained by noting that this is a mixture of log-normal distributions, and the mean of a lognormal exceeds its upper quantile $q$ whenever $\sigma > 2\Phi^{-1}(q)$, where $\Phi^{-1}(q)$ = quantile $q$ of the standard normal distribution.^[This follows, because quantile $q$ of a lognormal is $\exp[\mu+\sigma\Phi^{-1}(q)]$ and the mean is $\exp[\mu+\sigma^{-1}]$, so the mean exceeds quantile $q$ whenever $\sigma\Phi^{-1}(q) < \sigma^{-2}/2$, i.e., when $\Phi^{-1}(q) < \sigma/2$.]  
+The fact that the mean of the simulations exceeds the upper confidence limit for `r year(tail(sumExpMeans$Year, 1))` seems odd but can be explained by noting that this is a mixture of log-normal distributions, and the mean of a log-normal exceeds its upper quantile $q$ whenever $\sigma > 2\Phi^{-1}(q)$, where $\Phi^{-1}(q)$ = quantile $q$ of the standard normal distribution, and $\sigma$ is the standard deviation of the logarithms.^[This follows, because quantile $q$ of a log-normal is $\exp[\mu+\sigma\Phi^{-1}(q)]$ and the mean is $\exp[\mu+\sigma^2/2]$, so the mean exceeds quantile $q$ whenever $\sigma\Phi^{-1}(q) < \sigma^2/2$, i.e., when $\Phi^{-1}(q) < \sigma/2$.]  
 
-Note further that the distribution for each year in Figure \@ref(fig:plotfut) is a mixture of lognormal distributions, which means that their reciprocals, the mean numbers of "first tests" each year, will also be a mixture of lognormals with the same standard deviations on the log scale.  This standard deviation is larger the farther we extrapolate into the future.  
+Note further that the distribution for each year in Figure \@ref(fig:plotfut) is a mixture of log-normal distributions, which means that their reciprocals, the mean numbers of "first tests" each year, will also be a mixture of log-normals with the same standard deviations on the log scale.  This standard deviation is larger the farther we extrapolate into the future. 
 
 ```{r plotfu4, fig.cap = paste('Estimated mean time between "first tests" considering up to a quartic model.', NucStates)}
 plotNucStatesPred(sumExpMeans4)
@@ -673,9 +677,9 @@ if(save_svg){
   print(getwd())
   svg(paste0('NucWeaponStates_', 
         'QuarticFcstMeanTimeBetw1stTsts.svg'))
-  op <- par(cex=1.7, cex.axis=1.4, 
-            mar=c(2,3, 2, 2)+.1)
-  cex2 <- 1.7
+  op <- par(cex=1.4, cex.axis=1.3, 
+            mar=c(1,2, 0,0)+.1)
+  cex2 <- 1.3
   plotNucStatesPred(sumExpMeans4, mtext. = FALSE,
             cex.=cex2)
   dev.off()
@@ -684,7 +688,7 @@ if(save_svg){
 
 The increase over time in the _mean_ time between "first tests" in Figures \@ref(fig:plotfut) and \@ref(fig:plotfu4) suggests a desirable decrease in the rate of nuclear proliferation.  
 
-However, we are more concerned with the _shorter_ times between "first tests", and they seem all too probable, as we shall see when we simulate and `cumsum` them.  To do that, we append these simulated predictions to a plot of the evolution of the number of nuclear-weapon states through the historical period.^[In these simulations, we assume a zero probability of a nuclear power giving up their nuclear weapons, even though [South Africa reportedly discontinued their nuclear weapons program in 1989](https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction), prior to its [first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).  We could potentially add South Africa to `nuclearWeaponStates` with the same date as Israel, then model the distribution of the time to when a nuclear-weapon state gives up its nuclear weapons using an exponential distribution.  For that, we have one observed time and eight such times that are censored.  Standard theory in that case says that the maximum likelihood estimate of the mean time to relinquishing nuclear weapons assuming an exponential distribution is the sum of all the times, censored or observed, divided by the number of times observed, not including the censored times in the denominator. For purposes of illustration, we will assume that South Africa dismanteled its nuclear weapons 1989-12-31, though a report of an inspection by the  International Atomic Energy Agency dated 1994-08-19 said they had dismantled six nuclear weapons and were still working to dismantle one more.  Based on this, the estimated mean lifetime of a nuclear-weapon state can be estimated at `r round(as.numeric(difftime(Today, as.Date('1979-09-22'), units='weeks') + sum(difftime(Today, nuclearWeaponStates$firstTest, units='weeks')))/52)` years.  We could potentially add this to the current modeling effort, but it would not likely change the answers enough to justify the additional effort.]
+However, we are more concerned with the _shorter_ times between "first tests", and they seem all too probable, as we shall see when we simulate and `cumsum` them.  To do that, we append these simulated predictions to a plot of the evolution of the number of nuclear-weapon states through the historical period.^[In these simulations, we assume a zero probability of a nuclear power giving up their nuclear weapons, even though [South Africa reportedly discontinued their nuclear weapons program in 1989](https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction), prior to its [first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).  We could potentially add South Africa to `nuclearWeaponStates` with the same date as Israel, then model the distribution of the time to when a nuclear-weapon state gives up its nuclear weapons using an exponential distribution.  For that, we have one observed time and eight such times that are censored.  Standard theory in that case says that the maximum likelihood estimate of the mean time to relinquishing nuclear weapons assuming an exponential distribution is the sum of all the times, censored or observed, divided by the number of times observed, not including the censored times in the denominator. For purposes of illustration, we will assume that South Africa dismantled its nuclear weapons 1989-12-31, though a report of an inspection by the International Atomic Energy Agency dated 1994-08-19 said they had dismantled six nuclear weapons and were still working to dismantle one more.  Based on this, the mean lifetime of a nuclear-weapon state can be estimated at `r round(as.numeric(difftime(Today, as.Date('1979-09-22'), units='weeks') + sum(difftime(Today, nuclearWeaponStates$firstTest, units='weeks')))/52)` years.  We could potentially add this to the current modeling effort, but it would not likely change the answers enough to justify the additional effort.]
 
 ```{r cumsum}
 str(cumMeans <- apply(simMeans[-(1:nYrs), ], 
@@ -839,7 +843,7 @@ Comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) shows that the high
 
 We replicate the simulations summarized in `cumCI4` to see how stable the numbers are for the final year in Figure \@ref(fig:plotcum4);  see Figure \@ref(fig:qq4).  
 
-```{r qq4, fig.cap = "Lognormal probability plot of mean numbers of nuclear-weapon states per the quartic mixture model in the last simulated year"}
+```{r qq4, fig.cap = "Log-normal probability plot of mean numbers of nuclear-weapon states per the quartic mixture model in the last simulated year"}
 cumCI2 <- rbind(tail(cumCI, 1), tail(cumCI4, 1))
 rownames(cumCI2) <- c('BMA2', 'BMA4')
 
@@ -871,7 +875,7 @@ These replications establish that the simulated `mean` number of nuclear-weapon 
 
 Beyond that, comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) establishes that the median and lower limit are lower for the quartic BMA mixture while the upper limit is slightly higher, and the mean for the quartic BMA mixture is too large to be credible.    
 
-Even ignoring the simulations of uncontrolled nuclear arms races, the median lines in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) predict between `r round(tail(cumCI, 1)$median, 1)` and `r round(tail(cumCI4, 1)$median, 1)` at the end of the current simulated period, `r year(tail(cumCI, 1)$Year)`, adding either `r round(tail(cumCI, 1)$median-nNucStates, 1)` and `r round(tail(cumCI4, 1)$median-nNucStates, 1)` (for the constant linear and quartic mixtures, respectively) to the current `r nNucStates` nuclear-weapon states.  Those _median_ numbers are a little less than double the number of nuclear-weapon states today.  
+Ignoring the simulations of uncontrolled nuclear arms races, the median lines in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) predict between `r round(tail(cumCI, 1)$median, 1)` and `r round(tail(cumCI4, 1)$median, 1)` at the end of the current simulated period, `r year(tail(cumCI, 1)$Year)`, adding either `r round(tail(cumCI, 1)$median-nNucStates, 1)` and `r round(tail(cumCI4, 1)$median-nNucStates, 1)` (for the constant-linear and quartic mixtures, respectively) to the current `r nNucStates` nuclear-weapon states.  Those _median_ numbers are a little less than double the number of nuclear-weapon states today.  
 
 We extend this analysis by adding prediction intervals to these plots.  
 
@@ -951,7 +955,7 @@ We add this to the image in Figure \@ref(fig:plotcum) to create Figure \@ref(fig
 plotNNucStates(xfuture=cumC.PI)       
 ```  
 
-We do the same for the quartic BMA model in Figure \@ref(fig:plotcum4) to produce Figure \@ref(fig:plotPred4).  In both Figures \@ref(fig:plotPred) and \@ref(fig:plotPred4) the most likely scenarios, especially the median line and the space more generally between the 80 percent confidence limits, predict a continuation of nuclear proliferation.  It's difficult to imagine how that could continue without also substantively increasing the risk of nuclear war and therefore also of the extinction of civilization.  
+We do the same for the quartic BMA model in Figure \@ref(fig:plotcum4) to produce Figure \@ref(fig:plotPred4).  In both Figures \@ref(fig:plotPred) and \@ref(fig:plotPred4) the most likely scenarios, especially the median line and the space between the 60 percent confidence limits, predict a continuation of nuclear proliferation.  It's difficult to imagine how that could continue without also substantively increasing the risk of nuclear war and therefore also of the extinction of civilization.
 
 ```{r plotPred4, fig.cap = "Number of nuclear-weapon states, past and predicted per quartic BMA model"}
 cumPred4 <- cumsumPred(simMeans4)
@@ -977,9 +981,9 @@ if(save_svg){
 }
 ```
 
-We also plot the probability distribution of further nuclear proliferation by summarizing `cumPred` in Figure \@ref(fig:prolif).    
+We can also summarize the simulations in `cumPred` to estimate the probabilities of having 1, 2, 3, 4, and 5 new nuclear weapon states for each year in the prediction period between 2020 and 2093 in Figure \@ref(fig:prolif).  This is another way of evaluating the sensibility of pretending there will be no further nuclear proliferation:  Not likely.  
 
-```{r prolif, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states"}
+```{r prolif, fig.cap = "Probabilities of the  time to the next 5 new nuclear-weapon states using the constant-linear mixture model"}
 plotProbs <- function(x, label_year=2050, 
         cex.txt = 1, ...){ 
 # adj.=matrix(c(.53, -.4, .55, 1.15), 2, byrow=TRUE), ...){ 
@@ -1038,9 +1042,9 @@ Figure \@ref(fig:prolif) says there is a `r round(100*tail(probProlif$probProlif
 
 We replicate Figure \@ref(fig:prolif) for the quartic BMA model in Figure \@ref(fig:prolif4).
 
-```{r prolif4, fig.cap = "Probability distribution of the  time to the next 1:5 new nuclear-weapon states using the quartic BMA model"}
+```{r prolif4, fig.cap = "Probabilities of the  time to the next 5 new nuclear-weapon states using the quartic BMA model"}
 probProlif4 <- plotProbs(cumPred4)
-tail(probProlif$probProlif4, 1)
+tail(probProlif4$probProlif, 1)
 
 # optionally write to a file
 if(save_svg){
@@ -1062,19 +1066,21 @@ if(save_svg){
 }
 ```
 
-The quartic BMA model summarized in Figure \@ref(fig:prolif4) is more optimistic than the constant-linear BMA model summarized in Figure \@ref(fig:prolif):  The estimated probability of one more nuclear-weapon state by 2050 drops from `r round(window(probProlif$probProlif, 2050, 2050)[,1], 2)` for the constant-linear mixture to `r round(window(probProlif4$probProlif, 2050, 2050)[,1], 2)` for the quartic BMA model.  However, the conclusions from this more optimistic model remain the same:  
+The quartic BMA model summarized in Figure \@ref(fig:prolif4) is more optimistic than the constant-linear BMA model summarized in Figure \@ref(fig:prolif):  The estimated probability of one more nuclear-weapon state by 2050 drops from `r round(window(probProlif$probProlif, 2050, 2050)[,1], 2)` for the constant-linear mixture to `r round(window(probProlif4$probProlif, 2050, 2050)[,1], 2)` for the quartic BMA model.  
+
+The conclusions from both models include the following:  
 
 \vspace{\baselineskip}
 \centerline{\textit{\textbf{The current structure of international relations}}}
 
-\centerline{\textit{\textbf{threatens the extinction of civilization.}}}
+\centerline{\textit{\textbf{seems to threaten the extinction of civilization.}}}
 \vspace{\baselineskip}
 
-To better quantify the uncertainty in modeling, we next construct tolerance intervals for the time to the next new nuclear-weapon state.
+To better quantify the uncertainty in modeling, we can also construct tolerance intervals for the time to the next new nuclear-weapon state.
 
 # Tolerance limits
 
-We want to add tolerance limits to Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) in addition to the prediction limits.  To do this, we add `rpois` simulations to the 80 percent confidence limits in those figures, rather than `rpois` simulations to _all the individual_ simulations summarized to construct Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4).  The results for the constant-linear mixture appear in Figure \@ref(fig:plotTol).  
+We want to add tolerance limits to Figures \@ref(fig:plotPred) and \@ref(fig:plotPred4) in addition to the prediction limits.  To do this, we add `rpois` simulations to the 80 percent confidence limits in those figures, rather than `rpois` simulations to _all the individual_ simulations summarized in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4).  The results for the constant-linear mixture appear in Figure \@ref(fig:plotTol).  
 
 ```{r simTol}
 cumsumTol <- function(x=cumCI, ...){
@@ -1102,7 +1108,7 @@ cumsumTol <- function(x=cumCI, ...){
 cumTol <- cumsumTol(cumC.PI)
 ```
 
-```{r plotTol, fig.cap = "Number of nuclear-weapon states, past and predicted"}
+```{r plotTol, fig.cap = "Number of nuclear-weapon states with prediction and tolerance limits"}
 plotNNucStates(cumTol)
 ```
 
@@ -1110,7 +1116,7 @@ The upper limit line in Figure \@ref(fig:plotTol) is higher than that in Figure 
 
 Do we get the same considering the quartic BMA model?  See Figure \@ref(fig:plotTol4).  
 
-```{r plotTol4, fig.cap = "Number of nuclear-weapon states, past and predicted per quartic BMA model"}
+```{r plotTol4, fig.cap = "Number of nuclear-weapon states with prediction and tolerance limits per quartic BMA model"}
 cumTol4 <- cumsumTol(cumC.PI4)
 plotNNucStates(cumTol4)
 
@@ -1139,17 +1145,21 @@ Indeed, the conclusion from Figure \@ref(fig:plotTol4) is the same as before: Nu
 
 A growing number of leading figures have said that as long as the world maintains large nuclear arsenals, it is only a matter of time before there is a nuclear war.  Concerns like this have been expressed by two former US Secretaries of Defense ([Robert McNamara](https://en.wikipedia.org/wiki/Robert_McNamara)^[@McNamara:2003] and [William Perry](https://en.wikipedia.org/wiki/William_Perry)), two former US Secretaries of State ([Henry Kissinger](https://en.wikipedia.org/wiki/Henry_Kissinger) and [George Schultz](https://en.wikipedia.org/wiki/George_Shultz)), former US Senator [Sam Nunn](https://en.wikipedia.org/wiki/Sam_Nunn),^[@Shultz:2019] and others with, for example, the [Nuclear Threat Initiative](https://en.wikipedia.org/wiki/Nuclear_Threat_Initiative). [Daniel Ellsberg](https://en.wikipedia.org/wiki/Daniel_Ellsberg) has said that a nuclear war will most likely generate a nuclear winter that lasts several years during which 98 percent of humanity will starve to death if they do not die of something else sooner.^[@Ellsberg:2017b] 
 
-Banerjee and Duflo, two of the three who won the 2019 Nobel Memorial Prize in Economics, have noted that neither economic nor political stability are assured for any country, including the United States, China and India.  In particular, they predict that economic growth will almost certainly slow substantailly in the latter two, leaving many poor people in desparate economic straits.^[@Banerjee:2019] Various journalists and academic researchers remind us that President Trump has demonized various different groups and promoted an increase in ethnic violence.  He refused in 2016 and has continued to refuse to say if he would accept the results of an election if he lost in 2020.^[Klaas:2019] Internal problems in the US, China, India or any other nuclear-weapon state could push political leaders to pursue increasingly risky foreign adventures, like Argentina did in 1982,^[@Wikip:Faulklands] possibly leading to a war that could produce nuclear Armageddon.[^WikivTime2] 
+Banerjee and Duflo, two of the three who won the 2019 Nobel Memorial Prize in Economics, have noted that neither economic nor political stability are assured for any country, including the United States, China and India.  In particular, they predict that economic growth will almost certainly slow substantially in the latter two, leaving many poor people in desperate economic straits.^[@Banerjee:2019.  Various journalists and academic researchers have expressed concern about increases in ethic violence in various countries and whether electoral transitions of power will continue, even in the US.  See, e.g., @Klaas:2019] Internal problems in the US, China, India or any other nuclear-weapon state could push political leaders to pursue increasingly risky foreign adventures, like Argentina did in 1982,^[@Wikip:Faulklands] possibly leading to a war that could produce nuclear Armageddon.[^WikivTime2] 
 
-The present work only increases the urgency of limiting the threat of nuclear war and nuclear proliferation in particular.
+The evidence compiled in the present work only seems to increase the urgency of limiting the threat of nuclear war and nuclear proliferation in particular.
 
-In the 20 years following the first test of a nuclear weapon on `r nuclearWeaponStates$firstTest[1]` by the US, four more nations acquired such weapons.  In the 50 years since the Non-Proliferation Treaty took effect in 1970, another four acquired them.^[This uses a commonly accepted list of existing nuclear-weapon states and when they each first tested a nuclear weapon.] Our analysis of the available data considering only the dates of these first tests suggests that nuclear proliferation may have been slowing throughout this period.  However, that apparent trend was not statistically significant in the model we fit.  
+In the 20 years following the first test of a nuclear weapon on `r nuclearWeaponStates$firstTest[1]` by the US, four more nations acquired such weapons.  In the 50 years since the Non-Proliferation Treaty took effect in 1970, another four acquired them.^[This uses a commonly accepted list of existing nuclear-weapon states and when they each first tested a nuclear weapon.  The sources for this are contained in the help file for the [nuclearWeaponStates](https://www.rdocumentation.org/packages/Ecdat/versions/0.3-7/topics/nuclearWeaponStates) dataset in the [Ecfun](https://www.rdocumentation.org/packages/Ecdat/versions/0.3-7) package for R.] Our analysis of the available data considering only the dates of these first tests suggests that nuclear proliferation may have been slowing throughout this period.  However, that apparent trend was not statistically significant in the model we fit.  
 
 Bayesian Model Averages (BMA) is known to generally produce better predictions than single model fits.  Accordingly, we've estimated confidence, prediction, and tolerance limits for the number of new nuclear-weapon states `r nYrs` years into the future based on two BMA models with mixtures of either a constant with a linear model or a constant with terms up to quartic in the time since the very first test of a nuclear weapon.   
 
-We can expect that some non-nuclear nations and terrorist groups would eagerly pursue nuclear weapons if such seemed feasible unless some unprecidented change in international law provided them with effective nonviolent recourse to perceived threats.  
+We can expect that some non-nuclear nations and terrorist groups would eagerly pursue nuclear weapons if such seemed feasible unless some unprecedented change in international law provided them with effective nonviolent recourse to perceived threats.  
 
 Moreover, these weapons will likely become more available with the passage of time unless (a) a nuclear war destroys everyone's ability to make more such weapons for a long time, or (b) an international movement has far more success than similar previous efforts in giving the poor, weak and disfranchised effective nonviolent means for pursuing a redress of grievances.  
+
+# Acknowledgments 
+
+The authors wish to thank Val Nerio for suggestions that seem to have improved this article.  As usual, the authors retain responsibility for any remaining errors and poorly presented observations.  
 
 # References
 
@@ -1157,7 +1167,7 @@ Moreover, these weapons will likely become more available with the passage of ti
 
 [^WikivTime]: For precursors to the current study that involve censored estimation of time to a nuclear war, see @Wikiv:extinct and @Wikiv:Armageddon.  
 
-[^WikivTime2]: The risks of a nuclear Armageddon are documented in a series of simulations published in refereed academic journals, each more detailed and more disconcerting than the previous.  All assume that many firestorms will be produced, because (a) the areas targetted will likely be much more susceptible to firestorms than the underground or isolated sites used to test nuclear weapons, and (b) many of the weapons used will have yields substantially greater than those employed in Hiroshima and Nagasaki.  For a discussion of that literature, see @Wikiv:extinct and @Wikiv:Armageddon.
+[^WikivTime2]: The risks of a nuclear Armageddon are documented in a series of simulations published in refereed academic journals, each more detailed and more disconcerting than the previous.  All assume that many firestorms will be produced, because (a) the areas targeted will likely be much more susceptible to firestorms than the underground or isolated sites used to test nuclear weapons, and (b) many of the weapons used will have yields substantially greater than those employed in Hiroshima and Nagasaki.  For a discussion of that literature, see @Wikiv:extinct and @Wikiv:Armageddon.
 
 [^KP]:  @Levy:2007 say that Gallucci was a special adviser on WDMs to US Presidents Clinton and G. W. Bush.  The Wikipedia article on him says he was US Assistant Secretary of State for Political-Military Affairs from July 13, 1992 to October 11, 1994 under Presidents George H. W. Bush and Bill Clinton but not G. W. Bush.  Later, per @Gallucci:2001, "In March 1998, the Department of State announced his appointment as Special Envoy to deal with the threat posed by the proliferation of ballistic missiles and weapons of mass destruction. He held this position until January 2001."  G. W. Bush became US President 2001-01-20.  Thus, if Gallucci served under G. W. Bush, it was only for a few days.  Similar remarks about the US helping Pakistan's nuclear program were made by [Richard Barlow](https://en.wikipedia.org/wiki/Richard_Barlow_(Intelligence_analyst)#cite_note-wp-1), a CIA analyst who reported these questionable activities to a committee of the US House as noted by @Levy:2007. Barlow was reportedly severely punished for honestly answering questions in a classified briefing to an oversight committee of the US House.  Barlow said that US assistance to Pakistan's nuclear weapons program was in exchange for Pakistan's help in supplying rebels in Afghanistan fighting Soviet occupation.  This was during the [Iran-Contra affair](https://en.wikipedia.org/wiki/Iran%E2%80%93Contra_affair), which exposed actions of officials of the Reagan administration to pursue foreign policy objectives in Central America in blatant violation of law passed by Congress and signed by the President.
 
