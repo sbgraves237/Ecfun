@@ -792,11 +792,9 @@ print(tail(cumCI, 1))
 # optionally write to a file
 if(save_svg){
   print(getwd())
-  svg('NucWeaponStates_nucProlifPred.svg',
-      height=3.5)
+  svg('NucWeaponStates_nucProlifPred1.svg')
   op <- par(cex=1.7, cex.axis=1.4, 
-            mar=c(2,3, 2, 0)+.1,
-            mfrow=c(1, 2))
+            mar=c(2,3, 2, 0)+.1)
 # const+linear
   plotNNucStates(cumCI, mtext. = FALSE)
 
