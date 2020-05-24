@@ -145,7 +145,7 @@ This plot also marks the effective dates of both the [Treaty on the Non-Prolifer
 
 A visual analysis of this plot suggests that nuclear proliferation is still alive and well, and neither the NPT nor the INF treaty had a major impact on nuclear proliferation. The image is pretty bad:  There were only 5 nuclear-weapon states when the NPT entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  _Current international policy on nuclear weapons seems to assume that nuclear proliferation has stopped.  It clearly has not._   
 
-@Toon:2007 noted that in 2003 another 32 had sufficient fissile material to make nuclear weapons if they wished.  Moreover, those 32 do _NOT_ include either Turkey nor Saudi Arabia.  On 2019-09-04, Turkish President Erdogan said it was unacceptable for nuclear-armed states to forbid Turkey from acquiring its own nuclear weapons.^[@Toksabay:2019; @OConnor:2019.] 
+@Toon:2007 noted that in 2003 another 32 countries had sufficient fissile material to make nuclear weapons if they wished.  Moreover, those 32 do _NOT_ include either Turkey nor Saudi Arabia.  On 2019-09-04, Turkish President Erdogan said it was unacceptable for nuclear-armed states to forbid Turkey from acquiring its own nuclear weapons.^[@Toksabay:2019; @OConnor:2019.] 
 
 Similarly, in 2006 *Forbes* reported that Saudi Arabia has "a secret underground city and dozens of underground silos for" Pakistani nuclear weapons and missiles.^[@Forbes:2006;  see also @Wikip:SaudiNuc.] In 2018 the *Middle East Monitor* reported that "Israel 'is selling nuclear information' to Saudi Arabia".^[@MEM:SaudiNuc;  see also @Wikip:SaudiNuc.]  This is particularly disturbing, because of the substantial evidence that Saudi Arabia may have been and may still be the primary recruiter and funder of Islamic terrorism.^[@Benjamin:2016; see also @Wikiv:WinTerror.]  
 
@@ -320,7 +320,9 @@ The first country to get nuclear weapons after the Non-Proliferation Treaty was 
 
 Meanwhile, Israel's nuclear weapons program initially included sending students abroad to study under leading physicists like Enrico Fermi at the University of Chicago.  It also included extensive collaboration with the French nuclear-weapons program.^[@Wikip:IsraelNuc.]
 
-Pakistan got [secret help from the US in the 1980s in violation of US law to secure Pakistani cooperation with US support for anti-Soviet resistance in Afghanistan](https://www.wilsoncenter.org/publication/new-documents-spotlight-reagan-era-tensions-over-pakistani-nuclear-program).[^Pak2] [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci) said that the nuclear weapons programs of North Korea, Iran and Libya would not have gotten off the ground without help the US gave to the Pakistani nuclear weapons program in violation of US law;  Gallucci is a leading scholar and expert on non-proliferation, who held senior positions in the Reagan, George H. W. Bush and Clinton administrations.[^KP] Western sources have claimed that China also helped Pakistan's nuclear-weapons program, but China has denied those claims.^[@Wikip:PakNuc.] 
+Pakistan got [secret help from the US in the 1980s in violation of US law to secure Pakistani cooperation with US support for anti-Soviet resistance in Afghanistan](https://www.wilsoncenter.org/publication/new-documents-spotlight-reagan-era-tensions-over-pakistani-nuclear-program).[^Pak2] [Robert Gallucci](https://en.wikipedia.org/wiki/Robert_Gallucci) said that the nuclear weapons programs of North Korea, Iran and Libya would not have gotten off the ground without help the US secretly gave to the Pakistani nuclear weapons program in violation of US law;  Gallucci is a leading scholar and expert on non-proliferation, who held senior positions in the Reagan, George H. W. Bush and Clinton administrations.[^KP] [Vikram Sood](https://en.wikipedia.org/wiki/Vikram_Sood), a former head of India's foreign intelligence agency, echoed Galluci's claims, adding that Pakistan ''may'' have given nuclear-weapons technology to al Qaeda "just weeks prior to September 11, 2001."^[Sood:2008] It may not be wise to accept Sood's claim at face value, given the long-standing hostility between India and Pakistan.  On the other hand, we should not dismiss the possibility that a terrorist organization might acquire nuclear weapons.  
+
+Western sources have claimed that China also helped Pakistan's nuclear-weapons program, but China has denied those claims.^[@Wikip:PakNuc.] 
 
 And now the US is helping Saudi Arabia obtain nuclear power, in spite of (a) the evidence that [the Saudi government including members of the Saudi royal family were involved at least as early as 1999 in preparations for the suicide mass murders of September 11, 2001](https://en.wikipedia.org/wiki/The_28_pages),^[@Graham:2003.  See also @Wikip:28pages.] and (b) their [on-going support for Al Qaeda in Yemen, reported as recently as 2019](https://en.wikipedia.org/wiki/Saudi_Arabian-led_intervention_in_Yemen).^[See, for example, @Bazzi:2019 and @Wikip:SaudiYemen, more generally.] 
 
@@ -643,7 +645,7 @@ plotNucStatesPred <- function(x, ...){
   with(x, lines(Year, L20, lty='dotted',
                 col='red'))
   legend('topleft', 
-    c('60, 80% confidence limits for the mean', 
+    c('60% and 80% confidence limits for the mean', 
           'mean', 'median'),
     col=c('red', 'black', 'blue'), 
     lty=c('dotted', 'solid', 'dashed'), bty='n')
@@ -703,15 +705,17 @@ These numbers are plotted in Figure \@ref(fig:plotcum).
 
 ```{r plotcum_Fn}
 plotNNucStates <- function(xfuture, 
-        xpast=nuclearWeaponStates, 
-        lwd.=c(1,1,1,2,2), yNPT=2.5, 
-        ylim.=NULL, ...){       
+      xpast=nuclearWeaponStates, 
+      lwd.=c(1,1,1,2,2), yNPT=2.5, xlim.=NULL, 
+      ylim.=NULL, fT_end=Today, ...){       
 ##
 ## plot stairsteps for xpast and lines for xfuture
 ## with either 5 or 7 columns in xfuture  
 ##
-  xlim. <- c(xpast$firstTest[1], 
-             tail(xfuture$Year, 1))
+  if(is.null(xlim.)){
+    xlim. <- range(c(xpast$firstTest, 
+             tail(xfuture$Year, 1)))
+  }
   nColsFut <- length(xfuture)
   if(is.null(ylim.))ylim. <- c(0,
                   tail(xfuture[[nColsFut]], 1))
@@ -720,11 +724,15 @@ plotNNucStates <- function(xfuture,
        las=1, bty='n')
 ##
 ## 1.  plot xpast
-##  
+##
+  fT_sel <- (xpast$firstTest<=fT_end)
+  nNucStend <- sum(fT_sel)
   fT_date <- c(xpast$firstTest[1], 
-      xpast$firstTest, Today)
+      xpast$firstTest[fT_sel], fT_end)
+#  fT_date <- c(xpast$firstTest[1], xpast$firstTest, fT_end)
+    
   lines(fT_date, 
-      c(0:nNucStates, nNucStates), type='s')
+      c(0:nNucStend, nNucStend), type='s')
   abline(v=NPTdate, lty='dashed', col='grey')
 # abline(h=20)  
   xlim20. <- c(xlim.[1]-7*365, xlim.[1])
@@ -738,49 +746,51 @@ plotNNucStates <- function(xfuture,
 ##
 ## 2.  plot xfuture 
 ##
-  with(xfuture, lines(Year, mean), 
+  if(!is.null(xfuture)){
+    with(xfuture, lines(Year, mean), 
        lwd=lwd.[1])
-  with(xfuture, lines(Year, median, lty='dashed',
+    with(xfuture, lines(Year, median, lty='dashed',
               col='blue', lwd=lwd.[2]))
-  with(xfuture, lines(Year, U10, lty='dotted',
+    with(xfuture, lines(Year, U10, lty='dotted',
               col='red', lwd=lwd.[3]))
-  with(xfuture, lines(Year, L10, lty='dotted',
+    with(xfuture, lines(Year, L10, lty='dotted',
               col='red', lwd=lwd.[3]))
-  with(xfuture, lines(Year, U20, lty='dotted',
+    with(xfuture, lines(Year, U20, lty='dotted',
               col='red', lwd=lwd.[3]))
-  with(xfuture, lines(Year, L20, lty='dotted',
+    with(xfuture, lines(Year, L20, lty='dotted',
               col='red', lwd=lwd.[3]))
-  ncols <- 3
-  leg <- c('60, 80% confidence limits\nfor the mean',
+    ncols <- 3
+    leg <- c('60% and 80% confidence\nlimits for the mean',
            'mean', 'median')
-  col. <- c('red', 'black', 'blue')
+    col. <- c('red', 'black', 'blue')
 #  
-  if('predU10' %in% names(xfuture)){
-    leg <- c(leg, '80% prediction limits')
-    col. <- c(col., 'green')
-    with(xfuture, lines(Year, predU10, lty='dashed', 
+    if('predU10' %in% names(xfuture)){
+      leg <- c(leg, '80% prediction limits')
+      col. <- c(col., 'green')
+      with(xfuture, lines(Year, predU10, lty='dashed', 
             col='green', lwd=lwd.[4]))
-    with(xfuture, lines(Year, predL10, lty='dashed', 
+      with(xfuture, lines(Year, predL10, lty='dashed', 
             col='green', lwd=lwd.[4]))
-    ncols <- 4
-  }
-  if('tolU10' %in% names(xfuture)){
-    leg <- c(leg, '(0.8, 0.8) tolerance limits')
-    col. <- c(col., 'purple')
-    with(xfuture, lines(Year, tolU10, lty='dashed', 
+      ncols <- 4
+    }
+    if('tolU10' %in% names(xfuture)){
+      leg <- c(leg, '(0.8, 0.8) tolerance limits')
+      col. <- c(col., 'purple')
+      with(xfuture, lines(Year, tolU10, lty='dashed', 
             col='purple', lwd=lwd.[5]))
-    with(xfuture, lines(Year, tolL10, lty='dashed', 
+      with(xfuture, lines(Year, tolL10, lty='dashed', 
             col='purple', lwd=lwd.[5]))
-    ncols <- ncols+1
-  }
+      ncols <- ncols+1
+    }
 ##
 ## 3.  legend
 ##  
-  lty. <- c('dotted', 'solid', rep('dashed', 3))
+    lty. <- c('dotted', 'solid', rep('dashed', 3))
 #  lwd. <- c(rep(par('lwd'), 3), 
 #            rep(par('lwd')*2, 2) )
-  legend('topleft', leg[1:ncols], col=col.[1:ncols], 
+    legend('topleft', leg[1:ncols], col=col.[1:ncols], 
          lty=lty.[1:ncols], lwd=lwd., bty='n')
+  }
 }
 ```
 
@@ -792,14 +802,221 @@ print(tail(cumCI, 1))
 # optionally write to a file
 if(save_svg){
   print(getwd())
-  svg('NucWeaponStates_nucProlifPred1.svg')
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+  png('NucWeaponStates_nucProlifPred1.png')
   op <- par(cex=1.7, cex.axis=1.4, 
             mar=c(2,3, 2, 0)+.1)
 # const+linear
   plotNNucStates(cumCI, mtext. = FALSE)
+  title('Number of nuclear-weapon states')
 
   dev.off()
 }
+
+# For the 88th MORS Symposium, I want multiple subsets of this: 
+# 1.  Up to NPT in 1970
+# 2.  Up to INF in 1988
+# 3.  Up to "Axis of Evil" in 2002
+# 4.  Today in 2020 
+# 5.  Poisson data:  Model as a Poisson count each year since 1945
+# 6.  BMA:  79% const.;  21% linear
+# 7.  To 2094 with confidence limits
+
+if(save_svg){
+# 1.  NPT
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred11.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+# plotNNucStates(xfuture, xpast=nuclearWeaponStates, 
+#     lwd.=c(1,1,1,2,2), yNPT=2.5, xlim.=NULL, ylim.=NULL, ...)  
+  xlim. <- c(nuclearWeaponStates$firstTest[1], 
+          tail(cumCI$Year, 1)) 
+  ylim. <- c(0, tail(cumCI$U10, 1))
+
+  plotNNucStates(NULL, mtext. = FALSE, 
+        lwd.=c(3,3,3,4,4), xlim. = xlim., ylim.=ylim., 
+        fT_end=NPTdate[1])
+  title('Number of nuclear-weapon states')
+
+  dev.off()
+}
+
+if(save_svg){
+# 2.  INF
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred12.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+# plotNNucStates(xfuture, xpast=nuclearWeaponStates, 
+#     lwd.=c(1,1,1,2,2), yNPT=2.5, xlim.=NULL, ylim.=NULL, ...)  
+  xlim. <- c(nuclearWeaponStates$firstTest[1], 
+          tail(cumCI$Year, 1)) 
+  ylim. <- c(0, tail(cumCI$U10, 1))
+
+  plotNNucStates(NULL, mtext. = FALSE, 
+        lwd.=c(3,3,3,4,4), xlim. = xlim., ylim.=ylim., 
+        fT_end=NPTdate[2])
+  title('Number of nuclear-weapon states')
+
+  dev.off()
+}
+
+if(save_svg){
+# 3.  To "Axis of Evil"
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred13.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+# plotNNucStates(xfuture, xpast=nuclearWeaponStates, 
+#     lwd.=c(1,1,1,2,2), yNPT=2.5, xlim.=NULL, ylim.=NULL, ...)  
+  xlim. <- c(nuclearWeaponStates$firstTest[1], 
+          tail(cumCI$Year, 1)) 
+  ylim. <- c(0, tail(cumCI$U10, 1))
+
+  plotNNucStates(NULL, mtext. = FALSE, 
+        lwd.=c(3,3,3,4,4), xlim. = xlim., ylim.=ylim., 
+        fT_end=as.Date('2002-01-29'))
+  title('Number of nuclear-weapon states')
+
+  dev.off()
+}
+
+if(save_svg){
+# 4.  To the present 
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred14.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+# plotNNucStates(xfuture, xpast=nuclearWeaponStates, 
+#     lwd.=c(1,1,1,2,2), yNPT=2.5, xlim.=NULL, ylim.=NULL, ...)  
+  xlim. <- c(nuclearWeaponStates$firstTest[1], 
+          tail(cumCI$Year, 1)) 
+  ylim. <- c(0, tail(cumCI$U10, 1))
+  plotNNucStates(NULL, mtext. = FALSE, 
+      lwd.=c(3,3,3,4,4), xlim. = xlim., ylim.=ylim.)
+  title('Number of nuclear-weapon states')
+
+  dev.off()
+}
+
+if(save_svg){
+# 5.  Poisson observations
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred15.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+  plotNNucStates(NULL, mtext. = FALSE, 
+      lwd.=c(3,3,3,4,4), xlim. = xlim., ylim.=ylim.)
+  title('Number of nuclear-weapon states')
+#  lines(c(nuclearWeaponStates$firstTest[1], Today), 
+#        c(0,0), lwd=3, col='red')
+#  points(nuclearWeaponStates$firstTest[-1], 0, 
+#           nuclearWeaponStates$firstTest[-1], 1, 
+#           cex=3, col='red')
+  points(nuclearWeaponStates$firstTest[-1], 
+         rep(0.92, nNucStates-1), 
+         col='blue', pch='.', cex=4)
+  tstDay. <- mean(yday(nuclearWeaponStates$firstTest))
+  
+  datYrs <- (firstTstYr[1]+(1:nYrs))
+  tstYr <- datYrs[!(datYrs %in% firstTstYr)]
+  yr <- (as.Date(paste0(tstYr, '-01-01')) +
+           tstDay.-1)
+  points(yr, rep(0, nYrs-nNucStates+1), 
+         col='blue', pch='.', cex=2)
+  text(Today+100, 6, 
+    'Model as a sequence\nof Poisson observations', 
+    0, cex=2, col='blue')
+
+  dev.off()
+}
+
+if(save_svg){
+# 6.  BMA: 79% const.; 21% lin.
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred16.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+  plotNNucStates(NULL, mtext. = FALSE, 
+      lwd.=c(3,3,3,4,4), xlim. = xlim., ylim.=ylim.)
+  title('Number of nuclear-weapon states')
+#  lines(c(nuclearWeaponStates$firstTest[1], Today), 
+#        c(0,0), lwd=3, col='red')
+#  points(nuclearWeaponStates$firstTest[-1], 0, 
+#           nuclearWeaponStates$firstTest[-1], 1, 
+#           cex=3, col='red')
+  points(nuclearWeaponStates$firstTest[-1], 
+         rep(0.92, nNucStates-1), 
+         col='blue', pch='.', cex=4)
+  tstDay. <- mean(yday(nuclearWeaponStates$firstTest))
+  
+  datYrs <- (firstTstYr[1]+(1:nYrs))
+  tstYr <- datYrs[!(datYrs %in% firstTstYr)]
+  yr <- (as.Date(paste0(tstYr, '-01-01')) +
+           tstDay.-1)
+  points(yr, rep(0, nYrs-nNucStates+1), 
+         col='blue', pch='.', cex=2)
+  text(Today+100, 6, 
+    'Model as a sequence\nof Poisson observations', 
+    0, cex=2, col='blue')
+  text(Today+100, 1.5, 
+    'BMA: 79% const.; 21% lin.', 
+    0, cex=1.7, col='red')
+
+  dev.off()
+}
+
+if(save_svg){
+# 7.  Full slide   
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred17.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+  plotNNucStates(cumCI, mtext. = FALSE, 
+          lwd.=c(3,3,3,4,4) )
+  title('Number of nuclear-weapon states')
+#  lines(c(nuclearWeaponStates$firstTest[1], Today), 
+#        c(0,0), lwd=3, col='red')
+#  points(nuclearWeaponStates$firstTest[-1], 0, 
+#           nuclearWeaponStates$firstTest[-1], 1, 
+#           cex=3, col='red')
+  yr <- as.Date(paste0(time(FirstTests$nFirstTests), '-01-01'))
+  points(yr, 0.9*FirstTests$nFirstTests, col='blue', pch='.', 
+         cex=2*(1+FirstTests$nFirstTests))
+  
+  text(Today+100, 6, 
+    'Model as a sequence\nof Poisson observations', 
+    0, cex=2, col='blue')
+  text(Today+100, 1.5, 
+    'BMA: 79% const.; 21% lin.', 
+    0, cex=1.7, col='red')
+
+  dev.off()
+}
+
+
 ```  
   
 The slopes of the mean and median lines are steeper than the recent history, but the statistical evidence does not support the naive interpretation of a slowing in nuclear proliferation that one might get from considering only the most recent data.  
@@ -1002,9 +1219,15 @@ plotProbs <- function(x, label_year=2050,
   colnames(probProlif) <- 1:maxNewNucSt
   ylims <- probProlif.[c(1, maxNewNucSt), c(1, nYrs)]
   midLine <- round(mean(ylims[c(1, 4)]), 2)
-  matplot(time(probProlif), probProlif, 
-        type='l', xlab='', las=1, ylab='', 
-        ...)
+  futYrs <- time(probProlif)
+  plot(range(futYrs), range(probProlif), type='n', 
+       xlab='', las=1, ylab='', ...)
+#  matplot(time(probProlif), probProlif, 
+#      type='l', xlab='', las=1, ylab='', ...)
+  for(iNNS in 1:maxNewNucSt){
+    lines(as.numeric(futYrs), probProlif[, iNNS], 
+          lty=iNNS, col=iNNS)
+  }
   abline(h=midLine, lty='dotted', ...)
 #  
   midTime <- rep(NA, maxNewNucSt)
@@ -1017,7 +1240,7 @@ plotProbs <- function(x, label_year=2050,
        cex=cex.txt)
   }
   text(currentYear+0.95*nYrs, midLine, 
-       paste0('p =\n', midLine) )
+       paste0('p =\n', midLine), cex=cex.txt)
 # lab3l_year
   abline(v=label_year, lty='dotted')
   iyr <- which(time(probProlif) == label_year)
@@ -1025,7 +1248,7 @@ plotProbs <- function(x, label_year=2050,
   lines(time(probProlif)[c(1, iyr)], 
         rep(label_p[1], 2), lty='dotted', ...)
   text(time(probProlif)[1+iyr/4], label_p[1],
-      paste0('p =\n', round(label_p[1], 2)) )
+      paste0('p =\n', round(label_p[1], 2)), cex=cex.txt)
 #
   list(midLine=midLine, midTime=midTime, 
        probProlif=probProlif, 
@@ -1033,6 +1256,24 @@ plotProbs <- function(x, label_year=2050,
                     label_prob=label_p))
 }
 probProlif <- plotProbs(cumPred)
+
+# optionally write to a file
+if(save_svg){
+  print(getwd())
+#  svg('NucWeaponStates_nucProbs.svg',
+#      height=3.5)
+  png('NucWeaponStates_nucProbs1.png', width=960)
+  op <- par(cex=1.8, cex.axis=1.8, lwd=3,
+            mar=c(2,3, 2, 0)+.1)
+# const+linear
+  cex.txt <- 1.6
+  ylim. <- c(0, tail(
+    probProlif$probProlif[, 1], 1))
+  plotProbs(cumPred, ylim=ylim., 
+      cex.txt=cex.txt)
+  dev.off()
+}
+
 tail(probProlif$probProlif, 1)
 ```
 
@@ -1108,6 +1349,41 @@ cumTol <- cumsumTol(cumC.PI)
 
 ```{r plotTol, fig.cap = "Number of nuclear-weapon states with prediction and tolerance limits"}
 plotNNucStates(cumTol)
+
+if(save_svg){
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifTolInt.svg',height=3.5)
+  png('NucWeaponStates_nucProlifTolInt1.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+
+  # const+linear
+#  ylimTol1 <- c(0, tail(cumCI$U10, 1))
+  plotNNucStates(cumTol, mtext. = FALSE, 
+      lwd.=c(3,3,3,4,4) )
+#     lwd.=c(3,3,3,4,4), ylim.=ylimTol1)
+
+  title('Number of nuclear-weapon states')
+#  lines(c(nuclearWeaponStates$firstTest[1], Today), 
+#        c(0,0), lwd=3, col='red')
+#  points(nuclearWeaponStates$firstTest[-1], 0, 
+#           nuclearWeaponStates$firstTest[-1], 1, 
+#           cex=3, col='red')
+  yr <- as.Date(paste0(time(FirstTests$nFirstTests), '-01-01'))
+  points(yr, 0.9*FirstTests$nFirstTests, col='blue', pch='.', 
+         cex=2*(1+FirstTests$nFirstTests))
+  
+  text(Today+100, 6, 
+    'Model as a sequence\nof Poisson observations', 
+    0, cex=2, col='blue')
+  text(Today+100, 1.5, 
+    'BMA: 79% const.; 21% lin.', 
+    0, cex=1.7, col='red')
+
+  
+  
+  dev.off()
+}
 ```
 
 The upper limit line in Figure \@ref(fig:plotTol) is higher than that in Figure \@ref(fig:plotcum).  It gives us a bit more humility regarding the value of current knowledge.  However, the difference is not enough to substantively alter our conclusions, namely that nuclear proliferation is likely and should not be ignored.  
