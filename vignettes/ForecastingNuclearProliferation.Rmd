@@ -940,6 +940,38 @@ if(save_svg){
            tstDay.-1)
   points(yr, rep(0, nYrs-nNucStates+1), 
          col='blue', pch='.', cex=2)
+
+  dev.off()
+}
+
+if(save_svg){
+# 5.  Poisson observations with annotation
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred15a.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+  plotNNucStates(NULL, mtext. = FALSE, 
+      lwd.=c(3,3,3,4,4), xlim. = xlim., ylim.=ylim.)
+  title('Number of nuclear-weapon states')
+#  lines(c(nuclearWeaponStates$firstTest[1], Today), 
+#        c(0,0), lwd=3, col='red')
+#  points(nuclearWeaponStates$firstTest[-1], 0, 
+#           nuclearWeaponStates$firstTest[-1], 1, 
+#           cex=3, col='red')
+  points(nuclearWeaponStates$firstTest[-1], 
+         rep(0.92, nNucStates-1), 
+         col='blue', pch='.', cex=4)
+  tstDay. <- mean(yday(nuclearWeaponStates$firstTest))
+  
+  datYrs <- (firstTstYr[1]+(1:nYrs))
+  tstYr <- datYrs[!(datYrs %in% firstTstYr)]
+  yr <- (as.Date(paste0(tstYr, '-01-01')) +
+           tstDay.-1)
+  points(yr, rep(0, nYrs-nNucStates+1), 
+         col='blue', pch='.', cex=2)
   text(Today+100, 6, 
     'Model as a sequence\nof Poisson observations', 
     0, cex=2, col='blue')
@@ -953,6 +985,38 @@ if(save_svg){
 #  svg('NucWeaponStates_nucProlifPred1.svg')
 # svg format is not supported for Google slides
   png('NucWeaponStates_nucProlifPred16.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+  plotNNucStates(NULL, mtext. = FALSE, 
+      lwd.=c(3,3,3,4,4), xlim. = xlim., ylim.=ylim.)
+  title('Number of nuclear-weapon states')
+#  lines(c(nuclearWeaponStates$firstTest[1], Today), 
+#        c(0,0), lwd=3, col='red')
+#  points(nuclearWeaponStates$firstTest[-1], 0, 
+#           nuclearWeaponStates$firstTest[-1], 1, 
+#           cex=3, col='red')
+  points(nuclearWeaponStates$firstTest[-1], 
+         rep(0.92, nNucStates-1), 
+         col='blue', pch='.', cex=4)
+  tstDay. <- mean(yday(nuclearWeaponStates$firstTest))
+  
+  datYrs <- (firstTstYr[1]+(1:nYrs))
+  tstYr <- datYrs[!(datYrs %in% firstTstYr)]
+  yr <- (as.Date(paste0(tstYr, '-01-01')) +
+           tstDay.-1)
+  points(yr, rep(0, nYrs-nNucStates+1), 
+         col='blue', pch='.', cex=2)
+
+  dev.off()
+}
+
+if(save_svg){
+# 6.  BMA: 79% const.; 21% lin. w annotations
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred16a.png', width=960)
   op <- par(cex=1.7, cex.axis=1.4, 
             mar=c(2,3, 2, 0)+.1, lwd=3)
 # const+linear
@@ -1005,6 +1069,30 @@ if(save_svg){
   yr <- as.Date(paste0(time(FirstTests$nFirstTests), '-01-01'))
   points(yr, 0.9*FirstTests$nFirstTests, col='blue', pch='.', 
          cex=2*(1+FirstTests$nFirstTests))
+
+  dev.off()
+}
+
+if(save_svg){
+# 7.  Full slide   
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifPred1.svg')
+# svg format is not supported for Google slides
+  png('NucWeaponStates_nucProlifPred17a.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+# const+linear
+  plotNNucStates(cumCI, mtext. = FALSE, 
+          lwd.=c(3,3,3,4,4) )
+  title('Number of nuclear-weapon states')
+#  lines(c(nuclearWeaponStates$firstTest[1], Today), 
+#        c(0,0), lwd=3, col='red')
+#  points(nuclearWeaponStates$firstTest[-1], 0, 
+#           nuclearWeaponStates$firstTest[-1], 1, 
+#           cex=3, col='red')
+  yr <- as.Date(paste0(time(FirstTests$nFirstTests), '-01-01'))
+  points(yr, 0.9*FirstTests$nFirstTests, col='blue', pch='.', 
+         cex=2*(1+FirstTests$nFirstTests))
   
   text(Today+100, 6, 
     'Model as a sequence\nof Poisson observations', 
@@ -1015,7 +1103,6 @@ if(save_svg){
 
   dev.off()
 }
-
 
 ```  
   
@@ -1373,14 +1460,38 @@ if(save_svg){
   points(yr, 0.9*FirstTests$nFirstTests, col='blue', pch='.', 
          cex=2*(1+FirstTests$nFirstTests))
   
+  dev.off()
+}
+
+if(save_svg){
+  print(getwd())
+#  svg('NucWeaponStates_nucProlifTolInt.svg',height=3.5)
+  png('NucWeaponStates_nucProlifTolInt1a.png', width=960)
+  op <- par(cex=1.7, cex.axis=1.4, 
+            mar=c(2,3, 2, 0)+.1, lwd=3)
+
+  # const+linear
+#  ylimTol1 <- c(0, tail(cumCI$U10, 1))
+  plotNNucStates(cumTol, mtext. = FALSE, 
+      lwd.=c(3,3,3,4,4) )
+#     lwd.=c(3,3,3,4,4), ylim.=ylimTol1)
+
+  title('Number of nuclear-weapon states')
+#  lines(c(nuclearWeaponStates$firstTest[1], Today), 
+#        c(0,0), lwd=3, col='red')
+#  points(nuclearWeaponStates$firstTest[-1], 0, 
+#           nuclearWeaponStates$firstTest[-1], 1, 
+#           cex=3, col='red')
+  yr <- as.Date(paste0(time(FirstTests$nFirstTests), '-01-01'))
+  points(yr, 0.9*FirstTests$nFirstTests, col='blue', pch='.', 
+         cex=2*(1+FirstTests$nFirstTests))
+  
   text(Today+100, 6, 
     'Model as a sequence\nof Poisson observations', 
     0, cex=2, col='blue')
   text(Today+100, 1.5, 
     'BMA: 79% const.; 21% lin.', 
     0, cex=1.7, col='red')
-
-  
   
   dev.off()
 }
