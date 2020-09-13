@@ -1,0 +1,221 @@
+---
+title: "GDP of nuclear-weapon states"
+author: "Spencer Graves"
+date: "7/3/2020"
+#output: html_document
+output: bookdown::pdf_book
+bibliography: GDP-references.bib
+vignette: >
+  %\VignetteIndexEntry{GDP of nuclear-weapon states}
+  %\VignetteKeyword{GDP}
+  %\VignetteKeyword{nuclear-weapon states}
+  %\VignetteEngine{knitr::knitr}
+  %\SweaveUTF8
+  \usepackage[utf8](inputenc)
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Intro 
+
+It's fairly expensive to develop nuclear weapons.  This cost can be divided into two parts:
+<ol>
+<li class="one">The cost of acquiring the knowledge of how to make nuclear weapons given access to the necessary fissile materials.</li>
+<li class="two">The cost of acquiring the necessary fissile materials.</li>
+</ol>
+
+For the first part, the costs have declined over time with advances in understanding of nuclear physics including increased dissemination of the knowledge of how to work with these very dangerous materials.    
+
+The cost of acquiring the necessary fissile materials have experenced changes, some of which have increased the costs while others have decreased them.  As more countries and more people have acquired access to fissile material, that has made it easier for people desiring such materials to acquire it.  
+
+However, over time, more people have become more aware of the dangers of nuclear proliferation.  This had led to more restrictions on transfers of fissile materials and "dual use" technologies that can be used to refine the fissile materials and get them into desired levels of purity and physical shape.  
+
+In this article we consider the gross domestic projects of the existing nuclear weapon states and how they compare with the reported cost of the [Manhattan Project](https://en.wikipedia.org/wiki/Manhattan_Project#Cost).  
+
+# Maddison Project Data 
+
+We begin by reading the [Gross Domestic Product (GDP)](https://en.wikipedia.org/wiki/Gross_domestic_product) data from the [Maddison Project](https://en.wikipedia.org/wiki/Maddison_Project).  
+
+```{r findData}
+(MaddisonFile <- dir(pattern='8\\.xlsx$'))
+
+gotDat <- (length(MaddisonFile)==1)
+
+if(gotDat){
+  library(openxlsx)
+  str(Maddison <- read.xlsx(MaddisonFile, 
+                      sheet='Full data'))
+}
+```
+
+# nuclearWeaponStates 
+
+To use this, we need the country codes for the existing nuclear-weapon states.  
+
+```{r ctries}
+library(Ecdat)
+str(nuclearWeaponStates)
+```
+
+# Cost of Manhattan Project 
+
+[Hewlett and Anderson (1962) estimated that the total cost of the Manhattan Project through December 31, 1945, was $1.89 billion in current dollars.](https://www.governmentattic.org/5docs/TheNewWorld1939-1946.pdf)^[Hewlett:1962, p. 723 (787/831 in the pdf).]
+
+```{r cost1945}
+ManhattanCost1945 <- 1.89e9
+```
+
+# Deflators 
+
+We will adjust this number and the Maddison data to billions of 2019 US dollars using GDP Deflators (index 2012=100) from [Measuring Worth](https://www.measuringworth.com/datasets/usgdp/result.php).^[@Williamson:2020.]  
+
+```{r deflators}
+deflators <- c("1945"=9.79, "2011"=98.12, "2019"=112.35)
+
+(ManhattanCost2019 <- 
+  (ManhattanCost1945 * deflators["2019"]
+            / (deflators["1945"] * 1e9) ))
+```
+
+# GDP in 2019 dollars 
+
+The Maddison project data includs pop = population estimates in thousands and two different estimates of gross domestic product (GDP) per capita in 2011 US dollars:  
+1.  cgdppc = GDP per capita estimated to support comparisons between in purchasing power parity.  
+2.  rgdpnapc = GDP per capita estimated to support comparisons in the rates of economic growth between countries, again in purchasing power parity.  
+
+We will use the first to compute GDP in millions of 2019 US dollars.    
+
+```{r MaddisonGDP }
+if(gotDat){
+  Maddison$GDP <- with(Maddison, 
+        pop*cgdppc*deflators["2019"]
+        / (deflators["2011"]*1e6) ) 
+}
+```
+
+# Plot GDPs 
+
+We want to plot the GDPs of the current nuclear-weapon states since the first country made a substantive commitment to develop them, `r min(nuclearWeaponStates$startNucPgm)`.  We'll plot: 
+* different colors for each country, 
+* different textures before, during, and after their firstTest, and 
+* vary the line width, thinest before and thickest during the preparations for their firstTest.
+
+```{r plotGDPs}
+# first establish the scales
+nNucStates <- nrow(nuclearWeaponStates)
+GDPrng <- matrix(NA, nNucStates, 2)
+rownames(GDPrng) <- nuclearWeaponStates$ctry
+colnames(GDPrng) <- c('min', 'max')
+
+yrRng <- GDPrng
+labelLines <- GDPrng
+colnames(labelLines) <- c('year', 'offset')
+
+if(gotDat){
+  for(i in 1:nNucStates){
+    seli <- (Maddison$countrycode==
+             nuclearWeaponStates$Maddison[i])
+    sely <- (floor(nuclearWeaponStates[i, 
+              "startNucPgmYr"]) <= Maddison$year)
+    selyi <- (seli & sely)
+    yrRng[i, ] <- range(Maddison[selyi, "year"])
+    GDPrng[i, ] <- range(Maddison[selyi, "GDP"], 
+                       na.rm=TRUE)
+  }
+
+  xrng <- range(yrRng)
+  yrng <- range(GDPrng)
+
+  ttl <- paste('GDPs of nuclear-weapon states', 
+      '(billions of 2019 USD)', sep='\n')
+
+  sely1 <- (floor(nuclearWeaponStates[i, 
+             "startNucPgmYr"]) <= Maddison$year)
+
+# Where to label the lines:  
+# year and offset (multiple of GDP for that year)
+  adj2 <- 1.5
+  adj.5 <- 2/3
+  labelLines['US', ] <- c(1943, adj2)
+  labelLines['RU', ] <- c(1946, 1.8)
+  labelLines['GB', ] <- c(1948, .78)
+  labelLines['FR', ] <- c(1960, adj.5)
+  labelLines['CN', ] <- c(1964, adj2)
+  labelLines['IN', ] <- c(1974, adj.5)
+  labelLines['IL', ] <- c(1979, adj2)
+  labelLines['PK', ] <- c(1998, adj2)
+  labelLines['KP', ] <- c(2006, adj2)
+
+  plotGDPs <- function(Main=ttl, 
+           lwd. = c(1, 2, 4), ...){
+    plot(xrng, yrng, log='y', type='n', 
+       ylab='', las=1, xlab='', main=Main)
+
+    for(i in 1:nNucStates){
+      seli <- (Maddison$countrycode==
+             nuclearWeaponStates$Maddison[i])
+# dashed line before 
+#      selyi1 <- (seli & sely1)
+#      lines(GDP~year, Maddison[selyi1, ], 
+#          lty=2, lwd=lwd.[1], col=i)
+      lines(GDP~year, Maddison[seli, ], 
+          lty=2, lwd=lwd.[1], col=i)
+# solid line since start 
+      sely <- (floor(nuclearWeaponStates[i, 
+              "startNucPgmYr"]) <= Maddison$year)
+      selyi <- (seli & sely)
+      lines(GDP~year, Maddison[selyi, ], 
+          lwd=lwd.[2], col=i)
+# wider line during initial development 
+      selend <- (Maddison$year <= 
+        ceiling(nuclearWeaponStates[i, 'firstTestYr']))
+      selind <- (selyi & selend)
+      lines(GDP~year, Maddison[selind, ], 
+          lwd=lwd.[3], col=i)
+# Label the lines 
+      selLblYr <- (Maddison$year == labelLines[i, 1])
+      selLbli <- (seli & selLblYr)
+      text(labelLines[i, 1], 
+         labelLines[i, 2] * Maddison$GDP[selLbli], 
+         nuclearWeaponStates$ctry[i], 
+         col=i)
+    }
+# Cost of the Manhattan project 
+    abline(h=ManhattanCost2019, lty=3)
+# Label the Manhattan project 
+    text(1995, ManhattanCost2019*.75, 
+       'Manhattan Project')
+  }
+
+  plotGDPs()
+}
+```
+
+Write this to an svg file without the title for Wikimedia Commons.  
+
+```{r svg}
+if(gotDat){
+  svg('NucWeaponStatesGDP.svg')
+  par(mar=c(5, 4, 2, 2)+.1, cex=1.4)
+  plotGDPs('', c(2, 4, 8))
+  dev.off()
+}
+```
+
+Create a png version also.  
+
+```{r png}
+if(gotDat){
+  png('NucWeaponStatesGDP.png', 
+      width=960, height=960)
+#par(mar=c(5, 4, 2, 2)+.1, cex=3, cex.axis=1.1)
+  par(mar=c(4, 3, 1, 1)+.1, cex=3.3, cex.axis=.8)
+  plotGDPs('', c(2, 4, 8))
+  dev.off()
+}
+```
+
+# References
+
