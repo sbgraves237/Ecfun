@@ -1,8 +1,17 @@
 ---
 title: "Forecasting Nuclear Proliferation"
 author: "Spencer Graves and Doug Samuelson"
-date: "2020-04-20"
-output: bookdown::pdf_book
+date: "2020-08-04"
+#output: bookdown::pdf_book
+#NOTE:  As of 2020-08-05 I get:  
+#! Package inputenc Error: Unicode character − (U+2212)
+#(inputenc)                not set up for use with LaTeX.
+#Try other LaTeX engines instead (e.g., xelatex) if you 
+#are using pdflatex. See #https://bookdown.org/yihui/rmarkdown-cookbook/latex-unicode.html
+# This recommends:  
+output:
+  pdf_document:
+    latex_engine: xelatex
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
 # does not work with 
@@ -21,26 +30,31 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 # Ecdat::nuclearWeaponStates include all 
 # first test up to nukeDataCurrent:  
-nukeDataCurrent <- as.Date('2020-04-20')
+nukeDataCurrent <- as.Date('2020-08-04')
 library(lubridate)
 library(Ecdat)
 firstTstYr <- year(nuclearWeaponStates$firstTest)
 (firstYear <- firstTstYr[1])
+nNucStates <- nrow(nuclearWeaponStates)
+nNucSt1 <- (nNucStates-1)
 
 (Today <- today())
-currentYear <- year(Today)
-if((month(Today)<7) || 
-     (difftime(Today, 
+#currentYear <- year(Today)
+currentYear <- year(nukeDataCurrent)
+if((month(nukeDataCurrent)<7) || 
+     (difftime(nukeDataCurrent, 
         tail(nuclearWeaponStates$firstTest, 1), 
         units = 'days')<(366/2)))
-    currentYear <- (year(Today)-1)
+    currentYear <- (year(nukeDataCurrent)-1)
 nYrs <- currentYear - firstYear
 save_svg <- !fda::CRAN()
+simStart <- (currentYear+1)
+simEnd <- (currentYear+nYrs)
 ```
 
 # Abstract
 
-This article models the time between the first test of a nuclear weapon by one nation and the next over the `r nYrs` years of history available as this is being written since the first such test by the US.^[Obviously, this considers the data available as this is being written `r nukeDataCurrent`.] We use those results to forecast nuclear proliferation over the next `r nYrs` years.  The maximum likelihoood estimate of the time between "first tests" (74 years divided by 8 "first tests") is 9.3 years using the standard formula for censored estimation of a constant exponential distribution.  However, a plot of the times between "first tests" of the 9 nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) that suggests a decrease over time in log(Poisson mean) of the number of "first tests" each year by new nuclear-weapon states. This might be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  Unfortunately, the linear trend is not statistically signficant.  We therefore use Bayesian Model Averaging (BMA), considering two related BMA mixtures.  The average of Monte Carlo simulations for the constant-linear mixture forecasts an additional 7.3 new nuclear-weapon states by 2093, using a forecasting period to match the available history, within the anticipated lifespan of most babies born today.  The average _nonlinear_ mixture forecasts an additional 5.5 new nuclear-weapon states by 2093. Eighty percent percent prediction limits run from 0 to 14 new nuclear-weapon states.  The risk of a nuclear war leading to the extinction of civilization is _increasing_.  Nuclear proliferation will likely continue until it becomes effectively impossible for anyone to make more nuclear weapons for a very long time.  This could come from a nuclear war or a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
+This article models the time between the first test of a nuclear weapon by one nation and the next over the `r nYrs` years of history since the first such test by the US available as this is being written.^[Obviously, this considers the data available as this is being written `r nukeDataCurrent`.] We use those results to forecast nuclear proliferation over the next `r nYrs` years.  The maximum likelihoood estimate of the time between "first tests" (`r nYrs` years divided by `r nNucSt1` "first tests") is `r round(nYrs/nNucSt1, 1)` years using the standard formula for censored estimation of a constant exponential distribution.  However, a plot of the times between "first tests" of the `r nNucStates` nuclear powers as of `r nukeDataCurrent` suggests a nonhomogeneous [renewal process](https://en.wikipedia.org/wiki/Renewal_theory) with the Poisson mean of the number of "first tests" each year by new nuclear-weapon states decreasing over time. This might be modeled using [`glm(..., family=poisson)`](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/glm).  Unfortunately, the standard estimate of a linear trend in log(Poisson mean) is not statistically signficant.  We therefore use Bayesian Model Averaging (BMA), considering two related BMA mixtures.  The median of Monte Carlo simulations for the constant-linear mixture forecasts an additional 7.2 new nuclear-weapon states by `r simEnd`, using a forecasting period to match the available history,^[assuming the data used are accurate.] within the anticipated lifespan of most babies born today.  Adding quadratic, cubic and quartic terms to the mixture reduces the median number of new nuclear-weapon states by `r simEnd` to 5.4.  Eighty percent percent prediction limits for the quartic mixture run from 0 to 15 new nuclear-weapon states.  This suggests that the risk of a nuclear war leading to the extinction of civilization is _increasing_.  Nuclear proliferation will likely continue until it becomes effectively impossible for anyone to make more nuclear weapons for a very long time.  This could come from a nuclear war or a massive and unprecidented strengthening of international law that provides effective judicial recourse for grievances of the poor, weak and disfranchised.  
 
 # Introduction 
 
@@ -101,8 +115,10 @@ plotNucStates <- function(type.='n', xlim., ylim.,
           ctry, xpd=TRUE, cex=cex.))
   }
 #  xlim and ylim?
-  if(missing(xlim.))xlim. <- range(
-    nuclearWeaponStates$firstTest)
+  if(missing(xlim.)){
+    xlim. <- range(
+        nuclearWeaponStates$firstTest)
+  }
   if(missing(ylim.))ylim. <- range(
     nuclearWeaponStates$yearsSinceLastFirstTest[-1])
 # If very wide log scale on y, 
@@ -143,7 +159,7 @@ if(save_svg){
 
 This plot also marks the effective dates of both the [Treaty on the Non-Proliferation of Nuclear Weapons (Non-Prolireration Treaty, NPT)](https://en.wikipedia.org/wiki/Treaty_on_the_Non-Proliferation_of_Nuclear_Weapons) and the [Intermediate-range Nuclear Forces (INF) Treaty](https://en.wikipedia.org/wiki/Intermediate-Range_Nuclear_Forces_Treaty), (1970-03-05 and 1988-06-01, respectively), because of the suggestion that those treaties may have slowed the rate of nuclear proliferation.
 
-A visual analysis of this plot suggests that nuclear proliferation is still alive and well, and neither the NPT nor the INF treaty had a major impact on nuclear proliferation. The image is pretty bad:  There were only 5 nuclear-weapon states when the NPT entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  _Current international policy on nuclear weapons seems to assume that nuclear proliferation has stopped.  It clearly has not._   
+A visual analysis of this plot suggests that nuclear proliferation is continuing, and neither the NPT nor the INF treaty had a major impact on nuclear proliferation. The image is pretty bad:  There were only 5 nuclear-weapon states when the NPT entered into force in 1970.^[@UN:1970.  See also @Wikip:NPT.]  When US President [George W. Bush](https://en.wikipedia.org/wiki/George_W._Bush) decried an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) in his State of the Union message, 2002-01-29,^[@Bush:2002;  see also @Wikip:AxisOfEvil.] there were 8.  As this is written `r nukeDataCurrent`, there are 9.  _Current international policy on nuclear weapons seems to assume that nuclear proliferation has stopped.  It clearly has not._   
 
 @Toon:2007 noted that in 2003 another 32 countries had sufficient fissile material to make nuclear weapons if they wished.  Moreover, those 32 do _NOT_ include either Turkey nor Saudi Arabia.  On 2019-09-04, Turkish President Erdogan said it was unacceptable for nuclear-armed states to forbid Turkey from acquiring its own nuclear weapons.^[@Toksabay:2019; @OConnor:2019.] 
 
@@ -157,7 +173,7 @@ A relatively simple model for the inhomogeneity visible in Figure \@ref(fig:plot
 
 # How did the existing nuclear-weapon states develop this capability? 
 
-There are, of course, multiple issues in nuclear proliferation.  A new nuclear-weapon state requires at least four distinct things to produce a nuclear weapon: motivation, money, knowledge, and material.  The accompanying table summarizes the literature the present authors found that seems relevant to the questions at hand.  Of course, definitive answers to these questions has been lost to history or is still locked away as official secrets.    
+There are, of course, multiple issues in nuclear proliferation.  A new nuclear-weapon state requires at least four distinct things to produce a nuclear weapon: motivation, money, knowledge, and material.  The accompanying table summarizes the literature the present authors found that seems relevant to the questions at hand.  Of course, definitive answers to these questions are still locked away as official secrets or have been lost to history.    
 
 However, this analysis should be sufficient to support the general conclusions of this article.  
 
@@ -310,7 +326,7 @@ In 1976, [John Aristotle Phillips](https://en.wikipedia.org/wiki/John_Aristotle_
 
 Before that, the nuclear age arguably began with the 1896 discovery of radioactivity by the French scientist Henri Becquerel.  It was further developed by Pierre and Marie Curie in France, Ernest Rutherford in England, and others, especially in France, England and Germany.^[@Wikip:NucPhys] In 1933 after Adolf Hitler came to power in Germany, Leo Szilard moved from Germany to England. The next year he patented the idea of a nuclear fission reactor.  After World War II began, the famous [Manhattan Project](https://en.wikipedia.org/wiki/Manhattan_Project) became a joint British-American project, which produced the very first test of a nuclear weapon.^[@Wikip:HistNucWeapons] 
 
-After Soviet premier Joseph Stalin learned of the atomic bombings of Hiroshima and Nagasaki, the USSR (now Russia) increased the funding for their nuclear-weapons program.  That program was helped by intelligence gathering about the German nuclear weapon project and the American Manhattan Project.^[@osti:espionage.  See also @wikip:Soviet.]
+After Soviet premier Joseph Stalin learned of the atomic bombings of Hiroshima and Nagasaki, the USSR (now Russia) increased the funding for their nuclear-weapons program.  That program was helped by intelligence gathering about the German nuclear weapons project and the American Manhattan Project.^[@osti:espionage.  See also @wikip:Soviet.]
 
 The UK's nuclear-weapons program was built in part on their wartime participation in the Manhattan Project, as noted above.  France was among the leaders in nuclear research until World War II.  They still had people with the expertise needed after the Suez Crisis convinced them they needed to build nuclear bombs, as noted above.^[See also @Wikip:HistNucWeapons]
 
@@ -394,27 +410,20 @@ For modeling and parameter estimation, we use [`glm(firstTests ~ timeSinceTrinit
 - `firstTests` = the number of "first tests" of a nuclear-weapon by a new nuclear-weapon state each year, and   
 - `timeSinceTrinity` = number of years since 1945-07-16, when the first nuclear weapon was tested, code-named ["Trinity"](https://en.wikipedia.org/wiki/Trinity_(nuclear_test)).  
 
-We use the [`lubridate` package](https://lubridate.tidyverse.org/) for dates.  The first thing we want is the current year.  We get that starting with [`today`](https://www.rdocumentation.org/packages/lubridate/versions/1.7.4/topics/today):  
-
-```{r today}
-library(lubridate)
-(Today <- today())
-```
-
-From this we get the year:  
+We use the [`lubridate` package](https://lubridate.tidyverse.org/) for dates. The first thing we want is the most recent date we can confidedently use for the validity of the dataset we use, `Ecdat::nuclearWeaponStates`.  This is in a `Date` variable `nukeDataCurrent` defined as `r nukeDataCurrent` in a `setup` section before the visible start of the narrative of this vignette.  From this we get the year:  
 
 ```{r year}
-(currentYear <- year(Today))
+(currentYear <- year(nukeDataCurrent))
 ```
 
 We include an observation for the current year only if it's more than 6 months since January 1 and since the last "first test".  
 
 ```{r currentYear}
-if((month(Today)<7) || 
-   (difftime(Today, 
+if((month(nukeDataCurrent)<7) || 
+   (difftime(nukeDataCurrent, 
           tail(nuclearWeaponStates$firstTest, 1), 
           units = 'days')<(366/2)))
-      currentYear <- (year(Today)-1)
+      currentYear <- (year(nuclearWeaponStates)-1)
 ```
 
 Start after the year of the first test of a nuclear weapon.  
@@ -500,41 +509,91 @@ The lines in this figure seem higher than the mean of the points and a linear tr
 
 It's well known that extrapolation is problematic.  Bayesian Model Averaging offers on average more plausible predictions than using a single model.  Before proceeding, let's consider a similar BMA fit with quadratic, cubic, and quartic terms.^[Predictions that do not rely on linear or polynomial extrapolation might be obtained from a Gaussian random walk model of the log(Poisson mean). The `bssm` package claims to be able to support that kind of model.  However, we have so far been unable to get sensible answers from that software and have therefore omitted it from the present discussion. We doubt if it would change the overall conclusions, though some of the details would change.]
 
-```{r fit23}
+Let's first try a model with linear, quadratic, cubic, quartic and quintic terms:  
+
+```{r fit2345}
 FirstTests$time2 <- (1:nYrs)^2
 FirstTests$time3 <- (1:nYrs)^3
 FirstTests$time4 <- (1:nYrs)^4
 FirstTests$time5 <- (1:nYrs)^5
 
-fitProlif4 <- bic.glm(
-  FirstTests[4:7], FirstTests$nFirstTests, "poisson")
-fitProlif4$postprob
-fitProlif4$mle
 fitProlif5 <- try(bic.glm(
   FirstTests[4:8], FirstTests$nFirstTests, "poisson"))
 ```
 
-When quadratic, cubic and quartic terms are considered, the `BMA:::bic.glm` algorithm keeps only the highest order term, and their regression coefficients are all negative.  This means that for each model in the Poisson mixture, the minimum of the mean time to the next "first test" occurs when `timeSinceTrinity` is zero.  When a fifth order term is included, one of the models the algorithm tries to fit is computationally singular.  Both these resuts make some sense, as there are only 8 years with one "first test";  all the others have zero "first tests", and no year had more than one.  
+Evidently, `bic.glm` cannot estimate a quintic model. 
+
+```{r fit23}
+fitProlif4 <- bic.glm(
+  FirstTests[4:7], FirstTests$nFirstTests, "poisson")
+fitProlif4$postprob
+fitProlif4$mle
+```
+
+When quadratic, cubic, and quartic terms are considered, the `BMA:::bic.glm` algorithm keeps only the highest order term for each model:  All the models retained have an intercept and a power of 1, 2, 3 or 4 of `timeSinceTrinity`.  Moreover, their regression coefficients are all negative.  This means that for each model in the Poisson mixture, the minimum of the mean time to the next "first test" occurs when `timeSinceTrinity` is zero.  When a fifth order term is included, one of the models the algorithm tries to fit is computationally singular.  Both these resuts make some sense, as there are only 8 years with one "first test";  all the others have zero "first tests", and no year had more than one.  
+
+For `nYrs` = 74 and 75, only the highest order terms in each model (quadratic, cubic, quartic) were retained.  Let's confirm that.  
+
+```{r highOrder}
+Order <- rep(0, 5)
+names(Order) <- c('const.', 'linear', 
+  'quadratic', 'cubic', 'quartic')
+if(nrow(fitProlif4$mle)!=5){
+  print(fitProlif4$mle)
+  stop('fitProlif4 does not retain exactly ', 
+       '5 models, unlike with nYrs=74, 75...???')
+}
+  
+for(pwr in 2:5){
+  ip <- which(fitProlif4$mle[, pwr] !=0)
+  if(length(ip) != 1){
+    print(fitProlif4$mle)
+    stop('power ', pwr, ' does not appear ', 
+         'in exactly one model, ',
+         'unlike with nYrs=74, 75...???')
+  }
+  Order[pwr] <- (ip-1)
+}
+Order
+```
 
 We add the extra lines of `fitProlif4` to Figure \@ref(fig:plotyf) to get Figure \@ref(fig:ploty4).
 
 ```{r ploty4, fig.cap = paste("BMA quartic fit to time between new nuclear-weapon states.", NucStates)}
-plotNucStates(log.='y', yNPT=4)
 
-predProlif4 <- matrix(NA, nYrs+1, 5)
-predProlif4[, 1] <- fitProlif4$mle[1,1]
-for(pwr in 1:4){
-  predProlif4[, pwr+1] <- with(fitProlif4, 
-      mle[pwr+1, 1] + ((0:nYrs)^pwr)* 
-      fitProlif4$mle[pwr+1, pwr+1])
+plotNucStates4 <- function(yNPT.=4, ...){
+  plotNucStates(log.='y', yNPT=yNPT., ...)
+
+  predProlif4 <- matrix(NA, nYrs+1, 5)
+# timeSinceTrinity=0 
+  predProlif4[1, ] <- fitProlif4$mle[,1]
+# constant model 
+  predProlif4[, 1] <- fitProlif4$mle[1,1]
+  colnames(predProlif4) <- names(Order)[
+        1+Order]
+  
+# earlier code;  obsolete 
+#for(pwr in 1:4){
+#  predProlif4[, pwr+1] <- with(fitProlif4, 
+#      mle[pwr+1, 1] + ((0:nYrs)^pwr)* 
+#      fitProlif4$mle[pwr+1, pwr+1])
+#}
+  predProlif4[-1, 2:5] <- ( 
+    outer(rep(1, nYrs), fitProlif4$mle[-1, 1]) + 
+    as.matrix(FirstTests[4:7]) %*% 
+        t(fitProlif4$mle[-1, -1]) )
+
+  lgnd4 <- paste0(c('constant', 'linear', 
+        'quadratic', 'cubic', 'quartic'), ' (',
+      100*round(fitProlif4$postprob[1+Order], 
+                    4), '%)')
+  matlines(firstTest_nYrs, 
+      exp(-predProlif4[, Order+1]), 
+           lty=1:5, col=1:5)
+  legend('topleft', lty=1:5, col=1:5, lgnd4, 
+       bty='n', cex=0.95)
 }
-lgnd4 <- paste0(c('constant', 'linear', 'quadratic', 
-        'cubic', 'quartic'), 
-    ' (', 100*round(fitProlif4$postprob, 4), '%)')
-matlines(firstTest_nYrs, exp(-predProlif4), 
-         lty=1:5, col=1:5)
-legend('topleft', lty=1:5, col=1:5, lgnd4, 
-     bty='n', cex=0.95)
+plotNucStates4()
 
 if(save_svg){
   print(getwd())
@@ -544,7 +603,10 @@ if(save_svg){
             mar=c(2,3, 2, 0)+.1,
             mfrow=c(1, 2))
 # const+linear
-  plotNucStates(log.='y', yNPT=4, mtext. = FALSE)
+  xlim4 <- c(min(nuclearWeaponStates$firstTest), 
+      max(nuclearWeaponStates$firstTest)+365)
+  plotNucStates(log.='y', yNPT=4, mtext. = FALSE, 
+          xlim.=xlim4)
   matlines(firstTest_nYrs, exp(-predProlif), 
          lty=c('dashed', 'dotted'), 
          col=c('red', 'blue'))
@@ -552,12 +614,12 @@ if(save_svg){
      col=c('red', 'blue'), lgnd, 
      bty='n')
 # const+...+quartic
-  plotNucStates(log.='y', yNPT=4, mtext. = FALSE)
-
-  matlines(firstTest_nYrs, exp(-predProlif4), 
-         lty=1:5, col=1:5)
-  legend('topleft', lty=1:5, col=1:5, lgnd4, 
-     bty='n', cex=0.85)
+  plotNucStates4(mtext.=FALSE, xlim.=xlim4)
+#  plotNucStates(log.='y', yNPT=4, mtext. = FALSE)
+#  matlines(firstTest_nYrs, exp(-predProlif4), 
+#         lty=1:5, col=1:5)
+#  legend('topleft', lty=1:5, col=1:5, lgnd4, 
+#     bty='n', cex=0.85)
   dev.off()
 }
 ```
@@ -690,7 +752,7 @@ if(save_svg){
 
 The increase over time in the _mean_ time between "first tests" in Figures \@ref(fig:plotfut) and \@ref(fig:plotfu4) suggests a desirable decrease in the rate of nuclear proliferation.  
 
-However, we are more concerned with the _shorter_ times between "first tests", and they seem all too probable, as we shall see when we simulate and `cumsum` them.  To do that, we append these simulated predictions to a plot of the evolution of the number of nuclear-weapon states through the historical period.^[In these simulations, we assume a zero probability of a nuclear power giving up their nuclear weapons, even though [South Africa reportedly discontinued their nuclear weapons program in 1989](https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction), prior to its [first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).  We could potentially add South Africa to `nuclearWeaponStates` with the same date as Israel, then model the distribution of the time to when a nuclear-weapon state gives up its nuclear weapons using an exponential distribution.  For that, we have one observed time and eight such times that are censored.  Standard theory in that case says that the maximum likelihood estimate of the mean time to relinquishing nuclear weapons assuming an exponential distribution is the sum of all the times, censored or observed, divided by the number of times observed, not including the censored times in the denominator. For purposes of illustration, we will assume that South Africa dismantled its nuclear weapons 1989-12-31, though a report of an inspection by the International Atomic Energy Agency dated 1994-08-19 said they had dismantled six nuclear weapons and were still working to dismantle one more.  Based on this, the mean lifetime of a nuclear-weapon state can be estimated at `r round(as.numeric(difftime(Today, as.Date('1979-09-22'), units='weeks') + sum(difftime(Today, nuclearWeaponStates$firstTest, units='weeks')))/52)` years.  We could potentially add this to the current modeling effort, but it would not likely change the answers enough to justify the additional effort.]
+However, we are more concerned with the _shorter_ times between "first tests", and they seem all too probable, as we shall see when we simulate and `cumsum` them.  To do that, we append these simulated predictions to a plot of the evolution of the number of nuclear-weapon states through the historical period.^[In these simulations, we assume a zero probability of a nuclear power giving up their nuclear weapons, even though [South Africa reportedly discontinued their nuclear weapons program in 1989](https://en.wikipedia.org/wiki/South_Africa_and_weapons_of_mass_destruction), prior to its [first universal elections in 1994](https://en.wikipedia.org/wiki/South_Africa#End_of_apartheid).  We could potentially add South Africa to `nuclearWeaponStates` with the same date as Israel, then model the distribution of the time to when a nuclear-weapon state gives up its nuclear weapons using an exponential distribution.  For that, we have one observed time and eight such times that are censored.  Standard theory in that case says that the maximum likelihood estimate of the mean time to relinquishing nuclear weapons assuming an exponential distribution is the sum of all the times, censored or observed, divided by the number of times observed, not including the censored times in the denominator. For purposes of illustration, we will assume that South Africa dismantled its nuclear weapons 1989-12-31, though a report of an inspection by the International Atomic Energy Agency dated 1994-08-19 said they had dismantled six nuclear weapons and were still working to dismantle one more.  Based on this, the mean lifetime of a nuclear-weapon state can be estimated at `r round(as.numeric(difftime(nukeDataCurrent, as.Date('1979-09-22'), units='weeks') + sum(difftime(nukeDataCurrent, nuclearWeaponStates$firstTest, units='weeks')))/52)` years.  We could potentially add this to the current modeling effort, but it would not likely change the answers enough to justify the additional effort.]
 
 ```{r cumsum}
 str(cumMeans <- apply(simMeans[-(1:nYrs), ], 
@@ -707,7 +769,7 @@ These numbers are plotted in Figure \@ref(fig:plotcum).
 plotNNucStates <- function(xfuture, 
       xpast=nuclearWeaponStates, 
       lwd.=c(1,1,1,2,2), yNPT=2.5, xlim.=NULL, 
-      ylim.=NULL, fT_end=Today, ...){       
+      ylim.=NULL, fT_end=nukeDataCurrent, ...){       
 ##
 ## plot stairsteps for xpast and lines for xfuture
 ## with either 5 or 7 columns in xfuture  
@@ -718,10 +780,10 @@ plotNNucStates <- function(xfuture,
   }
   nColsFut <- length(xfuture)
   if(is.null(ylim.))ylim. <- c(0,
-                  tail(xfuture[[nColsFut]], 1))
+            tail(xfuture[[nColsFut]], 1))
   
-  plot(xlim., ylim., type='n', xlab='', ylab='',
-       las=1, bty='n')
+  plot(xlim., ylim., type='n', xlab='',
+       ylab='', las=1, bty='n')
 ##
 ## 1.  plot xpast
 ##
@@ -729,7 +791,8 @@ plotNNucStates <- function(xfuture,
   nNucStend <- sum(fT_sel)
   fT_date <- c(xpast$firstTest[1], 
       xpast$firstTest[fT_sel], fT_end)
-#  fT_date <- c(xpast$firstTest[1], xpast$firstTest, fT_end)
+#  fT_date <- c(xpast$firstTest[1],
+#       xpast$firstTest, fT_end)
     
   lines(fT_date, 
       c(0:nNucStend, nNucStend), type='s')
@@ -739,7 +802,8 @@ plotNNucStates <- function(xfuture,
   lines(xlim20., rep(20, 2), lty='dashed', 
         col='grey', xpd=NA)
   xlim20 <- c(as.Date('1980-01-01'), xlim.[2])
-  lines(xlim20, rep(20, 2), lty='dashed', col='grey')
+  lines(xlim20, rep(20, 2), lty='dashed',
+        col='grey')
 #  
   text(NPTdate-.017*diff(xlim.), yNPT, 
        c('NPT', 'INF'), col='grey', srt=90)  
@@ -749,47 +813,55 @@ plotNNucStates <- function(xfuture,
   if(!is.null(xfuture)){
     with(xfuture, lines(Year, mean), 
        lwd=lwd.[1])
-    with(xfuture, lines(Year, median, lty='dashed',
-              col='blue', lwd=lwd.[2]))
-    with(xfuture, lines(Year, U10, lty='dotted',
-              col='red', lwd=lwd.[3]))
-    with(xfuture, lines(Year, L10, lty='dotted',
-              col='red', lwd=lwd.[3]))
-    with(xfuture, lines(Year, U20, lty='dotted',
-              col='red', lwd=lwd.[3]))
-    with(xfuture, lines(Year, L20, lty='dotted',
-              col='red', lwd=lwd.[3]))
+    with(xfuture, lines(Year, median,
+       lty='dashed', col='blue', lwd=lwd.[2]))
+    with(xfuture, lines(Year, U10,
+       lty='dotted', col='red', lwd=lwd.[3]))
+    with(xfuture, lines(Year, L10,
+       lty='dotted', col='red', lwd=lwd.[3]))
+    with(xfuture, lines(Year, U20,
+       lty='dotted', col='red', lwd=lwd.[3]))
+    with(xfuture, lines(Year, L20,
+       lty='dotted', col='red', lwd=lwd.[3]))
     ncols <- 3
-    leg <- c('60% and 80% confidence\nlimits for the mean',
+    leg <- c(paste0('60% and 80%', 
+      'confidence\nlimits for the mean'),
            'mean', 'median')
     col. <- c('red', 'black', 'blue')
 #  
     if('predU10' %in% names(xfuture)){
       leg <- c(leg, '80% prediction limits')
       col. <- c(col., 'green')
-      with(xfuture, lines(Year, predU10, lty='dashed', 
-            col='green', lwd=lwd.[4]))
-      with(xfuture, lines(Year, predL10, lty='dashed', 
-            col='green', lwd=lwd.[4]))
+      with(xfuture, lines(Year, predU10,
+            lty='dashed', col='green',
+            lwd=lwd.[4]))
+      with(xfuture, lines(Year, predL10,
+            lty='dashed', col='green',
+            lwd=lwd.[4]))
       ncols <- 4
     }
     if('tolU10' %in% names(xfuture)){
-      leg <- c(leg, '(0.8, 0.8) tolerance limits')
+      leg <- c(leg, 
+          '(0.8, 0.8) tolerance limits')
       col. <- c(col., 'purple')
-      with(xfuture, lines(Year, tolU10, lty='dashed', 
-            col='purple', lwd=lwd.[5]))
-      with(xfuture, lines(Year, tolL10, lty='dashed', 
-            col='purple', lwd=lwd.[5]))
+      with(xfuture, lines(Year, tolU10,
+            lty='dashed', col='purple',
+            lwd=lwd.[5]))
+      with(xfuture, lines(Year, tolL10,
+            lty='dashed', col='purple',
+            lwd=lwd.[5]))
       ncols <- ncols+1
     }
 ##
 ## 3.  legend
 ##  
-    lty. <- c('dotted', 'solid', rep('dashed', 3))
+    lty. <- c('dotted', 'solid', 
+              rep('dashed', 3))
 #  lwd. <- c(rep(par('lwd'), 3), 
 #            rep(par('lwd')*2, 2) )
-    legend('topleft', leg[1:ncols], col=col.[1:ncols], 
-         lty=lty.[1:ncols], lwd=lwd., bty='n')
+    legend('topleft', leg[1:ncols],
+        col=col.[1:ncols], lty=lty.[1:ncols],
+        lwd=lwd., bty='n')
   }
 }
 ```
@@ -818,8 +890,9 @@ if(save_svg){
 # 2.  Up to INF in 1988
 # 3.  Up to "Axis of Evil" in 2002
 # 4.  Today in 2020 
-# 5.  Poisson data:  Model as a Poisson count each year since 1945
-# 6.  BMA:  79% const.;  21% linear
+# 5.  Poisson data: Model as a Poisson count 
+#     each year since 1945
+# 6.  BMA:  78% const.;  22% linear
 # 7.  To 2094 with confidence limits
 
 if(save_svg){
@@ -827,7 +900,8 @@ if(save_svg){
   print(getwd())
 #  svg('NucWeaponStates_nucProlifPred1.svg')
 # svg format is not supported for Google slides
-  png('NucWeaponStates_nucProlifPred11.png', width=960)
+  png('NucWeaponStates_nucProlifPred11.png',
+      width=960)
   op <- par(cex=1.7, cex.axis=1.4, 
             mar=c(2,3, 2, 0)+.1, lwd=3)
 # const+linear
@@ -972,7 +1046,7 @@ if(save_svg){
            tstDay.-1)
   points(yr, rep(0, nYrs-nNucStates+1), 
          col='blue', pch='.', cex=2)
-  text(Today+100, 6, 
+  text(nukeDataCurrent+100, 6, 
     'Model as a sequence\nof Poisson observations', 
     0, cex=2, col='blue')
 
@@ -980,7 +1054,7 @@ if(save_svg){
 }
 
 if(save_svg){
-# 6.  BMA: 79% const.; 21% lin.
+# 6.  BMA: 78% const.; 22% lin.
   print(getwd())
 #  svg('NucWeaponStates_nucProlifPred1.svg')
 # svg format is not supported for Google slides
@@ -1012,7 +1086,7 @@ if(save_svg){
 }
 
 if(save_svg){
-# 6.  BMA: 79% const.; 21% lin. w annotations
+# 6.  BMA: 78% const.; 22% lin. w annotations
   print(getwd())
 #  svg('NucWeaponStates_nucProlifPred1.svg')
 # svg format is not supported for Google slides
@@ -1039,13 +1113,15 @@ if(save_svg){
            tstDay.-1)
   points(yr, rep(0, nYrs-nNucStates+1), 
          col='blue', pch='.', cex=2)
-  text(Today+100, 6, 
+  text(nukeDataCurrent+100, 6, 
     'Model as a sequence\nof Poisson observations', 
     0, cex=2, col='blue')
-  text(Today+100, 1.5, 
-    'BMA: 79% const.; 21% lin.', 
-    0, cex=1.7, col='red')
-
+  mixp <- round(100*fitProlif$postprob) 
+  mixpt <- paste(mixp, c('const.', 'lin.'))
+  mixpt1 <- paste(mixpt, collapse='; ')
+  mixpt1b <- paste('BMA: ', mixpt1)
+  text(nukeDataCurrent+100, 1.5, mixpt1b, 
+       0, cex=1.7, col='red')
   dev.off()
 }
 
@@ -1066,9 +1142,10 @@ if(save_svg){
 #  points(nuclearWeaponStates$firstTest[-1], 0, 
 #           nuclearWeaponStates$firstTest[-1], 1, 
 #           cex=3, col='red')
-  yr <- as.Date(paste0(time(FirstTests$nFirstTests), '-01-01'))
-  points(yr, 0.9*FirstTests$nFirstTests, col='blue', pch='.', 
-         cex=2*(1+FirstTests$nFirstTests))
+  yr <- as.Date(paste0(time(FirstTests$nFirstTests),
+                       '-01-01'))
+  points(yr, 0.9*FirstTests$nFirstTests, col='blue', 
+         pch='.', cex=2*(1+FirstTests$nFirstTests))
 
   dev.off()
 }
@@ -1094,12 +1171,15 @@ if(save_svg){
   points(yr, 0.9*FirstTests$nFirstTests, col='blue', pch='.', 
          cex=2*(1+FirstTests$nFirstTests))
   
-  text(Today+100, 6, 
+  text(nukeDataCurrent+100, 6, 
     'Model as a sequence\nof Poisson observations', 
     0, cex=2, col='blue')
-  text(Today+100, 1.5, 
-    'BMA: 79% const.; 21% lin.', 
-    0, cex=1.7, col='red')
+  mixp <- round(100*fitProlif$postprob) 
+  mixpt <- paste(mixp, c('const.', 'lin.'))
+  mixpt1 <- paste(mixpt, collapse='; ')
+  mixpt1b <- paste('BMA: ', mixpt1)
+  text(nukeDataCurrent+100, 1.5, mixpt1b, 
+       0, cex=1.7, col='red')
 
   dev.off()
 }
@@ -1183,7 +1263,7 @@ We extend this analysis by adding prediction intervals to these plots.
 
 # Prediction limits
 
-The simplest bounds on the future are [prediction intervals](https://en.wikipedia.org/wiki/Prediction_interval), which combine the statistical uncertainty in the estimates of mean numbers of nuclear-weapon states with the random variability in the outcomes.  For this we use `rpois(., simMeanNucStByYr)`.  
+The simplest bounds on the future are [prediction intervals](https://en.wikipedia.org/wiki/Prediction_interval), which combine the statistical uncertainty in the estimates of mean numbers of nuclear-weapon states with the random variability in the outcomes.  For this we use `rpois(., simMeanNucStByYr)` to simulate independent numbers of "first tests" by new nuclear-weapon states (or non-state entities) for each of the next `r nYrs` years in the forecast period then `cumsum` those to get simulated trajectories.    
 
 ```{r simNew}
 set.seed(9)
@@ -1283,7 +1363,7 @@ if(save_svg){
 }
 ```
 
-We can also summarize the simulations in `cumPred` to estimate the probabilities of having 1, 2, 3, 4, and 5 new nuclear weapon states for each year in the prediction period between 2020 and 2093 in Figure \@ref(fig:prolif).  This is another way of evaluating the sensibility of pretending there will be no further nuclear proliferation:  Not likely.  
+We can also summarize the simulations in `cumPred` to estimate the probabilities of having 1, 2, 3, 4, and 5 new nuclear weapon states for each year in the prediction period between `r simStart` and `r simEnd` in Figure \@ref(fig:prolif).  This is another way of evaluating the sensibility of pretending there will be no further nuclear proliferation:  Not likely.  
 
 ```{r prolif, fig.cap = "Probabilities of the  time to the next 5 new nuclear-weapon states using the constant-linear mixture model"}
 plotProbs <- function(x, label_year=2050, 
@@ -1406,15 +1486,30 @@ To better quantify the uncertainty in modeling, we can also construct tolerance 
 
 # Tolerance limits
 
-We want to add tolerance limits to Figures \@ref(fig:plotPred) and \@ref(fig:plotPred4) in addition to the prediction limits.  To do this, we add `rpois` simulations to the 80 percent confidence limits in those figures, rather than `rpois` simulations to _all the individual_ simulations summarized in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4).  The results for the constant-linear mixture appear in Figure \@ref(fig:plotTol).  
+We want to add tolerance limits to Figures \@ref(fig:plotPred) and \@ref(fig:plotPred4) in addition to the prediction limits.  [A (p, 1-$\alpha$) tolerance interval provides limits within which at least a proportion (p) of the population falls with a given level of confidence (1−$\alpha$).](https://en.wikipedia.org/wiki/Tolerance_interval)  
 
+We compute this as follows:  
+
+1.  Find the L10 and U90, the central 80 percent confidence limits for the Poisson means for individual years summarized in Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4).  
+
+2.  Simulate Poisson distributed random variables about each of those limits for each individual year in the future.
+
+3.  Then we cumsum those simulations.
+
+4.  Select TL10 and TU90 to include at least 80 percent of cumsummed Poisson simulations about each of L10 and U90 individually.  We do this as follows:  
+
+    4.1.  Set the initial value for TU90 as the 80th percentile of the distributions of the simulated trajectories around U90.  Simularly set the initial value for TL10 as the 20th percentile of the distributions of the simulated trajectories around L10.  
+    
+    4.2.  Compute the coverage probabilities of (TL10, TU90) of the simulations around L10 and U90, respectively.  If both those coverage probabilities exceed 80 percent, quit.  
+    
+    4.3.  Else, compute the coverage probabilities of (max(0, TL10-1), TU90) and (TL10, TU90+1) under both L10 and U90, respectively.  If both of those coverage probabilities exceed 80 percent, quit with the smallest of the two.  If only one exceeds 80 percent, quit with that one.  If neither exceeds 80 percent, replace (TL10, TU90) with the max of the two [or with (TL10, TU90+) if they are both the same] and repeat this analysis.  
+    
 ```{r simTol}
 cumsumTol <- function(x=cumCI, ...){
 ##
 ## cumsum of rpois predictions based on x
 ##  
-#  
-  simTolU. <- rpois.(nSims*nYrs, diff(x$U10))
+#  simTolU. <- rpois.(nSims*nYrs, diff(x$U10))
   simTolU <- matrix(rpois.(nSims*nYrs, 
                     diff(x$U10)), nYrs)
   simTolL <- matrix(rpois.(nSims*nYrs, 
@@ -1423,8 +1518,51 @@ cumsumTol <- function(x=cumCI, ...){
   cumTolU <- apply(simTolU, 2, cumsum)
   cumTolL <- apply(simTolL, 2, cumsum)
 #
-  cumTolU10 <- apply(cumTolU, 1, quantile, probs=0.9)
-  cumTolL10 <- apply(cumTolL, 1, quantile, probs=0.1)
+  cumTolU10 <- apply(cumTolU, 1, 
+                quantile, probs=0.8)
+  cumTolL10 <- apply(cumTolL, 1, 
+                quantile, probs=0.2)
+# check coverage for each year 
+# with both limits in case too many  
+# upper sims are below cumTolL10 and
+# too many lower sims are above 
+# cumTolU10
+  In <- ((cumTolL10 <= cumTolL) & 
+           (cumTolU <= cumTolU10))
+  pIn <- apply(In, 1, mean) 
+  pOut <- (pIn < 0.8)
+  while(any(pOut)){
+    stop('Problem in tolSim: ', 
+      'pIn < 0.8; need algorithm to fix;',
+      ' not debugged, because it', 
+      ' seems not to have actually',
+      ' happened.\n')
+#    The following not debugged:  
+    cumTolU10.1 <- (cumTolU10[pOut]+1)
+    cumTolL10.1 <- pmax(0, 
+            cumTolL10[pOut]-1)
+#  Need In.1 and In.9     
+    In.1 <- ((cumTolL10.1 <=  
+              cumTolL[pOut, drop=FALSE])   
+          & (cumTolU[pOut,, drop=FALSE] 
+             <= cumTolU10[pOut]))
+    In.9 <- ((cumTolL10[pOut] <=  
+              cumTolL[pOut, drop=FALSE])   
+          & (cumTolU[pOut,, drop=FALSE] 
+             <= cumTolU10.1))
+    pIn.1 <- apply(In.1, 1, mean) 
+    pIn.9 <- apply(In.9, 1, mean) 
+    pO.1 <- (pIn.1 < 0.8)
+    pO.9 <- (pIn.9 < 0.8)    
+#   If both pIn.1 and pIn.9 >=0.8,
+# pick the smallest 
+# else if one is, use that, 
+# else iterate 
+#  ... the following is not correct, 
+# partly because neither cumTolL10
+# nor cumTolU10 have been changed
+    pOut[pOut] <- pO
+  }
 #    
   x$tolL10 <- (nNucStates + c(0, cumTolL10))
   x$tolU10 <- (nNucStates + c(0, cumTolU10))
@@ -1434,6 +1572,8 @@ cumsumTol <- function(x=cumCI, ...){
 cumTol <- cumsumTol(cumC.PI)
 ```
 
+The results for the constant-linear mixture appear in Figure \@ref(fig:plotTol).  
+
 ```{r plotTol, fig.cap = "Number of nuclear-weapon states with prediction and tolerance limits"}
 plotNNucStates(cumTol)
 
@@ -1442,7 +1582,7 @@ if(save_svg){
 #  svg('NucWeaponStates_nucProlifTolInt.svg',height=3.5)
   png('NucWeaponStates_nucProlifTolInt1.png', width=960)
   op <- par(cex=1.7, cex.axis=1.4, 
-            mar=c(2,3, 2, 0)+.1, lwd=3)
+            mar=c(2,3, 2, 1)+.1, lwd=3)
 
   # const+linear
 #  ylimTol1 <- c(0, tail(cumCI$U10, 1))
@@ -1468,7 +1608,7 @@ if(save_svg){
 #  svg('NucWeaponStates_nucProlifTolInt.svg',height=3.5)
   png('NucWeaponStates_nucProlifTolInt1a.png', width=960)
   op <- par(cex=1.7, cex.axis=1.4, 
-            mar=c(2,3, 2, 0)+.1, lwd=3)
+            mar=c(2,3, 2, 1)+.1, lwd=3)
 
   # const+linear
 #  ylimTol1 <- c(0, tail(cumCI$U10, 1))
@@ -1486,10 +1626,10 @@ if(save_svg){
   points(yr, 0.9*FirstTests$nFirstTests, col='blue', pch='.', 
          cex=2*(1+FirstTests$nFirstTests))
   
-  text(Today+100, 6, 
+  text(nukeDataCurrent+100, 6, 
     'Model as a sequence\nof Poisson observations', 
     0, cex=2, col='blue')
-  text(Today+100, 1.5, 
+  text(nukeDataCurrent+100, 1.5, 
     'BMA: 79% const.; 21% lin.', 
     0, cex=1.7, col='red')
   
