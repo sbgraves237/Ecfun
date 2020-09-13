@@ -124,17 +124,7 @@ asNumericDF(x, keep=
     integer numbers of days since 
     1899-12-31.  \href{https://support.office.com/en-us/article/Add-sum-or-subtract-dates-9818b3f7-aa67-4008-8dff-3c3b503886af?ui=en-US&rs=en-US&ad=US}{In 
     Microsoft Excel, dates are stored in
-    that format}.  Tests on 2016-08-10
-    revealed that 
-    \code{\link[gdata]{read.xls}} did not 
-    read those dates properly (using gdata
-    version 2.17.0), while 
-    \code{\link[openxlsx]{read.xlsx}}
-    read them as integers using openxlsx 
-    3.0.0. This capability will convert
-    those integers to Dates using 
-    \code{as.Date(., origin = 
-    as.Date('1899-12-31'))}.  
+    that format}.  
   }
   \item{leadingChar}{
     A regular expression passed to 
