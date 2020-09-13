@@ -1,12 +1,12 @@
 export(.onAttach, 
-        Arrows, as.Date1970, asNumericChar, asNumericDF, 
+       Arrows, as.Date1970, asNumericChar, asNumericDF, 
        BoxCox, 
        confint.var, confint.sd, 
        canbeNumeric, camelParse, checkNames, classIndex, 
        compareLengths, countByYear, countsByYear, 
        createMessage, createX2matchY, 
        dateCols, Date3to1, Dates3to1, 
-       dtruncdist, financialCrisisFiles, 
+       dtruncdist, 
        getElement2, grepNonStandardCharacters, 
        index2class, Interp, 
        interpChar, InterpChar, InterpChkArgs, InterpNum, 
@@ -24,7 +24,7 @@ export(.onAttach,
        qqnorm2, qqnorm2s, qqnorm2t, qtruncdist, 
        rasterImageAdj, 
        read.transpose, readCookPVI, readCookPVI., 
-       readDates3to1, readFinancialCrisisFiles, readNIPA, 
+       readDates3to1, readNIPA, 
        readUShouse, readUSsenate, readUSstateAbbreviations, 
        recode2, rgrep, rtruncdist, 
        sign, 
@@ -48,8 +48,11 @@ importFrom("utils", "de", "head", "read.csv", "tail")
 importFrom("xml2", 'as_list', 'read_xml')
 importFrom("mvtnorm", "rmvnorm")
 importFrom("BMA", "bic.glm")
+
 importFrom("xlsx", "read.xlsx2")
-    
+importFrom("xlsx", "loadWorkbook")
+importFrom("xlsx", "getSheets")
+
 import(MASS)
 import(TeachingDemos)
 import(fda)
