@@ -50,8 +50,6 @@ importFrom("mvtnorm", "rmvnorm")
 importFrom("BMA", "bic.glm")
 
 importFrom("xlsx", "read.xlsx2")
-importFrom("xlsx", "loadWorkbook")
-importFrom("xlsx", "getSheets")
 
 import(MASS)
 import(TeachingDemos)
