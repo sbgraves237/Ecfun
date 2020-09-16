@@ -62,9 +62,12 @@ library(Ecfun)
 if(canWrite){
   nWS <- read.csv(TempFile, 
               stringsAsFactors = FALSE)
+  igno <- c('nation', 'ctry', 'Maddison')
+  igno. <- (igno %in% names(nWS))
+  Dts <- c("firstTest", "startNucPgm")
+  Dts. <- (Dts %in% names(nWS))
   nWSdf <-asNumericDF(nWS, 
-      ignore=c('nation', 'ctry', 'Maddison'), 
-      Dates=c("firstTest", "startNucPgm")) 
+      ignore=igno[igno.], Dates=Dts[Dts.]) 
 }
 ```
 
