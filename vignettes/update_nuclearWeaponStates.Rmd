@@ -92,24 +92,16 @@ if(canWrite){
   if('startNucPgm' %in% nmsNucWeapSt){
     startNucPgmYr <- lubridate::decimal_date(
         nWSdf$startNucPgm) 
-  } else {
-    print(nmsNucWeapSt)
-    err2 <- paste("'startNucPgm' not in", 
-        "names(nuclearWeaponStates)")
-    stop(err2)
-  }
+  } 
+#  else {
+#    print(nmsNucWeapSt)
+#    err2 <- paste("'startNucPgm' not in", 
+#        "names(nuclearWeaponStates)")
+#    stop(err2)
+#  }
   nuclearWeaponStates <- nWSdf
   nuclearWeaponStates$firstTestYr <- firstTestYr
   nuclearWeaponStates$startNucPgmYr <- startNucPgmYr
-#  nuclearWeaponStates <- cbind(
-#    nWSdf[, c('nation', 'ctry', 'firstTest')], 
-#    firstTestYr = firstTestYr, 
-#    yearsSinceLastFirstTest = 
-#              yearsSinceLastFirstTest, 
-#    nWSdf[, c('nuclearWeapons', 'nYieldNA', 
-#      'nLowYield', 'nMidYield', 'nHighYield', 
-#      'startNucPgm')], 
-#    startNucPgmYr = startNucPgmYr)
 }
 ```
 
