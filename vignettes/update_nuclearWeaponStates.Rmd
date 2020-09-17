@@ -89,9 +89,12 @@ if(canWrite){
         "names(nuclearWeaponStates)")
     stop(err)
   }
+  nuclearWeaponStates <- nWSdf
+  nuclearWeaponStates$firstTestYr <- firstTestYr
   if('startNucPgm' %in% nmsNucWeapSt){
     startNucPgmYr <- lubridate::decimal_date(
         nWSdf$startNucPgm) 
+    nuclearWeaponStates$startNucPgmYr <- startNucPgmYr
   } 
 #  else {
 #    print(nmsNucWeapSt)
@@ -99,9 +102,6 @@ if(canWrite){
 #        "names(nuclearWeaponStates)")
 #    stop(err2)
 #  }
-  nuclearWeaponStates <- nWSdf
-  nuclearWeaponStates$firstTestYr <- firstTestYr
-  nuclearWeaponStates$startNucPgmYr <- startNucPgmYr
 }
 ```
 
