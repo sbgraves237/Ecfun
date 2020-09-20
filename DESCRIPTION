@@ -8,7 +8,7 @@ Depends: R (>= 3.5.0)
 Suggests: car, DescTools, Ecdat, maps, grid, gridBase, 
     pryr, knitr, rmarkdown, invgamma, ipumsr, 
     lubridate, bayesplot, bssm, ggplot2, tibble, 
-    kableExtra, openxlsx
+    kableExtra, openxlsx, fitdistrplus, purrr
 VignetteBuilder: knitr
 Imports: fda, RCurl, XML, tis, jpeg, MASS, 
     TeachingDemos, stringi, methods, xml2, BMA, 
