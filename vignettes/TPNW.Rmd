@@ -3,6 +3,12 @@ title: "Treaty on the Prohibition of Nuclear Weapons"
 author: "Spencer Graves"
 date: "2020-09-09"
 output: html_document
+vignette: >
+  %\VignetteIndexEntry{Treaty on the Prohibition of Nuclear Weapons}
+  %\VignetteKeyword{TPNW}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\SweaveUTF8
+  \usepackage[utf8](inputenc)
 ---
 
 ```{r setup, include=FALSE}
