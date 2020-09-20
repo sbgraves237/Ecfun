@@ -19,7 +19,6 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\SweaveUTF8
   \usepackage[utf8](inputenc)
-
 ---
 
 ```{r setup, include=FALSE}
@@ -632,6 +631,7 @@ tail(index, 30)
 length(index)
 # yes:  I think I did this right.  
 ```
+
 ```{r plot7}
 switch(outType, 
        svg=svg('yrs2ArmageddonQQ.svg'), 
