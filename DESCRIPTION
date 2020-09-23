@@ -1,6 +1,6 @@
 Package: Ecfun
 Version: 0.2-4
-Date: 2020-09-16
+Date: 2020-09-22
 Title: Functions for Ecdat
 Author: Spencer Graves <spencer.graves@effectivedefense.org>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
@@ -18,6 +18,6 @@ Description: Functions to update data sets in Ecdat
     those and similar data sets.
 LazyData: true
 License: GPL (>=2)
+cph: Spencer Graves <spencer.graves@effectivedefense.org>
 URL: https://www.r-project.org
 NeedsCompilation: no
-Packaged: 2019-06-29 02:25:33 UTC; sbgraves
