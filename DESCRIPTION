@@ -1,7 +1,7 @@
 Package: Ecfun
 Version: 0.2-4
 Date: 2020-09-22
-Title: Functions for Ecdat
+Title: Functions for 'Ecdat'
 Author: Spencer Graves <spencer.graves@effectivedefense.org>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.5.0)
@@ -13,9 +13,9 @@ VignetteBuilder: knitr
 Imports: fda, RCurl, XML, tis, jpeg, MASS, 
     TeachingDemos, stringi, methods, xml2, BMA, 
     mvtnorm, xlsx
-Description: Functions to update data sets in Ecdat 
-    and to create, manipulate, plot, and analyze 
-    those and similar data sets.
+Description: Functions and vignettes to update 
+    data sets in 'Ecdat' and to create, manipulate, 
+    plot, and analyze those and similar data sets.
 LazyData: true
 License: GPL (>=2)
 cph: Spencer Graves <spencer.graves@effectivedefense.org>
