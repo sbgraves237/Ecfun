@@ -1,24 +1,29 @@
 ## Test environments
-* local macOS 10.15.2, R 3.6.2
-* local Windows 10, R 3.6.2 
-* ubuntu 12.04 (on travis-ci), R 3.6.2
+* local macOS 10.15.6, R 4.0.2
+* local Windows 10, R 4.0.2 
+* ubuntu 16.04.6 LTS (on travis-ci), R 4.0.2
 * win-builder (devel and release)
-
-## I apologize for submitting a new version
-## with the same number as the one on CRAN. 
-## I remember checking that, but evidently, 
-## I didn't actually read what I looked at.  
-##
-## Since the last submission, I've 
-## made a couple of minor changes.  
 
 ## R CMD check results
 
-# OK on macOS 2020-02-03 for Ecfun 0.2-3
-# OK on Travis-CI 2020-01-23 for Ecfun 0.2-2.  
-#    Travis hasn't worked for me since.  
-# OK on win-bilder R version 3.6.2 and devel 2020-02-03
-#    for Ecfun 0.2-2.  
+# Ecfun 0.2-4 on macOS 2020-09-23:
+# A doc directory of 4.8Mb is created
+# on mac but not Ubuntu or Win10.  
+# I don't recall having seen this previously.
+# Might it be a result of some change in 
+# Rtools on Mac that is different 
+# from other platforms?  
+
+# Ecrun 0.2-4 on Win10 on 2020-09-23:
+# Note:  unable to verify current time
+# https://stackoverflow.com/questions/63613301/r-cmd-check-note-unable-to-verify-current-time#comment112489969_63613301
+# says: "this requires a fix in the check function by the R development team ... or the web-resource coming online again."
+
+
+
+
+# prior to 2020-03:
+
 # NOTEs on check_rhub: 
 
 #> Packages unavailable to check Rd xrefs: 
@@ -49,25 +54,3 @@
 
 ## CRAN checks problems 
 
-#  I listed the "revdep" file in .Rignore,  
-#  but devtools::release included it anyway. 
-#  I physically deleted that directory, 
-#  so it should not be in this version.  
-
-## in the OLD 0.2-2:  
-## noted in email from Prof. Ripley 2020-01-20
-# *1. read.testURLs that generated 
-#     errors from internet access 
-#  was removed with test.URLs, 
-#  because they were marked as provisional
-#  and could be removed at any time, 
-#  it wasn't clear that anyone was using them,
-#  and more modern tools are available from:
-#  http://www.measurementlab.net/
-
-# *2.  readDates3to1.Rd:  
-#  The file that was written 
-#  to a user's computer 
-#  is now written to a temp file 
-#  and removed in \dontshow{}
-#  at the end of examples.  
