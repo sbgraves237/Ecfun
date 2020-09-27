@@ -18,6 +18,7 @@ Description: Functions and vignettes to update
     plot, and analyze those and similar data sets.
 LazyData: true
 License: GPL (>=2)
+Language: en-us
 cph: Spencer Graves <spencer.graves@effectivedefense.org>
 URL: https://www.r-project.org
 NeedsCompilation: no
