@@ -21,17 +21,18 @@
     \item Discards rows of interpolants for which 
     \code{.proportion} is outside 
     \code{validProportion}.  If \code{object} is 
-    a \code{list}, corresponding rows of other vectors
-    of the same length are also discarded.  
+    a \code{list}, corresponding rows of other
+    vectors of the same length are also discarded.  
     
-    NOTE:  There are currently discrepancies between 
-    the documentation and the code over defaults when 
-    one but not both elements of a pair are provided.  
-    The code returns an answer.  If that's not 
-    acceptable, provide the other half of the pair.  
-    After some experience is gathered, the question 
-    of defaults will be revisited and the code or the 
-    documentation will change.  
+    NOTE:  There are currently discrepancies 
+    between the documentation and the code over
+    defaults when one but not both elements of a
+    pair are provided.  The code returns an answer.
+    If that's not acceptable, provide the other 
+    half of the pair.  After some experience is
+    gathered, the question of defaults will be
+    revisited and the code or the documentation 
+    will change.  
   }  
 }
 \usage{
