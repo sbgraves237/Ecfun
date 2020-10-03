@@ -1,7 +1,7 @@
 \name{simulate.bic.glm}
 \alias{simulate.bic.glm}
 \title{
-  A "simulate" method for a BMA::bic.glm object
+  A "simulate" method for a \code{BMA::bic.glm} object
 }
 \description{
   Simulate predictions for \code{newdata} for a
