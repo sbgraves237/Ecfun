@@ -17,7 +17,7 @@ Dates3to1(data, YMD=c('Year', 'Month', 'Day'))
     matching \code{YMD}.  
   }
   \item{YMD}{
-    a character vector of lenght 3 of patterns to use 
+    a character vector of length 3 of patterns to use 
     in \code{\link{grep}} to identify triples of 
     columns coding \code{YMD} in 
     \code{col.names(data)}.  
