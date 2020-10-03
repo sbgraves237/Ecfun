@@ -14,7 +14,7 @@
   gets replaced by other characters by different 
   software.  
   
-  This function first converts "Andr*" with "Andr_" for 
+  This function first converts "Andr*" to "Andr_" for 
   any character "*" not in \code{standardCharacters}.  
   It then looks for "Andr_" in \code{nonStandardNames}.  
   By default, it will find that and replace it with
@@ -62,18 +62,18 @@ subNonStandardNames(x,
   
     \itemize{
       \item{
-        "attr.replacement": Return an 
+        \code{attr.replacement}: Return an 
         attribute "namesNotFound" with 
         \code{grep(replacement, 
           subNonStandardCharacters(...))}, 
         if any.}
-      \item{"attr.notFound":  
+      \item{\code{attr.notFound}:  
         Return an attribute "namesNotFound"  
         with \code{x != subNonStandardCharacters(...)}, 
         if any.}
       \item{"print":  Print the elements of \code{x} 
-        "notFound" per either "attr.replacement" or 
-        "attr.notFound", as requested.}  
+        "notFound" per either \code{attr.replacement} 
+        or \code{attr.notFound}, as requested.}  
       \item{
         "":  Do not report any "notFound" 
         elements of \code{x}.
@@ -81,8 +81,9 @@ subNonStandardNames(x,
     }
     
     NOTE:  x = "_" will be identified by 
-    "attr.replacement" but not by "attr.notfound" 
-    assuming the default value for \code{replacement}. 
+    \code{attr.replacement} but not by 
+    \code{attr.notfound} assuming the default 
+    value for \code{replacement}. 
   }
 }
 \details{
