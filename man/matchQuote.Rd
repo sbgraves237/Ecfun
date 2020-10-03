@@ -13,22 +13,27 @@
   character vector.  
 }
 \usage{
-matchQuote(x,  Quote='"', sep=' ', maxChars2append=2, ...) 
+matchQuote(x,  Quote='"', sep=' ', 
+          maxChars2append=2, ...) 
 }
 \arguments{
   \item{x}{
-    a character vector to scan for unmatched \code{Quote}s.  
+    a character vector to scan for unmatched 
+    \code{Quote}s.  
   }
   \item{Quote}{
-    the \code{Quote} character that should appear in pairs 
+    the \code{Quote} character that should 
+    appear in pairs 
   }
   \item{sep}{
-    \code{sep} argument passed to \code{\link{paste}} to 
-    combine pairs of successive lines with unmatched quotes.  
+    \code{sep} argument passed to 
+    \code{\link{paste}} to combine pairs of 
+    successive lines with unmatched quotes.  
   }
   \item{maxChars2append}{
-    maximum number of characters in the following string to 
-    concatenate two adjacent strings (possibly separated by 
+    maximum number of characters in the 
+    following string to concatenate two 
+    adjacent strings (possibly separated by 
     a blank line) with unmatched \code{Quote}s.   
   }
   \item{\dots}{
@@ -36,16 +41,20 @@ matchQuote(x,  Quote='"', sep=' ', maxChars2append=2, ...)
   }
 }
 \details{
-  This function was written to help parse data from the US Department 
-  of Health and Human Services on 
+  This function was written to help parse 
+  data from the US Department of Health and 
+  Human Services on 
   \href{https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf}{
-  cyber-security breaches affecting 500 or more individuals}.  
-  As of 2014-06-03 the csv version of these data included commas 
-  in quotes that are not \code{sep} characters, quotes that are 
-  not matched, lines with zero characters, followed by lines 
-  with 3 characters being a quote and a comma.  This function 
-  was written to drop the blank lines and append the quote-comma 
-  line to the preceding line so it contained matching quotes.  
+  cyber-security breaches affecting 500 or more 
+  individuals}.  As of 2014-06-03 the csv 
+  version of these data included commas in quotes 
+  that are not \code{sep} characters, quotes that 
+  are not matched, lines with zero characters, 
+  followed by lines with 3 characters being a 
+  quote and a comma.  This function was written 
+  to drop the blank lines and append the quote-comma 
+  line to the preceding line so it contained 
+  matching quotes.  
 }
 %\source{ }
 \value{
@@ -62,13 +71,13 @@ matchQuote(x,  Quote='"', sep=' ', maxChars2append=2, ...)
       because they (1) followed an unmatched \code{Quote} 
       and (2) contained no non-blank characters.  
     }
-    \code{quoteLinesAppended}{
+    \item{quoteLinesAppended}{
       indices of the input \code{x} that were concatenated 
       with a preceeding line because the two lines contained
       unmatched \code{Quote} characters, and concatenating 
       them produced a line with all \code{Quote}s matched.  
     }
-    \code{ncharsAppended}{
+    \item{ncharsAppended}{
       an integer vector of the same length as 
       \code{quoteLinesConcatenated} giving the number of 
       characters in the second line concatenated onto 
