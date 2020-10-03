@@ -88,48 +88,54 @@ matchName1(x1, data, name=data[, 1],
   }
 }
 \details{
-  *** 1.  matchName(x, data, Names, nicknames, ...):  
+  *** 1.  \code{matchName(x, data, Names, nicknames, ...)}:  
   
-  1.1.  if(length(dim(x)<2))x <- parseName(x, ...)  
+  1.1.  \code{if(length(dim(x)<2))x <- parseName(x, ...)}  
   
-  1.2.  x1 <- matchName1(x[, 1], cata, Names[1], ...)
+  1.2.  \code{x1 <- matchName1(x[, 1], 
+  cata, Names[1], ...)}
   
   1.3.  For any component i of x1 with multiple rows, 
-  let x1i <- matchName1(x[i, 2], x1[[i]], Name[-1], 
-  nicknames=nicknames, ...).  If nrow(x1i)>0, 
-  x1[[i]] <- x1i;  else leave unchanged.  
+  let \code{x1i <- matchName1(x[i, 2], x1[[i]], Name[-1], 
+  nicknames=nicknames, ...)}.  If \code{nrow(x1i)}>0, 
+  \code{x1[[i]] <- x1i};  else leave unchanged.  
   
-  1.4.  return x1 
+  1.4.  return \code{x1}.   
   
   ===========
   
-  *** 2.  matchName1(x1, data, name, nicknames, ...):  
+  *** 2.  \code{matchName1(x1, data, name, nicknames, ...)}:  
   
   2.1.  If name indicates a column of data, replace 
-  with data[, name].  
+  with \code{data[, name]}.  
   
-  2.2.  xsplit <- strsplit(x1, ' ')
+  2.2.  \code{xsplit <- strsplit(x1, ' ')}.  
   
-  2.3.  nx <- length(x1); xlist <- vector(nx, mode='list')
+  2.3.  \code{nx <- length(x1); 
+  xlist <- vector(nx, mode='list')}
   
-  2.4.  for(j in 1:nx):   
+  2.4.  \code{for(j in 1:nx)}:   
   
-  2.5.  xj <- xplit[[j]] 
+  2.5.  \code{xj <- xplit[[j]]} 
   
-  2.6.  let jd = the subset of names that match xj or 
-  subNonStandardNames(xj) or nicknames of xj;  xlist[j] <- jd.  
+  2.6.  let \code{jd} = the subset of names that 
+  match \code{xj} or \code{subNonStandardNames(xj)}
+  or nicknames of \code{xj;  xlist[j] <- jd}.  
   
-  2.7.  return xlist 
+  2.7.  return \code{xlist} 
 }
 \value{
-  \code{matchName} returns a list of the same length as \code{x}, 
-  each of whose components is object obtained as a subset of rows 
-  of \code{data} or \code{NULL} if no acceptable matches are found.   
-  The list may have an attribute "namesNotFound" as determined per 
-  the argument of that name.  
+  \code{matchName} returns a list of the same 
+  length as \code{x}, each of whose components is
+  an object obtained as a subset of rows of 
+  \code{data} or \code{NULL} if no acceptable 
+  matches are found.   The list may have an 
+  attribute \code{namesNotFound} as determined 
+  per the argument of that name.  
   
-  \code{matchNames1} returns a list of vectors of integers for 
-  subsets of \code{data} matching \code{x1}.  
+  \code{matchNames1} returns a list of vectors 
+  of integers for subsets of \code{data} 
+  matching \code{x1}.  
 }
 \author{
   Spencer Graves
