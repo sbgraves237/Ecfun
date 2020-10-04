@@ -28,7 +28,7 @@ It's fairly expensive to develop nuclear weapons.  This cost can be divided into
 
 For the first part, the costs have declined over time with advances in understanding of nuclear physics including increased dissemination of the knowledge of how to work with these very dangerous materials.    
 
-The cost of acquiring the necessary fissile materials have experenced changes, some of which have increased the costs while others have decreased them.  As more countries and more people have acquired access to fissile material, that has made it easier for people desiring such materials to acquire it.  
+The cost of acquiring the necessary fissile materials have experienced changes, some of which have increased the costs while others have decreased them.  As more countries and more people have acquired access to fissile material, that has made it easier for people desiring such materials to acquire it.  
 
 However, over time, more people have become more aware of the dangers of nuclear proliferation.  This had led to more restrictions on transfers of fissile materials and "dual use" technologies that can be used to refine the fissile materials and get them into desired levels of purity and physical shape.  
 
@@ -81,9 +81,9 @@ deflators <- c("1945"=9.79, "2011"=98.12, "2019"=112.35)
 
 # GDP in 2019 dollars 
 
-The Maddison project data includs pop = population estimates in thousands and two different estimates of gross domestic product (GDP) per capita in 2011 US dollars:  
-1.  cgdppc = GDP per capita estimated to support comparisons between in purchasing power parity.  
-2.  rgdpnapc = GDP per capita estimated to support comparisons in the rates of economic growth between countries, again in purchasing power parity.  
+The Maddison project data includes `pop` = population estimates in thousands and two different estimates of gross domestic product (GDP) per capita in 2011 US dollars:  
+1.  `cgdppc` = GDP per capita estimated to support comparisons between in purchasing power parity.  
+2.  `rgdpnapc` = GDP per capita estimated to support comparisons in the rates of economic growth between countries, again in purchasing power parity.  
 
 We will use the first to compute GDP in millions of 2019 US dollars.    
 
@@ -99,8 +99,8 @@ if(gotDat){
 
 We want to plot the GDPs of the current nuclear-weapon states since the first country made a substantive commitment to develop them, `r min(nuclearWeaponStates$startNucPgm)`.  We'll plot: 
 * different colors for each country, 
-* different textures before, during, and after their firstTest, and 
-* vary the line width, thinest before and thickest during the preparations for their firstTest.
+* different textures before, during, and after their `firstTest`, and 
+* vary the line width, thinest before and thickest during the preparations for their `firstTest`.
 
 ```{r plotGDPs}
 # first establish the scales
