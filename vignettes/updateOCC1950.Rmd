@@ -93,7 +93,7 @@ if((length(ddiXml)==1) && (!fda::CRAN())){
 
 On 2020-03-19 this took roughly 40 seconds on a MacBook Pro with a 2.8 GHz quad-core Intel core i7 with 16 GB RAM.  
 
-`IPUMSdata` is an object with a huge number of rows and 8 colums:  
+`IPUMSdata` is an object with a huge number of rows and 8 columns:  
 
 ```{r data}
 if(readAndCompute){
@@ -104,7 +104,7 @@ if(readAndCompute){
 
 `IPUMSdata` is an object of classes "tbl_df","tbl" and "data.frame" with over 114 million rows for `dat00001.xml`.  
 
-That's too few rows to have one row for each person in the most recent census and certainly too few to hve one row for each household in all the census since 1850:  
+That's too few rows to have one row for each person in the most recent census and certainly too few to have one row for each household in all the census since 1850:  
 
 ```{r tbl_year}
 if(readAndCompute){
@@ -131,7 +131,7 @@ if(readAndCompute){
 
 No missing values!  
 
-Let's look at "var_desc" for HHWT:  
+Let's look at `var_desc` for `HHWT`:  
 
 ```{r HHWT}
 if(readAndCompute){
@@ -139,7 +139,7 @@ if(readAndCompute){
 }
 ```
 
-Let's look at the distribution of HHWT:  
+Let's look at the distribution of `HHWT`:  
 
 ```{r q_HHWT}
 if(readAndCompute){
@@ -196,7 +196,7 @@ if(readAndCompute){
 }
 ```
 
-Let's sum HHWT within YEAR and OCC1950:  
+Let's sum `HHWT` within `YEAR` and `OCC1950`:  
 
 ```{r tabYrOcc0}
 if(readAndCompute){
@@ -262,7 +262,7 @@ if(readAndCompute){
 }
 ```
 
-This plot suggests that HHWT attempts to weight the observations so the total matches the US population but has problems for 1970 and every year since 2000.  A simple fix is to rescale all the numbers so they match.  Let's first check by plotting the ratio:  
+This plot suggests that `HHWT` attempts to weight the observations so the total matches the US population but has problems for 1970 and every year since 2000.  A simple fix is to rescale all the numbers so they match.  Let's first check by plotting the ratio:  
 
 ```{r totWts2}
 if(readAndCompute){
@@ -311,7 +311,7 @@ if(readAndCompute){
 
 # Appendix:  Experiment with other variables
 
-After my initial data extraction, I tried adding OCC = Occupaton".  Then "Data cart:  Your data extract" said, "2 variable, 32 samples".  Then clicking "View Cart" listed 9 variables, being "YEAR", "DATANUM", "SERIAL", "HHWT", "GQ", "PERNUM", "PERWT", "OCC", and "OCC1950". Then I clicked, "Create data extract". This allowed me to further "select data quality flags" for GQ, OCC, and OCC1950. 
+After my initial data extraction, I tried adding OCC = "Occupaton".  Then "Data cart:  Your data extract" said, "2 variable, 32 samples".  Then clicking "View Cart" listed 9 variables, being `YEAR`, `DATANUM`, `SERIAL`, `HHWT`, `GQ`, `PERNUM`, `PERWT`, `OCC`, and `OCC1950`. Then I clicked, "Create data extract". This allowed me to further "select data quality flags" for `GQ`, `OCC`, and `OCC1950`. 
 
 The first time I did this, I ignored the data quality flags.  The second time, I requested them. 
 
@@ -319,10 +319,10 @@ However, with both the additional "OCC" and the data quality flags, the data set
 
 In any event, after each data selection, I was given an "estimated size" for the extract (5340 MB for one trial). I entered something to "Describe your extract". Then I clicked, "Submit extract".  The IPUMS web site responded saying, "Your extract request has been submited.  You will be notfied by email at (the email address I had given them) when it has been created."  Under "Data", it said, "Processing...".  
 
-After a while (47 minutes for one extract on 2018-09-03) I got an email saying my extract was ready for download.  I returned to the web site and clicked something under "Data".  
+After a while (47 minutes for one extract on 2018-09-03) I got an email saying my extract was ready for download.  I returned to the web site and clicked something under "Data".
 
-To help with questions about the format, etc., I studied "help(pac=ipumsr)". I found that the ipumsr package included seven vignettes. One of those is titled ["Introduction to ipumsr - IPUMS Data in R"](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html).  From that, I learned that I needed to right-click (ctrl-click on a Mac) on "DDI" under "Codebook" and then select "Save link as...".  Moreover, I should NOT do this in Safari.  Google Chrome worked for me for this on 2018-09-01 and Firefox worked when I repeated it with a slightly different extract on 2018-09-03.  
+To help with questions about the format, etc., I studied `help(pac=ipumsr)`. I found that the `ipumsr` package included seven vignettes. One of those is titled ["Introduction to `ipumsr` - IPUMS Data in R"](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html).  From that, I learned that I needed to right-click (`ctrl-click` on a Mac) on `DDI` under `Codebook` and then select "Save link as...".  Moreover, I should NOT do this in Safari.  Google Chrome worked for me for this on 2018-09-01 and Firefox worked when I repeated it with a slightly different extract on 2018-09-03.  
 
-When I repeated this 2020-03-18, I downloaded "usa_00003.dat" and "use_00005.dat" consuming 2.3 and 3.8 GB.  Codebooks are also available.  
+When I repeated this 2020-03-18, I downloaded `"usa_00003.dat"` and `"use_00005.dat"` consuming 2.3 and 3.8 GB.  Codebooks are also available.  
 
 Then I followed the instructions in the "Command File" for R.  With one extract, I got, "Error: Error in read_tokens_(data, tokenizer, col_specs, col_names, locale_, : Evaluation error: vector memory exhausted (limit reached?)."  After that, I redid the extract to select less data to file(s) I could read.  
