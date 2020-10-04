@@ -17,7 +17,7 @@
   
   To create a normal normal probability plots 
   with multiple lines, see \code{\link{qqnorm2t}} 
-  or \code{\link{qqnorm2s}}:x
+  or \code{\link{qqnorm2s}:x}.  
   
   \itemize{
     \item \code{\link{qqnorm2s}} produces a plot 
@@ -83,9 +83,8 @@ qqnorm2(y, z, plot.it=TRUE, datax=TRUE, pch=NULL,
     be used with names corresponding to the 
     levels of z.  If \code{pch} is provided, 
     it must either have names corresponding to 
-    levels of \code{z}, 
-    or \code{z} must be integers between 1 and 
-    \code{length(pch)}.
+    levels of \code{z}, or \code{z} must be 
+    integers between 1 and \code{length(pch)}.
 
     Otherwise, if \code{z} takes levels 
     \code{FALSE} and \code{TRUE} (or 0 and 1), 
@@ -122,12 +121,12 @@ qqnorm2(y, z, plot.it=TRUE, datax=TRUE, pch=NULL,
 \details{
   For \code{qqnorm2}:
 
-  \code{qq1.  q2 <- qqnorm(y, datax=datax, ...)
+  \code{qq1.  q2 <- qqnorm(y, datax=datax, ...)}
 
-  qq2.  q2[["z"]] <- z
+  \code{qq2.  q2[["z"]] <- z}
 
-  qq3.  q2[["pch"]]} gets whatever \code{pch} 
-  decodes to.
+  \code{qq3.  q2[["pch"]]} gets whatever 
+  \code{pch} decodes to.
 
   \code{qq4}.  Silently 
   \code{return(list(x, y, z, pch, ...))}, where 
@@ -144,10 +143,11 @@ qqnorm2(y, z, plot.it=TRUE, datax=TRUE, pch=NULL,
   with \code{...} taking precedence over \code{x}, 
   where the same plot argument appears in both.  
   
-  \code{plot2.  if(type \%in\% c('l', 'b', 'c', 'o'))
-  lines(x\$x, x\$y, ...)
+  \code{plot2.  if(type \%in\% 
+  c('l', 'b', 'c', 'o'))
+  lines(x\$x, x\$y, ...)}
 
-  plot3.  if(type \%in\% c('p', 'b', 'o')): 
+  \code{plot3.  if(type \%in\% c('p', 'b', 'o')): 
   if(is.null(x\$z))points(x\$x, x\$y, ...)
   else if(is.logical(x\$z))
          points(x\$x, x\$y, pch=x\$pch[x\$z], ...)
@@ -155,25 +155,28 @@ qqnorm2(y, z, plot.it=TRUE, datax=TRUE, pch=NULL,
      (min(z0 <- round(x\$z))>0) && 
      (max(abs(x\$z-z0))<10*.Machine\$double.eps))
   points(x\$x, x\$y, pch=x\$pch[x\$z], ...)
-  else text(x\$x, x\$y, x\$z, ...)
+  else text(x\$x, x\$y, x\$z, ...)}
 
   For \code{lines.qqnorm2}
-  lines1.  if(type != 'p')lines(x$x, x$y, ...);  
+  \code{lines1.  
+  if(type != 'p')lines(x$x, x$y, ...)};  
 
-  lines2.  if(type \%in\% c('p', 'b', 'o'))
+  \code{lines2.  if(type \%in\% 
+        c('p', 'b', 'o'))
   if(is.null(pch))text(x\$x, x\$y, x\$z, ...)
   else if(is.character(pch))
       text(x\$x, x\$y, x\$pch[x\$z], ...) 
-  else points(x\$x, x\$y, pch=x\$pch[x\$z], ...)
+  else points(x\$x, x\$y, pch=x\$pch[x\$z], ...)}
 
   For \code{points.qqnorm2}
-  points1.  if(type \%in\% c('p', 'b', 'o'))
+  \code{points1.  
+  if(type \%in\% c('p', 'b', 'o'))
   if(is.null(pch))text(x\$x, x\$y, x\$z, ...)
   else if(is.character(pch))
         text(x\$x, x\$y, x\$pch[x\$z], ...) 
-  else points(x\$x, x\$y, pch=x\$pch[x\$z], ...)
+  else points(x\$x, x\$y, pch=x\$pch[x\$z], ...)}
 
-  points2.  if(!(type \%in\% c('p', 'n')))
+  \code{points2.  if(!(type \%in\% c('p', 'n')))
   lines(x$x, x$y, ...)}
 }
 \value{
