@@ -35,10 +35,10 @@ library(sos)
 (scrapeTable <- findFn('extract a table from a web page'))
 ```
 
-On 2020-07-18 this found 24 links in 11 packages.  The first 3 packages seemed excessively specialized.^[For example, the first package found by `findFn` was "BAwiR" for "Analysis of Basketball Data".]  The fourth was "rvest" to [Easily Harvest (Scrape) Web Pages](http://finzi.psych.upenn.edu/R/library/rvest/html/00Index.html) by Hadley Wickham and others with RStudio.  
-CONCERN:  This wants me to use "Selectorgadget".  I'd prefer to try to do this without using that "Selectorgadget".  I remember having worked with that before and not getting it to work for me.    
+On 2020-07-18 this found 24 links in 11 packages.  The first 3 packages seemed excessively specialized.^[For example, the first package found by `findFn` was [BAwiR](https://www.rdocumentation.org/packages/BAwiR/versions/1.2.4) for "Analysis of Basketball Data".]  The fourth was [rvest](https://www.rdocumentation.org/packages/rvest/versions/0.3.6) to [Easily Harvest (Scrape) Web Pages](http://finzi.psych.upenn.edu/R/library/rvest/html/00Index.html) by Hadley Wickham and others with RStudio.  
+CONCERN:  This wants me to use \code{Selectorgadget}.  I'd prefer to try to do this without using that \code{Selectorgadget}.  I remember having worked with that before and not getting it to work for me.    
 
-A web search led me to a 2012-01-15 article on ["Scraping table from any web page with R or CloudStat"](https://www.r-bloggers.com/scraping-table-from-any-web-page-with-r-or-cloudstat/).  This suggests using XML::readHTMLTable.  
+A web search led me to a 2012-01-15 article on ["Scraping table from any web page with `R` or `CloudStat`"](https://www.r-bloggers.com/scraping-table-from-any-web-page-with-r-or-cloudstat/).  This suggests using XML::readHTMLTable.  
 
 ```{r eval=FALSE}
 library(XML)
