@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Purpose of this document 
 
-This document describes the process for updating [USGDPpresidents {Ecdat}](https://www.rdocumentation.org/packages/Ecdat/versions/0.3-1/topics/USGDPpresidents).  
+This document describes the process for updating [USGDPpresidents `Ecdat`](https://www.rdocumentation.org/packages/Ecdat/versions/0.3-1/topics/USGDPpresidents).  
 
 ## Is there new data?  
 
@@ -109,7 +109,7 @@ if(Update){
 
 If this says "Average 1982-84 = 100", it should be good.  Otherwise that (and this) should be updated.  
 
-Now let's update GDPdeflator:  
+Now let's update `GDPdeflator`:  
 
 ```{r GDPdeflator}
 if(Update){
@@ -237,5 +237,5 @@ if(Update){
 ```
 
 Now copy this file from the current working directory 
-to ~Ecdat\data, overwriting the previous version.  
+to `~Ecdat\data`, overwriting the previous version.  
     
