@@ -6,10 +6,11 @@
 \description{
   Identify the presumed surname in a character 
   string assumed to represent a name and return 
-  the result in a character matrix with "surname" 
-  followed by \code{givenName}.  If only one name 
-  is provided (without punctuation), it is assumed 
-  to be the \code{givenName};  see Wikipedia, 
+  the result in a character matrix with 
+  \code{surname} followed by \code{givenName}.  
+  If only one name is provided (without 
+  punctuation), it is assumed to be the 
+  \code{givenName};  see Wikipedia, 
   \href{https://en.wikipedia.org/wiki/Given_name}{"Given name"} 
   and \href{https://en.wikipedia.org/wiki/Surname}{"Surname"}.  
 }
@@ -102,9 +103,9 @@ parseName(x,
   a character matrix with two columns:  
   surname and \code{givenName}.  
   
-  This matrix also has a "namesNotFound" 
-  attribute if one is returned by 
-  \code{subNonStandardNames}.  
+  This matrix also has a 
+  \code{namesNotFound} attribute if one is 
+  returned by \code{subNonStandardNames}.  
 }
 \author{
   Spencer Graves
