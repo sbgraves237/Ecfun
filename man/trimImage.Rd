@@ -25,68 +25,84 @@ trimImage(x, max2trim=.Machine$double.eps,
     absolute numeric value to trim.
   }
   \item{na.rm}{
-    logical:  If TRUE, NAs will be ignored 
-    in determining the max absolute value 
-    for the row.  If a row or column is all 
-    \code{NA}, it will be treated 
-    as all 0 in deciding whether to trim.
+    logical:  If \code{TRUE}, \code{NA}s 
+    will be ignored in determining the 
+    max absolute value for the row.  If a
+    row or column is all \code{NA}, it 
+    will be treated as all 0 in deciding 
+    whether to trim.
 
-    If FALSE, any row or column containing an NA will 
-    be retained.
+    If \code{FALSE}, any row or column 
+    containing an \code{NA} will be 
+    retained.
   }
   \item{returnIndices2Keep}{
-    if TRUE, return a list with 2 integer vectors 
-    giving row and column indices to use in selecting 
-    the desired subset of \code{x}.  This allows an 
-    array \code{y} to be trimmed to match \code{x}.
+    if \code{TRUE}, return a list with 2 
+    integer vectors giving row and column 
+    indices to use in selecting the 
+    desired subset of \code{x}.  This 
+    allows an array \code{y} to be 
+    trimmed to match \code{x}.
 
-    If FALSE, return the desired trimmed version of 
+    If \code{FALSE}, return the desired 
+    trimmed version of \code{x}.
+
+    If this is a list with two two 
+    integer vectors, use them to trim 
     \code{x}.
-
-    If this is a list with two two integer vectors, 
-    use them to trim \code{x}.
   }
   \item{\dots}{
-    Optional arguments;  not currently used.
+    Optional arguments;  not currently 
+    used.
   }
 }
 \details{
-  1.  Check arguments:  2 <= length(dim(x)) <= 3?  
-  is.logical(na.rm)?  returnIndices2Keep = logical or 
-  list of 2 integer vectors, all the same sign, not 
-  exceeding dim(x)?
+  1.  Check arguments:  2 <= 
+  \code{length(dim(x))} <= 3?  
+  \code{is.logical(na.rm)}?  
+  \code{returnIndices2Keep} = logical 
+  or list of 2 integer vectors, all 
+  the same sign, not exceeding 
+  \code{dim(x)}?
 
-  2.  if(is.list(returnIndices2Keep)) check that 
-  returnIndices2Keep is a list with 2 integer vectors, 
-  all the same sign, not exceeding dim(x).
-  If yes, return x appropriately subsetted.
+  2.  \code{if(is.list(returnIndices2Keep))} 
+  check that \code{returnIndices2Keep} is a 
+  list with 2 integer vectors, all the same 
+  sign, not exceeding \code{dim(x)}.
+  If yes, return \code{x} appropriately 
+  subsetted.
 
-  3.  if(!is.logical(returnIndices2Keep)) throw an 
-  error message.
+  3.  \code{if(!is.logical(returnIndices2Keep))}
+  throw an error message.
 
-  4.  Compute indices2Keep.
+  4.  Compute \code{indices2Keep}.
 
-  5.  If(returnIndices2Keep) return (indices2Keep) else 
-  return x appropriately subsetted.
+  5.  \code{If(returnIndices2Keep)} return 
+  (\code{indices2Keep}) else return \code{x}
+  appropriately subsetted.
 }
 \value{
-  if(returnIndices2Keep==TRUE) return a list with 2 
-  integer vectors to use as subscripts in trimming 
-  objects like x.
+  \code{if(returnIndices2Keep==TRUE)} return 
+  a list with 2 integer vectors to use as 
+  subscripts in trimming objects like 
+  \code{x}.
 
-  Otherwise, return an object like x appropriately trimmed.
+  Otherwise, return an object like \code{x}
+  appropriately trimmed.
 }
 \author{
   Spencer Graves
 }
 \seealso{
-  \code{\link[raster]{trim}} trims raster images, similar 
-  to \code{trimImage}.
+  \code{\link[raster]{trim}} trims raster 
+  images, similar to \code{trimImage}.
 
-  \code{\link{trimws}} trims leading and trailing spaces 
-  from character strings and factors.  Similar \code{trim}
-  functions exist in other packages but without obvious,
-  explicit consideration of \code{factors}.
+  \code{\link{trimws}} trims leading and 
+  trailing spaces from character strings 
+  and factors.  Similar \code{trim}
+  functions exist in other packages but 
+  without obvious, explicit consideration 
+  of \code{factors}.
 }
 %\references{}
 \examples{
@@ -94,7 +110,7 @@ trimImage(x, max2trim=.Machine$double.eps,
 ## 1.  trim a simple matrix
 ##
 tst1 <- matrix(.Machine$double.eps, 3, 3,
-          dimnames=list(letters[1:3], LETTERS[1:3]))
+    dimnames=list(letters[1:3], LETTERS[1:3]))
 tst1[2,2] <- 1
 tst1t <- trimImage(tst1)
 
