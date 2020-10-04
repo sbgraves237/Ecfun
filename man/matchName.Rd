@@ -6,8 +6,8 @@
 }
 \description{
   Use \code{\link{parseName}} to split a name into 
-  \code{surname} and \code{givenName}, the look for matches 
-  in \code{table}.  
+  \code{surname} and \code{givenName}, the look for
+  matches in \code{table}.  
 }
 \usage{
 matchName(x, data, Names=1:2, 
@@ -21,93 +21,107 @@ matchName1(x1, data, name=data[, 1],
     One of the following:  
     
     \itemize{
-      \item A character matrix or \code{data.frame} with the 
-        same number of rows as \code{data}.  The best partial
-        match is sought in \code{Names}.  The algorithm 
-        stops when a unique match is found;  any remaining 
+      \item A character matrix or \code{data.frame}
+        with the same number of rows as \code{data}.
+        The best partial match is sought in 
+        \code{Names}.  The algorithm stops when a
+        unique match is found;  any remaining 
         columns of \code{x} are then ignored.  Any 
-        \code{nicknames} are ignored for the first column 
-        but not for subsequent columns.   
-      \item A character vector whose length matches the number 
-        of rows of \code{data}.  This will be replaced by 
-        \code{parseName(x)}.
+        \code{nicknames} are ignored for the first
+        column but not for subsequent columns.   
+      \item A character vector whose length matches
+        the number of rows of \code{data}.  This
+        will be replaced by \code{parseName(x)}.
     }      
   }
   \item{data}{
-    a character matrix or a \code{\link{data.frame}}.  If 
-    \code{surname} and \code{givenName} are character vectors of 
-    names, their length must match the number of rows of 
-    \code{data}.  
+    a character matrix or a 
+    \code{\link{data.frame}}.  If \code{surname} 
+    and \code{givenName} are character vectors of 
+    names, their length must match the number of
+    rows of \code{data}.  
   }
   \item{Names}{
-    One of the following in which matches for \code{x} will 
-    be sought:  
+    One of the following in which matches for
+    \code{x} will be sought:  
 
     \itemize{ 
-      \item A character vector or matrix or a \code{data.frame} 
-        for which \code{NROW(Names) == nrow(data)}.  
+      \item A character vector or matrix or a
+        \code{data.frame} for which 
+        \code{NROW(Names) == nrow(data)}.  
 % ?     \item A character vector whose length matches the number 
 % ?      of rows of \code{data}.  This will be replaced by 
 % ?       \code{parseName(Names)}.  
-      \item Something to select columns of \code{data} to 
-        produce a character vector or matrix or 
-        \code{data.frame} via \code{data[, Names]}.  In this 
-        case, accents will be stripped using 
+      \item Something to select columns of 
+        \code{data} to produce a character vector or
+        matrix or \code{data.frame} via 
+        \code{data[, Names]}.  In this case, 
+        accents will be stripped using 
         \code{\link{subNonStandardNames}}.  
     }
   }
   \item{nicknames}{
-    a character matrix with two columns, each row giving a pair 
-    of names like "Pete" and "Peter" that should be regarded as 
-    equivalent if no exact match(es) is(are) found.   
+    a character matrix with two columns, each row
+    giving a pair of names like "Pete" and "Peter"
+    that should be regarded as equivalent if no
+    exact match(es) is(are) found.   
   }
   \item{\dots}{ 
-    optional arguments passed to \code{subNonStandardNames}
+    optional arguments passed to 
+    \code{subNonStandardNames}
   }
   \item{x1}{ 
-    a character vector of names to match \code{name}. 
+    a character vector of names to match 
+    \code{name}. 
     
-    NOTE:  \code{matchName} calls \code{subNonStandardNames}, 
-    but \code{matchName1} does not.  Thus, \code{x1} is 
-    assumed to NOT to contain characters not in standard 
-    English.  
+    NOTE:  \code{matchName} calls 
+    \code{subNonStandardNames}, but 
+    \code{matchName1} does not.  Thus, 
+    \code{x1} is assumed to NOT to contain 
+    characters not in standard English.  
   }
   \item{name}{
-    A character vector or matrix for which \code{NROW(name)}
-    == \code{nrow(data)}.  
+    A character vector or matrix for which 
+    \code{NROW(name)} == \code{nrow(data)}.  
 
-    NOTE:  \code{matchName} calls \code{subNonStandardNames}, 
-    but \code{matchName1} does not.  Thus, \code{name} is 
-    assumed to NOT to contain characters not in standard 
-    English.  
+    NOTE:  \code{matchName} calls 
+    \code{subNonStandardNames}, but 
+    \code{matchName1} does not.  Thus, 
+    \code{name} is assumed to NOT to contain
+    characters not in standard English.  
   }
   \item{namesNotFound}{
-    character vector passed to \code{subNonStandardNames} and used 
-    to compute any "namesNotFound" attribute of the object returned 
-    by \code{parseName}.  
+    character vector passed to 
+    \code{subNonStandardNames} and used to 
+    compute any \code{namesNotFound} attribute 
+    of the object returned by \code{parseName}.  
   }
 }
 \details{
-  *** 1.  \code{matchName(x, data, Names, nicknames, ...)}:  
+  *** 1.  \code{matchName(x, data, Names, 
+  nicknames, ...)}:  
   
-  1.1.  \code{if(length(dim(x)<2))x <- parseName(x, ...)}  
+  1.1.  \code{if(length(dim(x)<2))x <- 
+  parseName(x, ...)}  
   
   1.2.  \code{x1 <- matchName1(x[, 1], 
   cata, Names[1], ...)}
   
-  1.3.  For any component i of x1 with multiple rows, 
-  let \code{x1i <- matchName1(x[i, 2], x1[[i]], Name[-1], 
-  nicknames=nicknames, ...)}.  If \code{nrow(x1i)}>0, 
+  1.3.  For any component i of x1 with multiple 
+  rows, let \code{x1i <- matchName1(x[i, 2], 
+  x1[[i]], Name[-1], nicknames=nicknames, ...)}.  
+  If \code{nrow(x1i)}>0, 
   \code{x1[[i]] <- x1i};  else leave unchanged.  
   
   1.4.  return \code{x1}.   
   
   ===========
   
-  *** 2.  \code{matchName1(x1, data, name, nicknames, ...)}:  
+  *** 2.  \code{matchName1(x1, data, name, 
+  nicknames, ...)}:  
   
-  2.1.  If name indicates a column of data, replace 
-  with \code{data[, name]}.  
+  2.1.  If name indicates a column of data, 
+  replace with \code{data[, name]}.  
   
   2.2.  \code{xsplit <- strsplit(x1, ' ')}.  
   
