@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Occupational summary from IPUMS
 
-In September 2018 I created an account with the [Integrated Public Use Microdata Series (IPUMS) data library at the University of Minnesota](https://usa.ipums.org/usa/cite.shtml).^[@IPUMS:2020] My objective then was to understand the evolution of accounting and auditing as a percent of the US workforce over time.  In redoing this in March 2020, it seems sensible to start by summarizing the large IPUMS data extract into a smaller table of occupation codes by year and save this as `OCC1950.rda`.  Then can then analyze that much smaller dataset in a separate vignette.    
+In September 2018 I created an account with the [Integrated Public Use Microdata Series (IPUMS) data library at the University of Minnesota.](https://usa.ipums.org/usa/cite.shtml).^[@IPUMS:2020] My objective then was to understand the evolution of accounting and auditing as a percent of the US workforce over time.  In redoing this in March 2020, it seems sensible to start by summarizing the large IPUMS data extract into a smaller table of occupation codes by year and save this as `OCC1950.rda`.  Then can then analyze that much smaller dataset in a separate vignette.    
 
 # Reading and summarizing IPUMS
 
