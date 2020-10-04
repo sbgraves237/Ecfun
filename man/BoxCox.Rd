@@ -86,7 +86,8 @@
   With this the rescaled power transformation 
   is as follows:    
   
-  \code{z} = \code{(y^lambda-1)/(lambda*j(y, lambda)} 
+  \code{z} = \code{(y^lambda-1) / 
+                    (lambda*j(y, lambda)} 
   if \code{lambda!=0}
   or \code{GeometricMean(y)*log(y)} if 
   \code{lambda==0}.  
@@ -240,18 +241,19 @@
   For y>0, the last term is zero.  
   \code{\link[MASS]{boxcox}} ignores cases 
   with y<=0 and uses this formula (ignoring 
-  the final O(la*ly)) whenever \code{abs(la) 
-  <= eps = 1/50}. 
+  the final \code{O(la*ly)}) whenever 
+  \code{abs(la) <= eps = 1/50}. 
   That form is used here also.  
   
   For \code{invBoxCox} a complementary 
   analysis is as follows:  
   
-  \code{abs(y+lambda[2]) = abs(1+la*w)^(1/la)
+  \code{abs(y+lambda[2]) = abs(1+la*w)^(1/la)}
   
-  = exp(log1p(la*w)/la) for abs(la*w)<1 
+  = \code{exp(log1p(la*w)/la) for abs(la*w)<1} 
   
-  = w*(1-la*w*((1/2)-la*w*((1/3)-la*w*(1/4-...))))}
+  = \code{w * (1-la*w * ((1/2)-la*w * 
+  ((1/3)-la*w*(1/4-...))))}
 
 }
 \value{
@@ -298,16 +300,17 @@
 \source{
   Bickel, Peter J., and Doksum, Kjell A. (1981) 
   "An analysis of transformation revisited", 
-  \emph{Journal of the American Statistical Association}, 
-  76 (374):  296-311  
+  \emph{Journal of the American Statistical
+  Association}, 76 (374):  296-311  
     
   Box, George E. P.; Cox, D. R. (1964). 
   "An analysis of transformations", 
   \emph{Journal of the Royal Statistical Society}, 
-    Series B 26 (2): 211-252. 
+  Series B 26 (2): 211-252. 
 
   Box, George E. P.; Cox, D. R. (1982). 
-  "An analysis of transformations revisited, rebutted", 
+  "An analysis of transformations revisited,
+  rebutted", 
   \emph{Journal of the American Statistical Association}, 
   77(377): 209-210.    
 }
@@ -327,7 +330,8 @@
   \code{\link[drc]{boxcox.drc}} in the 
   \code{drc} package.  
   
-  \code{\link[car]{boxCox}} in the \code{car} package.  
+  \code{\link[car]{boxCox}} in the \code{car}
+  package.  
   
   These other uses all wrap the Box-Cox 
   transformation in something larger and do not 
