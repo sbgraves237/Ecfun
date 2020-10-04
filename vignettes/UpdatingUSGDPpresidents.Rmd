@@ -207,7 +207,7 @@ if(Update){
 Unemployment figures came from different 
 sources for different years.  Since 1940 
 the source has been the Bureau of Labor 
-Statistics (BLS), series LNS14000000 from 
+Statistics (BLS), series `LNS14000000` from 
 the Current Population Survey.  These data 
 are available as a monthly series from 
 the [Current Population Survey of the Bureau 
