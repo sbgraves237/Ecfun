@@ -120,7 +120,7 @@ From [Wilks' theorem](https://en.wikipedia.org/wiki/Wilks%27_theorem), we know t
 
 In reality, because of the questionable nature of our assumptions, we may wish to place less confidence in these numbers than what is implied by the stated confidence levels.  However, we will not change these numbers but leave it to the reader to downgrade them as seems appropriate.   
 
-Also, in the following, we will mark the 80, 95, and 99 percent confidence intervals on the plots, leaving the more extreme tails for separate computations.  For now, we want to plot 2*log(likelihood) in a neighborhood of the MLE.  For this, we will focus on the region that is closer than chisq2/2 of the maximum:  
+Also, in the following, we will mark the 80, 95, and 99 percent confidence intervals on the plots, leaving the more extreme tails for separate computations.  For now, we want to plot 2*log(likelihood) in a neighborhood of the MLE.  For this, we will focus on the region that is closer than `chisq2/2` of the maximum:  
 
 ```{r CI}
 lambda <- lambdaHat+seq(-50, 1000, 50)
@@ -424,22 +424,17 @@ Let's transform this back by replacing $u$ with $\lambda = e^u$:
 P(a < \lambda \leq b | \mathbf{T}) \propto \int_a^b \exp[-S_k / \lambda] \lambda^{-k} d\lambda
 \]
 
-This says that the posterior for $\lambda$ follows an [inverse-gamma distribution](https://en.wikipedia.org/wiki/Inverse-gamma_distribution) with shape parameter $(k-1)$ and scale $S_k$.  The moments for this distribution is as follows:  
+This says that the posterior for $\lambda$ follows an [inverse-gamma distribution](https://en.wikipedia.org/wiki/Inverse-gamma_distribution) with shape parameter $(k-1)$ and scale $S_k$.  The moments for this distribution are as follows:  
 
 \[
-\newcommand{\Expect}[1]{\mathbb{E}\left[ #1 \right]}
-\]
-Let's generalize this to give $\Expect{\lambda^r | a < \lambda \leq b, \mathbf{T}}$:  
-
-\[
-\Expect{\lambda^r \mathbf{T}} = S_k^r \Gamma(k-1-r) / \Gamma(k-1).
+\mathbb{E}(\lambda^r | \mathbf{T}) = S_k^r \Gamma(k-1-r) / \Gamma(k-1).
 \]
 
 If $(k-1-r)$ is an integer less than 1, this is infinite, which it is for $k$ = 2 and $r$ = 1, the case of most interest here.  This, in turn, means that the sample moments of real or Monte Carlo data will be highly erratic.  
 
 This also elevates the priority for increasing $k$ by considering a larger list of nuclear crises, as previously mentioned.  
 
-Functions to compute the density, cumulative probability distribution (CDF), quantiles, and random numbers for this distribution are available in the CRAN package [invgamma](https://www.rdocumentation.org/packages/invgamma/versions/1.1/topics/invgamma).  We will use those in the following.  
+Functions to compute the density, cumulative probability distribution (CDF), quantiles, and random numbers for this distribution are available in the CRAN package [`invgamma`](https://www.rdocumentation.org/packages/invgamma/versions/1.1/topics/invgamma).  We will use those in the following.  
 
 ```{r rlam}
 library(invgamma)
@@ -503,17 +498,17 @@ That's quite close to the representative value of 0.45 discussed in the companio
 
 ## Monte Carlo time to extinction of civilization
 
-This section will start with a function to generate N random times to Armageddon as follows:   
+This section will start with a function to generate `N` random times to Armageddon as follows:   
 
 1.  start timing
-2.  Generate N random variates Q ~ [$B(\alpha, \beta)$](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html) indicating the probability that each simulated crisis in a sequence would produce a nuclear Armageddon.  
-3.  From this, generate N random variables K ~ [$NB(Q, 1)$](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/NegBinomial.html) indicating the number of simulated crises in a series required to produce one nuclear Armageddon with Q[i] = probability of each being the last, for i = 1, ..., N. 
-4.  For each i, compute Time[i] <- sum(rlambda2(K[i])).  
-5.  compute elapsed.time 
-6.  Return (Time, gammapars, gammaGOF, 
-elapsed.time)
+2.  Generate `N` random variates `Q` ~ [$B(\alpha, \beta)$](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html) indicating the probability that each simulated crisis in a sequence would produce a nuclear Armageddon.  
+3.  From this, generate `N` random variables `K` ~ [$NB(Q, 1)$](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/NegBinomial.html) indicating the number of simulated crises in a series required to produce one nuclear Armageddon with `Q[i]` = probability of each being the last, for `i = 1, ..., N`. 
+4.  For each `i`, compute `Time[i] <- sum(rlambda2(K[i]))`.  
+5.  compute `elapsed.time` 
+6.  Return (`Time`, `gammapars`, `gammaGOF`, 
+`elapsed.time`)
 
-First do this with set.seed(1), N=10 and time the result.  Then set.seed(j), N=10^j, j = 2, 3, ..., timing each one.  Save the results until the time gets too long to continue or we get to N = 1e7.  
+First do this with `set.seed(1), N`=10 and time the result.  Then `set.seed(j), N`=10^j, j = 2, 3, ..., timing each one.  Save the results until the time gets too long to continue or we get to `N` = 1e7.  
 
 ```{r mcArmageddon}
 mcArmageddon <- function(N, 
@@ -564,7 +559,7 @@ mcArm3 <- mcArmageddon(1000)
 attributes(mcArm3)
 ```
 
-N = 1000 still takes only 0.009 seconds.  
+`N` = 1000 still takes only 0.009 seconds.  
 
 ```{r mcArm4}
 set.seed(4)
@@ -572,7 +567,7 @@ mcArm4 <- mcArmageddon(1e4)
 attributes(mcArm4)
 ```
 
-The time was still only 0.074 seconds, so let's try N=1e5:  
+The time was still only 0.074 seconds, so let's try `N=1e5`:  
 
 ```{r mcArm5}
 set.seed(5)
@@ -580,7 +575,7 @@ mcArm5 <- mcArmageddon(1e5)
 attributes(mcArm5)
 ```
 
-The time was still only 0.535 -- well under 10 times N= 1e4.  
+The time was still only 0.535 -- well under 10 times `N= 1e4`.  
 
 What about a million?  
 
@@ -615,7 +610,7 @@ if(!fda::CRAN()){
 }
 ```
 
-Let's make a normal probability plot of log(mcArm7). With this many points, the standard [qqnorm](https://www.rdocumentation.org/packages/stats/versions/3.5.2/topics/qqnorm) function can take a long time creating the plot.  Let's start by sorting the points as a separate step:  
+Let's make a normal probability plot of `log(mcArm7)`. With this many points, the standard [`qqnorm`](https://www.rdocumentation.org/packages/stats/versions/3.5.2/topics/qqnorm) function can take a long time creating the plot.  Let's start by sorting the points as a separate step:  
 
 ```{r sort7}
 if(fda::CRAN()){
