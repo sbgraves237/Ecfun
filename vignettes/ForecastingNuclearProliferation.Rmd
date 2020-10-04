@@ -9,9 +9,15 @@ date: "2020-08-04"
 #Try other LaTeX engines instead (e.g., xelatex) if you 
 #are using pdflatex. See #https://bookdown.org/yihui/rmarkdown-cookbook/latex-unicode.html
 # This recommends:  
-output:
-  pdf_document:
-    latex_engine: xelatex
+#output:
+#  pdf_document:
+#    latex_engine: xelatex
+# 2020-09-30: 
+# Etienne B. Racine <notifications@github.com>
+# suggested:  
+output: 
+  bookdown::pdf_book:
+    latex_engine: xelatex    
 #output: bookdown::gitbook
 #NOTE:  As of 2019-11 "Figure \@ref(fig:plot)" 
 # does not work with 
@@ -249,11 +255,11 @@ Virtually any country that feels threatened would like to have some counterweigh
 
 - India lost territory to China in the [1962 Sino-Indian War](https://en.wikipedia.org/wiki/Sino-Indian_War), which reportedly convinced India to abandon a policy of avoiding nuclear weapons.^[@Riedel:2012.  See also @Wikip:IndiaNuc. India and China have continued to have conflicts.  See, for example, the Wikipedia articles on [China-India relations](https://en.wikipedia.org/wiki/China%E2%80%93India_relations) and the [2017 China-India border standoff](https://en.wikipedia.org/wiki/2017_China%E2%80%93India_border_standoff).]
 
-- Pakistan's nuclear weapons program began in 1972 in response to the loss of East Pakistan (now Bangledesh) in the 1971 [Bangladesh Liberation War](https://en.wikipedia.org/wiki/Bangladesh_Liberation_War).^[@Wikip:PakNuc.  [India-Pakistan relations](https://en.wikipedia.org/wiki/India%E2%80%93Pakistan_relations) have been marked by frequent conflict since the two nations were born with the dissolution of the British Raj in 1947.  This history might help people understand the need that Pakistani leaders may have felt and still feel for nuclear parity with India, beyond the loss of half their population and 15 percent of their land area in the 1971 Bangladesh Liberation War.] On November 29, 2016, Moeed Yusuf claimed that the threat of a nuclear war between India and Pakistan was the most serious foreign policy issue facing then-President-elect Trump.^[@Yusuf:2016] That may have been an overstatement, but the possibilities of a nuclear war between India and Pakistan should not be underestimated. [There have been lethal conflicts between India and Pakistan at least as recent as 2019.](https://en.wikipedia.org/wiki/Indo-Pakistani_wars_and_conflicts#Past_skirmishes_and_standoffs) If that conflict goes nuclear, it could produce a “nuclear autumn” during which a quarter of humanity not directly impacted by the nuclear war would starve to death, according to simulations by leading climatologists.^[@Toon:2007]
+- Pakistan's nuclear weapons program began in 1972 in response to the loss of East Pakistan (now Bangladesh) in the 1971 [Bangladesh Liberation War](https://en.wikipedia.org/wiki/Bangladesh_Liberation_War).^[@Wikip:PakNuc.  [India-Pakistan relations](https://en.wikipedia.org/wiki/India%E2%80%93Pakistan_relations) have been marked by frequent conflict since the two nations were born with the dissolution of the British Raj in 1947.  This history might help people understand the need that Pakistani leaders may have felt and still feel for nuclear parity with India, beyond the loss of half their population and 15 percent of their land area in the 1971 Bangladesh Liberation War.] On November 29, 2016, Moeed Yusuf claimed that the threat of a nuclear war between India and Pakistan was the most serious foreign policy issue facing then-President-elect Trump.^[@Yusuf:2016] That may have been an overstatement, but the possibilities of a nuclear war between India and Pakistan should not be underestimated. [There have been lethal conflicts between India and Pakistan at least as recent as 2019.](https://en.wikipedia.org/wiki/Indo-Pakistani_wars_and_conflicts#Past_skirmishes_and_standoffs) If that conflict goes nuclear, it could produce a “nuclear autumn” during which a quarter of humanity not directly impacted by the nuclear war would starve to death, according to simulations by leading climatologists.^[@Toon:2007]
 
 - Israel has faced potentially hostile neighbors since its declaration of independence in 1948.^[@Wikip:ArabIsrael.  Threats perceived by Israel continue, including the [Gaza border protests](https://en.wikipedia.org/wiki/2018_Gaza_border_protests) that have continued at least into 2020.  One might therefore reasonably understand why Israel might feel a need for nuclear weapons and why others might believe that the 1979-09-22 [Vela incident](https://en.wikipedia.org/wiki/Vela_Incident) was an Israeli nuclear test.] 
  
-- North Korea first tested a nuclear weapon on  2006-10-09,^[@CRS:2016.  The US Congressional Research Service in 2016 reported, “The Comprehensive Nuclear-Test-Ban Treaty Organization (CTBTO) PrepCom's international monitoring system detected data indicating that North Korea had conducted a nuclear test on January 6, 2016. ... On October 9, 2006, North Korea declared that it had conducted an underground nuclear test.”  For the present purposes, we use the October date declared by North Korea, not the January date reported by CTBTO.  See also @Wikip:NKoreaNuc06.] less than five years after having been named as part of an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) by US President George W. Bush on 2002-01-29.^[@Bush:2002;  see also @Wikip:AxisOfEvil.] Chomsky claimed that the relations between the US and North Korea have followed "a kind of tit-for-tat policy.  You make a hostile gesture, and we'll respond with a crazy gesture of our own.  You make an accommodating gesture, and we'll reciprocate in some way."  He gave several examples including a 1994 agreement that halted North Korean nuclear-weapons development.  "When George W. Bush came into office, North Korea had maybe one [untested] nuclear weapon and verifiably wasn't producing any more."^[@Chomsky:2017, pp. 131-134. Chomsky includes in this game of tit-for-tat the total destruction of North Korean infrastructure during the Korean War in the early 1950s, including huge dams that controlled the nation's water supply, destroying their crops, and raising the spectre of mass starvation. @Kolko:1968 noted that German General Syss-Inquart ordered similar destruction of dikes in Holland in 1945, which condemned many Dutch civilians to death by starvation. For that crime Syss-Inquart became one of only 24 of the people convicted at the Nurenberg war crimes trial to have been sentencted to death.  Chomsky noted that this is "not in our memory bank, but it's in theirs."]
+- North Korea first tested a nuclear weapon on  2006-10-09,^[@CRS:2016.  The US Congressional Research Service in 2016 reported, “The Comprehensive Nuclear-Test-Ban Treaty Organization (CTBTO) PrepCom's international monitoring system detected data indicating that North Korea had conducted a nuclear test on January 6, 2016. ... On October 9, 2006, North Korea declared that it had conducted an underground nuclear test.”  For the present purposes, we use the October date declared by North Korea, not the January date reported by CTBTO.  See also @Wikip:NKoreaNuc06.] less than five years after having been named as part of an ["Axis of evil"](https://en.wikipedia.org/wiki/Axis_of_evil) by US President George W. Bush on 2002-01-29.^[@Bush:2002;  see also @Wikip:AxisOfEvil.] Chomsky claimed that the relations between the US and North Korea have followed "a kind of tit-for-tat policy.  You make a hostile gesture, and we'll respond with a crazy gesture of our own.  You make an accommodating gesture, and we'll reciprocate in some way."  He gave several examples including a 1994 agreement that halted North Korean nuclear-weapons development.  "When George W. Bush came into office, North Korea had maybe one [untested] nuclear weapon and verifiably wasn't producing any more."^[@Chomsky:2017, pp. 131-134. Chomsky includes in this game of tit-for-tat the total destruction of North Korean infrastructure during the Korean War in the early 1950s, including huge dams that controlled the nation's water supply, destroying their crops, and raising the spectre of mass starvation. @Kolko:1968 noted that German General [Syss-Inquart](https://en.wikipedia.org/wiki/Arthur_Seyss-Inquart) ordered similar destruction of dikes in Holland in 1945, which condemned many Dutch civilians to death by starvation. For that crime Syss-Inquart became one of only 24 of the people convicted at the Nurenberg war crimes trial to have been sentencted to death.  Chomsky noted that this is "not in our memory bank, but it's in theirs."]
 
 All this suggests that it will be difficult to reduce the threat of nuclear proliferation and nuclear war without somehow changing the nature of international relations so weaker countries have less to fear from the demands of stronger countries.  
 
@@ -397,7 +403,11 @@ if(save_svg){
 
 Figures \@ref(fig:plot) and \@ref(fig:ploty) seem consistent with the following:
 
-- If the mean time between "first tests" is increasing over time, as suggested by Figures \@ref(fig:plot) and \@ref(fig:ploty), then the distribution cannot be exponential, because that requires a constant [hazard rate](https://en.wikipedia.org/wiki/Survival_analysis#Hazard_function_and_cumulative_hazard_function).  [For the exponential distribution, $h(t) = (-d/dt \log S(t)) = \lambda$, writing the exponential survival function as $S(t) = \exp(-\lambda t)$.]  
+- If the mean time between "first tests" is increasing over time, as suggested by Figures \@ref(fig:plot) and \@ref(fig:ploty), then the distribution cannot be exponential, because that requires a constant [hazard rate](https://en.wikipedia.org/wiki/Survival_analysis#Hazard_function_and_cumulative_hazard_function).  [For the exponential distribution, 
+
+$$h(t) = (-d/dt \log S(t)) = \lambda$$, 
+
+writing the exponential survival function as $S(t) = \exp(-\lambda t)$.]  
 - Even though nuclear proliferation has been slowing since 1950, it could _accelerate_ in the future if more states began to perceive greater threats from other nations.  
 - Fortunately we can simplify this modeling problem by using the famous duality between exponential time between events and a Poisson distribution for numbers of events in specific intervals of time.  By modeling Poisson counts of "first tests" each year, we can use techniques for Poisson regression for models suggested by Figure \@ref(fig:ploty).  The simplest such model might consider log(Poisson mean numbers of "first tests" each year) to be linear in the time since the first test of a nuclear weapon (code-named ["Trinity"](https://en.wikipedia.org/wiki/Trinity_(nuclear_test))).^[@Rhodes:1986.  See also @Wikip:Trinity.]  However, the image in Figure \@ref(fig:ploty) suggests the line may not be straight.  Easily tested alternatives to linearity could be second, third and fourth powers of the "timeSinceTrinity".^[One might also consider a model with the log(Poisson mean) behaving like a ["Wiener process" (also called a "Brownian motion")](https://en.wikipedia.org/wiki/Wiener_process).  This stochastic formulation would mean that the variance of the increments in log(hazard) between "first tests" is proportional to the elapsed time.  See @Wolfram:Wiener and @Wikip:Wiener.  The [`bssm` package](https://www.rdocumentation.org/packages/bssm/versions/0.1.7) provides a reasonable framework for modeling this.  Its [`ng_bsm` function](https://www.rdocumentation.org/packages/bssm/versions/0.1.7/topics/ng_bsm) supports modeling a normal random walk in log(Poisson mean) of the number of "first tests" each year.  In this article, we model the trend as deterministic and leave consideration of a [Gaussian random walk](https://en.wikipedia.org/wiki/Random_walk) and similar stochastic formulations for future work.]
 
@@ -410,7 +420,7 @@ For modeling and parameter estimation, we use [`glm(firstTests ~ timeSinceTrinit
 - `firstTests` = the number of "first tests" of a nuclear-weapon by a new nuclear-weapon state each year, and   
 - `timeSinceTrinity` = number of years since 1945-07-16, when the first nuclear weapon was tested, code-named ["Trinity"](https://en.wikipedia.org/wiki/Trinity_(nuclear_test)).  
 
-We use the [`lubridate` package](https://lubridate.tidyverse.org/) for dates. The first thing we want is the most recent date we can confidedently use for the validity of the dataset we use, `Ecdat::nuclearWeaponStates`.  This is in a `Date` variable `nukeDataCurrent` defined as `r nukeDataCurrent` in a `setup` section before the visible start of the narrative of this vignette.  From this we get the year:  
+We use the [`lubridate` package](https://lubridate.tidyverse.org/) for dates. The first thing we want is the most recent date we can confidently use for the validity of the dataset we use, `Ecdat::nuclearWeaponStates`.  This is in a `Date` variable `nukeDataCurrent` defined as `r nukeDataCurrent` in a `setup` section before the visible start of the narrative of this vignette.  From this we get the year:  
 
 ```{r year}
 (currentYear <- year(nukeDataCurrent))
@@ -628,12 +638,12 @@ Comparing predictions between `fitProlif` and `fitProlif4` might help us underst
 
 Moreover, the quadratic, cubic and quartic lines in the right (quartic mixture) panel of Figure \@ref(fig:ploty4) do not look nearly as plausible, at least to the present author, as the constant and linear lines.^[Recall that the estimation methodology here is Poisson regression, not ordinary least squares.] That, in turn, suggests that the constant linear mixture may be more plausible than the quartic mixture
 
-We next use `fitProlif` and `fitProlif4` to compute central 60 and 80 percent confidence limits plus 80 percent prediction, and (0.8, 0.8) tolerance limits for future nuclear proliferation, as discussed in the next three sections of this vignette.[^cipiti]
+We next use `fitProlif` and `fitProlif4` to compute central 60 and 80 percent confidence limits plus 80 percent prediction, and (0.8, 0.8) tolerance limits for future nuclear proliferation, as discussed in the next three sections of this vignette.[^Confidence_Interval]
 
 # Confidence limits    
   
 We start by computing `nSims` simulated Poisson mean numbers of "first tests" by new nuclear-weapon states for each of the `nYrs` years used in `fitProlif` and `fitProlif4` and another `nYrs` years beyond.  These simulations will later be used to compute confidence limits for the model estimates of the Poisson mean and prediction and tolerance limits for the actual number of nuclear-weapon states.
-<!--I wanted to put "[^cipiti]" here.  However, that duplicated a relatively large footnote rather than creating a second reference to the same large footnote; unacceptable.-->
+<!--I wanted to put "[^Confidence_Interval]" here.  However, that duplicated a relatively large footnote rather than creating a second reference to the same large footnote; unacceptable.-->
 
 ```{r meanSims}
 nSims <- 5000
@@ -1253,7 +1263,7 @@ with(qqCI2[1, , drop=FALSE],
 cumCI2
 ```
 
-These replications establish that the simulated `mean` number of nuclear-weapon states in the last simulated year, `r year(tail(cumCI$Year, 1))`, in Figure \@ref(fig:plotcum4) is slightly conserative relative to the simulated replicates and is definitely _not_ an outlier.  
+These replications establish that the simulated `mean` number of nuclear-weapon states in the last simulated year, `r year(tail(cumCI$Year, 1))`, in Figure \@ref(fig:plotcum4) is slightly conservative relative to the simulated replicates and is definitely _not_ an outlier.  
 
 Beyond that, comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) establishes that the median and lower limit are lower for the quartic BMA mixture while the upper limit is slightly higher, and the mean for the quartic BMA mixture is too large to be credible.    
 
@@ -1476,11 +1486,13 @@ The quartic BMA model summarized in Figure \@ref(fig:prolif4) is more optimistic
 
 The conclusions from both models include the following:  
 
-\vspace{\baselineskip}
-\centerline{\textit{\textbf{The current structure of international relations}}}
+&nbsp;  
 
-\centerline{\textit{\textbf{seems to threaten the extinction of civilization.}}}
-\vspace{\baselineskip}
+\begin{center}
+\textbf{The current structure of international relations}
+
+\textbf{seems to threaten the extinction of civilization}
+\end{center}
 
 To better quantify the uncertainty in modeling, we can also construct tolerance intervals for the time to the next new nuclear-weapon state.
 
@@ -1494,9 +1506,9 @@ We compute this as follows:
 
 2.  Simulate Poisson distributed random variables about each of those limits for each individual year in the future.
 
-3.  Then we cumsum those simulations.
+3.  Then we `cumsum` those simulations.
 
-4.  Select TL10 and TU90 to include at least 80 percent of cumsummed Poisson simulations about each of L10 and U90 individually.  We do this as follows:  
+4.  Select TL10 and TU90 to include at least 80 percent of `cumsum`med Poisson simulations about each of L10 and U90 individually.  We do this as follows:  
 
     4.1.  Set the initial value for TU90 as the 80th percentile of the distributions of the simulated trajectories around U90.  Simularly set the initial value for TL10 as the 20th percentile of the distributions of the simulated trajectories around L10.  
     
@@ -1698,5 +1710,5 @@ The authors wish to thank Val Nerio for suggestions that seem to have improved t
 
 [^Pak2]:  @Burr:2012, @Burr:2013. There have also been reports that China helped Pakistan obtain nuclear weapons.  However, [China has vigorously denied those charges, many if not all of which may not be credible, having originated with the US government.](https://en.wikipedia.org/wiki/Pakistan_and_weapons_of_mass_destruction)  See @Wikip:PakNuc.
 
-[^cipiti]:["Confidence intervals"](https://en.wikipedia.org/wiki/Confidence_interval) bound the predicted mean number of nuclear-weapon states for each future year considered.  Central 80 percent ["prediction intervals"](https://en.wikipedia.org/wiki/Prediction_interval) are limits that include the central 80 percent of distribution of the number of nuclear-weapon states.  They add the uncertainty in the modeled Poisson process to the uncertainty of estimating the mean of that process for each future year considered.  We will also compute
+[^Confidence_Interval]:["Confidence intervals"](https://en.wikipedia.org/wiki/Confidence_interval) bound the predicted mean number of nuclear-weapon states for each future year considered.  Central 80 percent ["prediction intervals"](https://en.wikipedia.org/wiki/Prediction_interval) are limits that include the central 80 percent of distribution of the number of nuclear-weapon states.  They add the uncertainty in the modeled Poisson process to the uncertainty of estimating the mean of that process for each future year considered.  We will also compute
 (0.8, 0.8) ["tolerance intervals"](https://en.wikipedia.org/wiki/Tolerance_interval#Relation_to_other_intervals); $(p, 1-\alpha)$ tolerance intervals have a probability of $(1-\alpha)$ of containing a proportion of at least $p$ of all future observations.
