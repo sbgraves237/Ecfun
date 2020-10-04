@@ -10,22 +10,25 @@
   remove them.
 }
 \usage{
-trimImage(x, max2trim=.Machine$double.eps, na.rm=TRUE,
-          returnIndices2Keep=FALSE, ...)
+trimImage(x, max2trim=.Machine$double.eps, 
+      na.rm=TRUE, returnIndices2Keep=FALSE, 
+      ...)
 }
 \arguments{
   \item{x}{
-   a numeric matrix or 3-dimensional array or an 
-   object with subscripting defined so it acts like such.
+   a numeric matrix or 3-dimensional array 
+   or an object with subscripting defined so
+   it acts like such.
   }
   \item{max2trim}{
-    a single number indicating the max absolute 
-    numeric value to trim.
+    a single number indicating the max 
+    absolute numeric value to trim.
   }
   \item{na.rm}{
-    logical:  If TRUE, NAs will be ignored in 
-    determining the max absolute value for the row.  
-    If a row or column is all NA, it will be treated 
+    logical:  If TRUE, NAs will be ignored 
+    in determining the max absolute value 
+    for the row.  If a row or column is all 
+    \code{NA}, it will be treated 
     as all 0 in deciding whether to trim.
 
     If FALSE, any row or column containing an NA will 
