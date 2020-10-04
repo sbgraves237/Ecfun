@@ -95,9 +95,9 @@ rtruncdist(n, ..., dist='norm', truncmin=-Inf,
   dots$x <- truncmax
   p.max <- do.call(pdist, dots)
   dots$x <- x
-  dx <- do.call(ddist, dots)
+  dx <- do.call(ddist, dots)}
   
-  return(dx / (p.max-p.min))}
+  \code{return(dx / (p.max-p.min))}
   
   NOTE:  Adjustments must be made if 'log' 
   appears in \code{names(dots)}
@@ -233,7 +233,8 @@ all.equal(qx, qnorm(seq(0, 1, .2)))
 \dontshow{)}
 
 #  3.2.  Normal truncated outside (0, 1)
-qx01 <- qtruncdist(seq(0, 1, .2), truncmin=0, truncmax=1)
+qx01 <- qtruncdist(seq(0, 1, .2), 
+            truncmin=0, truncmax=1)
 
 # check 
 pxmin <- pnorm(0)
@@ -244,7 +245,8 @@ qx01. <- qnorm(unp)
 all.equal(qx01, qx01.)
 \dontshow{)}
 
-#  3.3.  lognormal meanlog=log(100), sdlog=2, truncmin=500
+#  3.3.  lognormal meanlog=log(100), 
+#             sdlog=2, truncmin=500
 qlx10 <- qtruncdist(seq(0, 1, .2), log(100), 2, 
                    dist='lnorm', truncmin=500)
                   
@@ -258,8 +260,9 @@ all.equal(qlx10, qlx10.)
 \dontshow{)}
 
 #  3.4.  previous example with log probabilities 
-qlx10l <- qtruncdist(log(seq(0, 1, .2)), log(100), 2, 
-                   log.p=TRUE, dist='lnorm', truncmin=500)
+qlx10l <- qtruncdist(log(seq(0, 1, .2)), 
+      log(100), 2, log.p=TRUE, dist='lnorm',
+      truncmin=500)
 
 # check 
 \dontshow{stopifnot(}
