@@ -14,11 +14,11 @@
   gets replaced by other characters by different 
   software.  
   
-  This function first converts "Andr*" to 
-  "Andr_" for any character "*" not in 
-  \code{standardCharacters}.  It then looks 
-  for "Andr_" in \code{nonStandardNames}.  By
-  default, it will find that and replace it 
+  This function first converts \code{"Andr*"} 
+  to \code{"Andr_"} for any character "*" not 
+  in \code{standardCharacters}.  It then looks 
+  for \code{"Andr_"} in \code{nonStandardNames}.  
+  By default, it will find that and replace it 
   with "Andre".  
 }
 \usage{
