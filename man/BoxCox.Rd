@@ -263,17 +263,17 @@
   optional attributes:  
   
   \itemize{
-    \item{lambda}{
+    \item{\code{lambda}}{
       the value of \code{lambda} 
       used in the transformation
     }
-    \item{sign.y}{
+    \item{\code{sign.y}}{
       sign(y) (or sign(y-lambda[2]) lambda[2] is
       provided and if any of these quantities are
       negative.  Otherwise, this is omitted and all
       are assumed to be positive.
     }
-    \item{rescale}{
+    \item{\code{rescale}}{
       logical:  
       \code{TRUE} if \code{z(y, lambda)} 
       is returned rescaled by \code{g^(lambda-1)}
@@ -282,7 +282,7 @@
       and \code{FALSE} if \code{z(y, lambda)} is 
       not so rescaled.  
     }
-    \item{GeometricMean}{
+    \item{\code{GeometricMean}}{
       If \code{rescale} is numeric, 
       \code{attr(., 'GeometricMean') <- rescale}.  
       
