@@ -59,7 +59,7 @@ parseName(x,
   \item{namesNotFound}{
     character vector passed to 
     \code{subNonStandardNames} and used 
-    to compute any "namesNotFound" 
+    to compute any \code{namesNotFound} 
     attribute of the object returned 
     by \code{parseName}.  
   }
