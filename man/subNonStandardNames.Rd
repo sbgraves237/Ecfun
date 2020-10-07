@@ -4,8 +4,8 @@
   sub for nonstandard names
 }
 \description{
-  sub(nonStandardNames[, 1], 
-  nonStandardNames[, 2], x)
+  \code{sub(nonStandardNames[, 1], 
+  nonStandardNames[, 2], x)}
   
   Accented characters common in non-English 
   languages often get mangled in different 
