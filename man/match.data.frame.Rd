@@ -94,10 +94,10 @@ match.data.frame(x, y, by, by.x=by, by.y=by,
   no unique match is found.
 }
 \value{
-  an integer vector of length nrow(x) containing 
-  the index of the best matching row of 
-  \code{y} or \code{NA} if no adequate match was 
-  found.
+  an integer vector of length \code{nrow(x)}
+  containing the index of the best matching row 
+  of \code{y} or \code{NA} if no adequate match 
+  was found.
 }
 \author{
   Spencer Graves
