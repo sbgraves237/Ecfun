@@ -50,7 +50,7 @@ if(gotDat){
 }
 ```
 
-# nuclearWeaponStates 
+# `nuclearWeaponStates` 
 
 To use this, we need the country codes for the existing nuclear-weapon states.  
 
