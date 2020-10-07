@@ -59,7 +59,8 @@ subNonStandardCharacters(x,
     x <- gsub(gsubList[[il]][["pattern"]], 
         gsubList[[il]][['replacement']], x)}
   
-  2.  \code{x <- stringi::stri_trans_general(x, "Latin-ASCII")}
+  2.  \code{x <- stringi::stri_trans_general(x,
+  "Latin-ASCII")}
   
   3.  \code{nx <- length(x)}
 
