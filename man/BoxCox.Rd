@@ -97,7 +97,7 @@
   that the units of \code{z} are the same as 
   the units of \code{y}.    
     
-  The ouput has class \code{BoxCox}, which has 
+  The output has class \code{BoxCox}, which has 
   attributes that allow the input to be recovered
   using \code{invBoxCox}. The default values of 
   the arguments of \code{invBoxCox} are provided 
