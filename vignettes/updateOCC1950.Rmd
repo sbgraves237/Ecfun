@@ -30,9 +30,9 @@ After logging into the IPUMS website, the two primary options are "Select Data" 
 
 In 2018 from "Select Data", I chose "Select harmonized variables" > Person > Work.  
 
-From here, I first selected "OCC1950 = Occupation 1950 basis" and got something useful doing that.  
+From here, I first selected "`OCC1950` = Occupation 1950 basis" and got something useful doing that.  
 
-I tried other similar extracts as outlined in the Appendix below.  I decided the best extract for my purposes seemed to be the one I started with using "OCC1950".  The rest of this vignette describes summarizing that into a matrix estimating the percent of the US population by year in each OCC1950 code in March 2020.  
+I tried other similar extracts as outlined in the Appendix below.  I decided the best extract for my purposes seemed to be the one I started with using `OCC1950`.  The rest of this vignette describes summarizing that into a matrix estimating the percent of the US population by year in each `OCC1950` code in March 2020.  
 
 ```{r ipums}
 # The code in this snippet is a slight modification 
@@ -152,7 +152,7 @@ if(readAndCompute){
 }
 ```
 
-Let's also examine the the attributes of OCC1950:  
+Let's also examine the the attributes of `OCC1950`: 
 
 ```{r OCC1950}
 if(readAndCompute){
@@ -174,7 +174,7 @@ if(readAndCompute){
 }
 ```
 
-The "labels" attribute from "OCC1950" provided a translate table giving English-language names to the numeric codes.
+The "labels" attribute from `OCC1950` provided a translate table giving English-language names to the numeric codes.
 
 Are all these codes used?  
 
@@ -236,7 +236,7 @@ if(readAndCompute){
 }
 ```
 
-Wonderful:  This says that all `NA`s in OccYr should be 0:  
+Wonderful:  This says that all `NA`s in `OccYr` should be 0:  
 
 ```{r OY0}
 if(readAndCompute){
@@ -292,7 +292,7 @@ if(readAndCompute){
 }
 ```
 
-Let's make rownames = occupation names rather than the codes:  
+Let's make `rownames` = occupation names rather than the codes:  
 
 ```{r OCC1950mt}
 if(readAndCompute){
@@ -311,13 +311,13 @@ if(readAndCompute){
 
 # Appendix:  Experiment with other variables
 
-After my initial data extraction, I tried adding OCC = "Occupaton".  Then "Data cart:  Your data extract" said, "2 variable, 32 samples".  Then clicking "View Cart" listed 9 variables, being `YEAR`, `DATANUM`, `SERIAL`, `HHWT`, `GQ`, `PERNUM`, `PERWT`, `OCC`, and `OCC1950`. Then I clicked, "Create data extract". This allowed me to further "select data quality flags" for `GQ`, `OCC`, and `OCC1950`. 
+After my initial data extraction, I tried adding `OCC` = "Occupation".  Then "Data cart:  Your data extract" said, "2 variable, 32 samples".  Then clicking "View Cart" listed 9 variables, being `YEAR`, `DATANUM`, `SERIAL`, `HHWT`, `GQ`, `PERNUM`, `PERWT`, `OCC`, and `OCC1950`. Then I clicked, "Create data extract". This allowed me to further "select data quality flags" for `GQ`, `OCC`, and `OCC1950`. 
 
 The first time I did this, I ignored the data quality flags.  The second time, I requested them. 
 
-However, with both the additional "OCC" and the data quality flags, the data set was bigger than I could read into my computer.  So I split that extract into two for seq(1850, 2000, 10) and for 2001:2016.  When I read the 2001:2016 extract, I found that I could not understand "OCC" nor the data quality flags.  I decided that the answer I already had was probably good enough, and it wasn't clear if I could learn enough to justify the work of further study of "OCC" and the data quality flags.  
+However, with both the additional `OCC` and the data quality flags, the data set was bigger than I could read into my computer.  So I split that extract into two for seq(1850, 2000, 10) and for 2001:2016.  When I read the 2001:2016 extract, I found that I could not understand "OCC" nor the data quality flags.  I decided that the answer I already had was probably good enough, and it wasn't clear if I could learn enough to justify the work of further study of `OCC` and the data quality flags.  
 
-In any event, after each data selection, I was given an "estimated size" for the extract (5340 MB for one trial). I entered something to "Describe your extract". Then I clicked, "Submit extract".  The IPUMS web site responded saying, "Your extract request has been submited.  You will be notfied by email at (the email address I had given them) when it has been created."  Under "Data", it said, "Processing...".  
+In any event, after each data selection, I was given an "estimated size" for the extract (5340 MB for one trial). I entered something to "Describe your extract". Then I clicked, "Submit extract".  The IPUMS web site responded saying, "Your extract request has been submited.  You will be notified by email at (the email address I had given them) when it has been created."  Under "Data", it said, "Processing...".  
 
 After a while (47 minutes for one extract on 2018-09-03) I got an email saying my extract was ready for download.  I returned to the web site and clicked something under "Data".
 
