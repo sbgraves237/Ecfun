@@ -461,7 +461,7 @@ Doing this requires an iteration, because no simple formula exists for this. We 
 > `0.1 = pbeta(0.3, shape1, shape2)`    
 > `0.9 = pbeta(0.6, shape1, shape2)`
 
-The most reliable way to solve equations like these is to convert this into a minimization problem and use something like [optim](https://www.rdocumentation.org/packages/stats/versions/3.5.2/topics/optim):  
+The most reliable way to solve equations like these is to convert this into a minimization problem and use something like [`optim`](https://www.rdocumentation.org/packages/stats/versions/3.5.2/topics/optim):  
 
 ```{r betaSSQ}
 Dev2 <- function(shapes, p=c(.3, .6), q=c(.1, .9)){
