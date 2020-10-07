@@ -108,7 +108,7 @@ readCookPVI.(url.=
     of Republicans as Democrats.
   }
   \item{houseBalanceChar}{
-    Count by pary in the house delegation 
+    Count by party in the house delegation 
     for that state, e.g., '6R, 1D' for 6 
     Republicans and 1 Democrat.
   }
