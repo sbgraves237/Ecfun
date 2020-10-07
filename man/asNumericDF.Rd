@@ -136,7 +136,7 @@ asNumericDF(x, keep=
   \item{suppressChar}{
     a regular expression passed to 
     \code{\link{gsub}} to replace all 
-    occurrances of something like "," (a 
+    occurrences of something like "," (a 
     thousands separator in the U.S.) with 
     \code{character(0)}.  
   }
