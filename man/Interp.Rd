@@ -224,9 +224,10 @@ InterpNum(argsChk, ...)
   \code{proportion} to the length of the longest
   using \code{\link{rep}}.  
   
-  * 1.7. nchOut <- the number of characters to
-  output using numeric interpolation and rounding
-  the result to integer.  
+  * 1.7. \code{nchOut} <- the number of 
+  characters to output using numeric 
+  interpolation and rounding the result to 
+  integer.  
   
   * 1.8.  Return \code{substring(y, 1, nchOut)} 
   except when the number of characters from 
