@@ -6,7 +6,8 @@
 }
 \description{
   Read tables of the Cook Partisan Voting Index and 
-  returns a list with components 'House' and 'Senate'. 
+  returns a list with components 'House' and
+  'Senate'. 
   \code{readCookPVI.} returns the tables with the 
   names of the current incumbents per 
   \code{\link{readUShouse}} and 
@@ -18,12 +19,13 @@ readCookPVI(url.=
 "http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index")
 readCookPVI.(url.=
 "https://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
-      UShouse=readUShouse(), USsenate=readUSsenate(), ...)
+      UShouse=readUShouse(), 
+      USsenate=readUSsenate(), ...)
 }
 \arguments{
   \item{url.}{
-    Universal resource locator to be read and processed 
-    to obtain the desired lists.
+    Universal resource locator to be read and
+    processed to obtain the desired lists.
   }
   \item{UShouse, USsenate}{
     \code{\link{data.frame}}s as returned by 
@@ -60,27 +62,32 @@ readCookPVI.(url.=
   includes the following columns:
 
   \item{State}{name of the state}
-  \item{District}{District, e.g, 1st, 2nd, At-Large}
+  \item{District}{District, e.g, \code{1st}, 
+    \code{2nd}, At-Large}
   \item{PVInum}{
-    PVI as a number ranging from roughly 50 to 150.  
+    PVI as a number ranging from roughly 50 to 
+    150.  
     100 means that the  vote split in that district 
-    was within 0.5 percent of the national average.  
-    101 means that it tilts 1 percent (after rounding) 
-    to Republican.  98 means that it tilts 1 percent 
-    to Democratic;  99 is not used.
+    was within 0.5 percent of the national average.
+    101 means that it tilts 1 percent (after
+    rounding) to Republican.  98 means that it tilts
+    1 percent to Democratic;  99 is not used.
   }
   \item{PVIchar}{
     PVI rating in character format.  For example, 
-    'D+1' means that the vote tilted 1 percent toward
-    Democratic more than the national average.  
-    'R+1' means that it tilted 1 percent toward Republican.
+    'D+1' means that the vote tilted 1 percent
+    toward Democratic more than the national 
+    average.  
+    'R+1' means that it tilted 1 percent toward
+    Republican.
   }
   \item{PartyOfRepresentative}{
     Party of the incumbent, either 'Republican' or 
     'Democratic'
   }
 
-  The 'Senate' data.frame includes the following columns:
+  The 'Senate' data.frame includes the following
+  columns:
 
   \item{State}{name of the state}
   \item{PVInum}{PVI numeric, as for 'House'}
