@@ -16,15 +16,15 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Write existing nuclearWeaponStates data.frame
+## Write existing `nuclearWeaponStates data.frame`
 
-This document describes how to add new information to the nuclearWeaponStates dataset in the `Ecdat` package.  
+This document describes how to add new information to the `nuclearWeaponStates` dataset in the `Ecdat` package.  
 
-The first step is to update the companion  "nuclearWeaponStates.Rd" help file.
+The first step is to update the companion  `nuclearWeaponStates.Rd` help file.
 
 Then update the `nuclearWeaponStates` object so it matches the revised description.  
 
-One way to do this is to export the nuclearWeaponStates dataset as a csv file so you can edit it in a spreadsheet:
+One way to do this is to export the `nuclearWeaponStates` dataset as a csv file so you can edit it in a spreadsheet:
 
 ```{r export}
 library(Ecdat)
