@@ -54,7 +54,7 @@ parseName(x,
   \item{removeSecondLine}{
     logical:  If TRUE, delete anything 
     following "\\n" and return it as
-    an attribute "secondLine".  
+    an attribute \code{secondLine}.  
   }
   \item{namesNotFound}{
     character vector passed to 
