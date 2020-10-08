@@ -102,7 +102,7 @@ if(readAndCompute){
 }
 ```
 
-`IPUMSdata` is an object of classes "tbl_df","tbl" and "data.frame" with over 114 million rows for `dat00001.xml`.  
+`IPUMSdata` is an object of classes `tbl_df`, `tbl` and `data.frame` with over 114 million rows for `dat00001.xml`.  
 
 That's too few rows to have one row for each person in the most recent census and certainly too few to have one row for each household in all the census since 1850:  
 
