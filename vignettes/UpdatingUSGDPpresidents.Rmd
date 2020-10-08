@@ -140,7 +140,7 @@ if(Update){
 }
 ```  
 
-Now realGDPperCapita.  This also has a reference year, so we need to make sure we get them all:  
+Now `realGDPperCapita`.  This also has a reference year, so we need to make sure we get them all:  
 
 ```{r GDPperCap}
 if(Update){
