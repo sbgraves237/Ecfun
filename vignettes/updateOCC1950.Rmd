@@ -244,7 +244,7 @@ if(readAndCompute){
 }
 ```
 
-Now let's repeat the sums by year, comparing with `USGDPpresidents$population.K':    
+Now let's repeat the sums by year, comparing with `USGDPpresidents$population.K`:    
 
 ```{r totWts}
 if(readAndCompute){
@@ -325,4 +325,4 @@ To help with questions about the format, etc., I studied `help(pac=ipumsr)`. I f
 
 When I repeated this 2020-03-18, I downloaded `"usa_00003.dat"` and `"use_00005.dat"` consuming 2.3 and 3.8 GB.  Codebooks are also available.  
 
-Then I followed the instructions in the "Command File" for R.  With one extract, I got, "Error: Error in read_tokens_(data, tokenizer, col_specs, col_names, locale_, : Evaluation error: vector memory exhausted (limit reached?)."  After that, I redid the extract to select less data to file(s) I could read.  
+Then I followed the instructions in the "Command File" for R.  With one extract, I got, "Error: Error in `read_tokens_(data, tokenizer, col_specs, col_names, locale_`, : Evaluation error: vector memory exhausted (limit reached?)."  After that, I redid the extract to select less data to file(s) I could read.  
