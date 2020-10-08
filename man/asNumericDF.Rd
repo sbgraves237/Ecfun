@@ -10,7 +10,8 @@
   commas (thousand separators) and drop
   information after a blank (other than
   leading blanks), then coerce to numeric or
-  to factors, Dates, or POSIXct as desired.
+  to factors, \code{Dates}, or 
+  \code{POSIXct} as desired.
   
   For a \code{\link{data.frame}}, apply 
   \code{asNumericChar} to all columns and
