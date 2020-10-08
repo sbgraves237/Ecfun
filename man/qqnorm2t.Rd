@@ -102,8 +102,8 @@ qqnorm2t(y, x, z=NULL, data., plot.it=TRUE,
 
     By default, \code{pch = list(x='right',
     legend=names(qq2s[[1]][['pch']]), 
-    pch=qq2s[[1]][['pch']])}, where qq2s is
-    described below in details.
+    pch=qq2s[[1]][['pch']])}, where \code{qq2s}
+    is described below in details.
 
     Similarly, by default, \code{lines = 
     list(x='bottomright', legend=y,
