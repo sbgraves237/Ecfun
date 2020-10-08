@@ -80,7 +80,7 @@ matchQuote(x,  Quote='"', sep=' ',
     }
     \item{\code{quoteLinesAppended}}{
       indices of the input \code{x} that were
-      concatenated with a preceeding line 
+      concatenated with a preceding line 
       because the two lines contained unmatched
       \code{Quote} characters, and concatenating 
       them produced a line with all \code{Quote}s
