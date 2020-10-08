@@ -100,7 +100,7 @@ subNonStandardNames(x,
   }
 }
 \details{
-  1.  removeSecondLine
+  1.  \code{removeSecondLine}s
 
   2.  \code{x. <- subNonStandardCharacters(x, 
   standardCharacters, replacement, ...)}
