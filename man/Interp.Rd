@@ -118,9 +118,9 @@ InterpNum(argsChk, ...)
   0 or if \code{proportion} is <= 0 or >= 1 or 
   \code{\link{missing}}).  It returns a list.  
   
-  If the list contains a component named "xout", 
-  \code{Interp} returns that value with no further 
-  computations.  
+  If the list contains a component named 
+  \code{xout}, \code{Interp} returns that value 
+  with no further computations.  
   
   Otherwise, the list returned by 
   \code{InterpChkArgs} includes components 
@@ -138,7 +138,7 @@ InterpNum(argsChk, ...)
   be raw.  In that case, a "Numeric" interpolation 
   will be transformed back into "raw".  "outclass" 
   will either be a list of attributes to apply to 
-  the output or NA.  If a list, "xout" will be 
+  the output or NA.  If a list, \code{xout} will be 
   added as component ".Data" to the list "outclass" 
   and then then processed as 
   \code{do.call('structure', outclass)} to produce 
