@@ -75,7 +75,8 @@ Newdata(data, x, n, na.rm=TRUE)
   let 
   \code{xNew} <- \code{\link{levels}}(x).  
   
-  3.  If \code{\link{is.null}}(xNew), set it to 
+  3.  If \code{\link{is.null}}(\code{xNew}), set 
+  it to 
   \code{\link{sort}}(\code{\link{unique}}(x)).  
   
   4.  let \code{newDat <- data[rep(1, n), ]}, 
