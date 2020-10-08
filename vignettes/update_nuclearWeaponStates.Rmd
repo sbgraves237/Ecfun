@@ -137,7 +137,7 @@ if(canWrite){
 }
 ```  
 
-... to svg 
+... to `svg`s 
 
 ```{r svg}
 if(FALSE){
