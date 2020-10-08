@@ -39,7 +39,7 @@ subNonStandardCharacters(x,
     to keep.
   }
   \item{replacement}{
-    a character to replace the subtring 
+    a character to replace the substring 
     starting and ending with characters not 
     in \code{standardCharacters}.
   }
