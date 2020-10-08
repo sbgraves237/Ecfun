@@ -100,7 +100,7 @@ if(gotDat){
 We want to plot the GDPs of the current nuclear-weapon states since the first country made a substantive commitment to develop them, `r min(nuclearWeaponStates$startNucPgm)`.  We'll plot: 
 * different colors for each country, 
 * different textures before, during, and after their `firstTest`, and 
-* vary the line width, thinest before and thickest during the preparations for their `firstTest`.
+* vary the line width, thinnest before and thickest during the preparations for their `firstTest`.
 
 ```{r plotGDPs}
 # first establish the scales
@@ -193,7 +193,7 @@ if(gotDat){
 }
 ```
 
-Write this to an svg file without the title for Wikimedia Commons.  
+Write this to an `svg`s file without the title for Wikimedia Commons.  
 
 ```{r svg}
 if(gotDat){
