@@ -317,7 +317,7 @@ The first time I did this, I ignored the data quality flags.  The second time, I
 
 However, with both the additional `OCC` and the data quality flags, the data set was bigger than I could read into my computer.  So I split that extract into two for seq(1850, 2000, 10) and for 2001:2016.  When I read the 2001:2016 extract, I found that I could not understand `OCC` nor the data quality flags.  I decided that the answer I already had was probably good enough, and it wasn't clear if I could learn enough to justify the work of further study of `OCC` and the data quality flags.  
 
-In any event, after each data selection, I was given an "estimated size" for the extract (5340 MB for one trial). I entered something to "Describe your extract". Then I clicked, "Submit extract".  The IPUMS web site responded saying, "Your extract request has been submited.  You will be notified by email at (the email address I had given them) when it has been created."  Under "Data", it said, "Processing...".  
+In any event, after each data selection, I was given an "estimated size" for the extract (5340 MB for one trial). I entered something to "Describe your extract". Then I clicked, "Submit extract".  The IPUMS web site responded saying, "Your extract request has been submitted.  You will be notified by email at (the email address I had given them) when it has been created."  Under "Data", it said, "Processing...".  
 
 After a while (47 minutes for one extract on 2018-09-03) I got an email saying my extract was ready for download.  I returned to the web site and clicked something under "Data".
 
