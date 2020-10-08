@@ -1231,7 +1231,7 @@ if(save_svg){
 }
 ```  
 
-Comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) shows that the higher order terms in the quartic BMA mixture widens the confidence limits, making the 10th percentile essentially flat with almost no additional nuclear proliferation, while the mean quickly escapes the upper limit.  That sharply rising mean suggests that less than 10 percent of the simulations predict nuclear arms races that involve many nation states and many more non-state armed groups.  These outcomes are not likely, but the probabilities of such outcomes seem too large to be dismissed without further consideration, especially when gambling with the future of civilization.  
+Comparing Figures \@ref(fig:plotcum) and \@ref(fig:plotcum4) shows that the higher order terms in the quartic BMA mixture widens the confidence limits, making the 10`th` percentile essentially flat with almost no additional nuclear proliferation, while the mean quickly escapes the upper limit.  That sharply rising mean suggests that less than 10 percent of the simulations predict nuclear arms races that involve many nation states and many more non-state armed groups.  These outcomes are not likely, but the probabilities of such outcomes seem too large to be dismissed without further consideration, especially when gambling with the future of civilization.  
 
 We replicate the simulations summarized in `cumCI4` to see how stable the numbers are for the final year in Figure \@ref(fig:plotcum4);  see Figure \@ref(fig:qq4).  
 
@@ -1510,7 +1510,7 @@ We compute this as follows:
 
 4.  Select TL10 and TU90 to include at least 80 percent of `cumsum`med Poisson simulations about each of L10 and U90 individually.  We do this as follows:  
 
-    4.1.  Set the initial value for `TU90` as the 80th percentile of the distributions of the simulated trajectories around `U90`.  Similarly set the initial value for `TL10` as the 20th percentile of the distributions of the simulated trajectories around `L10`.  
+    4.1.  Set the initial value for `TU90` as the 80th percentile of the distributions of the simulated trajectories around `U90`.  Similarly set the initial value for `TL10` as the 20`th` percentile of the distributions of the simulated trajectories around `L10`.  
     
     4.2.  Compute the coverage probabilities of (TL10`, `TU90`) of the simulations around `L10` and `U90`, respectively.  If both those coverage probabilities exceed 80 percent, quit.  
     
