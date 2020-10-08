@@ -27,7 +27,7 @@
   Bickel and Doksum (1981) removed the 
   restriction to positive \code{y}, i.e., to 
   \code{w} > \code{(-1/lambda)} by modifying 
-  the transformaton as follows:  
+  the transformation as follows:  
 
   \code{w} = 
   
@@ -126,22 +126,22 @@
     return the power transform with rescale, 
     \code{z}, above, and \code{FALSE}
     to return the power transform without the
-    \code{n}th root of the Jacobian, \code{w}, 
-    above.  This defaults to \code{TRUE}, because
-    this will give \code{z} the same units as
-    \code{y}.  
+    \code{n}th root of the Jacobian, 
+    \code{w}, above.  This defaults to 
+    \code{TRUE}, because this will give \code{z} 
+    the same units as \code{y}.  
     
     For \code{invBoxCox}, this is \code{TRUE} 
     if the input argument \code{z} is assumed to 
-    have been rescaled by the \code{n}th root of 
-    the Jacobian of the transformation.  This
-    defaults to a \code{rescale} attribute of
-    \code{z} if present or to \code{TRUE} if 
+    have been rescaled by the \code{n}th 
+    root of the Jacobian of the transformation. 
+    This defaults to a \code{rescale} attribute 
+    of \code{z} if present or to \code{TRUE} if 
     absent.  
     
     If numeric, it is assumed to be the 
     geometric mean of another set of y values to 
-    use with new y's.  
+    use with new \code{y}'s.  
   }
   \item{na.rm}{
     logical:  
