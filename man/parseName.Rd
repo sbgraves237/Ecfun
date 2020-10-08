@@ -78,7 +78,7 @@ parseName(x,
   like Jr. or III;  remove and call the 
   rest x2.
 
-  3.  split <- strsplit(x2, " ")
+  3.  \code{split <- strsplit(x2, " ")}
 
   4.  Take the last as the surname.
 
