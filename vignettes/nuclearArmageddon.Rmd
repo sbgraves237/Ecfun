@@ -621,7 +621,7 @@ mcArm.s <- sort(mcArm.)
 quantile(mcArm.s)
 ```
 
-Next, let's call qqnorm without plotting:  
+Next, let's call `qqnorm` without plotting:  
 
 ```{r qqnorm7}
 str(qq7 <-as.data.frame(qqnorm(mcArm.s,
