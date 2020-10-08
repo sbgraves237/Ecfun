@@ -204,7 +204,7 @@ if(gotDat){
 }
 ```
 
-Create a png version also.  
+Create a `png` version also.  
 
 ```{r png}
 if(gotDat){
