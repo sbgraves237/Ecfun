@@ -164,4 +164,4 @@ if(canWrite){
 }
 ```
 
-Then copy the *.rda file from the current working directory to `ecdat\data`, and run `R CMD check` as usual.  
+Then copy the `*.rda` file from the current working directory to `ecdat\data`, and run `R CMD check` as usual.  
