@@ -76,8 +76,8 @@
   the Jacobian of the transformation in the 
   log(likelihood).  Doing this can be achieved 
   by rescaling the transformation with the 
-  \code{n}th root of the Jacobian, which can 
-  be written as follows:   
+  \code{n}\code{th} root of the Jacobian, which 
+  can be written as follows:   
   
   \code{j(y, lambda)} = 
   \code{J(y, lambda)^(1/n)} = 
