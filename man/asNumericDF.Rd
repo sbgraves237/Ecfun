@@ -157,13 +157,13 @@ For \code{asNumericChar}:
 
   1.  Replace commas by nothing
 
-  2.  strsplit on ' ' and take only the
-  first part, thereby eliminating the
+  2.  \code{strsplit} on ' ' and take only 
+  the first part, thereby eliminating the
   footnote references.
 
   3.  Replace any blanks with NAs
 
-  4.  as.numeric
+  4.  \code{as.numeric}
 
 for \code{asNumericDF}:  
 
