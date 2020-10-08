@@ -65,7 +65,7 @@ subNonStandardNames(x,
   }
   \item{namesNotFound}{
     character vector describing how to treat 
-    substitions not found in 
+    substitutions not found in 
     \code{nonStandardNames[, 1]}:  
   
     \itemize{
