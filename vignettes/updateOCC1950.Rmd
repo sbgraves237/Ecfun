@@ -118,7 +118,7 @@ if(readAndCompute){
 
 The key point from the the print of `tbl_year` and this plot is that this dataset includes data from every census except 1890 plus for each year between 2000 and 2016.  
 
-Before proceding, let's check `IPUMSdata` for missing values:  
+Before proceeding, let's check `IPUMSdata` for missing values:  
 
 ```{r IPUMSna}
 if(readAndCompute){
