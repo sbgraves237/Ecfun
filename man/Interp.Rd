@@ -206,7 +206,7 @@ InterpNum(argsChk, ...)
   * 1.4.  Set \code{pLength1 <- 
   (length(proportion) == 1)}:  
   
-  ** 1.4.1.  If(pLength1) do the linear 
+  ** 1.4.1.  \code{If(pLength1)} do the linear 
   interpolation on \code{cumsum(nchar(.))}.   
   
   ** 1.4.2.  Else do the linear interpolation on 
