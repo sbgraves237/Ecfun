@@ -49,8 +49,6 @@ importFrom("xml2", 'as_list', 'read_xml')
 importFrom("mvtnorm", "rmvnorm")
 importFrom("BMA", "bic.glm")
 
-importFrom("xlsx", "read.xlsx2")
-
 import(MASS)
 import(TeachingDemos)
 import(fda)
