@@ -16,7 +16,7 @@
 }
 \usage{
 readCookPVI(url.=
-"http://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index")
+"https://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index")
 readCookPVI.(url.=
 "https://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index",
       UShouse=readUShouse(), 
@@ -120,7 +120,7 @@ readCookPVI.(url.=
 \source{
   \href{https://en.wikipedia.org/wiki/Cook_Partisan_Voting_Index}{Wikipedia,
     "Cook Partisan Voting Index"}
-  \href{http://cookpolitical.com/}{The Cook Political Report}
+  \href{https://cookpolitical.com/}{The Cook Political Report}
 }
 \seealso{
   \code{\link{readUShouse}}, \code{\link{readUSsenate}}
