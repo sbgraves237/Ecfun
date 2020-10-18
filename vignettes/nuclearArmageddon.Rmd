@@ -141,7 +141,7 @@ theta <- (1/lambdaHat + seq(-.016, .06, .004))
 (logLR2_th <- 2*(logLk(lambdaHat) - logLk(1/theta)))
 ```
 
-This looks worse:  With $\hat\theta = 1/\hat\lambda = 0.0178$, it seems infeasible to get a sequence of only a few equally-spaced positive numbers that include 0 and still produce numbers just over [qchisq(0.99, 1)](https://www.rdocumentation.org/packages/stats/versions/3.5.2/topics/Chisquare) = 6.63 on either ends, as we created on the $\lambda$ scale, let alone both as we have on the $u$ scale.  
+This looks worse:  With $\hat\theta = 1/\hat\lambda = 0.0178$, it seems infeasible to get a sequence of only a few equally-spaced positive numbers that include 0 and still produce numbers just over [`qchisq(0.99, 1)`](https://www.rdocumentation.org/packages/stats/versions/3.5.2/topics/Chisquare) = 6.63 on either ends, as we created on the $\lambda$ scale, let alone both as we have on the $u$ scale.  
 
 This suggests we should parameterize our analysis in terms of $u = \log(\lambda)$.  To confirm this, let's create plots on all three scales, starting with $u$.  
 
