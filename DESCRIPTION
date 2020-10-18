@@ -8,7 +8,8 @@ Depends: R (>= 3.5.0)
 Suggests: car, DescTools, Ecdat, maps, grid, gridBase, 
     pryr, knitr, rmarkdown, invgamma, ipumsr, 
     lubridate, bayesplot, bssm, ggplot2, tibble, 
-    kableExtra, openxlsx, fitdistrplus, purrr
+    kableExtra, openxlsx, fitdistrplus, purrr, 
+    markdown
 VignetteBuilder: knitr
 Imports: fda, RCurl, XML, tis, jpeg, MASS, 
     TeachingDemos, stringi, methods, xml2, BMA, 
@@ -19,6 +20,5 @@ Description: Functions and vignettes to update
 LazyData: true
 License: GPL (>=2)
 Language: en-us
-cph: Spencer Graves <spencer.graves@effectivedefense.org>
 URL: https://www.r-project.org
 NeedsCompilation: no
