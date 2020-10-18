@@ -232,7 +232,7 @@
   Let \code{ly = log(abs(y))}.  Then with 
   \code{la = lambda}, 
   
-  \code{w} = code{(sign(y)*exp(la*ly)-1)/la}
+  \code{w} = \code{(sign(y)*exp(la*ly)-1)/la}
   
   = \code{sign(y) * ly * (1+(la*ly/2) * 
   (1+(la*ly/3)*(1+(la*ly/4)*(1+O(la*ly)))))
