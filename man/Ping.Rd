@@ -96,7 +96,7 @@ Ping(url, pingArgs='', warn=NA,
 ##
 ## good
 ##
-(google <- Ping('http://google.com/ping works on host not pages'))
+(google <- Ping('https://google.com/ping works on host not pages'))
 
 \dontshow{stopifnot(}
 with(google, (counts[1]>0) && (counts[3]<1))
