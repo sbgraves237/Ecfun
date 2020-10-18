@@ -70,7 +70,7 @@ read.transpose(file, header=TRUE, sep=',',
   left as character.
 }
 \references{
-  \href{http://www.bea.gov}{
+  \href{https://www.bea.gov}{
     Table 6.16.  Income and employment by industry 
     in the National Income and Product Account
     tables published by the Bureau of Economic
