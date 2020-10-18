@@ -64,13 +64,13 @@ dir(getwd())
 # into the Console below:  
 
 IPUMSdir <- 'IPUMS'
-(ddiXml <- dir(IPUMSdir, pattern="usa_00006.xml",     
+(ddiXml <- dir(IPUMSdir, pattern="usa_00006.xml", 
       full.names = TRUE))
 # OR execute the following inside 
 # "Accountants-IPUMS.Rmd" in R Studio:  
 if(length(ddiXml)!=1){
 #  print(ddiXml <- file.path('..', '..', 'IPUMS'))
-  print(ddiXml <- dir(pattern="usa_00006.xml",        
+  print(ddiXml <- dir(pattern="usa_00006.xml",      
       full.names = TRUE))
 # NOTE:  This worked under macOS 10.15.3 
 # with R 3.6.3 and RStudio 1.2.5033.  
@@ -78,7 +78,7 @@ if(length(ddiXml)!=1){
 }
 ```
 
-Some of the computations below are fairly long, because this dataset is so large.  This vignette is structured nearly all the R code in this vignette will be skipped in routine package testing and would only be executed if a user arranged so a file containing the desired IPUMS data extract can be found.  We do this here by creating a variable `readAndCompute` that is `FALSE` by default and is set to `TRUE` only when the the desired data are available for manual processing.  
+Some of the computations below are fairly long, because this dataset is so large.  This vignette is structured so nearly all the R code in this vignette will be skipped in routine package testing and would only be executed if a user arranged so a file containing the desired IPUMS data extract can be found.  We do this here by creating a variable `readAndCompute` that is `FALSE` by default and is set to `TRUE` only when the the desired data are available for manual processing.  
 
 ```{r skipOnCRAN}
 readAndCompute <- FALSE
