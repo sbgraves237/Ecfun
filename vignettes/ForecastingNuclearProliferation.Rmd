@@ -483,7 +483,7 @@ This says that the time trend visible in Figures \@ref(fig:plot) and \@ref(fig:p
 
 [George Box](https://en.wikipedia.org/wiki/George_E._P._Box) famously said that, ["All models are wrong, but some are useful."](https://en.wikipedia.org/wiki/All_models_are_wrong)^[@BoxDraper:1987;  @Wikip:ModelsWrong.] 
 
-@Burnham:1998 and others claim that better predictions can generally be obtained using Bayesian Model Averaging.^[See also @Raftery:1995 and @Claeskens:2008.] In this case, we have two models:  `log(Poisson mean)` being constant or linear in `timeSinceTrinity`.  The [`bic.glm`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) function in the [`BMA`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) package can estimate these two models and compute posterior probabilities.    
+@Burnham:1998 and others claim that better predictions can generally be obtained using Bayesian Model Averaging.^[See also @Raftery:1995 and @Claeskens:2008.] In this case, we have two models:  `log(Poisson mean)` being constant or linear in `timeSinceTrinity`.  The [`bic.glm`](http://finzi.psych.upenn.edu/R/library/BMA/html/bic.glm.html) function in the [`BMA`](https://CRAN.R-project.org/package=BMA) package can estimate these two models and compute posterior probabilities.    
 
 ```{r BMA}
 library(BMA)
