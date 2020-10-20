@@ -97,9 +97,12 @@ if(gotDat){
 
 # Plot GDPs 
 
-We want to plot the GDPs of the current nuclear-weapon states since the first country made a substantive commitment to develop them, `r min(nuclearWeaponStates$startNucPgm)`.  We'll plot: 
+We want to plot the GDPs of the current nuclear-weapon states since the first country made a substantive commitment to develop them, `r min(nuclearWeaponStates$startNucPgm)`.  We'll plot:
+
 * different colors for each country, 
+
 * different textures before, during, and after their `firstTest`, and 
+
 * vary the line width, thinnest before and thickest during the preparations for their `firstTest`.
 
 ```{r plotGDPs}
