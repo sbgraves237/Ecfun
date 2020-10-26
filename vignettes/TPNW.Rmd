@@ -17,7 +17,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Intro 
 
-I want to predict the date that the [Treaty on the Prohibition of Nuclear Weapons](https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVI-9&chapter=26&clang=_en) will enter into force.  I plan to do this by scraping the table of Participants from the web page on that treaty from the web site of the [United Nations Treaty Collection](https://treaties.un.org).  
+This vignette was originally written to predict the date that the [Treaty on the Prohibition of Nuclear Weapons (TPNW)](https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVI-9&chapter=26&clang=_en) would enter into force.  That date has now [officially been set at 2021-01-22](https://www.un.org/sg/en/content/sg/statement/2020-10-24/un-secretary-generals-spokesman-the-occasion-of-the-50th-ratification-of-the-treaty-the-prohibition-of-nuclear-weapons).  
+
+We now modify this vignette to include a simulation of the number of countries having officially ratifed, acceded, accepted or approved of the TPNW by that date.  
+
+This starts by scraping the table of Participants from the web page on that treaty from the web site of the [United Nations Treaty Collection](https://treaties.un.org).  
 
 ## URL
 
@@ -301,7 +305,34 @@ text(pred50-60, 20, pred50, srt=90,
      cex=2, col='blue')
 
 if(!fda::CRAN()){
-#pngFile <- paste0('TPNW', today())
+  pngFile <- paste0('TPNW', today(), '.png')
+#  svgFile <- 'TPNW50thRatification.svg'
+#  png(pngFile, width=960, height=960)
+  png(pngFile, width=960*sqrt(2), 
+      height=960/sqrt(2))
+  par(mar=c(6, 5, 4, 2))
+  plot(TPNWo[[3]], 1:nrow(TPNWo), type='s', 
+     lwd=4, xlab='', ylab='', main=
+       'Number of signatories of the TPNW', 
+     ylim=ylim., xlim=xlim., cex.axis=3, 
+     las=1, cex.main=2)
+  abline(coef=coef(fit), col='red', 
+       lty=2, lwd=4)
+  abline(h=50, lty='dotted', col='green', 
+       lwd=4)
+
+  if(nRats<50){
+    segments(tail(TPNWo[, 3], 1), nRats, 
+         pred50, 50, lty='dotted', 
+         lwd=4, col='blue')
+  }
+  abline(v=pred50, lwd=4, col='blue', 
+       lty='dotted')
+  text(pred50-50, 20, pred50, srt=90, 
+     cex=3, col='blue')
+
+  dev.off()
+#
   svgFile <- 'TPNW50thRatification.svg'
   svg(svgFile)
   par(mar=c(6, 5, 4, 2))
@@ -326,6 +357,7 @@ if(!fda::CRAN()){
      cex=3, col='blue')
 
   dev.off()
+#  
   getwd()
 }
 ```
