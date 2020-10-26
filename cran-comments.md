@@ -1,9 +1,31 @@
 ## Test environments
-* local macOS 10.15.6, R 4.0.2
-* local Windows 10, R 4.0.2 
+* local macOS 10.15.6, R 4.0.3
 * ubuntu 16.04.6 LTS (on travis-ci), R 4.0.2
 * win-builder (devel and release)
 
+* R-hub builder: 
+ - Windows Server 2008 R2 SP1, R-devel, 32/64 bit
+   >> Error: No package 'utf8' [but it's on CRAN]
+   >> Warning in min(nuclearWeaponStates$startNucPgm):
+      "no non-missing arguments": 
+      I cannot replicate:  
+      nuclearWeaponStates is a dataset in Ecdat
+      with a column startNucPgm with no NAs 
+      and min is 1942-01-19 when I try it.  
+  Found the following (possibly) invalid URLs:
+    https://www.bls.gov/cps/
+    https://www.r-bloggers.com/2012/01/scr    
+  Both work for me when I try them.  
+  
+  - Ubuntu Linux 16.04 LTS, R-release, GCC
+    URL: https://cookpolitical.com/
+    URL: https://www.measuringworth.com/
+      	SSL certificate problem ... 
+      	(Status without verification: OK)
+    >> These are in Rd and Rmd files that 
+    discuss reading and processing data 
+    from these web sites.  
+   
 ## R CMD check results
 
 # Ecfun 0.2-4 on macOS 2020-09-23:
