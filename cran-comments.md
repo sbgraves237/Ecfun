@@ -1,8 +1,10 @@
 ## Test environments
-* local macOS 10.15.6, R 4.0.3
-* ubuntu 16.04.6 LTS (on travis-ci), R 4.0.2
-* win-builder (devel and release)
+* local macOS 10.15.6, R 4.0.3:  OK. 
+* ubuntu 16.04.6 LTS (on travis-ci), R 4.0.2 (2020-10-26):
+Packages unavailable to check Rd xrefs: EnvStats, drc, zoo, prodlim, TRAMPR
 
+
+* win-builder (devel and release)
 2020-10-26
 * R-hub builder: 
 Windows Server 2008 R2 SP1, R-devel, 32/64 bit
@@ -32,6 +34,9 @@ VignetteBuilder package required for checking but not installed: 'knitr'
     >> These are in Rd and Rmd files that 
     discuss reading and processing data 
     from these web sites.  
+    
+* Fedora Linux, R-devel, clang, gfortran also complained about measuringworth, which I've used many times without problems.   
+
    
 
 # Ecfun 0.2-4 on Win10 on 2020-09-23:
