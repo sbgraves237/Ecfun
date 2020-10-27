@@ -3,15 +3,22 @@
 * ubuntu 16.04.6 LTS (on travis-ci), R 4.0.2
 * win-builder (devel and release)
 
+2020-10-26
 * R-hub builder: 
- - Windows Server 2008 R2 SP1, R-devel, 32/64 bit
-   >> Error: No package 'utf8' [but it's on CRAN]
-   >> Warning in min(nuclearWeaponStates$startNucPgm):
-      "no non-missing arguments": 
-      I cannot replicate:  
-      nuclearWeaponStates is a dataset in Ecdat
-      with a column startNucPgm with no NAs 
-      and min is 1942-01-19 when I try it.  
+Windows Server 2008 R2 SP1, R-devel, 32/64 bit
+Packages required but not available:
+  'fda', 'RCurl', 'XML', 'tis', 'jpeg', 'TeachingDemos', 'stringi',
+  'xml2', 'BMA'
+
+Packages suggested but not available:
+  'rmarkdown', 'invgamma', 'ipumsr', 'lubridate', 'bayesplot', 'bssm',
+  'ggplot2', 'tibble', 'kableExtra', 'openxlsx', 'fitdistrplus',
+  'car', 'DescTools', 'Ecdat', 'maps', 'gridBase', 'pryr', 'knitr',
+  'purrr', 'markdown'
+
+VignetteBuilder package required for checking but not installed: 'knitr'
+
+** Earlier R-hub issues that I believe should be ignored:
   Found the following (possibly) invalid URLs:
     https://www.bls.gov/cps/
     https://www.r-bloggers.com/2012/01/scr    
@@ -26,17 +33,8 @@
     discuss reading and processing data 
     from these web sites.  
    
-## R CMD check results
 
-# Ecfun 0.2-4 on macOS 2020-09-23:
-# A doc directory of 4.8Mb is created
-# on mac but not Ubuntu or Win10.  
-# I don't recall having seen this previously.
-# Might it be a result of some change in 
-# Rtools on Mac that is different 
-# from other platforms?  
-
-# Ecrun 0.2-4 on Win10 on 2020-09-23:
+# Ecfun 0.2-4 on Win10 on 2020-09-23:
 # Note:  unable to verify current time
 # https://stackoverflow.com/questions/63613301/r-cmd-check-note-unable-to-verify-current-time#comment112489969_63613301
 # says: "this requires a fix in the check function by the R development team ... or the web-resource coming online again."
