@@ -19,7 +19,7 @@
   THIS FUNCTION HAS BEEN MADE INOPERATIVE, BECAUSE 
   IT REQUIRED THE \code{gdata} PACKAGE, WHICH WAS
   SCHEDULED TO BE REMOVED FROM CRAN.  IF THAT 
-  HAPPENNED, \code{Ecfun} would also be removed, 
+  HAPPENED, \code{Ecfun} would also be removed, 
   and it wasn't clear that it was worth the effort 
   to rewrite it so it worked without \code{gdata}.  
   If you need it please either get it from a version
@@ -100,8 +100,9 @@ readFinancialCrisisFiles(files, crisisType=7, ...)
   column containing the data for that 
   \code{crisisType} for each country.
 
-  If length(crisisType) > 1, a list is returned 
-  containing a \code{data.frame} for each country.
+  If \code{length(crisisType)} > 1, a list is
+  returned containing a \code{data.frame} for 
+  each country.
 }
 \references{
   Carmen M. Reinhart and Kenneth S. Rogoff (2009) This Time 
