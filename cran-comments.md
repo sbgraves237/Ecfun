@@ -6,3 +6,12 @@
 # NOTE:  This works when I test it manually. 
 # It's the Bureau of Labor Statustics of the US government;-)  
 
+* One CRAN TEST on Ecfun 0.2-2 
+https://www.r-project.org/nosvn/R.check/r-devel-linux-x86_64-fedora-clang/Ecfun-00check.html
+# complains: 
+ Undeclared packages ‘EnvStats’, ‘drc’, ‘zoo’, ‘openxlsx’, ‘prodlim’, ‘plyr’, ‘TRAMPR’, ‘raster’ in Rd xrefs
+# I'm not getting this on any other platform. 
+# These are links from my Rd file to 
+# help pages in other packages 
+# Ecfun 0.2-4 suggests: "openxlsx"
+# None of the others are mentioned in my DESCRIPTION
