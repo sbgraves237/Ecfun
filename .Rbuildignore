@@ -1,11 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-vignettes/ForecastingNuclearProliferation.aux
-vignettes/ForecastingNuclearProliferation.log
-vignettes/ForecastingNuclearProliferation.out
-vignettes/ForecastingNuclearProliferation.tex
-vignettes/ForecastingNuclearProliferation.toc
 cran-comments.md
 revdep
 ^CRAN-RELEASE$
