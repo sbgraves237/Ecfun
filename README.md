@@ -10,3 +10,8 @@ Mendelssohn for their replies to a question
 posted to R-Devel helped me understand what 
 I needed to do to fix problems identified in 
 the CRAN Checks.
+
+# 2021-05-20
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/sbgraves237/Ecfun/workflows/R-CMD-check/badge.svg)](https://github.com/sbgraves237/Ecfun/actions)
+<!-- badges: end -->
