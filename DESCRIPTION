@@ -13,7 +13,7 @@ Suggests: car, DescTools, Ecdat, maps, grid, gridBase,
 VignetteBuilder: knitr
 Imports: fda, RCurl, XML, tis, jpeg, MASS, 
     TeachingDemos, stringi, methods, xml2, BMA, 
-    mvtnorm
+    mvtnorm, rvest
 Description: Functions and vignettes to update 
     data sets in 'Ecdat' and to create, manipulate, 
     plot, and analyze those and similar data sets.
