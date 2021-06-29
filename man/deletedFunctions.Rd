@@ -21,11 +21,12 @@
   If you need them, you can get the 
   documentation and code for them from CRAN 
   > Packages > Archive (near the bottom 
-  center) > Ecfun > Ecfun_0.2-0.tar.gz.  
+  center) > \code{Ecfun} > 
+  \code{Ecfun_0.2-0.tar.gz}.  
   I don't expect the code to work.  
   However, I might be willing to 
   collaborate in restoring the 
-  functionality to sos.  
+  functionality to \code{Ecfun}.  
   
   \code{readFinancialCrisisFiles}
   was a companion to a book.  This 
