@@ -54,6 +54,7 @@ importFrom("BMA", "bic.glm")
 import(MASS)
 import(TeachingDemos)
 import(fda)
+import(rvest)
 import(jpeg)
 
 #import(DierckxSpline)
