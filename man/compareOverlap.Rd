@@ -77,7 +77,7 @@ compareOverlap(y=2, yRef=y, x=1,
   This function is particularly useful 
   for updating datasets that are obtained 
   from sources like the 
-  \href{https://www.bjs.gov}{Bureau of Justice Statistics}, 
+  \href{https://bjs.ojp.gov}{Bureau of Justice Statistics}, 
   which publish many series with 
   each update including the most recent 
   11 years.  This function can be used 
