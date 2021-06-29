@@ -1,10 +1,10 @@
 \name{pmatchIC}
 \alias{pmatchIC}
 \title{
-  pmatch ignorning case
+  pmatch ignoring case
 }
 \description{
-  \code{pmatch} with an addtional 
+  \code{pmatch} with an additional 
   \code{ignoreCase} argument, returning 
   a name not an index like 
   \code{\link{pmatch}} (and returning 
