@@ -72,4 +72,16 @@ UShouse.senate <- function(house=readUShouse(),
   cat('If you need them, try Ecfun 0.2-0.')
   stop()  
 }
+USsenateClass <- function(x, senate=readUSsenate(),
+  Office='Office', state='state',
+  surname='surname', district='district',
+  senatePattern='^Senate') {
+  cat('This function was deleted, because by default, ')
+  cat('it called readUSsenate, which ')
+  cat('scraped information from a web site,\n')
+  cat('and the need for the information seemed insufficient ')
+  cat('to justify the work required to maintain these functions.\n')
+  cat('If you need them, try Ecfun 0.2-0.')
+  stop()  
+}  
 

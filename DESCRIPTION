@@ -17,7 +17,6 @@ Imports: fda, tis, jpeg, MASS,
 Description: Functions and vignettes to update 
     data sets in 'Ecdat' and to create, manipulate, 
     plot, and analyze those and similar data sets.
-LazyData: true
 License: GPL (>=2)
 Language: en-us
 URL: https://www.r-project.org
