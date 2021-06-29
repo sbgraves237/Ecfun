@@ -62,4 +62,14 @@ readUSstateAbbreviations <- function(url.=
   cat('If you need it, try Ecfun 0.2-0.')
   stop()  
 }
+UShouse.senate <- function(house=readUShouse(), 
+                           senate=readUSsenate()){
+  cat('This function was deleted, because by default, ')
+  cat('it called readUShouse() and readUSsenate, which ')
+  cat('scraped information from web sites,\n')
+  cat('and the need for the information seemed insufficient ')
+  cat('to justify the work required to maintain these functions.\n')
+  cat('If you need them, try Ecfun 0.2-0.')
+  stop()  
+}
 

@@ -6,11 +6,12 @@
 \alias{readUShouse}
 \alias{readUSsenate}
 \alias{readUSstateAbbreviations}
+\alias{UShouse.senate}
 \title{
   Functions deleted from the Ecfun package
 }
 \description{
-  Several functions were deleted from Ecfun 
+  Several functions were deleted from \code{Ecfun} 
   0.2-5, because they no longer worked, and 
   it was not clear if there was demand for 
   them.  
@@ -30,11 +31,12 @@
   package, which was scheduled to be 
   removed from CRAN.  
   
-  The other functions did web scraping, 
-  and the web sites from which they 
-  scraped information changed, and 
-  it did not seem worth the work 
-  required to continue to 
-  maintain them.  
+  \code{UShouse.senate} called by default
+  \code{readUShouse} and \code{readUSsenate}.
+  The latter two and the remaining functions 
+  deleted did web scraping, and the web sites 
+  from which they scraped information changed, 
+  and it did not seem worth the work required 
+  to continue to maintain them.  
 }
 \keyword{misc}
