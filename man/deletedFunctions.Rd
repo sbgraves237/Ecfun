@@ -8,6 +8,7 @@
 \alias{readUSstateAbbreviations}
 \alias{UShouse.senate}
 \alias{USsenateClass}
+\alias{mergeUShouse.senate}
 \title{
   Functions deleted from the Ecfun package
 }
@@ -33,10 +34,11 @@
   removed from CRAN.  
   
   \code{USsenateClass} called by default 
-  \code{readUSsenate}, and \code{UShouse.senate} 
-  called by default both \code{readUSsenate}
-  and \code{readUShouse}.  The latter two and 
-  the remaining functions deleted did web scraping, 
+  \code{readUSsenate}.  \code{UShouse.senate} 
+  and \code{mergeUShouse.senate} called by 
+  default both \code{readUSsenate} and 
+  \code{readUShouse}.  The latter two and the 
+  remaining functions deleted did web scraping, 
   and the web sites from which they scraped 
   information changed, and it did not seem worth 
   the work required to continue to maintain them.  

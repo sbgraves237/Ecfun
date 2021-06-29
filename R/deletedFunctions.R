@@ -84,4 +84,15 @@ USsenateClass <- function(x, senate=readUSsenate(),
   cat('If you need them, try Ecfun 0.2-0.')
   stop()  
 }  
-
+mergeUShouse.senate <- function(x, UScongress=UShouse.senate(),
+      newrows='amount0',
+      default=list(member=FALSE, amount=0, #vote="notEligible",
+      incumbent=TRUE) ){
+  cat('This function was deleted, because by default, ')
+  cat('it called readUShouse() and readUSsenate, which ')
+  cat('scraped information from web sites,\n')
+  cat('and the need for the information seemed insufficient ')
+  cat('to justify the work required to maintain these functions.\n')
+  cat('If you need them, try Ecfun 0.2-0.')
+  stop()  
+}
