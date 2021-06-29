@@ -11,7 +11,7 @@ Suggests: car, DescTools, Ecdat, maps, grid, gridBase,
     kableExtra, openxlsx, fitdistrplus, purrr, 
     markdown
 VignetteBuilder: knitr
-Imports: fda, RCurl, XML, tis, jpeg, MASS, 
+Imports: fda, tis, jpeg, MASS, 
     TeachingDemos, stringi, methods, xml2, BMA, 
     mvtnorm, rvest
 Description: Functions and vignettes to update 
