@@ -1,17 +1,17 @@
 ## Test environments
-* local macOS 10.15.6, R 4.0.3:  OK. 
-* winbuilder:  x86_64-w64-mingw32 (64-bit):  OK.  
-* Travis CI:  Ubuntu 16.04.6 LTS:  OK.  
-* R-hub:   	Windows Server 2008 R2 SP1, R-devel, 32/64 bit: (possibly) invalid URLs:https://www.bls.gov/cps/
-# NOTE:  This works when I test it manually. 
-# It's the Bureau of Labor Statustics of the US government;-)  
+* local macOS 11.4, R 4.1.0:  OK. 
+* GitHub Actions: Win, macOS, ubuntu-20.04 (release & devel): OK
+* R-hub builder <support@rhub.io>: 
+** Debian Linux, R-devel, GCC
+--> Error and Note reported, but I don't see anything I can fix:  Bioconductor not available and Packages unavailable to check Rd xrefs.  
+** Windows Server 2008 R2 SP1, R-devel, 32/64 bit
+--> Same Bioconductor error as for Debian.  
 
-* One CRAN TEST on Ecfun 0.2-2 
-https://www.r-project.org/nosvn/R.check/r-devel-linux-x86_64-fedora-clang/Ecfun-00check.html
-# complains: 
- Undeclared packages ‘EnvStats’, ‘drc’, ‘zoo’, ‘openxlsx’, ‘prodlim’, ‘plyr’, ‘TRAMPR’, ‘raster’ in Rd xrefs
-# I'm not getting this on any other platform. 
-# These are links from my Rd file to 
-# help pages in other packages 
-# Ecfun 0.2-4 suggests: "openxlsx"
-# None of the others are mentioned in my DESCRIPTION
+* Winbuilder:  
+** using R Under development (unstable) (2021-06-27 r80567) on x86_64-w64-mingw32:  
+Found the following (possibly) invalid URLs:
+  URL: https://www.measuringworth.com/
+    From: inst/doc/UpdatingUSGDPpresidents.html
+    Status: Error
+    Message: SSL certificate problem: unable to get local issuer certificate
+** NOTE:  I just checked:  It looks the same as the last time I visited it.  It's an important source for GDP data.  
