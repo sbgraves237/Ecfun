@@ -33,6 +33,8 @@ asNumericChar <- function(x,
 #  cat(length(dol), ' $ found: ', 
 #      paste(dol, collapse=', '), '\n')
   x[dol] <- sub(leadingChar, '', x[dol])
+  x[!is.na(x)] <- tis::stripBlanks(x[
+    !is.na(x)])
 ##
 ## 2.  find percent
 ##  
