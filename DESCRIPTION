@@ -9,7 +9,9 @@ Suggests: car, DescTools, Ecdat, maps, grid, gridBase,
     pryr, knitr, rmarkdown, invgamma, ipumsr, 
     lubridate, bayesplot, bssm, ggplot2, tibble, 
     kableExtra, openxlsx, fitdistrplus, purrr, 
-    markdown
+    markdown, EnvStats, drc, zoo, prodlim, plyr, 
+    TRAMPR, raster
+    
 VignetteBuilder: knitr
 Imports: fda, tis, jpeg, MASS, 
     TeachingDemos, stringi, methods, xml2, BMA, 
