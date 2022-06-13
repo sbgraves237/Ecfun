@@ -11,7 +11,6 @@ Suggests: car, DescTools, Ecdat, maps, grid, gridBase,
     kableExtra, openxlsx, fitdistrplus, purrr, 
     markdown, EnvStats, drc, zoo, prodlim, plyr, 
     TRAMPR, raster
-    
 VignetteBuilder: knitr
 Imports: fda, tis, jpeg, MASS, 
     TeachingDemos, stringi, methods, xml2, BMA, 
