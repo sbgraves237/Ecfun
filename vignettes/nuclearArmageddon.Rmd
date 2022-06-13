@@ -66,7 +66,7 @@ S_k = \sum_{i=1}^k{T_i}.
 The exponential distribution is the simplest lifetime distribution.  It is widely used for applications like this and seems reasonable in this context.  
 
 [For setting math in RMarkdown, we are following 
-[Cosma Shalizi (2016) "Using R Markdown for Class Reports"](http://www.stat.cmu.edu/~cshalizi/rmarkdown/#math-in-r-markdown).]
+[Cosma Shalizi (2016) "Using R Markdown for Class Reports"](https://www.stat.cmu.edu/~cshalizi/rmarkdown/#math-in-r-markdown).]
 
 We code this as follows:  
 
