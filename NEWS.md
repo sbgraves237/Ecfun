@@ -1,5 +1,5 @@
 2022-06-13
-Ecfun 0.2-6: Update "vignettes/UpdatingUSGDPpresidents.Rmd" to describe adding federal budget variables to Ecdat/USGDPpresidents.  
+Ecfun 0.2-6: Update `vignettes/UpdatingUSGDPpresidents.Rmd` to describe adding federal budget variables to Ecdat/USGDPpresidents.  
 
 2021-06-29
 Ecfun 0.2-4 
