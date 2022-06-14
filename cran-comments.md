@@ -1,27 +1,14 @@
-# 2022-06-13:
-# Winbuilder-oldrel:  identified two "(possibly) invalid URLs":  
-# https://www.measuringworth.com/ 
-# and 
-# https://www.stat.cmu.edu/~cshalizi/rmarkdown/#math-in-r-markdown
-#** Both work for me.  
+# 2022-06-13:Ecfun:
+# GitHub Actions: Win and macOS (release) plus 
+# ubuntu-20.04 (devel, release & oldrel): OK
 #
-# Also, Winbuilder-devel 
-
-
-## Test environments
-* local macOS 11.4, R 4.1.0:  OK. 
-* GitHub Actions: Win, macOS, ubuntu-20.04 (release & devel): OK
-* R-hub builder <support@rhub.io>: 
-** Debian Linux, R-devel, GCC
---> Error and Note reported, but I don't see anything I can fix:  Bioconductor not available and Packages unavailable to check Rd xrefs.  
-** Windows Server 2008 R2 SP1, R-devel, 32/64 bit
---> Same Bioconductor error as for Debian.  
-
-* Winbuilder:  
-** using R Under development (unstable) (2021-06-27 r80567) on x86_64-w64-mingw32:  
-Found the following (possibly) invalid URLs:
-  URL: https://www.measuringworth.com/
-    From: inst/doc/UpdatingUSGDPpresidents.html
-    Status: Error
-    Message: SSL certificate problem: unable to get local issuer certificate
-** NOTE:  I just checked:  It looks the same as the last time I visited it.  It's an important source for GDP data.  
+# Winbuilder-oldrel and -devel identified "(possibly) invalid URLs"
+# or with "Service Unavailable" 
+# that worked on other platforms and for me locally.   
+# 
+# Also, Winbuilder-release:  
+# Error in curl::curl_fetch_memory(url, handle = h) : 
+#   Failed FTP upload: 550
+# and 'Warning: <table> attribute "width" not allowed for HTML5'.
+# Ben Bolker replied to a question to R-pkg-devel about this, saying, 
+# Hopefully this will be fixed in R 4.2.1 (scheduled for June 23)".
