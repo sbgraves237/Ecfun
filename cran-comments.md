@@ -7,6 +7,8 @@
 # Win and macOS (release) plus 
 # ubuntu-20.04 (devel, release & oldrel): OK
 #
+# rhub checks "Finished: SUCCESS"
+#
 # Winbuilder-oldrel and -devel identified "(possibly) invalid URLs"
 # or with "Service Unavailable" 
 # that worked on other platforms and for me locally.   
