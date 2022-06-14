@@ -1,3 +1,13 @@
+# 2022-06-13:
+# Winbuilder-oldrel:  identified two "(possibly) invalid URLs":  
+# https://www.measuringworth.com/ 
+# and 
+# https://www.stat.cmu.edu/~cshalizi/rmarkdown/#math-in-r-markdown
+#** Both work for me.  
+#
+# Also, Winbuilder-devel 
+
+
 ## Test environments
 * local macOS 11.4, R 4.1.0:  OK. 
 * GitHub Actions: Win, macOS, ubuntu-20.04 (release & devel): OK
