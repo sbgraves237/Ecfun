@@ -1,3 +1,6 @@
+2022-07-19
+Ecfun 0.2-7: Change \x.. in `subNonStandardCharacters.Rd` to \u{..}.
+
 2022-06-13
 Ecfun 0.2-6: Update `vignettes/UpdatingUSGDPpresidents.Rmd` to describe adding federal budget variables to Ecdat/USGDPpresidents.  
 
