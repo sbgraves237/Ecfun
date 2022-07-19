@@ -95,7 +95,6 @@ read.transpose(file, header=TRUE, sep=',',
     Since it wasn't easy to update those tabes, 
     the "non-breaking spaces" were replaced 
     with " ".  
-  }
 }
 \author{Spencer Graves}
 \seealso{
