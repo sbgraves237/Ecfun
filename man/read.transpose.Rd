@@ -92,7 +92,7 @@ read.transpose(file, header=TRUE, sep=',',
     contained "a non-breaking space in Latin-1", 
     which was not a valid code in UTF-8 and 
     was rejected by a development version of R.
-    Since it wasn't easy to update those tabes, 
+    Since it wasn't easy to update those tabLes, 
     the "non-breaking spaces" were replaced 
     with " ".  
 }
