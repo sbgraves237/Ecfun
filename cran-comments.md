@@ -1,7 +1,7 @@
 # 2022-07-19
 # Winbuilder R-devel - x86_64-w64-mingw32 (64-bit) reported:  
 NOTE:  Problems with news in 'NEWS.md': No news entries found.
-# Otherwise, checks on multiple platforms as a month ago without problems.   
+# Otherwise, checks on multiple platforms as a month ago, including revdepcheck, without problems 
 
 # 2022-06-13:Ecfun:
 
