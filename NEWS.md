@@ -1,3 +1,6 @@
+# Ecfun 0.3-0 (2022-07-21)
+"cran-comments.html" added to `.Rbuildignore`.  
+
 # Ecfun 0.2-9 (2022-07-21)
 "cran-comments.html" added to `.gitignore`.  
 
