@@ -5,7 +5,6 @@ checking for detritus in the temp directory ... NOTE
 Found the following files/directories:
   'lastMiKTeXException'
   - [This seems to be a known bug in Rhub](https://github.com/r-hub/rhub/issues/503)
-
 * Winbuilder (linux) and Rhub (Fedora and Ubuntu): 
 Found the following (possibly) invalid URLs:
   URL: https://www.measuringworth.com/
@@ -16,7 +15,5 @@ Found the following (possibly) invalid URLs:
     From: inst/doc/nuclearArmageddon.html
     Status: Error
     Message: SSL certificate problem: unable to get local issuer certificate
-
   - NOTE:  Some systems have complained about these URLs for years. They worked fine for me just now, as they have in the past each time I've checked them.  
-
 * Revdepcheck "*Wow, no problems at all. :)*"
