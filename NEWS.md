@@ -1,5 +1,5 @@
 # Ecfun 0.2-8 (2022-07-20)
-Fix 'NEWS.md' 
+Fix `NEWS.md` 
 
 # Ecfun 0.2-7 (2022-07-19)
 * Change \x.. in `subNonStandardCharacters.Rd` to \u{..}.
