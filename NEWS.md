@@ -1,3 +1,6 @@
+# Ecfun 0.2-9 (2022-07-21)
+"cran-comments.html" added to `.gitignore`.  
+
 # Ecfun 0.2-8 (2022-07-20)
 Fix `NEWS.md` 
 
