@@ -17,6 +17,6 @@ Found the following (possibly) invalid URLs:
     Status: Error
     Message: SSL certificate problem: unable to get local issuer certificate
 
-  - NOTE:  Some systems have complained about these URLs for years.  They worked fine for me just now, as they have in the past each time I've checked them.  
+  - NOTE:  Some systems have complained about these URLs for years. They worked fine for me just now, as they have in the past each time I've checked them.  
 
 * Revdepcheck "*Wow, no problems at all. :)*"
