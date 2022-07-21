@@ -5,3 +5,4 @@ revdep
 ^CRAN-RELEASE$
 ^\.github$
 ^CRAN-SUBMISSION$
+cran-comments.html
