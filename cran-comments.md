@@ -1,3 +1,8 @@
+# Ecfun 0.2-9 (2022-07-21)
+* Winbuilder (R-devel on x86_64-pc-linux-gnu) reported valid URLs as invalid, as documented for 0.2-8.  
+* I apologize for not having put `cran-comments.html` in `.gitignore` until now.  
+* The easiest thing for me now is `devtools::release()`.  I hope that's equivalent to resubmitting "a fixed version via the webform."
+
 # Ecfun 0.2-8 (2022-07-20)
 * No errors, warnings or Notes on 5 platforms on GitHub Action (Windows, macOS, and Ubuntu with R 4.2.1 plus Ubuntu with R-devel and R-old) and Winbuilder (mingw but not linux)
 * Rhub (Windows Server 2022, R-devel, 64 bit) reported:  
