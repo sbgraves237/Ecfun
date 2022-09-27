@@ -230,7 +230,7 @@ xMSdate <- as.Date(1,
       xMSdate=2:3, junk=c('this is',
           'junk')))
             
-# This converts the last 3 columns to NAs and drops them:   
+# This converts the last 3 columns to NAs and drops them:
 
 str(nF1.1 <- asNumericChar(fakeF1$yr))
 str(nF1.2 <- asNumericChar(fakeF1$q1))
@@ -271,11 +271,11 @@ all.equal(nF1, nF1.)
 all.equal(nF1., nF1c)
 \dontshow{)}
 
-nF3c <- data.frame(yr=1948:1947, 
+(nF3c <- data.frame(yr=1948:1947, 
       q1=c(1234, NA), dol=c(1234, NA), 
       pct=c(.01, .02), xDate=xDate, 
       xPOSIX=xPOSIX, xMSdate=xMSdate, 
-      junk=fakeF1$junk)
+      junk=fakeF1$junk))
 \dontshow{stopifnot(}
 all.equal(nF3, nF3c)
 \dontshow{)}
