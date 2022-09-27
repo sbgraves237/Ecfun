@@ -235,6 +235,14 @@ xMSdate <- as.Date(1,
 str(nF1.1 <- asNumericChar(fakeF1$yr))
 str(nF1.2 <- asNumericChar(fakeF1$q1))
 str(nF1.3 <- asNumericChar(fakeF1$duh))
+(nF1.4 <- asNumericChar('1969-12-31 18:00:01',
+                        class.='POSIXct'))
+(nF1.4a <- asNumericChar('1969-12-31 18:00:01',
+            class.='POSIXct', 
+            format.='\%Y-\%m-\%d \%H:\%M:\%S'))
+(nF1.4b <- asNumericChar('1969-12-31 18:00:01',
+            class.='POSIXct', 
+            format.='\%Y-\%m-\%d \%H:\%M:\%OS'))
 
 (nF1 <- asNumericDF(fakeF1))
 (nF2 <- asNumericDF(fakeF1, Dates=6, 
