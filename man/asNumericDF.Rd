@@ -251,7 +251,7 @@ str(nF1.3 <- asNumericChar(fakeF1$duh))
     format.='\%m-\%d-\%Y'))
 (nF3 <- asNumericDF(nF2, POSIX='xPOSIX', 
     ignore=c(5,7:8), 
-    format.='\%m-\%d-\%Y \%H:\%M:\%OS'))
+    format.='\%Y-\%m-\%d \%H:\%M:\%OS'))
             
 # check 
 nF1. <- data.frame(yr=
