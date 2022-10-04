@@ -224,9 +224,9 @@ xMSdate <- as.Date(1,
       dol=c('$1,234', ''), 
       pct=c('1\%', '2\%'), 
       xDate=as.character(xDate, 
-        format='\%m-\%d-\%Y'), 
+        format='\%Y-\%m-\%d'), 
       xPOSIX=as.character(xPOSIX, 
-        format='\%m-\%d-\%Y \%H:\%M:\%S'), 
+        format='\%Y-\%m-\%d \%H:\%M:\%S'), 
       xMSdate=2:3, junk=c('this is',
           'junk')))
             
@@ -237,22 +237,12 @@ str(nF1.2 <- asNumericChar(fakeF1$q1))
 str(nF1.3 <- asNumericChar(fakeF1$duh))
 (nF1.4 <- asNumericChar('1969-12-31 18:00:01',
                         class.='POSIXct'))
-(nF1.4a <- asNumericChar('1969-12-31 18:00:01',
-            class.='POSIXct', 
-            format.='\%Y-\%m-\%d \%H:\%M:\%S'))
-(nF1.4b <- asNumericChar('1969-12-31 18:00:01',
-            class.='POSIXct', 
-            format.='\%Y-\%m-\%d \%H:\%M:\%OS'))
 
 (nF1 <- asNumericDF(fakeF1))
 (nF2 <- asNumericDF(fakeF1, Dates=6, 
     MSdate='xMSdate', 
     ignore=c('junk', 'xPOSIX'), 
-    format.='\%m-\%d-\%Y'))
-(nF3 <- asNumericDF(nF2, POSIX='xPOSIX', 
-    ignore=c(5,7:8), 
-    format.='\%m-\%d-\%Y \%H:\%M:\%OS'))
-            
+    format.='\%Y-\%m-\%d'))
 # check 
 nF1. <- data.frame(yr=
         asNumericChar(fakeF1$yr),
@@ -269,15 +259,6 @@ all.equal(nF1, nF1.)
 \dontshow{)}
 \dontshow{stopifnot(}
 all.equal(nF1., nF1c)
-\dontshow{)}
-
-(nF3c <- data.frame(yr=1948:1947, 
-      q1=c(1234, NA), dol=c(1234, NA), 
-      pct=c(.01, .02), xDate=xDate, 
-      xPOSIX=xPOSIX, xMSdate=xMSdate, 
-      junk=fakeF1$junk))
-\dontshow{stopifnot(}
-all.equal(nF3, nF3c)
 \dontshow{)}
 
 ## 
