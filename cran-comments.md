@@ -1,7 +1,8 @@
 # Ecfun 0.3-1 (2022-10-04)
-* Fixed error with R-devel.  
-* R-oldrelease reported SSL certificate problems with 2 URLs that work for me when checked manually.  
-* Everything else seems OK.  
+## R CMD check results
+* There were no ERRORs or WARNINGs. 
+* R-oldrelease :Found ... (possibly) invalid URLs" that worked when checked manually and were not detected by checks on other platforms
+* GitHub Action checked the current version on macOS, Windows and Ubuntu 20.04 plus R-devel and oldrel-1 on Ubuntu.  I also checked devtools::check_win_devel, check_win_release, and check_win_oldrelease.  
 
 # Ecfun 0.3-0 (2022-07-21)
 * I apologize for not having put `cran-comments.html` in `.Rbuildignore` until now.  
