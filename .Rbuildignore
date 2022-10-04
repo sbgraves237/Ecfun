@@ -6,4 +6,4 @@ revdep
 ^\.github$
 ^CRAN-SUBMISSION$
 cran-comments.html
-Ecrun_release_to_CRAN.R
+Ecfun_release_to_CRAN.R
