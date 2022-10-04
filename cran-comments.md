@@ -1,3 +1,7 @@
+# Ecfun 0.3-1 (2022-10-04)
+* Fixed error with R-devel.  
+* Everything else seems OK.  
+
 # Ecfun 0.3-0 (2022-07-21)
 * I apologize for not having put `cran-comments.html` in `.Rbuildignore` until now.  
 * Winbuilder (R-devel on x86_64-pc-linux-gnu) will report valid URLs as invalid, as documented for 0.2-8 and previously.   
