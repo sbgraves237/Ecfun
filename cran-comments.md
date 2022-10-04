@@ -1,5 +1,6 @@
 # Ecfun 0.3-1 (2022-10-04)
 * Fixed error with R-devel.  
+* R-oldrelease reported SSL certificate problems with 2 URLs that work for me when checked manually.  
 * Everything else seems OK.  
 
 # Ecfun 0.3-0 (2022-07-21)
