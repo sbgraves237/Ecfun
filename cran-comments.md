@@ -1,5 +1,12 @@
 # Ecfun 0.3-2 (2022-10-06)
-## R CMD check results
+# R-hub says: 
+checking for detritus in the temp directory ... NOTE
+Found the following files/directories:
+  'lastMiKTeXException'
+  
+I'm ignoring this per:  
+https://stackoverflow.com/questions/62456137/r-cran-check-detritus-in-temp-directory  
+
 
 
 # Ecfun 0.3-1 (2022-10-04)
