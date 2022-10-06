@@ -289,7 +289,7 @@ if(is.null(attr(xPOSIX, 'tzone')))
 # that will get a consistent answer with 
 # different version R-devel with differences
 # less than an hour
-if(abs(dP)>3600){
+if(max(abs(dP))>3600){
   stop('Discrepancy betw fn and manual comp ', 
        'too large.')
 }}
