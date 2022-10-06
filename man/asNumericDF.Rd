@@ -214,7 +214,7 @@ for \code{asNumericDF}:
 ##
 ## 1.  an example 
 ##
-xDate <- as.Date('1970-01-01')+c(0, 365)
+(xDate <- as.Date('1970-01-01')+c(0, 365))
 (xPOSIX <- as.POSIXct(xDate)+c(1, 99))
 xMSdate <- as.Date(1, 
     as.Date('1899-12-31'))+1:2
@@ -273,8 +273,11 @@ all.equal(nF1., nF1c)
 ##
 ## 3.  as.POSIXct default example 
 ##
+xPOSIX
 (xPOSIXch <- as.character(xPOSIX))
 (xP <- asNumericChar(xPOSIXch, class.='POSIXct'))
+attr(xPOSIX, 'tzone')
+attr(xP, 'tzone')
 \dontshow{stopifnot(}
 all.equal(xPOSIX, xP)
 \dontshow{)}
