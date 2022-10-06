@@ -271,16 +271,16 @@ all.equal(nF1., nF1c)
 \dontshow{)}
 
 ##
-## 4.  as.POSIXct default example 
+## 3.  as.POSIXct default example 
 ##
-xP <- asNumericChar(as.character(xPOSIX),
-                    class.='POSIXct')
+(xP <- asNumericChar(as.character(xPOSIX),
+                    class.='POSIXct'))
 \dontshow{stopifnot(}
 all.equal(xPOSIX, xP)
 \dontshow{)}
 
 ##
-## 5.  orderBy=1:2
+## 4.  orderBy=1:2
 ##
 nF. <- asNumericDF(fakeF1, orderBy=1:2)
 
@@ -289,7 +289,7 @@ all.equal(nF., nF1c[2:1,])
 \dontshow{)}
 
 ##
-## 6.  Will it work for a tibble?  
+## 5.  Will it work for a tibble?  
 ##
 if(require(tibble)){
   nF1t <- asNumericDF(as_tibble(fakeF1))
