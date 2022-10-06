@@ -278,6 +278,9 @@ xPOSIX
 (xP <- asNumericChar(xPOSIXch, class.='POSIXct'))
 attr(xPOSIX, 'tzone')
 attr(xP, 'tzone')
+# R-Devel after 4.2.1 breaks earlier code; fix
+if(is.null(attr(xPOSIX, 'tzone')))
+    attr(xPOSIX, 'tzone') <- attr(xP, 'tzone')
 \dontshow{stopifnot(}
 all.equal(xPOSIX, xP)
 \dontshow{)}
