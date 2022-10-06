@@ -273,8 +273,8 @@ all.equal(nF1., nF1c)
 ##
 ## 3.  as.POSIXct default example 
 ##
-(xP <- asNumericChar(as.character(xPOSIX),
-                    class.='POSIXct'))
+(xPOSIXch <- as.character(xPOSIX))
+(xP <- asNumericChar(xPOSIXch, class.='POSIXct'))
 \dontshow{stopifnot(}
 all.equal(xPOSIX, xP)
 \dontshow{)}
