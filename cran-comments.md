@@ -1,3 +1,7 @@
+# Ecfun 0.3-2 (2022-10-06)
+## R CMD check results
+
+
 # Ecfun 0.3-1 (2022-10-04)
 ## R CMD check results
 * There were no ERRORs or WARNINGs. 
