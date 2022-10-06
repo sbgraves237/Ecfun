@@ -281,6 +281,7 @@ attr(xP, 'tzone')
 # R-Devel after 4.2.1 breaks earlier code; fix
 if(is.null(attr(xPOSIX, 'tzone')))
     attr(xPOSIX, 'tzone') <- attr(xP, 'tzone')
+(dP <- xPOSIX-xP)
 \dontshow{stopifnot(}
 {
 #all.equal(xPOSIX, xP)
@@ -288,7 +289,6 @@ if(is.null(attr(xPOSIX, 'tzone')))
 # that will get a consistent answer with 
 # different version R-devel with differences
 # less than an hour
-(dP <- xPOSIX-xP)
 if(abs(dP)>3600){
   stop('Discrepancy betw fn and manual comp ', 
        'too large.')
