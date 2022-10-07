@@ -1,14 +1,17 @@
 # Ecfun 0.3-2 (2022-10-06)
+* No ERRORs nor WARNINGs nor NOTEs apart from platform malfunctions:  
+
 # R-hub says: 
 checking for detritus in the temp directory ... NOTE
 Found the following files/directories:
   'lastMiKTeXException'
-  
+
 I'm ignoring this per:  
 https://stackoverflow.com/questions/62456137/r-cran-check-detritus-in-temp-directory  
-
-
-
+  
+# GitHub Action for R-release on Windows, which could not find a secondary dependency (curl) found by all other platforms.  
+  
+  
 # Ecfun 0.3-1 (2022-10-04)
 ## R CMD check results
 * There were no ERRORs or WARNINGs. 
