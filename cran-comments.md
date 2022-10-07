@@ -11,6 +11,7 @@ https://stackoverflow.com/questions/62456137/r-cran-check-detritus-in-temp-direc
   
 # GitHub Action for R-release on Windows, which could not find a secondary dependency (curl) found by all other platforms.  
   
+# win_oldrelease complained of "(possibly) invalid URLs" that work otherwise.    
   
 # Ecfun 0.3-1 (2022-10-04)
 ## R CMD check results
