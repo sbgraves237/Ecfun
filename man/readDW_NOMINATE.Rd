@@ -4,7 +4,7 @@
   Read the DW-NOMINATE data from their website. 
 }
 \description{
-  Read href{"https://voteview.com/static/data/out/members/HSall_members.csv"}{the DW-NOMINATE data} 
+  Read href{https://voteview.com/static/data/out/members/HSall_members.csv}{the DW-NOMINATE data} 
   from their website using \code{\link[readr]{read_csv}}, 
   adding a \code{Year} = \code{2*congress+1787}, which is the 
   first year of each 2-year congress. 
