@@ -36,7 +36,7 @@ by \href{https://polisci.ucla.edu/person/jeffrey-b-lewis/}{UCLA political scienc
 in the \href{https://github.com/voteview}{voteview} project on `GitHub`. 
 }
 \value{
-  a \code{\link{tibble}} with columns 
+  a \code{\link[tibble]{tibble}} with columns 
   \item{congress}{
     \code{number} of the Congress starting with 1 in 1789.
   }
@@ -114,8 +114,9 @@ in the \href{https://github.com/voteview}{voteview} project on `GitHub`.
   \code{\link[readr]{read_csv}}
 }
 \examples{
-# Wrap in try so it won't throw an error 
+# Wrap in try(...) so it won't throw an error 
 # if the Voteview website is not available. 
+
 Nominate <- try(readDW_NOMINATE())
 }
 \keyword{IO}
