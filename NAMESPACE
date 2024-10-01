@@ -27,6 +27,7 @@ export(.onAttach,
        rasterImageAdj, 
        read.transpose, readCookPVI, readCookPVI., 
        readDates3to1, readNIPA, 
+       readDW_NOMINATE, 
        readUShouse, readUSsenate, readUSstateAbbreviations, 
        recode2, rgrep, rtruncdist, 
        sign, 
@@ -43,6 +44,7 @@ importFrom("graphics", "arrows", "legend", "lines",
     "par", "plot", "points", "rasterImage", "text", 
     "xyinch")
 importFrom("methods", "as", "is")
+importFrom('readr', 'read_csv')
 importFrom("stats", "median", "qqnorm", "runif", "sd", 
     "cov2cor", "model.matrix", "glm.fit", "vcov", 
     "coef", "simulate")
