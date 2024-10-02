@@ -53,7 +53,9 @@ in the \href{https://github.com/voteview}{voteview} project on `GitHub`.
     \code{number} between 0 and 99 indicating the district number 
     within the state. This is 0 when (chamber \%in\% 
     c('President', 'Senate') and occasionally when (chamber
-    == 'House'). 
+    == 'House'). "At-large" members of the US House are coded
+    98 or 99. There were some before 1970. However, as of 
+    2024-10-01, but there have been none since 1970. 
   }
   \item{state_abbrev}{
     Either 'USA' or a 2-letter abbreviation for ths state in the US. 
@@ -83,7 +85,8 @@ in the \href{https://github.com/voteview}{voteview} project on `GitHub`.
     \code{numeric} 4-digit birth year or `NA`
   }
   \item{nominate_dim1, nominate_dim2}{
-    \code{numeric} between -1 or 1 or `NA`
+    \code{numeric} between -1 or 1 or `NA` described
+    in Poole (2005). 
   }
   \item{nominate_log_likelihood}{
     \code{numeric} negative number or `NA`
@@ -99,15 +102,23 @@ in the \href{https://github.com/voteview}{voteview} project on `GitHub`.
   }
   \item{conditional}{ \code{logical} or `NA`}
   \item{nokken_poole_dim1, nokken_poole_dim2}{
-    \code{numeric} between -1 or 1 or `NA`
+    \code{numeric} between -1 or 1 or `NA` 
+    described by Nokken and Poole (2004). 
   }
   \item{Year}{
-    \code{numeric} First year of each 2-year 
-    \code{congress} = 2*congress+1787
+    \code{numeric} First year of each 2-year computed 
+    from \code{congress} as (2*congress+1787).
   }
 }
 \references{
 \href{https://legacy.voteview.com}{Voteview.com website}. 
+
+Timothy P. Nokken and Keith T. Poole (2004) 
+"Congressional Party Defection in American History." 
+Legislative Studies Quarterly, 29:545-568,. 
+
+Keith T. Poole (2005) Spatial models of parliamentary voting 
+(Cambridge U. Pr.). 
 }
 \author{Spencer Graves}
 \seealso{
