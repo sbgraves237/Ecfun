@@ -55,7 +55,6 @@ importFrom("mvtnorm", "rmvnorm")
 importFrom("BMA", "bic.glm")
 importFrom("rworldmap", "countrySynonyms")
 
-import(rworldmap)
 import(MASS)
 import(fda)
 import(rvest)
