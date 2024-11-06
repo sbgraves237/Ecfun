@@ -28,7 +28,7 @@ findCountry(string, referenceTable =
     \code{\link{data.frame}} with the second column
     containing reference codes to be returned if found. 
     \code{referencTable[-(1:2)]} are forced 
-    \code{\link{toupper} then presented in sequence
+    \code{\link{toupper}} then presented in sequence
     in \code{\link{grep}} until a match for 
     \code{pattern = toupper(string[i])} is found. 
   }
@@ -36,9 +36,9 @@ findCountry(string, referenceTable =
 \details{
   1. Force \code{string} and 
   \code{rworldmap::countrySynonyms[, 3:10]}
-  \code{\ref{toupper}}. 
+  \code{\link{toupper}}. 
   
-  2. \code{\ref{grep}} for \code{string[i]} in 
+  2. \code{\link{grep}} for \code{string[i]} in 
   \code{rworldmap::countrySynonyms[, 3:10]} and
   return the element of 
   \code{rworldmap::countrySynonyms$ISO3}
