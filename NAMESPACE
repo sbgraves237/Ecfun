@@ -53,7 +53,6 @@ importFrom("utils", "de", "head", "read.csv", "tail")
 importFrom("xml2", 'as_list', 'read_xml')
 importFrom("mvtnorm", "rmvnorm")
 importFrom("BMA", "bic.glm")
-importFrom("rworldmap", "countrySynonyms")
 
 import(MASS)
 import(fda)
