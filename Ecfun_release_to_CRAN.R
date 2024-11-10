@@ -23,17 +23,26 @@ devtools::check_win_release()
 devtools::check_win_oldrelease()
 
 #devtools::check_rhub(Pkg)
-devtools::check_rhub()
+#devtools::check_rhub()
 
+#rhub::rhub_setup()
+#gitcreds::gitcreds_set()
+
+(gc <- gitcreds::gitcreds_get())
+
+rhub::rhub_doctor()
+rhub::rhub_check()
 
 #20.3.3.  Reverse dependencies
 
 # install.packages("revdepcheck")
 #devtools::install_github('r-lib/revdepcheck')
 
-revdepcheck::revdep_reset(Pkg)
+#revdepcheck::revdep_reset(Pkg)
+revdepcheck::revdep_reset()
 
-revdepcheck::revdep_check(Pkg, num_workers = 4)
+#revdepcheck::revdep_check(Pkg, num_workers = 4)
+revdepcheck::revdep_check(num_workers = 4)
 
 #20.4.  Update README.md and NEWS.md 
 
