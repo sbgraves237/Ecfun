@@ -2,6 +2,10 @@ Package: Ecfun
 Version: 0.3-5
 Date: 2024-11-07
 Title: Functions for 'Ecdat'
+Authors@R: person(given = "Spencer",
+                  family = "Graves",
+                  role = c("aut", "cre"),
+                  email = "spencer.graves@effectivedefense.org")
 Author: Spencer Graves <spencer.graves@effectivedefense.org>
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.5.0)
