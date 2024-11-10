@@ -262,7 +262,7 @@
   same length as \code{y} with the following 
   optional attributes:  
   
-  \itemize{
+#  \itemize{
     \item{\code{lambda}}{
       the value of \code{lambda} 
       used in the transformation
@@ -291,7 +291,7 @@
       exp(mean(log(abs(y)))) or of 
       abs(y+lambda[2]) if(length(lambda)>1)}.  
     }
-  } 
+#  } 
   
   \code{invBoxCox} returns a numeric vector,
   reconstructing \code{y} from 

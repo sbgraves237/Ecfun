@@ -40,7 +40,6 @@ usethis::create_github_token()
 # Note: Ecfun 
 # accept defaults for all the options including: 
 # Default expiration: 30 days 
-# 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 
 
 gitcreds::gitcreds_set()
 #-> What would you like to do? 
