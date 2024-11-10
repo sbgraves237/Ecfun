@@ -49,9 +49,11 @@ revdepcheck::revdep_check(num_workers = 4)
 #20.5.  Submit to CRAN
 
 library(devtools)
-spell_check(Pkg)
+#spell_check(Pkg)
+spell_check()
 
-release(Pkg)
+#release(Pkg)
+release()
 
 #20.6.  Update the version number for the future 
 #20.7.  Publicise
