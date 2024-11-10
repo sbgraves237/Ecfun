@@ -33,7 +33,7 @@ readDW_NOMINATE(file=
 \source{
 Embedded in an \href{https://github.com/voteview/articles/blob/master/docs/party_polarization/party_polarization.Rmd}{R Markdown vignette} 
 by \href{https://polisci.ucla.edu/person/jeffrey-b-lewis/}{UCLA political science professor Jeff Lewis} 
-in the \href{https://github.com/voteview}{voteview} project on `GitHub`. 
+in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`. 
 }
 \value{
   a \code{\link[tibble]{tibble}} with columns 
@@ -111,7 +111,7 @@ in the \href{https://github.com/voteview}{voteview} project on `GitHub`.
   }
 }
 \references{
-\href{https://legacy.voteview.com}{Voteview.com website}. 
+\href{https://legacy.voteview.com}{\code{Voteview.com} website}. 
 
 Timothy P. Nokken and Keith T. Poole (2004) 
 "Congressional Party Defection in American History." 
