@@ -58,7 +58,7 @@ in the \href{https://github.com/voteview}{voteview} project on `GitHub`.
     2024-10-01, but there have been none since 1970. 
   }
   \item{state_abbrev}{
-    Either 'USA' or a 2-letter abbreviation for ths state in the US. 
+    Either 'USA' or a 2-letter abbreviation for this state in the US. 
   }
   \item{party_code}{
     positive \code{numeric}. As of 2024-09-30, over 80 percent 
