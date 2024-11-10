@@ -10,15 +10,21 @@
 # devtools::check_win_*()
 dir()
 
-PkgName <- "Ecfun"
-PkgRegExpr <- paste0('^', PkgName, '$')
-(Pkg <- dir(pattern=PkgRegExpr))
+#PkgName <- "Ecfun"
+#PkgRegExpr <- paste0('^', PkgName, '$')
+#(Pkg <- dir(pattern=PkgRegExpr))
 
-devtools::check_win_devel(Pkg)
-devtools::check_win_release(Pkg)
-devtools::check_win_oldrelease(Pkg)
+#devtools::check_win_devel(Pkg)
+#devtools::check_win_release(Pkg)
+#devtools::check_win_oldrelease(Pkg)
 
-devtools::check_rhub(Pkg)
+devtools::check_win_devel()
+devtools::check_win_release()
+devtools::check_win_oldrelease()
+
+#devtools::check_rhub(Pkg)
+devtools::check_rhub()
+
 
 #20.3.3.  Reverse dependencies
 
