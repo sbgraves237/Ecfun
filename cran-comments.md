@@ -1,3 +1,9 @@
+# Ecfun 0.3-5 (2024-11-10) 
+* "Status: 403 ... Forbidden" reported for two URLs that work for me: 
+ https://bioguide.congress.gov/ and https://www.bls.gov/cps/
+ These are a Biographical Directory of the US Congress and 
+ Current Population Survey (CPS). 
+
 # Ecfun 0.3-2 (2022-10-06)
 * No ERRORs nor WARNINGs nor NOTEs apart from platform malfunctions:  
 
