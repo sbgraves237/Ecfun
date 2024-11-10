@@ -28,10 +28,38 @@ devtools::check_win_oldrelease()
 #rhub::rhub_setup()
 #gitcreds::gitcreds_set()
 
-(gc <- gitcreds::gitcreds_get())
+#(gc <- gitcreds::gitcreds_get())
+
+# https://happygitwithr.com/https-pat
+usethis::create_github_token()
+# Look over the scopes; I highly recommend 
+# selecting “repo”, “user”, and “workflow”. 
+# Recommended scopes will be pre-selected 
+# if you used create_github_token().
+
+# Note: Ecfun 
+# accept defaults for all the options including: 
+# Default expiration: 30 days 
+# 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 
+
+gitcreds::gitcreds_set()
+#-> What would you like to do? 
+# 1: Abort update with error, and keep the existing credentials
+# 2: Replace these credentials
+# 3: See the password / token
+
+# Selection: 2
+# ? Enter new password or token:
+# Then copy the token and paste it in response to this prompt. 
 
 rhub::rhub_doctor()
 rhub::rhub_check()
+# 2024-11-10: This produced a list of 26 different platforms
+# with no obvious indication of a recommended default other 
+# than 0 or 1:26. I chose the former. 
+
+# rhub::check_for_cran() 
+# This function is deprecated and defunct since rhub v2.
 
 #20.3.3.  Reverse dependencies
 
