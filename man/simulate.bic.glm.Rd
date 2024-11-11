@@ -18,7 +18,7 @@
   in the same two fundamental and important ways 
   as the \code{simulate.glm} function:  
 
-  \enumerate{
+  \describe{
     \item{
       \code{stats::\link[stats]{simulate}}
       returns simulated data consistent with the 
