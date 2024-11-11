@@ -2,11 +2,11 @@ Package: Ecfun
 Version: 0.3-5
 Date: 2024-11-11
 Title: Functions for 'Ecdat'
-Authors@R: person(given = "Spencer",
+Authors@R: c(person(given = "Spencer",
                   family = "Graves",
                   role = c("aut", "cre"),
-                  email = "spencer.graves@effectivedefense.org")
-Author: Spencer Graves <spencer.graves@effectivedefense.org>
+                  email = "spencer.graves@effectivedefense.org"))
+Author: Spencer Graves [aut, cre]
 Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 Depends: R (>= 3.5.0)
 Suggests: car, DescTools, Ecdat, maps, grid, gridBase, 
