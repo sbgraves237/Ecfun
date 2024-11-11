@@ -1,3 +1,4 @@
+.renviron
 Ecfun.Rproj
 ^.*\.Rproj$
 ^\.Rproj\.user$
@@ -7,4 +8,4 @@ revdep
 ^\.github$
 ^CRAN-SUBMISSION$
 cran-comments.html
-Ecfun_release_to_CRAN.R
+Ecfun_release_to_CRAN_process.R
