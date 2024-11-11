@@ -19,7 +19,7 @@
   as the \code{simulate.glm} function:  
 
   \enumerate{
-    \item{
+    \item
       \code{stats::\link[stats]{simulate}}
       returns simulated data consistent with the 
       model fit assuming the estimated model 
@@ -37,8 +37,7 @@
       or \code{response} but currently \emph{NOT} 
       pseudo-random numbers on the scale of the 
       response.  
-    }
-    \item{ 
+    \item
       The \code{simulate.bic.glm} function 
       documented here also accepts an optional 
       \code{newdata} argument, not accepted by 
@@ -48,7 +47,6 @@
       the cases in the training set with no 
       possibilities for use for different sets 
       of conditions.  
-    }
   }  
 }
 \usage{
