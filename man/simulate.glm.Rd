@@ -16,7 +16,7 @@
   It differs from the current \code{simulate.glm}
   function in two fundamental and important ways:  
 
-%  \describe{
+  \enumerate{
     \item{
       \code{stats::\link[stats]{simulate}}
       returns simulated data consistent with the 
@@ -47,7 +47,7 @@
       possibilities for use for different sets 
       of conditions.  
     }
-%  }  
+  }  
 }
 \usage{
 \method{simulate}{glm}(object, nsim = 1, 
