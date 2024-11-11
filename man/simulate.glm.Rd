@@ -16,7 +16,7 @@
   It differs from the current \code{simulate.glm}
   function in two fundamental and important ways:  
 
-  \enumerate{
+  \describe{
     \item{
       \code{stats::\link[stats]{simulate}}
       returns simulated data consistent with the 
