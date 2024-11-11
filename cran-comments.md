@@ -1,8 +1,21 @@
-# Ecfun 0.3-5 (2024-11-10) 
+# Ecfun 0.3-5 (2024-11-11) 
 * "Status: 403 ... Forbidden" reported for two URLs that work for me: 
  https://bioguide.congress.gov/ and https://www.bls.gov/cps/
  These are a Biographical Directory of the US Congress and 
  Current Population Survey (CPS). 
+* devtools::check_win_devel and *release complained 
+  "CRAN-pack does not know about .renviron". 
+  ".renviron" was in my .Rbuildignore. 
+  It similarly complained, 
+  "Non-standard file/directory found at top level:
+  'Ecfun_release_to_CRAN_process.R'". 
+  Why do check_win* even check those things? 
+* check_win* also complained of  
+  "Lost braces in \itemize; meant \describe ?" in
+  simulate.bic.glm.Rd and simulate.glm.Rd. 
+  They seem to work as designed in GitHub Action 
+  on 5 platforms. If I need to do something different, 
+  I could use help understanding what. 
 
 # Ecfun 0.3-2 (2022-10-06)
 * No ERRORs nor WARNINGs nor NOTEs apart from platform malfunctions:  
