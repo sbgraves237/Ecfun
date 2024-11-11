@@ -18,7 +18,7 @@
   in the same two fundamental and important ways 
   as the \code{simulate.glm} function:  
 
-%  \describe{
+  \enumerate{
     \item{
       \code{stats::\link[stats]{simulate}}
       returns simulated data consistent with the 
@@ -49,7 +49,7 @@
       possibilities for use for different sets 
       of conditions.  
     }
-%  }  
+  }  
 }
 \usage{
 \method{simulate}{bic.glm}(object, nsim = 1, 
