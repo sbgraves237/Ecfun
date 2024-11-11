@@ -17,12 +17,32 @@ devtools::check_win_devel()
 devtools::check_win_release()
 devtools::check_win_oldrelease()
 
-devtools::check_rhub()
+#devtools::check_rhub()
+#This function is deprecated and defunct since rhub v2.
+#Please see `?rhubv2` on transitioning to the new rhub functions.
 
-rhub::rhub_setup()
+#rhub::rhub_setup()
+#Setting up R-hub v2.
+#✔ Found R package at /Users/sg/Documents/current/R/Ecfun/Ecfun.
+#✔ Found git repository at /Users/sg/Documents/current/R/Ecfun/Ecfun.
+#✔ Workflow file /Users/sg/Documents/current/R/Ecfun/Ecfun/.github/workflows/rhub.yaml
+#already exists and it is current.
 
-rhub::rhub_doctor()
-rhub::rhub_check()
+#Notes:
+#  • The workflow file must be added to the default branch of the GitHub repository.
+#• GitHub actions must be enabled for the repository. They are disabled for forked
+#repositories by default.
+
+#Next steps:
+#  • Add the workflow file to git using `git add <filename>`.
+#• Commit it to git using `git commit` (if not committed already).
+#• Push the commit to GitHub using `git push` (if not pushed already).
+#• Call rhub::rhub_doctor() to check that you have set up R-hub correctly.
+#• Call rhub::rhub_check() to check your package.
+
+#rhub::rhub_doctor()
+# ... WOOT! You are ready to run rhub::rhub_check() on this package.
+#rhub::rhub_check()
 # 2024-11-10: This produced a list of 26 different platforms
 # with no obvious indication of a recommended default other 
 # than 0 or 1:26. I chose the former. 
