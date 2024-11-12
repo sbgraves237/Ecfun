@@ -74,12 +74,11 @@
   \item{type}{
     the type of simulations required. 
     \itemize{
-      \item{coef}{
+      \item \code{coef}: 
         Simulated coefficents using 
         \code{mvtnorm::\link[mvtnorm]{rmvnorm}(nsim,
         coef(object), vcov(object))}.  
-      }
-      \item{link}{
+      \item \code{link}: 
         The default \code{type}='link' is on the 
         scale of the linear predictors using 
         \code{\link[mvtnorm]{rmvnorm}} applied  
@@ -90,12 +89,10 @@
         For a default binomial model, these are 
         of log-odds (probabilities on logit 
         scale).
-      }
-      \item{response}{
+      \item \code{response}: 
         \code{object[['linkinv']]} of \code{
         type = 'link'}.  For a binomial model, 
         these are predicted probabilities.  
-      }
     }
   }
   \item{...}{
