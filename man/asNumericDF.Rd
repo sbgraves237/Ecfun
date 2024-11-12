@@ -224,7 +224,7 @@ xMSdate <- as.Date(1,
       dol=c('$1,234', ''), 
       pct=c('1\%', '2\%'), 
       xDate=format(xDate, '\%Y-\%m-\%d'), 
-      xPOSIX=formatxPOSIX, '\%Y-\%m-\%d \%H:\%M:\%S'), 
+      xPOSIX=format(xPOSIX, '\%Y-\%m-\%d \%H:\%M:\%S'), 
       xMSdate=2:3, junk=c('this is',
           'junk')))
             
