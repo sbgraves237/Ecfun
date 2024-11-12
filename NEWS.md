@@ -1,4 +1,4 @@
-# Ecfun 0.3-5 (2024-11-09)
+# Ecfun 0.3-6 (2024-11-09)
 
 * Added functions readDW_NOMINATE and findCountry 
 
