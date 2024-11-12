@@ -56,6 +56,9 @@ revdepcheck::revdep_reset()
 
 revdepcheck::revdep_check(num_workers = 4)
 
+# local on parent to 
+# R CMD build Ecfun 
+
 #20.4.  Update README.md and NEWS.md 
 
 #20.5.  Submit to CRAN
