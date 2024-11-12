@@ -1,5 +1,5 @@
 Package: Ecfun
-Version: 0.3-5
+Version: 0.3-6
 Date: 2024-11-11
 Title: Functions for 'Ecdat'
 Authors@R: c(person(given = "Spencer",
