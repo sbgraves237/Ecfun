@@ -1,3 +1,6 @@
+# Ecfun 0.3-6 (2024-11-12)
+* "brew install tidy-html5" eliminated 501 HTML validation problems. 
+
 # Ecfun 0.3-5 (2024-11-11) 
 * "Status: 403 ... Forbidden" reported for two URLs that work for me: 
  https://bioguide.congress.gov/ and https://www.bls.gov/cps/
