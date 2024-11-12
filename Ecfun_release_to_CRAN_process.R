@@ -56,8 +56,9 @@ revdepcheck::revdep_reset()
 
 revdepcheck::revdep_check(num_workers = 4)
 
-# local on parent to 
+# local on parent to package: 
 # R CMD build Ecfun 
+# R CMD check --as-cran Ecfun_*.tar.gaz
 
 #20.4.  Update README.md and NEWS.md 
 
