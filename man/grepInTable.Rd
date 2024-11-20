@@ -11,7 +11,7 @@
   followed by the value of \code{string} for that case.
   
   By default, \code{referenceTable} = 
-  \code{\link[rworldmap]{countrySynonyms]][, -1]. 
+  \code{\link[rworldmap]{countrySynonyms}}[, -1]. 
   
   NOTE: This code will be offered to the maintainer of the 
   \code{rworldmap} package. If they like it, it may not stay 
