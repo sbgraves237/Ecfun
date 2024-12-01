@@ -1,11 +1,11 @@
-.renviron
-Ecfun.Rproj
+^.renviron$
+^Ecfun.Rproj$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-cran-comments.md
-revdep
+^cran-comments.md$
+^revdep$
 ^CRAN-RELEASE$
 ^\.github$
 ^CRAN-SUBMISSION$
-cran-comments.html
-Ecfun_release_to_CRAN_process.R
+^cran-comments.html$
+^Ecfun_release_to_CRAN_process.R$
