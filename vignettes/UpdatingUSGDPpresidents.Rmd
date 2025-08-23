@@ -420,16 +420,18 @@ if(Update){
 Let's plot these budget numbers before proceeding. 
 
 ```{r plotBudget}
-Xlim <- c(1790, max(USGDPp2$Year, na.rm=TRUE))
-plot(fedReceipts ~Year, USGDPp2, log='y', type='l', 
+if(Update){
+  Xlim <- c(1790, max(USGDPp2$Year, na.rm=TRUE))
+  plot(fedReceipts ~Year, USGDPp2, log='y', type='l', 
      xlim=Xlim, las=2)
-Xlim <- c(1790, max(USGDPp2$Year, na.rm=TRUE))
+  Xlim <- c(1790, max(USGDPp2$Year, na.rm=TRUE))
 
-plot(fedOutlays ~Year, USGDPp2, log='y', type='l', 
+  plot(fedOutlays ~Year, USGDPp2, log='y', type='l', 
      xlim=Xlim, las=2)
 
-plot(fedSurplus ~Year, USGDPp2, type='l', 
+  plot(fedSurplus ~Year, USGDPp2, type='l', 
      xlim=Xlim, las=2)
+}
 ```
 `fedDebt` is *not* the negative of a simple cumulative sum `fedSurplus`. The sources of the discrepancies are not clear.However, some outlays are "Off-budget" including a ["black budget"](https://en.wikipedia.org/wiki/Black_budget#United_States) that is not revealed to many (and perhaps all) members of the US Congress. It's not obvious, at least to this researcher, if interest on the national debt is included in the official budget. 
 
