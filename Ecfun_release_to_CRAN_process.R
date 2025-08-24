@@ -22,12 +22,10 @@ devtools::check_win_oldrelease()
 #This function is deprecated and defunct since rhub v2.
 #Please see `?rhubv2` on transitioning to the new rhub functions.
 
-#rhub::rhub_setup()
-#Setting up R-hub v2.
-#✔ Found R package at /Users/sg/Documents/current/R/Ecfun/Ecfun.
-#✔ Found git repository at /Users/sg/Documents/current/R/Ecfun/Ecfun.
-#✔ Workflow file /Users/sg/Documents/current/R/Ecfun/Ecfun/.github/workflows/rhub.yaml
-#already exists and it is current.
+#rhubv2::rhub_setup()
+#Error in loadNamespace(x) : there is no package called ‘rhubv2’
+#devtools::rhub_setup()
+#Error: 'rhub_setup' is not an exported object from 'namespace:devtools'
 
 #Notes:
 #  • The workflow file must be added to the default branch of the GitHub repository.
@@ -59,7 +57,7 @@ revdepcheck::revdep_check(num_workers = 4)
 
 # local on parent to package: 
 # R CMD build Ecfun 
-# R CMD check --as-cran Ecfun_*.tar.gaz
+# R CMD check --as-cran Ecfun_*.tar.gz
 
 #20.4.  Update README.md and NEWS.md 
 
