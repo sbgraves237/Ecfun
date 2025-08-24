@@ -637,8 +637,8 @@ if(Update){
      USGDPpresidents[sel,], type='l', log='y', 
      xlab='', ylab='US federal outlays, % of GDP')
   abline(h=2:3)
-  war <- (USGDPpresidents$war !='')
-  abline(v=USGDPpresidents$Year[war], 
+  War <- (USGDPpresidents$war !='')
+  abline(v=USGDPpresidents$Year[War], 
     lty='dotted', col='light gray')
   abline(v=c(1929, 1933), col='red', lty='dotted')
   text(1931, 22, 'Hoover', srt=90, col='red')
@@ -654,8 +654,7 @@ if(Update){
      USGDPpresidents[sel,], type='l', 
      xlab='', ylab='US federal deficit, % of GDP')
   abline(h=2:3)
-  war <- (USGDPpresidents$war !='')
-  abline(v=USGDPpresidents$Year[war], 
+  abline(v=USGDPpresidents$Year[War], 
     lty='dotted', col='light gray')
   abline(v=c(1929, 1933), col='red', lty='dotted')
   text(1931, 22, 'Hoover', srt=90, col='red')
@@ -677,8 +676,7 @@ if(Update){
   yr2 <- USGDPpresidents$Year[selI][-1]
   plot(yr2, infl, type='l', las=2)
   abline(h=c(-2, 0, 2, 10))
-  war <- (USGDPpresidents$war !='')
-  abline(v=USGDPpresidents$Year[war], 
+  abline(v=USGDPpresidents$Year[War], 
     lty='dotted', col='light gray')
   abline(v=c(1929, 1933), col='red', lty='dotted')
   text(1931, 22, 'Hoover', srt=90, col='red')
@@ -691,27 +689,29 @@ if(Update){
     USGDPpresidents$GDPdeflator[selI]))
   plot(yr2, infl2, type='l', las=2)
   abline(h=c(-2, 0, 2, 10))
-  war <- (USGDPpresidents$war !='')
-  abline(v=USGDPpresidents$Year[war], 
+  abline(v=USGDPpresidents$Year[War], 
     lty='dotted', col='light gray')
   abline(v=c(1929, 1933), col='red', lty='dotted')
   text(1931, 22, 'Hoover', srt=90, col='red')
 }
 ```
 
-
-  infl <- diff()
-  plot(-100*fedSurplus_pGDP~Year, 
-     USGDPpresidents[sel,], type='l', 
-     xlab='', ylab='US federal deficit, % of GDP')
-  abline(h=2:3)
-  war <- (USGDPpresidents$war !='')
-  abline(v=USGDPpresidents$Year[war], 
+```{r battleDeaths}
+if(Update){
+  plot(battleDeathsPMP~Year, USGDPpresidents,  
+       type='l', las=2, xlim=Xlim)
+  abline(h=100)
+  
+  plot(1+battleDeathsPMP~Year, USGDPpresidents,  
+       type='l', las=2, xlim=Xlim, log='y')
+  abline(h=100)
+  abline(v=USGDPpresidents$Year[War], 
     lty='dotted', col='light gray')
   abline(v=c(1929, 1933), col='red', lty='dotted')
   text(1931, 22, 'Hoover', srt=90, col='red')
 }
 ```
+
 
 
 
