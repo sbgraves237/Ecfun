@@ -1,4 +1,4 @@
-# File > "Open Project..." > [parent of Package file]
+# File > "Open Project..." > [Package file]
 
 # https://r-pkgs.org/release.html
 
