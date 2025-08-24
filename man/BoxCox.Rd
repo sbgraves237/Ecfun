@@ -58,7 +58,7 @@
   (sgn(y)-1)/lambda}, 
   
   where 
-  \href{https://en.wikipedia.org/wiki/Big_O_notation}{O(lambda)}
+  \href{https://en.wikipedia.org/wiki/Big_O_notation/}{O(lambda)}
   indicates a term that is dominated by a 
   constant times \code{lambda}.  
   
@@ -212,7 +212,7 @@
   Jacobian is equivalent to the normal likelihood
   using \code{w(y, lambda)} adjusted appropriately
   using the Jacobian.  See Box and Cox (1964) or 
-  \href{https://en.wikipedia.org/wiki/Power_transform}{the Wikipedia article on "Power transform"}.  
+  \href{https://en.wikipedia.org/wiki/Power_transform/}{the Wikipedia article on "Power transform"}.  
   
   Bickel and Doksum (1981) suggested adding 
   \code{sign(y)} to the transformation, as 
@@ -315,7 +315,7 @@
   77(377): 209-210.    
 }
 \references{
-  \href{https://en.wikipedia.org/wiki/Power_transform}{Wikipedia, "Power transform"}
+  \href{https://en.wikipedia.org/wiki/Power_transform/}{Wikipedia, "Power transform"}
 }
 \seealso{
   \code{\link[MASS]{boxcox}} in the MASS package 
