@@ -347,7 +347,7 @@ if(Update){
 ### new data on `fedRecepts` and `fedOutlays`
 
 For the latest data on `fedReceipts`, `fedOutlays`, and `fedSurplus`, 
-I went to the website for [The White House President's Budget Historical Tables](https://www.whitehouse.gov/omb/budget/historical-tables/). On 2025-08-22, I saw "Historical Tables" in 3 places on that page. I clicked on the bottom one and got, `"`BUDGET-2026-HIST.xlsx`. The file I got doing this on 2025-01-22 included "Table 1.1-Summary of Receipts, Outlays, and Surpluses or Deficits (-): 1789-2026" included budget forecasts. The version of this table I got 2025-08-22 included data through 2024 but no forecasts. 
+I went to the website for [The White House President's Budget Historical Tables](https://www.whitehouse.gov/omb/information-resources/budget/historical-tables/). On 2025-08-22, I saw "Historical Tables" in 3 places on that page. I clicked on the bottom one and got, `"`BUDGET-2026-HIST.xlsx`. The file I got doing this on 2025-01-22 included "Table 1.1-Summary of Receipts, Outlays, and Surpluses or Deficits (-): 1789-2026" included budget forecasts. The version of this table I got 2025-08-22 included data through 2024 but no forecasts. 
 
 ```{r BudgetFile}
 (xls2 <- dir(pattern='\\.xlsx$'))
