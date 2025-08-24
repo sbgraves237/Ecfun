@@ -72,7 +72,7 @@
   \code{\link[DescTools]{VarCI}}
 }
 \references{
-  \href{https://en.wikipedia.org/wiki/Standard_deviation/}{
+  \href{https://en.wikipedia.org/wiki/Standard_deviation}{
     Wikipedia, "Standard deviation"}, accessed 
     2016-07-06. 
 }
