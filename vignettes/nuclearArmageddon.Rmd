@@ -27,13 +27,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction 
 
-This is a companion to the [Wikiversity article on "Time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization/).  That article assumes the [1962 Cuban Missile Crisis](https://en.wikipedia.org/wiki/Cuban_Missile_Crisis/) and the [1983 Soviet nuclear false alarm incident](https://en.wikipedia.org/wiki/1983_Soviet_nuclear_false_alarm_incident/) provide one observation on the time _between_ major nuclear crises, with a second time between such crises being _censored_ at the present.
+This is a companion to the [Wikiversity article on "Time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization).  That article assumes the [1962 Cuban Missile Crisis](https://en.wikipedia.org/wiki/Cuban_Missile_Crisis) and the [1983 Soviet nuclear false alarm incident](https://en.wikipedia.org/wiki/1983_Soviet_nuclear_false_alarm_incident) provide one observation on the time _between_ major nuclear crises, with a second time between such crises being _censored_ at the present.
 
 What can we say about the distribution of the time between such major nuclear crises?  
 
-With one observed time and a second censored, we can construct a [likelihood function](https://en.wikipedia.org/wiki/Likelihood_function/), which we can then use to estimate the mean time between such crises and the uncertainty in that estimate.  With further estimates of the probability that such a crisis would lead to a nuclear war and nuclear winter, we can simulate such times and obtain plausible bounds on uncertainty in our estimates.  
+With one observed time and a second censored, we can construct a [likelihood function](https://en.wikipedia.org/wiki/Likelihood_function), which we can then use to estimate the mean time between such crises and the uncertainty in that estimate.  With further estimates of the probability that such a crisis would lead to a nuclear war and nuclear winter, we can simulate such times and obtain plausible bounds on uncertainty in our estimates.  
 
-This methodology could later be expanded to consider a larger list of nuclear crises with a broader range of probabilities for each crisis escalating to a nuclear war and winter.  The fact that no such nuclear war has occurred as of this writing puts an upper limit on such probabilities.  A rough lower limit can be estimated from comments from people like Robert McNamara and Daniel Ellsberg, both of whom have said that as long as there are large nuclear arsenals on earth, it is only a matter of time before a nuclear crises escalates to such a nuclear Armageddon.  McNamara was US Secretary of Defense during the 1962 Cuban Missile Crisis, and Ellsberg as a leading nuclear war planner advising McNamara and the rest of President Kennedy's team during that crisis.  For more on this, see the companion [Wikiversity article on "Time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization/).  
+This methodology could later be expanded to consider a larger list of nuclear crises with a broader range of probabilities for each crisis escalating to a nuclear war and winter.  The fact that no such nuclear war has occurred as of this writing puts an upper limit on such probabilities.  A rough lower limit can be estimated from comments from people like Robert McNamara and Daniel Ellsberg, both of whom have said that as long as there are large nuclear arsenals on earth, it is only a matter of time before a nuclear crises escalates to such a nuclear Armageddon.  McNamara was US Secretary of Defense during the 1962 Cuban Missile Crisis, and Ellsberg as a leading nuclear war planner advising McNamara and the rest of President Kennedy's team during that crisis.  For more on this, see the companion [Wikiversity article on "Time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization).  
 
 We start by being explicit about the observed and censored times between major nuclear crises.  
 
@@ -51,7 +51,7 @@ str(yearsBetween)
 
 ## Likelihood of times between major nuclear crises 
 
-[Appendix 1 of that Wikiversity  article](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization#Appendix_1._Estimating_the_mean_time_between_nuclear_crises/) provides the following likelihood assuming we observe times between major nuclear crises, $T_1, ..., T_{k-1},$ plus one censoring time, $T_k$, and the times between such crises follow an [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution/) that does not change over time:  
+[Appendix 1 of that Wikiversity  article](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization#Appendix_1._Estimating_the_mean_time_between_nuclear_crises) provides the following likelihood assuming we observe times between major nuclear crises, $T_1, ..., T_{k-1},$ plus one censoring time, $T_k$, and the times between such crises follow an [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) that does not change over time:  
 
 \[
 L(\lambda | \mathbf{T}) = \exp[−S_k / \lambda ] / \lambda^{k-1}
@@ -96,7 +96,7 @@ logLk <- function(lambda, Times=yearsBetween){
 
 By differentiating $l$ with respect to $\lambda$ or $u = \log(\lambda)$ or $\theta = 1/\lambda$, we get a score function that is zero when $\lambda$ is $\sum T_i/(k-1)$, where the "-1" comes from assuming that only the last of Times is censored.  
 
-The value of parameter(s) that maximize the likelihood is (are) called [maximum likelihood estimates (MLEs)](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation/), and it is standard to distinguish an MLE with a circumflex (^).  We use this convention to write the following:  
+The value of parameter(s) that maximize the likelihood is (are) called [maximum likelihood estimates (MLEs)](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation), and it is standard to distinguish an MLE with a circumflex (^).  We use this convention to write the following:  
 
 \[
 \hat\lambda = \sum T_i / (k-1).
@@ -109,7 +109,7 @@ This is commonly read "lambda hat".  We code it as follows:
                  (length(yearsBetween)-1)))
 ```
 
-From [Wilks' theorem](https://en.wikipedia.org/wiki/Wilks%27_theorem/), we know that 2*log(likelihood ratio) is approximately [Chi-squared](https://en.wikipedia.org/wiki/Chi-squared_distribution/) with degrees of freedom equal to the number of parameters estimated, which is 1 in this case.  
+From [Wilks' theorem](https://en.wikipedia.org/wiki/Wilks%27_theorem), we know that 2*log(likelihood ratio) is approximately [Chi-squared](https://en.wikipedia.org/wiki/Chi-squared_distribution) with degrees of freedom equal to the number of parameters estimated, which is 1 in this case.  
 
 ```{r chisq}
 #(chisq2 <- qchisq(
@@ -392,9 +392,9 @@ Clearly, we don't want to mess with the $\theta = 1/\lambda$ scale, and $\u = \l
 
 ## Monte Carlo the time between major nuclear crises
 
-If we had a probability distribution for $\lambda$, $u = \log(\lambda)$, or $\theta = 1/\lambda$, we could simulate that.  To get such, we recall that one statement of [Bayes' theorem](https://en.wikipedia.org/wiki/Bayes'_theorem/) is that the posterior is proportional to the likelihood times the prior.  
+If we had a probability distribution for $\lambda$, $u = \log(\lambda)$, or $\theta = 1/\lambda$, we could simulate that.  To get such, we recall that one statement of [Bayes' theorem](https://en.wikipedia.org/wiki/Bayes'_theorem) is that the posterior is proportional to the likelihood times the prior.  
 
-However, what should we use as a prior?  The Wikipedia article on the [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution/) describes several more or less standard priors for that distribution. There's not just one, and they all seem more complicated than what we need here.  Instead, we will use the [improper prior](https://en.wikipedia.org/wiki/Prior_probability#Improper_priors/) that is uniform in $u = \log(\lambda)$.  To support this, we note that the exponential distribution is closer to the lognormal than to a normal, and the distribution of the reciprocal of an exponential random variable is even farther from normal, as we see in the following simulation:  
+However, what should we use as a prior?  The Wikipedia article on the [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) describes several more or less standard priors for that distribution. There's not just one, and they all seem more complicated than what we need here.  Instead, we will use the [improper prior](https://en.wikipedia.org/wiki/Prior_probability#Improper_priors) that is uniform in $u = \log(\lambda)$.  To support this, we note that the exponential distribution is closer to the lognormal than to a normal, and the distribution of the reciprocal of an exponential random variable is even farther from normal, as we see in the following simulation:  
 
 ```{r simExp}
 set.seed(1)
@@ -424,7 +424,7 @@ Let's transform this back by replacing $u$ with $\lambda = e^u$:
 P(a < \lambda \leq b | \mathbf{T}) \propto \int_a^b \exp[-S_k / \lambda] \lambda^{-k} d\lambda
 \]
 
-This says that the posterior for $\lambda$ follows an [inverse-gamma distribution](https://en.wikipedia.org/wiki/Inverse-gamma_distribution/) with shape parameter $(k-1)$ and scale $S_k$.  The moments for this distribution are as follows:  
+This says that the posterior for $\lambda$ follows an [inverse-gamma distribution](https://en.wikipedia.org/wiki/Inverse-gamma_distribution) with shape parameter $(k-1)$ and scale $S_k$.  The moments for this distribution are as follows:  
 
 \[
 \mathbb{E}(\lambda^r | \mathbf{T}) = S_k^r \Gamma(k-1-r) / \Gamma(k-1).
@@ -454,7 +454,7 @@ This distribution is obviously highly skewed as expected, with a mode (MLE) at 5
 
 ## Probability that a major nuclear war might lead to the extinction of civilization
 
-The analysis in the Wikiversity article on ["time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization#Probability_that_a_nuclear_crisis_would_generate_a_major_nuclear_war/) includes estimated of the probability that a major nuclear crisis like the [1962 Cuban Missile Crisis](https://en.wikipedia.org/wiki/Cuban_Missile_Crisis/) or the [1983 Soviet nuclear false alarm incident](https://en.wikipedia.org/wiki/1983_Soviet_nuclear_false_alarm_incident/) would lead to a major nuclear war.  The numbers given there ranged from 0.3 to 0.6 with a typical number of 0.45.  For present purposes, we shall assume that (0.3, 0.6) represent an 80 percent, equal tail [confidence interval](https://en.wikipedia.org/wiki/Confidence_interval/) of a [beta distribution](https://en.wikipedia.org/wiki/Beta_distribution/) and estimate its two shape parameters, $\alpha$ and $\beta$.  
+The analysis in the Wikiversity article on ["time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization#Probability_that_a_nuclear_crisis_would_generate_a_major_nuclear_war) includes estimated of the probability that a major nuclear crisis like the [1962 Cuban Missile Crisis](https://en.wikipedia.org/wiki/Cuban_Missile_Crisis) or the [1983 Soviet nuclear false alarm incident](https://en.wikipedia.org/wiki/1983_Soviet_nuclear_false_alarm_incident) would lead to a major nuclear war.  The numbers given there ranged from 0.3 to 0.6 with a typical number of 0.45.  For present purposes, we shall assume that (0.3, 0.6) represent an 80 percent, equal tail [confidence interval](https://en.wikipedia.org/wiki/Confidence_interval) of a [beta distribution](https://en.wikipedia.org/wiki/Beta_distribution) and estimate its two shape parameters, $\alpha$ and $\beta$.  
 
 Doing this requires an iteration, because no simple formula exists for this. We want to shape1 = $\alpha$ and shape2 = $\beta$ to satisfy the following:  
 
@@ -481,7 +481,7 @@ The beta distribution with parameters (1, 1) is just the uniform distribution.  
 
 What's the mean of this distribution?  
 
-Recall that the mean of the [$B(\alpha, \beta)$ distribution](https://en.wikipedia.org/wiki/Beta_distribution/) is $\alpha / (\alpha+\beta)$, and its variance is as follows:  
+Recall that the mean of the [$B(\alpha, \beta)$ distribution](https://en.wikipedia.org/wiki/Beta_distribution) is $\alpha / (\alpha+\beta)$, and its variance is as follows:  
 
 \[
 \mathrm{var}(Q) = \alpha\beta / [(\alpha+\beta)^2 (\alpha+\beta+1)]
@@ -494,15 +494,15 @@ a.b <- sum(betaSolve$par)
             (a.b^2 * (a.b+1))))
 ```
 
-That's quite close to the representative value of 0.45 discussed in the companion Wikiversity article on ["time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization/).  
+That's quite close to the representative value of 0.45 discussed in the companion Wikiversity article on ["time to extinction of civilization"](https://en.wikiversity.org/wiki/Time_to_extinction_of_civilization).  
 
 ## Monte Carlo time to extinction of civilization
 
 This section will start with a function to generate `N` random times to Armageddon as follows:   
 
 1.  start timing
-2.  Generate `N` random variates `Q` ~ [$B(\alpha, \beta)$](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html/) indicating the probability that each simulated crisis in a sequence would produce a nuclear Armageddon.  
-3.  From this, generate `N` random variables `K` ~ [$NB(Q, 1)$](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/NegBinomial.html/) indicating the number of simulated crises in a series required to produce one nuclear Armageddon with `Q[i]` = probability of each being the last, for `i = 1, ..., N`. 
+2.  Generate `N` random variates `Q` ~ [$B(\alpha, \beta)$](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html) indicating the probability that each simulated crisis in a sequence would produce a nuclear Armageddon.  
+3.  From this, generate `N` random variables `K` ~ [$NB(Q, 1)$](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/NegBinomial.html) indicating the number of simulated crises in a series required to produce one nuclear Armageddon with `Q[i]` = probability of each being the last, for `i = 1, ..., N`. 
 4.  For each `i`, compute `Time[i] <- sum(rlambda2(K[i]))`.  
 5.  compute `elapsed.time` 
 6.  Return (`Time`, `gammapars`, `gammaGOF`, 
