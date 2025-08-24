@@ -11,8 +11,8 @@
   If only one name is provided (without 
   punctuation), it is assumed to be the 
   \code{givenName};  see Wikipedia, 
-  \href{https://en.wikipedia.org/wiki/Given_name}{"Given name"} 
-  and \href{https://en.wikipedia.org/wiki/Surname}{"Surname"}.  
+  \href{https://en.wikipedia.org/wiki/Given_name/}{"Given name"} 
+  and \href{https://en.wikipedia.org/wiki/Surname/}{"Surname"}.  
 }
 \usage{
 parseName(x, 
