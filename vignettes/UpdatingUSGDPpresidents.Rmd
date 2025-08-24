@@ -247,8 +247,7 @@ Download the most recent years as an Excel
 file, compute row averages, and transfer the 
 numbers for the most recent years here.  
 
-NOTE: When I visited the [Current Population Survey of the Bureau 
-of Labor Statistics](https://www.bls.gov/cps/) on 2025-08-22, I found a huge number of options. I clicked, "CPS Data", then ["Data retrieval tools"](https://www.bls.gov/cps/data.htm), then "Labor Force Statistics (Current Population Survey - CPS)" ["Top Picks"](https://data.bls.gov/toppicks?survey=ln). Then I found "Unemployment Rate - LNS14000000" and checked that. Then near the bottom of that page, I clicked, "Retrieve data". That produced a table for years 2015:2025 with columns Jan, Feb, ..., December, with the data for 2025 incomplete, as it should be. Just above that table it said, "Download: xlsx". I clicked that. I opened that spreadsheet and added column N = average of columns B - M. 
+NOTE: When I visited the [Current Population Survey of the Bureau of Labor Statistics](https://www.bls.gov/cps/) on 2025-08-22, I found a huge number of options. I clicked, "CPS Data", then ["Data retrieval tools"](https://www.bls.gov/cps/data.htm), then "Labor Force Statistics (Current Population Survey - CPS)" ["Top Picks"](https://data.bls.gov/toppicks?survey=ln). Then I found `Unemployment Rate - LNS14000000` and checked that. Then near the bottom of that page, I clicked, "Retrieve data". That produced a table for years 2015:2025 with columns Jan, Feb, ..., December, with the data for 2025 incomplete, as it should be. Just above that table it said, "Download: xlsx". I clicked that. I opened that spreadsheet and added column N = average of columns B - M. 
 
 Then I compared those numbers with the numbers in `USGDPp2[c('Year', 'unemployment')]`. The numbers for 2020 were slightly different: 8.091667 in the previous version and 8.1 for the new number. 
 
@@ -372,7 +371,7 @@ if(Update){
 }
 ```
 
-Let's use only the most recent 40 years, because there are anomalies in these data like "-*" for a number that is "$500 thousand or less" and "TQ" for "transitional quarter" when the US had its fiscal year change from starting July 1 to October 1. We also drop the last two row, because they are comments. And keep only columns 1:4: 
+Let's use only the most recent 40 years, because there are anomalies in these data like "-*" for a number that is "$500 thousand or less" and `TQ` for "transitional quarter" when the US had its fiscal year change from starting July 1 to October 1. We also drop the last two row, because they are comments. And keep only columns 1:4: 
 
 ```{r drop2}
 if(Update){
