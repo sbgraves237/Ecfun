@@ -433,6 +433,7 @@ if(Update){
      xlim=Xlim, las=2)
 }
 ```
+
 `fedDebt` is *not* the negative of a simple cumulative sum `fedSurplus`. The sources of the discrepancies are not clear.However, some outlays are "Off-budget" including a ["black budget"](https://en.wikipedia.org/wiki/Black_budget#United_States) that is not revealed to many (and perhaps all) members of the US Congress. It's not obvious, at least to this researcher, if interest on the national debt is included in the official budget. 
 
 `fedDebt` are available as ["Historical Debt Outstanding" from the US Treasury](https://fiscaldata.treasury.gov/datasets/historical-debt-outstanding/historical-debt-outstanding). On 2025-08-23 we requested "Date Range (Record Date): All", then "CSV" and "Download CSV File". The result was `HstDebt_17900101_20240930.csv`. 
@@ -670,7 +671,7 @@ if(Update){
 }
 ```
 
-```{r infl2}
+```{r infl1}
 if(Update){
   infl <- 100*diff(log(USGDPpresidents$CPI[selI]))
   yr2 <- USGDPpresidents$Year[selI][-1]
@@ -681,7 +682,20 @@ if(Update){
     lty='dotted', col='light gray')
   abline(v=c(1929, 1933), col='red', lty='dotted')
   text(1931, 22, 'Hoover', srt=90, col='red')
+}
+```
 
+```{r infl2}
+if(Update){
+  infl2 <- 100*diff(log(
+    USGDPpresidents$GDPdeflator[selI]))
+  plot(yr2, infl2, type='l', las=2)
+  abline(h=c(-2, 0, 2, 10))
+  war <- (USGDPpresidents$war !='')
+  abline(v=USGDPpresidents$Year[war], 
+    lty='dotted', col='light gray')
+  abline(v=c(1929, 1933), col='red', lty='dotted')
+  text(1931, 22, 'Hoover', srt=90, col='red')
 }
 ```
 
