@@ -7,7 +7,7 @@ grepInTable <- function(pattern, referenceTable =
     ctrySyn <- lapply(referenceTable[-1], toupper)
   } else {
     ux <- pattern
-    iso3 <- referencTable[, 1]
+    iso3 <- referenceTable[, 1]
     ctrySyn <- referenceTable[-1]
   }
   nRefs <- length(ctrySyn)
