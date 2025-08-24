@@ -1,3 +1,8 @@
+# Ecfun 0.4.0 (2025-12-24)
+* R CMD check --as-cran Ecfun_0.4.0.tar.gz flagged 3 "(possibly) invalid 
+URLs:" saying "Status: 403 Message: Forbidden". I checked: They all worked for 
+me. 
+
 # Ecfun 0.3-6 (2024-11-12)
 * "brew install tidy-html5" eliminated 501 HTML validation problems. 
 
