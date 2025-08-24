@@ -696,7 +696,7 @@ if(Update){
 }
 ```
 
-```{r battleDeaths}
+```{r battleDeaths2}
 if(Update){
   plot(battleDeathsPMP~Year, USGDPpresidents,  
        type='l', las=2, xlim=Xlim)
