@@ -1,4 +1,4 @@
-# File > "Open Project..." > [Package file]
+# File > "Open Project..." > [Package folder]
 
 # https://r-pkgs.org/release.html
 
@@ -7,8 +7,6 @@
 #20.3.  The submission process
 #       Store submission comments in cran-comments.md
 #20.3.1.  Test environments
-
-# File > "Open project" in the package directory (i.e., containing DESCRIPTION, etc.)
 
 # devtools::check_win_*()
 dir()
