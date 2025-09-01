@@ -1,13 +1,13 @@
 compareOverlap <- function(y=2, yRef=y, x=1, 
                  xRef=x, newDat, refDat, 
-                 ignoreCase=TRUE, ...){
+                 ignoreCase=TRUE, Plot=FALSE, ...){
 ##
 ## 1.  Match names
 ##  
-  yNew <- pmatchIC(y, names(newDat))
-  yref <- pmatchIC(yRef, names(refDat))
-  xNew <- pmatchIC(x, names(newDat))
-  xref <- pmatchIC(xRef, names(refDat))
+  yNew <- pmatchIC(y, colnames(newDat))
+  yref <- pmatchIC(yRef, colnames(refDat))
+  xNew <- pmatchIC(x, colnames(newDat))
+  xref <- pmatchIC(xRef, colnames(refDat))
 ##
 ## 2.  Find overlap 
 ##  
@@ -30,10 +30,12 @@ compareOverlap <- function(y=2, yRef=y, x=1,
   out <- data.frame(x=sort(XYnew[, xNew]), 
             yNew=Ynew, yRef=Yref, dy=dy, 
             dyRef=dyRef)
-  if(any(is.na(dyRef))){ 
-    plot(dy~x, out, type='b', ...)
-  } else {
-    plot(dyRef~x, out, type='b', ...)
+  if(Plot){
+    if(any(is.na(dyRef))){ 
+      plot(dy~x, out, type='b', ...)
+    } else {
+      plot(dyRef~x, out, type='b', ...)
+    }
   }
   names(out)[1] <- xNew
   names(out)[2] <- paste0(yNew, 'New')
