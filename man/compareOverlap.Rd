@@ -21,7 +21,7 @@
   \code{x}, \code{y}, \code{yRef}, 
   \code{dy}, and \code{dyRef}. 
   
-  Also if 
+  Also if(\code{Plot})
   \code{min(yRef)*max(yRef)>0} 
   \code{plot(dyRef)} else
   \code{plot(dy)}.  
@@ -29,7 +29,7 @@
 \usage{
 compareOverlap(y=2, yRef=y, x=1, 
       xRef=x, newDat, refDat, 
-      ignoreCase=TRUE, ...)
+      ignoreCase=TRUE, Plot=FALSE, ...)
 }
 \arguments{
   \item{y, yRef}{
@@ -67,6 +67,11 @@ compareOverlap(y=2, yRef=y, x=1,
     and \code{refDat} to match 
     \code{y}, \code{yRef}, 
     \code{x}, and \code{xRef}.
+  }
+  \item{Plot}{
+    logical: If \code{TRUE}, create a plot.
+    If \code{min(yRef)*max(yRef)>0} \code{plot(dyRef)} 
+    else \code{plot(dy)}.  
   }
   \item{...}{
     optional arguments to pass 
