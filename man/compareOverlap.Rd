@@ -24,7 +24,8 @@
   Also if(\code{Plot}){
     if(\code{any(is.na(dyRef))}) 
       \code{plot(dyRef)} 
-    else \code{plot(dy)}.  
+    else \code{plot(dy)}
+  }.  
 }
 \usage{
 compareOverlap(y=2, yRef=y, x=1, 
