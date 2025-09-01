@@ -21,10 +21,10 @@
   \code{x}, \code{y}, \code{yRef}, 
   \code{dy}, and \code{dyRef}. 
   
-  Also if(\code{Plot})
-  \code{min(yRef)*max(yRef)>0} 
-  \code{plot(dyRef)} else
-  \code{plot(dy)}.  
+  Also if(\code{Plot}){
+    if(\code{any(is.na(dyRef))}) 
+      \code{plot(dyRef)} 
+    else \code{plot(dy)}.  
 }
 \usage{
 compareOverlap(y=2, yRef=y, x=1, 
