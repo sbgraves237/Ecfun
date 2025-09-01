@@ -654,22 +654,30 @@ abline(v=c(1929, 1933), col='red', lty='dotted')
 text(1931, 22, 'Hoover', srt=90, col='red')
 ```
 
+`R CMD build` does not like `png`. Turn it off for those purposes. If we want it, we can manually set `writePlots <- TRUE`. 
+
+```{r writePlots}
+writePlots <- FALSE 
+```
+
 ```{r plotOutlays}
-png('fedOutlays.png')
-plot(100*fedOutlays_pGDP~Year, 
+if(writePlots){ 
+  png('fedOutlays.png')
+  plot(100*fedOutlays_pGDP~Year, 
      USGDPpresidents[sel,], type='l', log='y', 
      xlab='', ylab='US federal outlays, % of GDP')
-abline(h=2:3)
-abline(v=USGDPpresidents$Year[war], 
+  abline(h=2:3)
+  abline(v=USGDPpresidents$Year[war], 
     lty='dotted', col='light gray')
-abline(v=c(1929, 1933), col='red', lty='dotted')
-text(1931, 22, 'Hoover', srt=90, col='red')
-dev.off()
+  abline(v=c(1929, 1933), col='red', lty='dotted')
+  text(1931, 22, 'Hoover', srt=90, col='red')
+  dev.off()
+}
 ```
 
 How about the same plot of Deficit = -`fedSurplus_pGDP`? 
 
-```{r Defecit?}
+```{r Deficit}
 selD <- !is.na(USGDPpresidents$fedSurplus_pGDP)
 
 plot(-100*fedSurplus_pGDP~Year, 
@@ -683,16 +691,18 @@ text(1931, 22, 'Hoover', srt=90, col='red')
 ```
 
 ```{r plotDeficit}
-png('fedDeficit.png')
-plot(-100*fedSurplus_pGDP~Year, 
+if(writePlots){ 
+  png('fedDeficit.png')
+  plot(-100*fedSurplus_pGDP~Year, 
      USGDPpresidents[selD,], type='l', 
      xlab='', ylab='US federal deficit, % of GDP')
-abline(h=2:3)
-abline(v=USGDPpresidents$Year[war], 
+  abline(h=2:3)
+  abline(v=USGDPpresidents$Year[war], 
     lty='dotted', col='light gray')
-abline(v=c(1929, 1933), col='red', lty='dotted')
-text(1931, 22, 'Hoover', srt=90, col='red')
-dev.off()
+  abline(v=c(1929, 1933), col='red', lty='dotted')
+  text(1931, 22, 'Hoover', srt=90, col='red')
+  dev.off()
+}
 ```
 
 What about inflation = `diff(log(CPI))`? 
@@ -715,14 +725,16 @@ text(1931, 22, 'Hoover', srt=90, col='red')
 ```
 
 ```{r plotInfl}
-png('inflation.png')
-plot(yr2, infl, type='l', las=2)
-abline(h=c(-2, 0, 2, 10))
-abline(v=USGDPpresidents$Year[war], 
+if(writePlots){ 
+  png('inflation.png')
+  plot(yr2, infl, type='l', las=2)
+  abline(h=c(-2, 0, 2, 10))
+  abline(v=USGDPpresidents$Year[war], 
     lty='dotted', col='light gray')
-abline(v=c(1929, 1933), col='red', lty='dotted')
-text(1931, 22, 'Hoover', srt=90, col='red')
-dev.off()
+  abline(v=c(1929, 1933), col='red', lty='dotted')
+  text(1931, 22, 'Hoover', srt=90, col='red')
+  dev.off()
+}
 ```
 
 ```{r unemployment}
