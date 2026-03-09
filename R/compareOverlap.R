@@ -15,6 +15,16 @@ compareOverlap <- function(y=2, yRef=y, x=1,
                 refDat[, xref])
   refInNew <- (refDat[, xref] %in% 
                 newDat[, xNew])
+  if(sum(newInRef)+sum(refInNew)<1){
+    newRng <- paste(range(newDat[, xNew]), collapse=':')
+    refRng <- paste(range(refDat[, xref]), collapse=':')
+    msg <- paste0('ERROR: No overlap between', 
+      ' newDat[, x=', x, '=', xNew, 
+      '] and refDat[, x=', xref, ']:', 
+      ' range(newDat[, x]) = ', newRng, 
+      '; range(refDat[, x]) = ', refRng)
+    stop(msg)
+  }
 ##
 ## 3.   Select overlap
 ##  
