@@ -8,6 +8,15 @@
   from their website using \code{\link[readr]{read_csv}}, 
   adding a \code{Year} = \code{2*congress+1787}, which is the 
   first year of each 2-year congress. 
+  
+  NOTE: If you use any of this in a publication, please cite the data source as 
+  described at \href{https://voteview.com/data}{voteview.com}. As of 
+  2026-03-09, this page said: 
+  
+  Please cite the dataset as:
+  Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, 
+  and Luke Sonnet (2026). Voteview: Congressional Roll-Call Votes Database. 
+  https://voteview.com/
 }
 \usage{
 readDW_NOMINATE(file=
@@ -31,8 +40,10 @@ readDW_NOMINATE(file=
   \code{readr::read_csv("https://voteview.com/static/data/out/members/HSall_members.csv")}. 
 }
 \source{
-Embedded in an \href{https://github.com/voteview/articles/blob/master/docs/party_polarization/party_polarization.Rmd}{R Markdown vignette} 
-by \href{https://polisci.ucla.edu/person/jeffrey-b-lewis/}{UCLA political science professor Jeff Lewis} 
+Embedded in an 
+\href{https://github.com/voteview/articles/blob/master/docs/party_polarization/party_polarization.Rmd}{R Markdown vignette} 
+by 
+\href{https://polisci.ucla.edu/person/jeffrey-b-lewis/}{UCLA political science professor Jeff Lewis} 
 in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`. 
 }
 \value{
@@ -108,6 +119,33 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
   \item{Year}{
     \code{numeric} First year of each 2-year computed 
     from \code{congress} as (2*congress+1787).
+  }
+  \item{Party}{
+    \code{ordered} giving the names for each numeric \code{party_code} per 
+    \href{https://voteview.com/articles/data_help_parties}{\code{data_help_parties} on \code{voteview.com}}
+    ordered by number of members in the Congress. 
+    
+    NOTE: As of 2026-03-09, names "Union Labor Party" and "Constitutional 
+    Unionist Party" had two different codes each: \code{party_code} = 355 and 
+    366 both mapped to "Union Labor Party" and \code{party_code} = 37 and 4444
+    both mapped to "Constitutional Unionist Party". The first included 14 
+    officials in the US Congress in the 1851 and 1961 sessions combined. The 
+    second had 4 officials in the US Congress between 1887 and 1919. (Both 
+    are coded "other" in \code{Party2}.)
+  }
+  \item{Party2}{
+    \code{link{ordered}} collapsing all to 'Dem', 'Rep', and 'other'. 
+
+    'Dem' include 100 = modern Democratic party + 
+    13 = Democratic-Republican Party + 555 = Jackson Party + 
+    4000 = anti-administration
+    
+    'Rep' include 200 = modern Republican party + 29 = Whig + 1 = Federalists 
+    + 1275 = Anti-Jacksonians + 22 = Adams + 5000 = pro-administration + 
+    3333 = Opposition Party. 
+    
+    'other' = 42 other parties, which cumulatively have held just over 2 
+    percent of the seats in all the congresses in US history. 
   }
 }
 \references{
