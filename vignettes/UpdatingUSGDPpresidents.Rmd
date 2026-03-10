@@ -1,7 +1,7 @@
 ---
 title: "Updating `USGDPpresidents`"
 author: "Spencer Graves"
-date: "2025-08-22"
+date: "2025-11-25"
 output: html_document
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
@@ -46,24 +46,22 @@ getwd()
 if((length(CPIcsv)==1) & (length(GDPcsv)==1)){
   Update0 <- TRUE
 } else Update0 <- FALSE
+Update <- FALSE
 ```
 
 We must verify by visual inspection that `CPIcsv` and `GDPcsv` are both of length 1 and are the files we want.  
 
 Read them:  
 
-```{r read.csv}
-Update <- FALSE
-if(Update0){
-  str(USCPI <- read.csv(CPIcsv, skip=2))
-  str(USGDP. <- read.csv(GDPcsv, skip=1))
-  library(Ecfun)
-  USGDP <- asNumericDF(USGDP.)
-  print(rngCPIyrs <- range(USCPI$Year) )
-  print(rngGDPyrs <- range(USGDP$Year) )
-  endYr <- max(rngCPIyrs, rngGDPyrs)
-  if(endYr>rngYrs[2]) print(Update <- TRUE)
-}
+```{r read.csv, eval=Update0}
+str(USCPI <- read.csv(CPIcsv, skip=2))
+str(USGDP. <- read.csv(GDPcsv, skip=1))
+library(Ecfun)
+USGDP <- asNumericDF(USGDP.)
+print(rngCPIyrs <- range(USCPI$Year) )
+print(rngGDPyrs <- range(USGDP$Year) )
+endYr <- max(rngCPIyrs, rngGDPyrs)
+if(endYr>rngYrs[2]) print(Update <- TRUE)
 # Update <- TRUE to force the rest of this code 
 # to run even if not needed to update USGDPpresidents.
 # Otherwise, comment out: 
@@ -74,111 +72,95 @@ if(Update0){
 
 If Update, create a local copy of `USGDPpresidents` with the additional rows required to hold the new data:  
 
-```{r cy}
-if(Update){
-  rowsNeeded <- (endYr - rngYrs[2])
-  Nold <- nrow(USGDPpresidents)
-  iRep <- c(1:Nold, rep(Nold, rowsNeeded))
-  USGDPp2 <- USGDPpresidents[iRep,]
-}
+```{r cy, eval=Update}
+rowsNeeded <- (endYr - rngYrs[2])
+Nold <- nrow(USGDPpresidents)
+iRep <- c(1:Nold, rep(Nold, rowsNeeded))
+USGDPp2 <- USGDPpresidents[iRep,]
 ```
 
 Fix the Year and insert NAs for all other columns for the new rows:   
 
-```{r Year}
-if(Update){
-  iNew <- integer(0)
-  if(rowsNeeded>0){
+```{r Year, eval=Update}
+iNew <- integer(0)
+if(rowsNeeded>0){
     iNew <- (Nold+(1:rowsNeeded))
     USGDPp2$Year[iNew] <- ((rngYrs[2]+1):endYr)
     rownames(USGDPp2) <- USGDPp2$Year
 #
     USGDPp2[iNew, -1] <- NA
-  }
 }
 ```
 
 Now replace CPI by the new numbers:  
 
-```{r CPI}
-if(Update){
-  selCPI <- (USGDPp2$Year %in% USCPI$Year)
-  if(any(!is.na(USGDPp2[!selCPI, 2]))){
+```{r CPI, eval=Update}
+selCPI <- (USGDPp2$Year %in% USCPI$Year)
+if(any(!is.na(USGDPp2[!selCPI, 2]))){
     stop('ERROR:  There are CPI numbers ', 
          'in the current USGDPpresidents ', 
          'that are not in the new.  ', 
          'Manual review required.')
-  }
-  USGDPp2$CPI[selCPI] <- USCPI[,2]
 }
+USGDPp2$CPI[selCPI] <- USCPI[,2]
 ```
 
 Does `USGDPpresidents.Rd` needs to be updated
 to reflect the proper reference years for the 
 CPI?  
 
-```{r CPIref}
-if(Update){
-  readLines(CPIcsv, n=4)
-}
+```{r CPIref, eval=Update}
+readLines(CPIcsv, n=4)
 ```
 
 If this says "Average 1982-84 = 100", it should be good.  Otherwise that (and this) should be updated.  
 
 Now let's update `GDPdeflator`:  
 
-```{r GDPdeflator}
-if(Update){
-  selGDP <- (USGDPp2$Year %in% USGDP$Year)
+```{r GDPdeflator, eval=Update}
+selGDP <- (USGDPp2$Year %in% USGDP$Year)
 #
-  if(any(!is.na(USGDPp2[!selGDP, 'GDPdeflator']))){
+if(any(!is.na(USGDPp2[!selGDP, 'GDPdeflator']))){
     stop('ERROR:  There are GDPdeflator numbers ', 
          'in the current USGDPpresidents ', 
          'that are not in the new.  ', 
          'Manual review required.')
-  }
-  selDefl <- grep('Deflator', names(USGDP))
-  USGDPp2$GDPdeflator[selGDP] <- USGDP[,selDefl]
-  print(names(USGDP)[selDefl])
 }
+selDefl <- grep('Deflator', names(USGDP))
+USGDPp2$GDPdeflator[selGDP] <- USGDP[,selDefl]
+print(names(USGDP)[selDefl])
 ```  
 
 Compare the index year of "GDP.Deflator" with that in `USGDPpresidents.Rd`:  If they are different, fix `USGDPpresidents.Rd`. 
 
 Now update population:  
 
-```{r pop}
-if(Update){
-  selPop <- grep('Population', names(USGDP))
-  sPop <- (USGDP[,selPop]/1000)
-  quantile(ePop <- ((USGDPp2$population.K[selGDP] /sPop)-1), 
+```{r pop, eval=Update}
+selPop <- grep('Population', names(USGDP))
+sPop <- (USGDP[,selPop]/1000)
+quantile(ePop <- ((USGDPp2$population.K[selGDP] /sPop)-1), 
            na.rm=TRUE)
-}
 ```
   
 Check. Replace. 
 
-```{r pop2}
-if(Update){
-  USGDPp2$population.K[selGDP] <- sPop
-  print(names(USGDP)[selPop])
-}
+```{r pop2, eval=Update}
+USGDPp2$population.K[selGDP] <- sPop
+print(names(USGDP)[selPop])
 ```  
 
 Now `realGDPperCapita`.  This also has a reference year, so we need to make sure we get them all:  
 
-```{r GDPperCap}
-if(Update){
-  if(any(!is.na(USGDPp2[!selGDP, 'readGDPperCapita']))){
+```{r GDPperCap, eval=Update}
+if(any(!is.na(USGDPp2[!selGDP, 'readGDPperCapita']))){
     stop('ERROR:  There are realGDPperCapita numbers ', 
          'in the current USGDPpresidents ', 
          'that are not in the new.  ', 
          'Manual review required.')
-  }
-  selGDPperC <- grep('Real.GDP.per.c', names(USGDP))
-  USGDPp2$realGDPperCapita[selGDP] <- USGDP[,selGDPperC]
-  print(names(USGDP)[selGDPperC])
 }
+selGDPperC <- grep('Real.GDP.per.c', names(USGDP))
+USGDPp2$realGDPperCapita[selGDP] <- USGDP[,selGDPperC]
+print(names(USGDP)[selGDPperC])
 ```  
 
 Compare the index year of `Real.GDP.per.capita` with that in `USGDPpresidents.Rd`:  If they are different, fix `USGDPpresidents.Rd`.
@@ -190,16 +172,14 @@ BOTH:
 ** WHO WAS PRESIDENT SINCE THE PREVIOUS VERSION?
 ** WAS THAT PERSON NOT IN THE PREVIOUS VERSION?  
 
-```{r executive}
-if(Update){
-  exec <- as.character(USGDPp2$executive)
-  newExec <- 'Biden' 
-  exec[is.na(exec)] <- newExec
-  lvlexec <- levels(USGDPp2$executive)
-  if(!(newExec %in% lvlexec))
+```{r executive, eval=Update}
+exec <- as.character(USGDPp2$executive)
+newExec <- 'Biden' 
+exec[is.na(exec)] <- newExec
+lvlexec <- levels(USGDPp2$executive)
+if(!(newExec %in% lvlexec))
     lvlexec <- c(lvlexec, newexec)
-  USGDPp2$executive <- ordered(exec, lvlexec)
-}
+USGDPp2$executive <- ordered(exec, lvlexec)
 ```  
 
 Similarly:  war
@@ -208,13 +188,11 @@ NOTE:  IF THERE HAS BEEN A MAJOR WAR SINCE THE LAST VERSION,
 THEN THIS TEXT NEEDS TO BE CHANGED, 
 BECAUSE IT ASSUMES THERE HAS NOT BEEN A MAJOR WAR.  
 
-```{r war}
-if(Update){
-  war <- as.character(USGDPp2$war)
-  war[is.na(war)] <- ''
-  lvlwar <- levels(USGDPp2$war)
-  USGDPp2$war <- ordered(war, lvlwar)
-}
+```{r war, eval=Update}
+war <- as.character(USGDPp2$war)
+war[is.na(war)] <- ''
+lvlwar <- levels(USGDPp2$war)
+USGDPp2$war <- ordered(war, lvlwar)
 ```  
 
 Next:  `battleDeaths` and `battleDeathsPMP`:  
@@ -223,23 +201,19 @@ NOTE:  `battleDeaths` ARE ONLY BATTLE DEATHS
 IN MAJOR WARS as defined in `help(USGDPpresidents)`.  
 Otherwise, they are 0.  
 
-```{r battleDeaths}
-if(Update){
-  if(rowsNeeded>0){ 
+```{r battleDeaths, eval=Update}
+if(rowsNeeded>0){ 
     USGDPp2$battleDeaths[iNew] <- 0 
-  }
-#
-  USGDPp2$battleDeathsPMP <- with(USGDPp2, 
-          1000*battleDeaths/population.K) 
 }
+#
+USGDPp2$battleDeathsPMP <- with(USGDPp2, 
+          1000*battleDeaths/population.K) 
 ```
 
 Keynes (per `help(USGDPpresidents)`):
 
-```{r Keynes}
-if(Update){
-  USGDPp2$Keynes[iNew] <- 0 
-}
+```{r Keynes, eval=Update}
+USGDPp2$Keynes[iNew] <- 0 
 ```
 
 ## Unemployment?  
@@ -263,51 +237,41 @@ Then I compared those numbers with the numbers in `USGDPp2[c('Year', 'unemployme
 
 Let's read the new numbers and compare the numbers to confirm that we have read them correctly, then replace the old numbers (including NAs) with the new numbers. 
 
-```{r xlsx}
-if(Update){
-  (xls <- dir(pattern='\\.xlsx$'))
-  (BLSxls <- grep('^Series', xls, value=TRUE))
-}
+```{r xlsx, eval=Update}
+(xls <- dir(pattern='\\.xlsx$'))
+(BLSxls <- grep('^Series', xls, value=TRUE))
 ```
 
-```{r readBLS}
+```{r readBLS, eval=Update}
 library(readxl)
-if(Update){
-  str(BLS <- read_excel(BLSxls, skip=11))
-}
+str(BLS <- read_excel(BLSxls, skip=11))
 ```
 
 Compute the average unemployment here, so I don't have to do this separately.  
 
-```{r AnnUnemp}
-if(Update){
-  UNEMP <- as.matrix(BLS[2:13])
-  str(unemp <- apply(UNEMP, 1, mean))
-}
+```{r AnnUnemp, eval=Update}
+UNEMP <- as.matrix(BLS[2:13])
+str(unemp <- apply(UNEMP, 1, mean))
 ```
 
 Store these `unemp` numbers after checking first. 
   
-```{r unemp}
-if(Update){
-  selU4GDP <- (USGDPp2$Year %in% BLS$Year)
-  selBLS <- (BLS$Year %in% USGDPp2$Year)
-  dunemp <- (USGDPp2[selU4GDP, 'unemployment'] - 
+```{r unemp, eval=Update}
+selU4GDP <- (USGDPp2$Year %in% BLS$Year)
+selBLS <- (BLS$Year %in% USGDPp2$Year)
+dunemp <- (USGDPp2[selU4GDP, 'unemployment'] - 
           unemp[selBLS])
-  cbind(USGDPp2[selU4GDP, c('Year', 'unemployment')], 
+cbind(USGDPp2[selU4GDP, c('Year', 'unemployment')], 
         unemp[selBLS], dunemp)
-}
 ```
 
 As expected. Replace. 
 
-```{r replaceUnemp}
-if(Update){
-  USGDPp2[selU4GDP, 'unemployment'] <- unemp[selBLS]
-  USGDPp2$unempSource[iNew] <- USGDPp2$unempSource[
+```{r replaceUnemp, eval=Update}
+USGDPp2[selU4GDP, 'unemployment'] <- unemp[selBLS]
+USGDPp2$unempSource[iNew] <- USGDPp2$unempSource[
     iNew[1]-1]
-  tail(USGDPp2)
-}
+tail(USGDPp2)
 ```
 
 ## `fedReceipts`, `fedOutlays`
@@ -316,7 +280,7 @@ We get `fedReceipts` and `fedOutlays` from two different sources.  Let's start w
 
 ### Skip historical data on `fedRecepts` and `fedOutlays`
 
-We manually copied the historical data from series Y 335 and 336 in [United States Census Bureau (1975) Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970, Part 2.  Chapter Y. Government](https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html) into a LibreOffice `*.ods` file.  We need to read that once and add it to `USGDPp`:  
+We manually copied the historical data from series Y 335 and 336 in [United States Census Bureau (1975) Bicentennial Edition: Historical Statistics of the United States, Colonial Times to 1970, Part 2.  Chapter Y. Government](https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html) into a LibreOffice `*.ods` file.  We need to read that once and add it to `USGDPp`: 
 
 ```{r ods, eval=FALSE}
 if(Update){
@@ -442,6 +406,7 @@ if(Update){
      xlim=Xlim, las=2)
 }
 ```
+
 `fedDebt` is *not* the negative of a simple cumulative sum `fedSurplus`. The sources of the discrepancies are not clear.However, some outlays are "Off-budget" including a ["black budget"](https://en.wikipedia.org/wiki/Black_budget#United_States) that is not revealed to many (and perhaps all) members of the US Congress. It's not obvious, at least to this researcher, if interest on the national debt is included in the official budget. 
 
 `fedDebt` are available as ["Historical Debt Outstanding" from the US Treasury](https://fiscaldata.treasury.gov/datasets/historical-debt-outstanding/historical-debt-outstanding). On 2025-08-23 we requested "Date Range (Record Date): All", then "CSV" and "Download CSV File". The result was `HstDebt_17900101_20240930.csv`. 
@@ -477,7 +442,7 @@ if(Update){
 }
 ```
 
-Finally:  `fedOutlays`, ... `fedDebt` as a percent of `GDP`.  
+Finally: `fedOutlays`, ... `fedDebt` as a percent of `GDP`.  
 
 For `*_pGDP`, I'm getting discrepancies that seem a little more than roundoff error. Let's look at the numbers since 1843, which was the year the US first adopted a fiscal year different from the calendar year. 
 
@@ -738,14 +703,15 @@ if(writePlots){
 ```
 
 ```{r unemployment}
+selU <- !is.na(USGDPpresidents$unemployment)
 plot(unemployment~Year, 
-     USGDPpresidents[selD,], type='l', 
+     USGDPpresidents[selU,], type='l', 
      xlab='', ylab='unemployment')
-abline(h=2:3)
-abline(v=USGDPpresidents$Year[war], 
-    lty='dotted', col='light gray')
+abline(h=2:3, lty='dotted', col='grey')
+with(USGDPpresidents, abline(v=Year[war], 
+    lty='dotted', col='light gray'))
 abline(v=c(1929, 1933), col='red', lty='dotted')
-text(1931, 22, 'Hoover', srt=90, col='red')
+text(1931, 4, 'Hoover', srt=90, col='red')
 ```
 
 ## Done:  Save
