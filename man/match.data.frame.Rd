@@ -106,7 +106,7 @@ match.data.frame(x, y, by, by.x=by, by.y=by,
   \code{\link{strsplit}}, \code{\link{is.na}}
   \code{\link{grep}}, \code{\link{agrep}}
   \code{\link{match}}, \code{\link[prodlim]{row.match}},
-  \code{\link[plyr]{join}}, \code{\link[plyr]{match_df}}
+  \code{\link[dplyr]{join}}, \code{\link[dplyr]{match_df}}
   \code{\link[TRAMPR]{classify}}
 }
 %\references{}
