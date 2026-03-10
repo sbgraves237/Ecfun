@@ -11,7 +11,7 @@ Maintainer: Spencer Graves <spencer.graves@effectivedefense.org>
 BugReports: https://github.com/sbgraves237/Ecfun/issues
 Depends: R (>= 3.5.0)
 Suggests: car, DescTools, Ecdat, maps, grid, gridBase, 
-    pryr, knitr, rmarkdown, invgamma, ipumsr, 
+    dplyr, knitr, rmarkdown, invgamma, ipumsr, 
     lubridate, bayesplot, bssm, ggplot2, tibble, 
     kableExtra, openxlsx, fitdistrplus, purrr, 
     markdown, EnvStats, drc, zoo, prodlim, plyr, 
