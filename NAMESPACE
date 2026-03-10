@@ -1,4 +1,4 @@
-export(.onAttach, 
+export(#.onAttach, <- Do I need this? 
        Arrows, as.Date1970, asNumericChar, asNumericDF, 
        BoxCox, 
        confint.var, confint.sd, 
