@@ -136,7 +136,6 @@ all.equal(eNULL, NULL)
 ## 4.  Language:  find, eval, return 
 ##
 Qte <- quote(plot(1:4, y=x, col=c2))
-#if(require(pryr)){ 
 # pryr is obsolete w no obvious replacement for standardize_call 
 #  Qt <- pryr::standardise_call(Qte) # add the name 'x' 
   f <- eval(Qte[[1]], parent.frame()) 
@@ -155,6 +154,5 @@ Qte <- quote(plot(1:4, y=x, col=c2))
 \dontshow{stopifnot(}
   all.equal(Col2, 2)
 \dontshow{)}
-}
 }
 \keyword{manip}
