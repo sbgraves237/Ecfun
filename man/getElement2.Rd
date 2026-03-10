@@ -136,8 +136,12 @@ all.equal(eNULL, NULL)
 ## 4.  Language:  find, eval, return 
 ##
 Qte <- quote(plot(1:4, y=x, col=c2))
-if(require(pryr)){ 
-  Qt <- pryr::standardise_call(Qte) # add the name 'x' 
+#if(require(pryr)){ 
+# pryr is obsolete w no obvious replacement for standardize_call 
+#  Qt <- pryr::standardise_call(Qte) # add the name 'x' 
+  f <- eval(Qte[[1]], parent.frame()) 
+  Qt <- match.call(f, Qte)
+#
   fn <- getElement2(Qt)
   eQuote <- getElement2(Qt, 'y')
   Col2 <- getElement2(Qt, 'col', envir=list(c2=2))
