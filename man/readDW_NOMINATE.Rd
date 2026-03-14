@@ -221,8 +221,9 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
     \code{numeric} First year of each 2-year computed 
     from \code{congress} as (2*congress+1787).
   }
-  \item{Party, Party2, Party3} as described above with the argument 
-  \code{party_code}. 
+  \item{Party, Party2, Party3}{as described above with the argument 
+    \code{party_code}.
+  }
 }
 \references{
 \href{https://legacy.voteview.com}{\code{Voteview.com} website}. 
