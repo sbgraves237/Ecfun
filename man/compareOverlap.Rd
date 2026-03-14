@@ -21,9 +21,7 @@
   \code{x}, \code{y}, \code{yRef}, 
   \code{dy}, and \code{dyRef}. 
   
-  Also if(Plot){
-    if(any(is.na(dyRef))) plot(dyRef) else plot(dy)
-  }  
+  Also if(Plot)if(any(is.na(dyRef))) plot(dyRef) else plot(dy).
 }
 \usage{
 compareOverlap(y=2, yRef=y, x=1, 
