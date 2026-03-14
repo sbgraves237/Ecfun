@@ -99,7 +99,7 @@ readDW_NOMINATE <- function(file=
   if(length(oops4)>0){
     warning(paste(codeNms[oops4+1], collapse=', '), 
             'are in colnames of the file read = ', 
-            paste(readNAMES, collapse=', '), 
+            paste(readNames, collapse=', '), 
             '. They will be overwritten.')
   }
 ## 
