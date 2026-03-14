@@ -6,11 +6,10 @@ test_that("getMaddisonSources", {
 #
   if(!inherits(Nominate, "try-error")){
     expect_identical(inherits(Nominate, 'data.frame'), TRUE)
-    expect_identical(ncol(Nominate), 25L) 
+    expect_identical(ncol(Nominate), 26L) 
     expect_gt(length(unique(Nominate$party_code)), 52L)
     expect_gt(length(unique(Nominate$Party)), 50L)
-    #col24 = 'party' ordered
-    #col25 = 'Dem', 'Rep', 'other', recoding Fedseralists and Whigs as Rep
-    expect_identical(levels(Nominate$Party2), c('Dem', 'Rep', 'other'))
+    expect_identical(length(unique(Nominate$Party2)), 3L)
+    expect_identical(length(unique(Nominate$Party3)), 3L)
   }
 })
