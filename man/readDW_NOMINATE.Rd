@@ -221,7 +221,6 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
     If Year \%in\% names(tblOfFile <- readr::read_csv(file, ...)), keep 
     whatever is read. Else, replace with tblOfFile[, 'congress']+1787. 
     (The latter is the default as of 2026-03-13.) 
-    }
   }
   \item{Party}{
     as described above with the argument \code{party_code}. 
