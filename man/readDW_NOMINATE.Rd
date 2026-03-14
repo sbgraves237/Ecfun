@@ -218,8 +218,8 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
     described by Nokken and Poole (2004). 
   }
   \item{Year}{
-    If \code{Year %in% names(tblOfFile <- readr::read_csv(file, ...))}, keep 
-    whatever is read. Else, replace with \code{tblOfFile[, 'congress']+1787}. 
+    If Year \%in\% names(tblOfFile <- readr::read_csv(file, ...)), keep 
+    whatever is read. Else, replace with tblOfFile[, 'congress']+1787. 
     (The latter is the default as of 2026-03-13.) 
     }
   }
