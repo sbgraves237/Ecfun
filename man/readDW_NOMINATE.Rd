@@ -27,6 +27,47 @@ readDW_NOMINATE(file=
   \item{file}{
     \code{file} argument passed to \code{\link[readr]{read_csv}}.
   }
+  \item{PartyNames}{
+    \code{\link{matrix}} or \code{\link{data.frame}}, with 
+    \code{\link{colnames}} starting with the name of a column of the 
+    \code{\link{data.frame}} read as the first step of this function. The rest
+    of \code{colnames} are names of columns to add to the \code{data.frame} 
+    read. By default, the first column is \code{party_code}. The second is 
+    \code{Party} with contents translating \code{party_code} into the English 
+    names of the parties in 
+    \href{https://voteview.com/articles/data_help_parties}{\code{data_help_parties} 
+    on \code{voteview.com}}. The third and fourth columns of \code{PartyNames} 
+    are \code{Party2} and \code{Party3}, to support translating the parties 
+    into groups two slightly different ways. \code{Party2} creates 
+    \code{Fed_Whig_Rep}, \code{DemRep_Jackson_Dem}, and \code{other} in 
+    including only the parties named in the two main groups. \code{Party3} 
+    aggregates some but not all minor and shortlived parties with the two main 
+    groups, leaving only slightly over 2 percent of the members of Congress in 
+    \code{other} as of 2026-03-09. 
+    
+    Thus, by default, \code{Party2} combines  \code{party_code} 100 = modern 
+    Democratic party with 13 = Democratic-Republican Party and 555 = Jackson 
+    Party are combined into \code{DemRep_Jackson_Dem} while 200 = modern 
+    Republican party + 29 = Whig + 1 = Federalists are combined into 
+    \code{Fed_Whig_Rep}. All others are \code{other}. 
+
+    And \code{Party3} combines  \code{party_code} 100 = modern 
+    Democratic party with 13 = Democratic-Republican Party, 555 = Jackson 
+    Party, and 4000 = anti-administration into \code{DemRep_Jackson_Dem_} while 
+    200 = modern Republican party + 29 = Whig + 1 = Federalists 
+    + 1275 = Anti-Jacksonians + 22 = Adams + 5000 = pro-administration + 
+    3333 = Opposition Party are combined into \code{Fed_Whig_Rep_}. All others 
+    are \code{other_}. Note the subtle difference in the group names between 
+    \code{Party2} and \code{Party3}. 
+    
+    NOTE: As of 2026-03-09, names "Union Labor Party" and "Constitutional 
+    Unionist Party" had two different codes each: \code{party_code} = 355 and 
+    366 both mapped to "Union Labor Party" and \code{party_code} = 37 and 4444
+    both mapped to "Constitutional Unionist Party". The first included 14 
+    officials in the US Congress in the 1851 and 1961 sessions combined. The 
+    second had 4 officials in the US Congress between 1887 and 1919. (Both 
+    are coded "other" in \code{Party2}.)
+  }
   \item{\dots}{
     optional arguments for \code{\link[readr]{read_csv}}.
   }
@@ -47,7 +88,11 @@ by
 in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`. 
 }
 \value{
-  a \code{\link[tibble]{tibble}} with columns 
+  This returns a \code{\link[tibble]{tibble}} read from \code{file} with 
+  additional columns specified by \code{PartyNames}. 
+  
+  With the default \code{file} and \code{PartyNames}, the output has the 
+  following columns 
   \item{congress}{
     \code{number} of the Congress starting with 1 in 1789.
   }
@@ -120,33 +165,8 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
     \code{numeric} First year of each 2-year computed 
     from \code{congress} as (2*congress+1787).
   }
-  \item{Party}{
-    \code{ordered} giving the names for each numeric \code{party_code} per 
-    \href{https://voteview.com/articles/data_help_parties}{\code{data_help_parties} on \code{voteview.com}}
-    ordered by number of members in the Congress. 
-    
-    NOTE: As of 2026-03-09, names "Union Labor Party" and "Constitutional 
-    Unionist Party" had two different codes each: \code{party_code} = 355 and 
-    366 both mapped to "Union Labor Party" and \code{party_code} = 37 and 4444
-    both mapped to "Constitutional Unionist Party". The first included 14 
-    officials in the US Congress in the 1851 and 1961 sessions combined. The 
-    second had 4 officials in the US Congress between 1887 and 1919. (Both 
-    are coded "other" in \code{Party2}.)
-  }
-  \item{Party2}{
-    \code{link{ordered}} collapsing all to 'Dem', 'Rep', and 'other'. 
-
-    'Dem' include 100 = modern Democratic party + 
-    13 = Democratic-Republican Party + 555 = Jackson Party + 
-    4000 = anti-administration
-    
-    'Rep' include 200 = modern Republican party + 29 = Whig + 1 = Federalists 
-    + 1275 = Anti-Jacksonians + 22 = Adams + 5000 = pro-administration + 
-    3333 = Opposition Party. 
-    
-    'other' = 42 other parties, which cumulatively have held just over 2 
-    percent of the seats in all the congresses in US history. 
-  }
+  \item{Party, Party2, Party3} as described above with the argument 
+  \code{party_code}. 
 }
 \references{
 \href{https://legacy.voteview.com}{\code{Voteview.com} website}. 
