@@ -1,98 +1,115 @@
 readDW_NOMINATE <- function(file=
   "https://voteview.com/static/data/out/members/HSall_members.csv", 
-  ...){
+  PartyNames = matrix( c(
+    "100", "Democratic Party", "DemRep_Jackson_Dem", "DemRep_Jackson_Dem_", 
+    "200", "Republican Party", "Fed_Whig_Rep", "Fed_Whig_Rep_", 
+    "1", "Federalist Party", "Fed_Whig_Rep", "Fed_Whig_Rep_", 
+    "13", "Democratic-Republican Party", "DemRep_Jackson_Dem", 
+          "DemRep_Jackson_Dem_", 
+    "22", "Adams Party", "Fed_Whig_Rep", "Fed_Whig_Rep_", 
+    "26", "Anti Masonic Party", "other", "other_", 
+    "29", "Whig Party", "Fed_Whig_Rep", "Fed_Whig_Rep_", 
+    "37", "Constitutional Unionist Party", "other", "other_", 
+    "44", "Nullifier Party", "other", "other_", 
+    "46", "States Rights Party", "other", "other_", 
+    "108", "Anti-Lecompton Democrats", "other", "other_", 
+    "112", "Conservative Party", "other", "other_", 
+    "114", "Readjuster Party", "other", "other_", 
+    "117", "Readjuster Democrats", "other", "other_", 
+    "203", "Unconditional Unionist Party", "other", "other_", 
+    "206", "Unionist Party", "other", "other_", 
+    "208", "Liberal Republican Party", "other", "other_", 
+    "213", "Progressive Republican Party", "other", "other_", 
+    "300", "Free Soil Party", "other", "other_", 
+    "310", "American Party", "other", "other_", 
+    "326", "National Greenbacker Party", "other", "other_", 
+    "340", "Populist PARTY", "other", "other_", 
+    "347", "Prohibitionist Party", "other", "other_", 
+    "354", "Silver Republican Party", "other", "other_", 
+    "355", "Union Labor Party", "other", "other_", 
+    "356", "Union Labor Party", "other", "other_", 
+    "370", "Progressive Party", "other", "other_", 
+    "380", "Socialist Party", "other", "other_", 
+    "402", "Liberal Party", "other", "other_", 
+    "403", "Law and Order Party", "other", "other_", 
+    "522", "American Labor Party", "other", "other_", 
+    "523", "American Labor Party (La Guardia)", "other", "other_", 
+    "537", "Farmer-Labor Party", "other", "other_", 
+    "555", "Jackson Party", "DemRep_Jackson_Dem", "DemRep_Jackson_Dem_", 
+    "1060", "Silver Party", "other", "other_", 
+    "1111", "Liberty Party", "other", "other_", 
+    "1116", "Conservative Republicans", "other", "other_", 
+    "1275", "Anti-Jacksonians", "other", "Fed_Whig_Rep_", 
+    "1346", "Jackson Republican", "other", "other_", 
+    "3333", "Opposition Party", "other", "Fed_Whig_Rep_", 
+    "3334", "Opposition Party (36th)", "other", "other_", 
+    "4000", "Anti-Administration Party", "other", "DemRep_Jackson_Dem_", 
+    "4444", "Constitutional Unionist Party", "other", "other_", 
+    "5000", "Pro-Administration Party", "other", "Fed_Whig_Rep_", 
+    "6000", "Crawford Federalist Party", "other", "other_", 
+    "7000", "Jackson Federalist Party", "other", "other_", 
+    "7777", "Crawford Republican Party", "other", "other_", 
+    "8000", "Adams-Clay Federalist Party", "other", "other_", 
+    "8888", "Adams-Clay Republican Party", "other", "other_", 
+    "328", "Independent", "other", "other_", 
+    "329", "Independent Democrat", "other", "other_", 
+    "331", "Independent Republican", "other", "other_", 
+    "603", "Independent Whig", "other", "other_"), 
+    byrow=TRUE, ncol=4, dimnames=list(NULL, 
+          c('party_code', 'Party', 'Party2', 'Party3')) ), ...){
 ##
 ## 1. read
 ##   
   dwn <- readr::read_csv(file, ...)
-  dwn$Year <- (2*dwn$congress + 1787)
+  readNames <- colnames(dwn) 
+  if(is.null(readNames)){
+    warning('File read does not have colnames; file = ', file, 
+            '; dim of file read = ', paste(dim(dwn), collapse=', '))
+  }
+  if('Year' %in% readNames){
+    warning("'Year' in colnames of file read,", 
+      "unlike previous files read with this function.")
+  } else {
+    dwn$Year <- (2*dwn$congress + 1787)
+  }
 ##
-## 2. Convert party_code to ordered  
-##  
-# Recode party_code == 356 to 355
-#  Dwn <- dwn
-  p_c <- dwn$party_code
-  p_c[p_c==356] <- 355
-  p_c[p_c==37] <- 4444
-  #  Dwn$party_code <- p_c
-# Party from https://voteview.com/articles/data_help_parties
-# without 356 = duplicate "Union Labor Party"  
-  pty <- c("
-    100 	Democratic Party
-    200 	Republican Party
-    1 	Federalist Party
-    13 	Democratic-Republican Party
-    22 	Adams Party
-    26 	Anti Masonic Party
-    29 	Whig Party
-    44 	Nullifier Party
-    46 	States Rights Party
-    108 	Anti-Lecompton Democrats
-    112 	Conservative Party
-    114 	Readjuster Party
-    117 	Readjuster Democrats
-    203 	Unconditional Unionist Party
-    206 	Unionist Party
-    208 	Liberal Republican Party
-    213 	Progressive Republican Party
-    300 	Free Soil Party
-    310 	American Party
-    326 	National Greenbacker Party
-    340 	Populist PARTY
-    347 	Prohibitionist Party
-    354 	Silver Republican Party
-    355 	Union Labor Party
-    370 	Progressive Party
-    380 	Socialist Party
-    402 	Liberal Party
-    403 	Law and Order Party
-    522 	American Labor Party
-    523 	American Labor Party (La Guardia)
-    537 	Farmer-Labor Party
-    555 	Jackson Party
-    1060 	Silver Party
-    1111 	Liberty Party
-    1116 	Conservative Republicans
-    1275 	Anti-Jacksonians
-    1346 	Jackson Republican
-    3333 	Opposition Party
-    3334 	Opposition Party (36th)
-    4000 	Anti-Administration Party
-    4444 	Constitutional Unionist Party
-    5000 	Pro-Administration Party
-    6000 	Crawford Federalist Party
-    7000 	Jackson Federalist Party
-    7777 	Crawford Republican Party
-    8000 	Adams-Clay Federalist Party
-    8888 	Adams-Clay Republican Party
-    328 	Independent
-    329 	Independent Democrat
-    331 	Independent Republican
-    603 	Independent Whig
-    ")
-  Pty <- strsplit(pty, '\n')[[1]]
-  Pty1 <- tail(Pty, -1)
-  Pty2 <- strsplit(Pty1, '\t')
-  Pty2h <- head(Pty2, -1)
-  Pty2u <- unlist(Pty2h)
-  Pty2t <- matrix(Pty2u, ncol=2, byrow=TRUE)
-  Pty2t[, 1] <- gsub(' ', '', Pty2t[, 1])
-  PtyVec <- Pty2t[,2]
-  names(PtyVec) <- Pty2t[, 1]
-  P_C <- PtyVec[as.character(p_c)]
-  P_Ctbl <- table(P_C)
-  P_Ctbls <- sort(P_Ctbl, TRUE)
-  PtyOd <- ordered(as.character(P_C), levels=names(P_Ctbls))
-  dwn$Party <- PtyOd
+## 2. check colnames(PartyNames)
 ##
-## 3. Collapse Party to 'Dem', 'Rep', and 'other', 
-##    including Federalists, Whigs, etc. with Rep, etc. 
-  DemCds <- c(100, 13, 555, 4000) 
-  RepCds <- c(200, 29,   1, 1275, 22, 5000, 333)
-  Party2 <- rep('other', nrow(dwn))
-  Party2[p_c %in% DemCds] <- 'Dem'
-  Party2[p_c %in% RepCds] <- 'Rep'
-  dwn$Party2 <- ordered(Party2, c('Dem', 'Rep', 'other'))
+  codeNms <- colnames(PartyNames)
+  if(is.null(codeNms)){
+    stop('No colnames with PartyNames')
+  }
+  codeNm <- codeNms[1]
+  if(!(codeNm %in% readNames)){
+    stop('colnames(PartyNames)[1] = ', codeNm, 
+         ' not in colnames of the file read = ', 
+         paste(readNames, collapse=', '))
+  }
+  oops2 <- which(is.na(PartyNames[, 1, drop=TRUE]))
+  if(length(oops2)>0){
+    stop('NA(s) found in row(s) ', paste(oops2, collapse=', '), 
+         ' of PartyNames')
+  }
+  oops3 <- which(!(dwn[, codeNm, drop=TRUE] %in% PartyNames[, 1]))
+  if(length(oops3)>0){
+    stop(codeNm, ' = ', dwn[oops3, codeNm], 
+         ' not found in PartyNames[, 1]')
+  }
+  oops4 <- which(codeNms[-1] %in% readNames)
+  if(length(oops4)>0){
+    warning(paste(codeNms[oops4+1], collapse=', '), 
+            'are in colnames of the file read = ', 
+            paste(readNAMES, collapse=', '), 
+            '. They will be overwritten.')
+  }
+## 
+## 3. add PartyNames columns
+## 
+  for(newCol in codeNms[-1]){
+    newCds <- PartyNames[, newCol]
+    names(newCds) <- PartyNames[, 1]
+    dwn[, newCol] <- newCds[as.character(dwn[, codeNm, drop=TRUE])]
+  }
 ##
 ## 4. done  
 ##  
