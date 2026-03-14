@@ -230,7 +230,7 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
     as described above with the argument \code{party_code}. 
   }
   \item{Party3}{
-    as described above with the argument \code{party_code}. 
+    as described above with the argument party_code. 
   }
 }
 \references{
