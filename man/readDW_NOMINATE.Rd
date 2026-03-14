@@ -218,11 +218,20 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
     described by Nokken and Poole (2004). 
   }
   \item{Year}{
-    \code{numeric} First year of each 2-year computed 
-    from \code{congress} as (2*congress+1787).
+    If \code{Year %in% names(tblOfFile <- readr::read_csv(file, ...))}, keep 
+    whatever is read. Else, replace with \code{tblOfFile[, 'congress']+1787}. 
+    (The latter is the default as of 2026-03-13.) 
+    }
   }
-  \item{Party, Party2, Party3} as described above with the argument 
-  \code{party_code}. 
+  \item{Party}{
+    as described above with the argument \code{party_code}. 
+  }
+  \item{Party2}{
+    as described above with the argument \code{party_code}. 
+  }
+  \item{Party3}{
+    as described above with the argument \code{party_code}. 
+  }
 }
 \references{
 \href{https://legacy.voteview.com}{\code{Voteview.com} website}. 
