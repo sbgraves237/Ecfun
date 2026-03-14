@@ -21,9 +21,9 @@
   \code{x}, \code{y}, \code{yRef}, 
   \code{dy}, and \code{dyRef}. 
   
-  Also if(\code{Plot}){
-    if(\code{any(is.na(dyRef))}) \code{plot(dyRef)} else \code{plot(dy)}
-  }  
+  Also \code{Plot} is \code{TRUE}, then
+  if \code{any(is.na(dyRef))}, \code{plot(dyRef)}
+  is run, otherwise \code{plot(dy)} is.
 }
 \usage{
 compareOverlap(y=2, yRef=y, x=1, 
