@@ -21,7 +21,7 @@
   \code{x}, \code{y}, \code{yRef}, 
   \code{dy}, and \code{dyRef}. 
   
-  Also if(\code{Plot}){
+  Also if(Plot){
     if(\code{any(is.na(dyRef))}) \code{plot(dyRef)} else \code{plot(dy)}
   }  
 }
