@@ -22,7 +22,7 @@
   \code{dy}, and \code{dyRef}. 
   
   Also if(Plot){
-    if(\code{any(is.na(dyRef))}) \code{plot(dyRef)} else \code{plot(dy)}
+    if(any(is.na(dyRef))) plot(dyRef) else plot(dy)
   }  
 }
 \usage{
