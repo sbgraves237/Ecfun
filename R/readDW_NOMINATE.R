@@ -108,7 +108,8 @@ readDW_NOMINATE <- function(file=
   for(newCol in codeNms[-1]){
     newCds <- PartyNames[, newCol]
     names(newCds) <- PartyNames[, 1]
-    dwn[, newCol] <- newCds[as.character(dwn[, codeNm, drop=TRUE])]
+    newC <- newCds[as.character(dwn[, codeNm, drop=TRUE])]
+    dwn[, newCol] <- as.character(newC)
   }
 ##
 ## 4. done  
