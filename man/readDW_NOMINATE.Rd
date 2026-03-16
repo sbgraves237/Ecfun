@@ -101,20 +101,25 @@ readDW_NOMINATE(file=
     groups, leaving only slightly over 2 percent of the members of Congress in 
     \code{other} as of 2026-03-09. 
     
-    Thus, by default, \code{Party2} combines  \code{party_code} 100 = modern 
-    Democratic party with 13 = Democratic-Republican Party and 555 = Jackson 
-    Party are combined into \code{DemRep_Jackson_Dem} while 200 = modern 
-    Republican party + 29 = Whig + 1 = Federalists are combined into 
-    \code{Fed_Whig_Rep}. All others are \code{other}. 
-
-    And \code{Party3} combines  \code{party_code} 100 = modern 
-    Democratic party with 13 = Democratic-Republican Party, 555 = Jackson 
-    Party, and 4000 = anti-administration into \code{DemRep_Jackson_Dem_} while 
-    200 = modern Republican party + 29 = Whig + 1 = Federalists 
-    + 1275 = Anti-Jacksonians + 22 = Adams + 5000 = pro-administration + 
-    3333 = Opposition Party are combined into \code{Fed_Whig_Rep_}. All others 
-    are \code{other_}. Note the subtle difference in the group names between 
-    \code{Party2} and \code{Party3}. 
+    Thus, by default, \code{Party2} and \code{Party3} each create three similar 
+    but slightly different combinations of historical parties. 
+    
+    The three levels of \code{Party2} are \code{DemRep_Jackson_Dem}, 
+    \code{Fed_Whig_Rep}, and \code{other}: \code{DemRep_Jackson_Dem} combines 
+    100 = modern Democratic party with 13 = Democratic-Republican Party and 
+    555 = Jackson Party. \code{Fed_Whig_Rep} combines 200 = modern Republican 
+    party with 29 = Whig and 1 = Federalists. As of 2026-03-16, \code{other} 
+    is less than 4 percent of all individuals in the \code{DW_NOMINATE} 
+    database. 
+    
+    The three levels of \code{Party3} are \code{DemRep_Jackson_Dem_}, 
+    \code{Fed_Whig_Rep_}, and \code{other_}; note that "_" is apended to the 
+    names of the default levels of \code{Party2}. \code{DemRep_Jackson_Dem_} 
+    adds 4000 = anti-administration to the three combined into 
+    \code{DemRep_Jackson_Dem}. \code{Fed_Whig_Rep_} adds 1275 = 
+    Anti-Jacksonians + 22 = Adams + 5000 = pro-administration + 
+    3333 = Opposition Party to those combined into \code{Fed_Whig_Rep}. As of 
+    2026-03-16, this leaves just over 2 percent in code{other_}. 
     
     NOTE: As of 2026-03-09, names "Union Labor Party" and "Constitutional 
     Unionist Party" had two different codes each: \code{party_code} = 355 and 
@@ -122,7 +127,7 @@ readDW_NOMINATE(file=
     both mapped to "Constitutional Unionist Party". The first included 14 
     officials in the US Congress in the 1851 and 1961 sessions combined. The 
     second had 4 officials in the US Congress between 1887 and 1919. (Both 
-    are coded "other" in \code{Party2}.)
+    are coded "other" in \code{Party2} and \code{Party4}.)
   }
   \item{\dots}{
     optional arguments for \code{\link[readr]{read_csv}}.
