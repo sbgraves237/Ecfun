@@ -119,7 +119,7 @@ readDW_NOMINATE(file=
     \code{DemRep_Jackson_Dem}. \code{Fed_Whig_Rep_} adds 1275 = 
     Anti-Jacksonians + 22 = Adams + 5000 = pro-administration + 
     3333 = Opposition Party to those combined into \code{Fed_Whig_Rep}. As of 
-    2026-03-16, this leaves just over 2 percent in code{other_}. 
+    2026-03-16, this leaves just over 2 percent in \code{other_}. 
     
     NOTE: As of 2026-03-09, names "Union Labor Party" and "Constitutional 
     Unionist Party" had two different codes each: \code{party_code} = 355 and 
