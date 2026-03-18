@@ -35,6 +35,7 @@ export(#.onAttach, <- Do I need this?
        simulate.bic.glm, simulate.glm, 
        strsplit1, subNonStandardCharacters, 
        subNonStandardNames, 
+       tableCountAverage, 
        trimImage, 
        UShouse.senate, USsenateClass, 
        whichAeqB)
