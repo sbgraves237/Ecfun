@@ -39,7 +39,7 @@ tableCountAverage(x, y, data, useNA = c("no", "ifany", "always"), na.rm=TRUE,
   }
 }
 \details{
-  1.  \code(xTab <- table(data[, x], useNA=useNA, ...))
+  1.  \code{xTab <- table(data[, x], useNA=useNA, ...)}
 
   2.  \code{if(!is.na(decreasing)) xTab <- sort(xTab, decreasing)}
   
