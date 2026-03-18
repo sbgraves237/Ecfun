@@ -6,10 +6,9 @@ test_that("getMaddisonSources", {
 #
   if(!inherits(Nominate, "try-error")){
     expect_identical(inherits(Nominate, 'data.frame'), TRUE)
-    expect_identical(ncol(Nominate), 26L) 
+    expect_identical(ncol(Nominate), 25L) 
     expect_gt(length(unique(Nominate$party_code)), 52L)
     expect_gt(length(unique(Nominate$Party)), 50L)
     expect_identical(length(unique(Nominate$Party2)), 3L)
-    expect_identical(length(unique(Nominate$Party3)), 3L)
   }
 })
