@@ -111,7 +111,33 @@ readDW_NOMINATE <- function(file=
     dwn[, newCol] <- as.character(newC)
   }
 ##
-## 4. done  
+## 4, Add CongressParty attribute
+##
+  cp <- by(dwn, dwn$Year, function(x){
+    tableCountAverage('Party', 'nominate_dim1', data=x, useNA = "ifany")
+  })
+  Ncp <- length(cp)
+  ncp <- sapply(cp, nrow)
+  Yr <- as.integer(names(cp))
+
+  CPdat <- NULL
+  for(icp in 1:Ncp){
+    CPdat <- rbind(CPdat, cp[[icp]])
+  }
+  
+  CP <- cbind(congress=rep((Yr-1787)/2L, ncp), 
+              Year = rep(Yr, ncp), CPdat)
+  names(CP)[6] <- 'meanNominate_dim1'
+  attr(dwn, 'CongressParty') <- CP 
+##
+## 5. Add CongressMembers attribute
+##
+  cm <- table(dwn$congress)
+  cng <- as.integer(names(cm))
+  CM <- data.frame(congress=cng, Year=1787L+2L*cng, n=as.integer(cm))
+  attr(dwn, 'CongressMembers') <- CM
+##
+## 6. Done  
 ##  
   dwn
 }
