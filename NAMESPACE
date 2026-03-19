@@ -54,6 +54,7 @@ importFrom("utils", "de", "head", "read.csv", "tail")
 importFrom("xml2", 'as_list', 'read_xml')
 importFrom("mvtnorm", "rmvnorm")
 importFrom("BMA", "bic.glm")
+importFrom("MaddisonData", "ggplotPath")
 
 import(MASS)
 import(fda)
