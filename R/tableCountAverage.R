@@ -18,13 +18,14 @@ tableCountAverage <- function(x, y, data, useNA = c("no", "ifany", "always"),
 ##
 ## 4. Done 
 ##
-  out <- data.frame(x = names(xTab), count=as.numeric(xTab), 
+  out <- data.frame(x = names(xTab), n=as.numeric(xTab), 
+                    p=as.numeric(xTab/sum(xTab)), 
                     mean=as.numeric(yMeans[names(xTab)]) )
   xNA <- which(is.na(out[, 'x']))
   if(length(xNA)>0){
     inNA <- which(is.na(data[, x]))
     out[xNA, 'mean'] <- mean(data[inNA, y], na.rm=na.rm) 
   }
-  names(out) <- c(x, 'count', y)
+  names(out) <- c(x, 'n', 'p', y)
   out
 }
