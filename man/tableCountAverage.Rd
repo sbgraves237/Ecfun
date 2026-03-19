@@ -61,8 +61,9 @@ tableCountAverage(x, y, data, useNA = c("no", "ifany", "always"), na.rm=TRUE,
   catTabDecr <- tableCountAverage('cat', 'num', Dat, na.rm=FALSE)
   catTabIncr <- tableCountAverage('cat', 'num', Dat, useNA='ifany', 
                                   decreasing=FALSE)
-  catTab <- tableCountAverage('cat', 'num', Dat[-4, ], useNA='always', 
-                              decreasing=NA)
+# Make sure it also works with a tibble                                   
+  catTab <- tableCountAverage('cat', 'num', tibble::as_tibble(Dat)[-4, ], 
+                              useNA='always', decreasing=NA)
 
   cTd <- data.frame(cat = c('g', 'a', 'h'), 
                     n   = c( 3,   2,   1), 
