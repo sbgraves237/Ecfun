@@ -66,14 +66,14 @@ readDW_NOMINATE(file=
     "4000", "Anti-Administration Party", "DemRep_Jackson_Dem", 
     "4444", "Constitutional Unionist Party", "other", 
     "5000", "Pro-Administration Party", "Fed_Whig_Rep", 
-    "6000", "Crawford Federalist Party", "other", 
-    "7000", "Jackson Federalist Party", "other", 
-    "7777", "Crawford Republican Party", "other", 
-    "8000", "Adams-Clay Federalist Party", "other", 
-    "8888", "Adams-Clay Republican Party", "other", 
+    "6000", "Crawford Federalist Party", "Fed_Whig_Rep", 
+    "7000", "Jackson Federalist Party", "Fed_Whig_Rep", 
+    "7777", "Crawford Republican Party", "DemRep_Jackson_Dem", 
+    "8000", "Adams-Clay Federalist Party", "Fed_Whig_Rep", 
+    "8888", "Adams-Clay Republican Party", "Fed_Whig_Rep", 
     "328", "Independent", "other", 
-    "329", "Independent Democrat", "other", 
-    "331", "Independent Republican", "other", 
+    "329", "Independent Democrat", "DemRep_Jackson_Dem", 
+    "331", "Independent Republican", "Fed_Whig_Rep", 
     "603", "Independent Whig", "other"), 
     byrow=TRUE, ncol=3, dimnames=list(NULL, 
           c('party_code', 'Party', 'Party2')) ), ...)
@@ -298,15 +298,16 @@ Roll-Call Votes Database},
 # if the Voteview website is not available. 
 
 Nominate <- try(readDW_NOMINATE())
-}
+
 if(inherits(Nominate, 'tbl')){
 
   CongressMembers <- attr(Nominate, "CongressMembers")
   plot(n~Year, CongressMembers, type='b')
   
   CongressParty <- attr(Nominate, "CongressParty")
-  MaddisonData::ggplotPath('Year', 'meanNominate_dim1', CongressParty)
-  
+  MaddisonData::ggplotPath('Year', 'meanNominate_dim1', 'Party', 
+        CongressParty, logy=FALSE, legend.position='none')
+        
 # Check party_code, etc.   
   PartyCodes <- with(Nominate, by(party_code, Party, table))
   table(nPartyCodes <- sapply(PartyCodes, length))
@@ -324,13 +325,44 @@ if(inherits(Nominate, 'tbl')){
   p2 <- sapply(top2, function(x)sum(x[1:2]))
   plot(as.numeric(names(p2)), p2, type='l')
   top2[p2<.8]
+  (mostDiverse <- as.integer(names(top2[p2<.8])))
+  abline(v=mostDiverse, col='grey', lty='dotted')
 # The top 2 parties in the Congress that began in 1823 were
 # the "Adams-Clay Republican Party" and the "Crawford Republican Party".
+  (mostDiverseCong <- subset(CongressParty, Year==mostDiverse))
+#   congress Year                       Party  n           p meanNominate_dim1
+#35       18 1823 Adams-Clay Republican Party 86 0.312727273        0.30736471
+#36       18 1823   Crawford Republican Party 78 0.283636364       -0.10872727
+#37       18 1823          Jackson Republican 77 0.280000000       -0.02653947
+#38       18 1823 Adams-Clay Federalist Party 20 0.072727273        0.31430000
+#39       18 1823    Jackson Federalist Party  7 0.025454545        0.13185714
+#40       18 1823 Democratic-Republican Party  5 0.018181818        0.29000000
+#41       18 1823   Crawford Federalist Party  2 0.007272727        0.20200000
+# On the basis of this, we classify the Adams-Clay Republican Party, 
+# Adams-Clay Federalist Party, Jackson Federalist Party, and  
+# Crawford Federalist Party with Fed_Whig_Rep, and the 
+# Crawford Republican Party with DemRep_Jackson_Dem. 
+# For this year, the Democratic-Republican Party seems to also belong 
+# with Fed_Whig_Rep. However, its record in other yeas is more like 
+# the DemRep_Jackson_Dem cluster and will be left that way. 
 
+# What about all the "Independents" = 
+# "Independent", "Independent Democrat", "Independent Republican", "other", 
+# and "Independent Whig"? 
 
-
-      
-
-
+  Indep <- subset(CongressParty, startsWith(Party, 'Independent') )
+  MaddisonData::ggplotPath('Year', 'meanNominate_dim1', 'Party', 
+        Indep, logy=FALSE, legend.position='none')
+  head(Indep)
+  tail(Indep)
+# "Independent" runs 1837 to 2025. Prior to 1950, most were closer to 
+# Fed_Whig_Rep. Since 1950, most were closer to DemRep_Jackson_Dem. 
+# Leave them with "other". 
+# Independent Democrat can be clusered with DemRep_Jackson_Dem. 
+# Independent Whig appears only between 1843 and 1851 and are in the middle. 
+# Leave with "other". 
+# That leaves "Independent Republican", which can be clustered with 
+# Fed_Whig_Rep. 
+  }
 }
 \keyword{IO}
