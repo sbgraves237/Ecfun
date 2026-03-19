@@ -1,6 +1,6 @@
 Package: Ecfun
 Version: 0.4.1
-Date: 2026-03-09
+Date: 2026-03-19
 Title: Functions for 'Ecdat'
 Authors@R: c(person(given = "Spencer",
                   family = "Graves",
@@ -19,7 +19,7 @@ Suggests: car, DescTools, Ecdat, maps, grid, gridBase,
 VignetteBuilder: knitr
 Imports: fda, tis, jpeg, MASS, 
     stringi, methods, xml2, BMA, 
-    mvtnorm, rvest, readr, rworldmap
+    mvtnorm, rvest, readr, rworldmap, MaddisonData
 Description: Functions and vignettes to update 
     data sets in 'Ecdat' and to create, manipulate, 
     plot, and analyze those and similar data sets.
