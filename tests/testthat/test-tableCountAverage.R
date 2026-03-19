@@ -8,13 +8,16 @@ test_that("getMaddisonSources", {
                               decreasing=NA)
 
   cTd <- data.frame(cat = c('g', 'a', 'h'), 
-                    count=c( 3,   2,   1), 
+                    n   = c( 3,   2,   1), 
+                    p   = c( 3,   2,   1)/6, 
                     num = c( NA,  3,   1))
   cTi <- data.frame(cat = c('h', NA, 'a', 'g'), 
-                    count=c( 1,  1,   2,   3), 
+                    n   = c( 1,  1,   2,   3), 
+                    p   = c( 1,  1,   2,   3)/7, 
                     num = c( 1,  3,   3, 5.5))
   cT <- data.frame(cat = c('a', 'g', 'h', NA), 
-                   count=c( 2,   3,   1,   0), 
+                   n   = c( 2,   3,   1,   0), 
+                   p   = c( 2,   3,   1,   0)/6, 
                    num =c(  3, 5.5,   1,  NaN))
   
   expect_identical(catTabDecr, cTd)
