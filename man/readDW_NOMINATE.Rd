@@ -149,10 +149,11 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
 }
 \value{
   This returns a \code{\link[tibble]{tibble}} read from \code{file} with 
-  additional columns specified by \code{PartyNames}. 
+  additional columns specified by \code{PartyNames} and with 
+  \code{CongressMembers} and \code{CongressParty} attributes.
   
-  With the default \code{file} and \code{PartyNames}, the output has the 
-  following columns 
+  With the default \code{file} and \code{PartyNames}, the \code{tibble} 
+  returned has the following columns: 
   \item{congress}{
     \code{number} of the Congress starting with 1 in 1789.
   }
@@ -235,6 +236,43 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
   \item{Party3}{
     as described above with the argument party_code. 
   }
+  
+  The \code{CongressMembers} attribute is a \code{data.frame} with the 
+  following columns: 
+  
+  \item{congress}{
+    integer starting with 1 for the first Congress, which met from 1789 to 
+    1791. 
+  }
+  \item{Year}{
+    integer year for the start of each Congress. 
+  }
+  \item{n}{
+    integer number of members of the US House and Senate plus 1 for the 
+    president.
+  }
+  
+  The \code{CongressParty} attribute is a \code{data.frame} with the following 
+  columns: 
+  
+  \item{Congress}{ Integer number of the Congress.} 
+  \item{Year}{
+    Integer first year of the Congress = 1789 for Congress 1, 1791 for 
+    Congress 2, etc. 
+  }
+  \item{Party}{
+    Character string giving the name of the party. 
+  }
+  \item{n}{
+    number of members in that \code{Party} in that \code{Congress}.
+  }
+  \item{p}{
+    Proportion of that \code{Congress} in that \code{Party}.
+  }
+  \item{meanNominate_dim1}{
+    \code{mean(nominate_dim1, na.rm=TRUE)} for that \code{Party} in that 
+    \code{Congress}. 
+  }
 }
 \references{
 \href{https://legacy.voteview.com}{\code{Voteview.com} website}. 
@@ -245,6 +283,11 @@ Legislative Studies Quarterly, 29:545-568,.
 
 Keith T. Poole (2005) Spatial models of parliamentary voting 
 (Cambridge U. Pr.). 
+
+\href{https://voteview.com/}{Jeffrey B. Lewis, Keith Poole, Howard Rosenthal, 
+Adam Boche, Aaron Rudkin, and Luke Sonnet (2026) "Voteview: Congressional 
+Roll-Call Votes Database}, 
+
 }
 \author{Spencer Graves}
 \seealso{
@@ -255,5 +298,39 @@ Keith T. Poole (2005) Spatial models of parliamentary voting
 # if the Voteview website is not available. 
 
 Nominate <- try(readDW_NOMINATE())
+}
+if(inherits(Nominate, 'tbl')){
+
+  CongressMembers <- attr(Nominate, "CongressMembers")
+  plot(n~Year, CongressMembers, type='b')
+  
+  CongressParty <- attr(Nominate, "CongressParty")
+  MaddisonData::ggplotPath('Year', 'meanNominate_dim1', CongressParty)
+  
+# Check party_code, etc.   
+  PartyCodes <- with(Nominate, by(party_code, Party, table))
+  table(nPartyCodes <- sapply(PartyCodes, length))
+  PartyCodes[nPartyCodes>1]
+# 'Constitutional Unionist Party' and 'Union Labor Party' have 2 codes each
+# total 18 member-Congress pairs. 
+# All other 'Party' names have only one 'party_code'
+
+# Percent in top two parties in each Congress? 
+  top2 <- with(Nominate, by(Party, Year, function(x){
+    tabx <- sort(table(x, useNA="ifany"), decreasing=TRUE)
+    tot <- sum(tabx)
+    p2 <- (c(tabx[1:2], other=tot-sum(tabx[1:2]))/tot)
+  })) 
+  p2 <- sapply(top2, function(x)sum(x[1:2]))
+  plot(as.numeric(names(p2)), p2, type='l')
+  top2[p2<.8]
+# The top 2 parties in the Congress that began in 1823 were
+# the "Adams-Clay Republican Party" and the "Crawford Republican Party".
+
+
+
+      
+
+
 }
 \keyword{IO}
