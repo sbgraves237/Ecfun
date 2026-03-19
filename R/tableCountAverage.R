@@ -13,8 +13,11 @@ tableCountAverage <- function(x, y, data, useNA = c("no", "ifany", "always"),
 ##
 ## 3. compute means for each level of x 
 ##
-  yMeans <- by(data, as.factor(data[, x]), 
-               function(x)mean(x[, y], na.rm=na.rm) )
+  Mean <- function(dat){
+    dt <- dat[, y, drop=TRUE]
+    mean(dt, na.rm=na.rm)
+  }
+  yMeans <- by(data, data[, x, drop=TRUE], Mean)
 ##
 ## 4. Done 
 ##
