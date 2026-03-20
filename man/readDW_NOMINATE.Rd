@@ -233,10 +233,7 @@ in the \href{https://github.com/voteview}{\code{voteview}} project on `GitHub`.
   \item{Party2}{
     as described above with the argument \code{party_code}. 
   }
-  \item{Party3}{
-    as described above with the argument party_code. 
-  }
-  
+
   The \code{CongressMembers} attribute is a \code{data.frame} with the 
   following columns: 
   
