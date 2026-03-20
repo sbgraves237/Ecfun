@@ -360,6 +360,13 @@ if(inherits(Nominate, 'tbl')){
 # Leave with "other". 
 # That leaves "Independent Republican", which can be clustered with 
 # Fed_Whig_Rep. 
+
+# "President" is a "chamber": 
+table(Nominate$chamber)
+
+# To consider only the US House and Senate: 
+Nominate2 <- subset(Nominate, chamber != 'President')
+
   }
 }
 \keyword{IO}
